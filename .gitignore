@@ -1,0 +1,11 @@
+build
+out
+.cache
+.idea
+.vs
+.vscode
+
+.DS_STORE
+
+*.app
+cmake-build-debug
