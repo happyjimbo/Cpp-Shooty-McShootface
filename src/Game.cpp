@@ -1,37 +1,54 @@
-//
-// Created by James Woodward on 19/06/2024.
-//
-
 #include "Logger.h"
 #include "Game.h"
 #include <SFML/Graphics.hpp>
 
-sf::CircleShape createShape(float x, float y, float radius, sf::Color color) {
+const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+
+/*sf::CircleShape createShape(float x, float y, float radius, sf::Color color) {
     sf::CircleShape shape;
     shape.setRadius(radius);
     shape.setPosition(x, y);
     shape.setFillColor(color);
     return shape;
-}
+}*/
 
 Game::Game()
 : mWindow(sf::VideoMode(640, 480), "World", sf::Style::Close)
+, mWorld(mWindow)
 {
     Log("Init Game");
 }
 
 void Game::run()
 {
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
     mWindow.setFramerateLimit(144);
 
-    sf::CircleShape shape = createShape(100.f, 100.f, 40.f, sf::Color::Cyan);
-    sf::CircleShape secondShape = createShape(200.f, 200.f, 40.f, sf::Color::Blue);
+//    sf::CircleShape shape = createShape(100.f, 100.f, 40.f, sf::Color::Cyan);
+//    sf::CircleShape secondShape = createShape(500.f, 200.f, 40.f, sf::Color::Blue);
 
     while (mWindow.isOpen())
     {
-        processEvents();
-        render(shape, secondShape);
+        sf::Time elapsedTime = clock.restart();
+        timeSinceLastUpdate += elapsedTime;
+
+        while (timeSinceLastUpdate > TimePerFrame)
+        {
+            timeSinceLastUpdate -= TimePerFrame;
+            processEvents();
+            update(TimePerFrame);
+        }
+
+
+        render();
     }
+}
+
+void Game::update(sf::Time elapsedTime)
+{
+    mWorld.update(elapsedTime);
 }
 
 void Game::processEvents()
@@ -42,11 +59,11 @@ void Game::processEvents()
         switch (event.type) {
 
             case sf::Event::KeyPressed:
-                Log("Key Pressed");
+                Log("Key Pressed " + std::to_string(static_cast<int>(event.key.code)));
                 break;
 
             case sf::Event::KeyReleased:
-                Log("Key Released");
+                Log("Key Released " + std::to_string(static_cast<int>(event.key.code)));
                 break;
 
             case sf::Event::Closed:
@@ -56,11 +73,12 @@ void Game::processEvents()
     }
 }
 
-void Game::render(sf::CircleShape shape, sf::CircleShape secondShape)
+void Game::render()
 {
     mWindow.clear();
-    mWindow.draw(shape);
-    mWindow.draw(secondShape);
+
+    mWorld.draw();
+
     mWindow.setView(mWindow.getDefaultView());
     mWindow.display();
 }

@@ -1,24 +1,26 @@
-//
-// Created by James Woodward on 19/06/2024.
-//
-
 #ifndef CMAKESFMLPROJECT_GAME_H
 #define CMAKESFMLPROJECT_GAME_H
 
+#include <SFML/Graphics.hpp>
+#include "World.h"
 
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Graphics/CircleShape.hpp"
-
-class Game {
+class Game : private sf::NonCopyable
+{
 
 public:
-    Game();
-    void run();
+                            Game();
+    void                    run();
+    void                    draw();
 
 private:
-    sf::RenderWindow mWindow;
-    void processEvents();
-    void render(sf::CircleShape, sf::CircleShape);
+    void                    processEvents();
+    void                    render();
+    void                    update(sf::Time);
+
+private:
+    static const sf::Time   TimePerFrame;
+    sf::RenderWindow        mWindow;
+    World                   mWorld;
 
 };
 

@@ -4,10 +4,13 @@ project(CMakeSFMLProject LANGUAGES CXX)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
+# Define the directory containing the media files
+set(MEDIA_DIR "${CMAKE_SOURCE_DIR}/Media")
+
 include(FetchContent)
 FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x)
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
 add_executable(main src/main.cpp
@@ -15,14 +18,53 @@ add_executable(main src/main.cpp
         src/Game.h
         src/Logger.cpp
         src/Logger.h
+        src/World.cpp
+        src/World.h
+        src/ResourceHolder.inl
+        src/ResourceHolder.h
+        src/ResourceIdentifiers.h
+        src/SceneNode.cpp
+        src/SceneNode.h
+        src/SceneNode.h
+        src/SpriteNode.cpp
+        src/SpriteNode.h
+        src/SpriteNode.h
+        src/SpriteNode.h
+        src/SpriteNode.h
+        src/SpriteNode.h
+        src/SpriteNode.h
+        src/SpriteNode.h
+        src/SpriteNode.h
+        src/SpriteNode.h
 )
+
 target_link_libraries(main PRIVATE sfml-graphics)
 target_compile_features(main PRIVATE cxx_std_17)
 
-if(WIN32)
+# Get a list of all texture files in the media directory
+file(GLOB_RECURSE TEXTURE_FILES
+        "${MEDIA_DIR}/*.png"
+        "${MEDIA_DIR}/*.jpg"
+        "${MEDIA_DIR}/*.jpeg"
+        "${MEDIA_DIR}/*.bmp"
+        "${MEDIA_DIR}/*.tga"
+        "${MEDIA_DIR}/*.dds"
+)
+
+# Copy texture files to the build output directory
+foreach(TEXTURE_FILE ${TEXTURE_FILES})
+    get_filename_component(FILE_NAME ${TEXTURE_FILE} NAME)
     add_custom_command(
-        TARGET main
-        COMMENT "Copy OpenAL DLL"
-        PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:main>
-        VERBATIM)
-endif()
+            TARGET main
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${TEXTURE_FILE}
+            $<TARGET_FILE_DIR:main>/Media/Textures/${FILE_NAME}
+    )
+endforeach()
+
+# Exclude CMakeLists.txt from being installed
+install(DIRECTORY ${MEDIA_DIR}
+        DESTINATION ${PROJECT_NAME}/Media
+        PATTERN "CMakeLists.txt" EXCLUDE
+)
