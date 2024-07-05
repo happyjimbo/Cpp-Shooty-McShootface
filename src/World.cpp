@@ -54,4 +54,18 @@ void World::buildScene()
     std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(texture, textureRect));
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
     mSceneLayer[Background]->attachChild(std::move(backgroundSprite));
+
+    std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, mTextures));
+    mPlayerAircraft = leader.get();
+    mPlayerAircraft->setPosition(mSpawnPosition);
+    mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
+    mSceneLayer[Air]->attachChild(std::move(leader));
+
+    std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, mTextures));
+    leftEscort->setPosition(-80.f, 50.f);
+    mPlayerAircraft->attachChild(std::move(leftEscort));
+
+    std::unique_ptr<Aircraft> rightEscort(new Aircraft(Aircraft::Raptor, mTextures));
+    rightEscort->setPosition(80.f, 50.f);
+    mPlayerAircraft->attachChild(std::move(rightEscort));
 }

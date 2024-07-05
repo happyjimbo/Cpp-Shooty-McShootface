@@ -36,6 +36,11 @@ add_executable(main src/main.cpp
         src/SpriteNode.h
         src/SpriteNode.h
         src/SpriteNode.h
+        src/Entity.cpp
+        src/Entity.h
+        src/Entity.h
+        src/Aircraft.cpp
+        src/Aircraft.h
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)

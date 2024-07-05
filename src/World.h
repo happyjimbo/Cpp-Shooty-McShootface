@@ -5,6 +5,7 @@
 #include "ResourceIdentifiers.h"
 #include "ResourceHolder.h"
 #include "SceneNode.h"
+#include "Aircraft.h"
 
 class World {
 
@@ -35,6 +36,7 @@ private:
     sf::FloatRect                       mWorldBounds;
     sf::Vector2f                        mSpawnPosition;
     float                               mScrollSpeed;
+    Aircraft*                           mPlayerAircraft;
 };
 
 
