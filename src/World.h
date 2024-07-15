@@ -1,11 +1,17 @@
 #ifndef CMAKESFMLPROJECT_WORLD_H
 #define CMAKESFMLPROJECT_WORLD_H
 
-#include <SFML/Graphics.hpp>
 #include "ResourceIdentifiers.h"
 #include "ResourceHolder.h"
 #include "SceneNode.h"
 #include "Aircraft.h"
+#include "CommandQueue.h"
+
+// forward declaration
+namespace sf
+{
+    class RenderWindow;
+}
 
 class World {
 
@@ -14,9 +20,14 @@ public:
     void                                update(sf::Time);
     void                                draw();
 
+    CommandQueue&                       getCommandQueue();
+
+
 private:
     void                                loadTextures();
     void                                buildScene();
+    void                                adaptPlayerPosition();
+    void                                adaptPlayerVelocity();
 
 private:
     enum Layer {
@@ -32,6 +43,7 @@ private:
 
     SceneNode                           mSceneGraph;
     std::array<SceneNode*, LayerCount>  mSceneLayer;
+    CommandQueue                        mCommandQueue;
 
     sf::FloatRect                       mWorldBounds;
     sf::Vector2f                        mSpawnPosition;

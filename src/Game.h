@@ -3,24 +3,26 @@
 
 #include <SFML/Graphics.hpp>
 #include "World.h"
+#include "Player.h"
 
 class Game : private sf::NonCopyable
 {
 
-public:
-                            Game();
-    void                    run();
-    void                    draw();
+    public:
+                                Game();
+        void                    run();
+        void                    draw();
 
-private:
-    void                    processEvents();
-    void                    render();
-    void                    update(sf::Time);
+    private:
+        void                    processInputs();
+        void                    render();
+        void                    update(sf::Time);
 
-private:
-    static const sf::Time   TimePerFrame;
-    sf::RenderWindow        mWindow;
-    World                   mWorld;
+    private:
+        static const sf::Time   TimePerFrame;
+        sf::RenderWindow        mWindow;
+        World                   mWorld;
+        Player                  mPlayer;
 
 };
 

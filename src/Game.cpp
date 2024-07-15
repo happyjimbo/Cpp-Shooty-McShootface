@@ -4,19 +4,14 @@
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
-/*sf::CircleShape createShape(float x, float y, float radius, sf::Color color) {
-    sf::CircleShape shape;
-    shape.setRadius(radius);
-    shape.setPosition(x, y);
-    shape.setFillColor(color);
-    return shape;
-}*/
-
 Game::Game()
 : mWindow(sf::VideoMode(640, 480), "World", sf::Style::Close)
 , mWorld(mWindow)
+, mPlayer()
 {
     Log("Init Game");
+
+    mWindow.setKeyRepeatEnabled(false);
 }
 
 void Game::run()
@@ -26,9 +21,6 @@ void Game::run()
 
     mWindow.setFramerateLimit(144);
 
-//    sf::CircleShape shape = createShape(100.f, 100.f, 40.f, sf::Color::Cyan);
-//    sf::CircleShape secondShape = createShape(500.f, 200.f, 40.f, sf::Color::Blue);
-
     while (mWindow.isOpen())
     {
         sf::Time elapsedTime = clock.restart();
@@ -37,10 +29,10 @@ void Game::run()
         while (timeSinceLastUpdate > TimePerFrame)
         {
             timeSinceLastUpdate -= TimePerFrame;
-            processEvents();
+
+            processInputs();
             update(TimePerFrame);
         }
-
 
         render();
     }
@@ -51,26 +43,22 @@ void Game::update(sf::Time elapsedTime)
     mWorld.update(elapsedTime);
 }
 
-void Game::processEvents()
+void Game::processInputs()
 {
+    CommandQueue& commands = mWorld.getCommandQueue();
+
     sf::Event event;
     while(mWindow.pollEvent(event))
     {
-        switch (event.type) {
+        mPlayer.handleEvent(event, commands);
 
-            case sf::Event::KeyPressed:
-                Log("Key Pressed " + std::to_string(static_cast<int>(event.key.code)));
-                break;
-
-            case sf::Event::KeyReleased:
-                Log("Key Released " + std::to_string(static_cast<int>(event.key.code)));
-                break;
-
-            case sf::Event::Closed:
-                mWindow.close();
-                break;
+        if (event.type == sf::Event::Closed)
+        {
+            mWindow.close();
         }
     }
+
+    mPlayer.handleRealtimeInput(commands);
 }
 
 void Game::render()

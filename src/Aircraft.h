@@ -1,9 +1,10 @@
 #ifndef CMAKESFMLPROJECT_AIRCRAFT_H
 #define CMAKESFMLPROJECT_AIRCRAFT_H
 
-#include "SceneNode.h"
 #include "Entity.h"
 #include "ResourceIdentifiers.h"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 class Aircraft : public Entity
 {
@@ -15,6 +16,8 @@ class Aircraft : public Entity
 
     public:
                             Aircraft(Type type, const TextureHolder& textures);
+    virtual unsigned int	getCategory() const;
+
 
     private:
         virtual void        drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

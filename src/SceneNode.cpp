@@ -1,5 +1,7 @@
 #include <cassert>
 #include "SceneNode.h"
+#include "Category.h"
+#include "Command.h"
 
 SceneNode::SceneNode()
 : mChildren()
@@ -44,6 +46,24 @@ sf::Transform SceneNode::getWorldTransform() const
         transform = node->getTransform() * transform;
 
     return transform;
+}
+
+void SceneNode::onCommand(const Command& command, sf::Time dt)
+{
+    if (command.category & getCategory())
+    {
+        command.action(*this, dt);
+    }
+
+    for (Ptr& child : mChildren)
+    {
+        child->onCommand(command, dt);
+    }
+}
+
+unsigned int SceneNode::getCategory() const
+{
+    return Category::Scene;
 }
 
 ///// Private //////

@@ -41,6 +41,15 @@ add_executable(main src/main.cpp
         src/Entity.h
         src/Aircraft.cpp
         src/Aircraft.h
+        src/Command.cpp
+        src/Command.h
+        src/Command.h
+        src/Command.h
+        src/Category.h
+        src/CommandQueue.cpp
+        src/CommandQueue.h
+        src/Player.cpp
+        src/Player.h
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)
