@@ -3,6 +3,7 @@
 #include "CommandQueue.h"
 #include "Aircraft.h"
 #include "Category.h"
+#include "BulletController.h"
 
 
 struct AircraftMover
@@ -27,6 +28,7 @@ Player::Player()
     mKeyBinding[sf::Keyboard::Right] = MoveRight;
     mKeyBinding[sf::Keyboard::Up] = MoveUp;
     mKeyBinding[sf::Keyboard::Down] = MoveDown;
+    mKeyBinding[sf::Keyboard::Space] = Fire;
 
     initializeActions();
 
@@ -34,6 +36,8 @@ Player::Player()
     {
         pair.second.category = Category::PlayerAircraft;
     }
+
+    mActionBinding[Fire].category = Category::PlayerBullet;
 }
 
 void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
@@ -99,6 +103,9 @@ void Player::initializeActions()
     mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(+playerSpeed, 0.f));
     mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
     mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, +playerSpeed));
+    mActionBinding[Fire].action = derivedAction<BulletController>([] (BulletController& b, sf::Time){
+        b.spawnBullet(Bullet::Player);
+    });
 }
 
 bool Player::isRealtimeAction(Action action)
@@ -108,6 +115,7 @@ bool Player::isRealtimeAction(Action action)
         case MoveRight:
         case MoveUp:
         case MoveDown:
+        case Fire:
             return true;
 
         default:

@@ -1,5 +1,6 @@
 #include "World.h"
 #include "SpriteNode.h"
+#include "Bullet.h"
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -29,6 +30,7 @@ void World::update(sf::Time delta)
     }
 
     adaptPlayerVelocity();
+    mBulletController->tick(mPlayerAircraft->getPosition(), mScrollSpeed/10.f);
 
     mSceneGraph.update(delta);
     adaptPlayerPosition();
@@ -50,13 +52,14 @@ void World::loadTextures()
     mTextures.load(Textures::Eagle, "Media/Textures/Eagle.png");
     mTextures.load(Textures::Raptor, "Media/Textures/Raptor.png");
     mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
+    mTextures.load(Textures::PlayerBullet, "Media/Textures/Bullet.png");
 }
 
 void World::buildScene()
 {
     for (std::size_t i = 0; i < LayerCount; i++)
     {
-        SceneNode::Ptr layer(new SceneNode());
+        SceneNode::Ptr layer(std::make_unique<SceneNode>());
         mSceneLayer[i] = layer.get();
 
         mSceneGraph.attachChild(std::move(layer));
@@ -67,23 +70,27 @@ void World::buildScene()
     sf::IntRect textureRect(mWorldBounds);
     texture.setRepeated(true);
 
-    std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(texture, textureRect));
+    std::unique_ptr<SpriteNode> backgroundSprite(std::make_unique<SpriteNode>(texture, textureRect));
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
     mSceneLayer[Background]->attachChild(std::move(backgroundSprite));
 
-    std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, mTextures));
+    std::unique_ptr<Aircraft> leader(std::make_unique<Aircraft>(Aircraft::Eagle, mTextures));
     mPlayerAircraft = leader.get();
     mPlayerAircraft->setPosition(mSpawnPosition);
     mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
     mSceneLayer[Air]->attachChild(std::move(leader));
 
-    std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, mTextures));
+    std::unique_ptr<Aircraft> leftEscort(std::make_unique<Aircraft>(Aircraft::Raptor, mTextures));
     leftEscort->setPosition(-80.f, 50.f);
     mPlayerAircraft->attachChild(std::move(leftEscort));
 
-    std::unique_ptr<Aircraft> rightEscort(new Aircraft(Aircraft::Raptor, mTextures));
+    std::unique_ptr<Aircraft> rightEscort(std::make_unique<Aircraft>(Aircraft::Raptor, mTextures));
     rightEscort->setPosition(80.f, 50.f);
     mPlayerAircraft->attachChild(std::move(rightEscort));
+
+    std::unique_ptr<BulletController> bulletController (std::make_unique<BulletController>(mTextures));
+    mBulletController = bulletController.get();
+    mSceneLayer[Air]->attachChild(std::move(bulletController));
 }
 
 void World::adaptPlayerPosition()

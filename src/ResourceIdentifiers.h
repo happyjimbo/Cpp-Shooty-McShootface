@@ -11,7 +11,8 @@ namespace Textures
     enum ID {
         Eagle,
         Raptor,
-        Desert
+        Desert,
+        PlayerBullet
     };
 }
 

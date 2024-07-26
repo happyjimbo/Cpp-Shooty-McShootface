@@ -17,6 +17,7 @@ class Player
             MoveRight,
             MoveUp,
             MoveDown,
+            Fire,
             ActionCount
         };
 

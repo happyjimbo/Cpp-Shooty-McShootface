@@ -6,6 +6,7 @@
 #include "SceneNode.h"
 #include "Aircraft.h"
 #include "CommandQueue.h"
+#include "BulletController.h"
 
 // forward declaration
 namespace sf
@@ -33,6 +34,7 @@ private:
     enum Layer {
         Background,
         Air,
+        Bulelts,
         LayerCount
     };
 
@@ -49,6 +51,7 @@ private:
     sf::Vector2f                        mSpawnPosition;
     float                               mScrollSpeed;
     Aircraft*                           mPlayerAircraft;
+    BulletController*                   mBulletController;
 };
 
 

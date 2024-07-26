@@ -25,16 +25,7 @@ add_executable(main src/main.cpp
         src/ResourceIdentifiers.h
         src/SceneNode.cpp
         src/SceneNode.h
-        src/SceneNode.h
         src/SpriteNode.cpp
-        src/SpriteNode.h
-        src/SpriteNode.h
-        src/SpriteNode.h
-        src/SpriteNode.h
-        src/SpriteNode.h
-        src/SpriteNode.h
-        src/SpriteNode.h
-        src/SpriteNode.h
         src/SpriteNode.h
         src/Entity.cpp
         src/Entity.h
@@ -43,13 +34,15 @@ add_executable(main src/main.cpp
         src/Aircraft.h
         src/Command.cpp
         src/Command.h
-        src/Command.h
-        src/Command.h
         src/Category.h
         src/CommandQueue.cpp
         src/CommandQueue.h
         src/Player.cpp
         src/Player.h
+        src/Bullet.cpp
+        src/Bullet.h
+        src/BulletController.cpp
+        src/BulletController.h
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)
