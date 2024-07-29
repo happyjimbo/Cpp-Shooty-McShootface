@@ -30,7 +30,7 @@ void World::update(sf::Time delta)
     }
 
     adaptPlayerVelocity();
-    mBulletController->tick(mPlayerAircraft->getPosition(), mScrollSpeed/10.f);
+    mBulletController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
 
     mSceneGraph.update(delta);
     adaptPlayerPosition();

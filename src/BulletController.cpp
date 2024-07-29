@@ -1,20 +1,34 @@
 #import "BulletController.h"
 #include "Category.h"
+#include "Logger.h"
 
 BulletController::BulletController(const TextureHolder& textures)
 : mBullets()
 , mTextures(textures)
+, spawnPosition(BulletController::Position::Left)
 {
 
 }
 
 void BulletController::spawnBullet(Bullet::Type type) {
-    std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(type, mTextures);
+    if (mTimeSinceLastSpawn > 0.1f) {
+        mTimeSinceLastSpawn = 0;
 
-    mBullets.push_back(bullet.get());
+        std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(type, mTextures);
 
-    bullet->setPosition(mSpawnPosition);
-    attachChild(std::move(bullet));
+        mBullets.push_back(bullet.get());
+
+        spawnPosition = spawnPosition == BulletController::Position::Left ?
+                BulletController::Position::Right :
+                BulletController::Position::Left;
+
+        float xOffset = spawnPosition == BulletController::Position::Left ? -15.f : 15.f;
+
+        mSpawnPosition = sf::Vector2f(mSpawnPosition.x - xOffset, mSpawnPosition.y - 5.f);
+
+        bullet->setPosition(mSpawnPosition);
+        attachChild(std::move(bullet));
+    }
 }
 
 void BulletController::accelerateBullets(float speed) {
@@ -25,8 +39,9 @@ void BulletController::accelerateBullets(float speed) {
 }
 
 
-void BulletController::tick(sf::Vector2f position, float speed)
+void BulletController::tick(sf::Time delta, sf::Vector2f position, float speed)
 {
+    mTimeSinceLastSpawn += delta.asSeconds();
     mSpawnPosition = position;
     accelerateBullets(speed);
 }

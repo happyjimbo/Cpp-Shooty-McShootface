@@ -2,10 +2,16 @@
 
 class BulletController : public SceneNode {
 
+private:
+    enum Position {
+        Left,
+        Right
+    };
+
     public:
                                                     BulletController(const TextureHolder& textures);
         void                                        spawnBullet(Bullet::Type type);
-        void                                        tick(sf::Vector2f position, float speed);
+        void                                        tick(sf::Time delta, sf::Vector2f position, float speed);
         virtual unsigned int	                    getCategory() const;
 
     private:
@@ -15,4 +21,6 @@ class BulletController : public SceneNode {
         std::vector<Bullet*> mBullets;
         const TextureHolder& mTextures;
         sf::Vector2f        mSpawnPosition;
+        float               mTimeSinceLastSpawn;
+        Position            spawnPosition;
 };
