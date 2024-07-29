@@ -1,6 +1,6 @@
 #include "World.h"
 #include "SpriteNode.h"
-#include "Bullet.h"
+#include "Projectile.h"
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -30,7 +30,7 @@ void World::update(sf::Time delta)
     }
 
     adaptPlayerVelocity();
-    mBulletController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
+    mProjectileController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
 
     mSceneGraph.update(delta);
     adaptPlayerPosition();
@@ -88,9 +88,9 @@ void World::buildScene()
     rightEscort->setPosition(80.f, 50.f);
     mPlayerAircraft->attachChild(std::move(rightEscort));
 
-    std::unique_ptr<BulletController> bulletController (std::make_unique<BulletController>(mTextures));
-    mBulletController = bulletController.get();
-    mSceneLayer[Air]->attachChild(std::move(bulletController));
+    std::unique_ptr<ProjectileController> projectileController (std::make_unique<ProjectileController>(mTextures));
+    mProjectileController = projectileController.get();
+    mSceneLayer[Air]->attachChild(std::move(projectileController));
 }
 
 void World::adaptPlayerPosition()

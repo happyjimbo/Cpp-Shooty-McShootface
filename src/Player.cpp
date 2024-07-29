@@ -3,7 +3,7 @@
 #include "CommandQueue.h"
 #include "Aircraft.h"
 #include "Category.h"
-#include "BulletController.h"
+#include "ProjectileController.h"
 
 
 struct AircraftMover
@@ -103,8 +103,8 @@ void Player::initializeActions()
     mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(+playerSpeed, 0.f));
     mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
     mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, +playerSpeed));
-    mActionBinding[Fire].action = derivedAction<BulletController>([] (BulletController& b, sf::Time){
-        b.spawnBullet(Bullet::Player);
+    mActionBinding[Fire].action = derivedAction<ProjectileController>([] (ProjectileController& b, sf::Time){
+        b.spawn(Projectile::Player);
     });
 }
 

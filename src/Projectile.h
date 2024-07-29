@@ -1,12 +1,12 @@
-#ifndef CMAKESFMLPROJECT_BULLET_H
-#define CMAKESFMLPROJECT_BULLET_H
+#ifndef CMAKESFMLPROJECT_PROJECTILE_H
+#define CMAKESFMLPROJECT_PROJECTILE_H
 
 #include "Entity.h"
 #include "ResourceIdentifiers.h"
 
 #include "SFML/Graphics/Sprite.hpp"
 
-class Bullet : public Entity
+class Projectile : public Entity
 {
     public:
         enum Type {
@@ -14,7 +14,7 @@ class Bullet : public Entity
         };
 
     public:
-                            Bullet(Type type, const TextureHolder& textures);
+                            Projectile(Type type, const TextureHolder& textures);
 
     private:
         virtual void        drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -23,4 +23,4 @@ class Bullet : public Entity
         sf::Sprite          mSprite;
 };
 
-#endif // CMAKESFMLPROJECT_BULLET_H
+#endif // CMAKESFMLPROJECT_PROJECTILE_H

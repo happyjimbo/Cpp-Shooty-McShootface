@@ -1,17 +1,17 @@
-#import "Bullet.h"
+#import "Projectile.h"
 #import "ResourceHolder.h"
 
-Textures::ID toTextureID(Bullet::Type type)
+Textures::ID toTextureID(Projectile::Type type)
 {
     switch (type) {
-        case Bullet::Player:
+        case Projectile::Player:
             return Textures::PlayerBullet;
     }
 
     return Textures::PlayerBullet;
 }
 
-Bullet::Bullet(Type type, const TextureHolder &textures)
+Projectile::Projectile(Type type, const TextureHolder &textures)
 : mSprite(textures.get(toTextureID(type)))
 {
     sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -19,7 +19,7 @@ Bullet::Bullet(Type type, const TextureHolder &textures)
 }
 
 
-void Bullet::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const
+void Projectile::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(mSprite, states);
 }

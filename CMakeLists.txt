@@ -39,10 +39,10 @@ add_executable(main src/main.cpp
         src/CommandQueue.h
         src/Player.cpp
         src/Player.h
-        src/Bullet.cpp
-        src/Bullet.h
-        src/BulletController.cpp
-        src/BulletController.h
+        src/Projectile.cpp
+        src/Projectile.h
+        src/ProjectileController.cpp
+        src/ProjectileController.h
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)

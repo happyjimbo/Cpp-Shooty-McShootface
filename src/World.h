@@ -6,7 +6,7 @@
 #include "SceneNode.h"
 #include "Aircraft.h"
 #include "CommandQueue.h"
-#include "BulletController.h"
+#include "ProjectileController.h"
 
 // forward declaration
 namespace sf
@@ -51,7 +51,7 @@ private:
     sf::Vector2f                        mSpawnPosition;
     float                               mScrollSpeed;
     Aircraft*                           mPlayerAircraft;
-    BulletController*                   mBulletController;
+    ProjectileController*               mProjectileController;
 };
 
 
