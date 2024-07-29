@@ -37,7 +37,7 @@ Player::Player()
         pair.second.category = Category::PlayerAircraft;
     }
 
-    mActionBinding[Fire].category = Category::PlayerBullet;
+    mActionBinding[Fire].category = Category::PlayerProjectile;
 }
 
 void Player::handleEvent(const sf::Event& event, CommandQueue& commands)

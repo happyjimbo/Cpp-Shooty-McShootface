@@ -48,5 +48,5 @@ void ProjectileController::tick(sf::Time delta, sf::Vector2f position, float spe
 
 unsigned int ProjectileController::getCategory() const
 {
-    return Category::PlayerBullet;
+    return Category::PlayerProjectile;
 }

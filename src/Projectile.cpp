@@ -5,10 +5,10 @@ Textures::ID toTextureID(Projectile::Type type)
 {
     switch (type) {
         case Projectile::Player:
-            return Textures::PlayerBullet;
+            return Textures::Bullet;
     }
 
-    return Textures::PlayerBullet;
+    return Textures::Bullet;
 }
 
 Projectile::Projectile(Type type, const TextureHolder &textures)

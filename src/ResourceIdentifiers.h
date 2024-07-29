@@ -12,7 +12,7 @@ namespace Textures
         Eagle,
         Raptor,
         Desert,
-        PlayerBullet
+        Bullet
     };
 }
 
