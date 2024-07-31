@@ -1,6 +1,7 @@
 #include "World.h"
 #include "SpriteNode.h"
 #include "Projectile.h"
+#include "EnemyAircraftController.h"
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -31,6 +32,7 @@ void World::update(sf::Time delta)
 
     adaptPlayerVelocity();
     mProjectileController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
+    mEnemyAircraftController->tick(delta, mScrollSpeed);
 
     mSceneGraph.update(delta);
     adaptPlayerPosition();
@@ -80,17 +82,14 @@ void World::buildScene()
     mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
     mSceneLayer[Air]->attachChild(std::move(leader));
 
-    std::unique_ptr<Aircraft> leftEscort(std::make_unique<Aircraft>(Aircraft::Raptor, mTextures));
-    leftEscort->setPosition(-80.f, 50.f);
-    mPlayerAircraft->attachChild(std::move(leftEscort));
-
-    std::unique_ptr<Aircraft> rightEscort(std::make_unique<Aircraft>(Aircraft::Raptor, mTextures));
-    rightEscort->setPosition(80.f, 50.f);
-    mPlayerAircraft->attachChild(std::move(rightEscort));
-
     std::unique_ptr<ProjectileController> projectileController (std::make_unique<ProjectileController>(mTextures));
     mProjectileController = projectileController.get();
     mSceneLayer[Air]->attachChild(std::move(projectileController));
+
+    sf::Vector2f startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
+    std::unique_ptr<EnemyAircraftController> enemyAircraftController (std::make_unique<EnemyAircraftController>(mTextures, Aircraft::Type::Raptor, startPosition));
+    mEnemyAircraftController = enemyAircraftController.get();
+    mSceneLayer[Air]->attachChild(std::move(enemyAircraftController));
 }
 
 void World::adaptPlayerPosition()

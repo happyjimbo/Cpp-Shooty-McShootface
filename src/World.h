@@ -7,6 +7,7 @@
 #include "Aircraft.h"
 #include "CommandQueue.h"
 #include "ProjectileController.h"
+#include "EnemyAircraftController.h"
 
 // forward declaration
 namespace sf
@@ -52,6 +53,7 @@ private:
     float                               mScrollSpeed;
     Aircraft*                           mPlayerAircraft;
     ProjectileController*               mProjectileController;
+    EnemyAircraftController*               mEnemyAircraftController;
 };
 
 

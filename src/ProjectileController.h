@@ -1,7 +1,7 @@
 #ifndef CMAKESFMLPROJECT_PROJECTILE_CONTROLLER_H
 #define CMAKESFMLPROJECT_PROJECTILE_CONTROLLER_H
 
-#include "Projectile.h"
+#include "projectile.h"
 
 class ProjectileController : public SceneNode {
 
@@ -12,7 +12,7 @@ private:
     };
 
     public:
-                                                    ProjectileController(const TextureHolder& textures);
+                                                    ProjectileController(const TextureHolder& texture);
         void                                        spawn(Projectile::Type type);
         void                                        tick(sf::Time delta, sf::Vector2f position, float speed);
         virtual unsigned int	                    getCategory() const;
@@ -21,8 +21,8 @@ private:
         void                                        accelerate(float speed);
 
     private:
-        std::vector<Projectile*>                        mProjectiles;
-        const TextureHolder&                        mTextures;
+        std::vector<Projectile*>                    mProjectiles;
+        const TextureHolder&                        mTexture;
         sf::Vector2f                                mSpawnPosition;
         float                                       mTimeSinceLastSpawn;
         Position                                    mPosition;

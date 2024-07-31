@@ -2,9 +2,9 @@
 #include "Category.h"
 #include "Logger.h"
 
-ProjectileController::ProjectileController(const TextureHolder& textures)
+ProjectileController::ProjectileController(const TextureHolder& texture)
 : mProjectiles()
-, mTextures(textures)
+, mTexture(texture)
 , mPosition(ProjectileController::Position::Left)
 {
 
@@ -14,7 +14,7 @@ void ProjectileController::spawn(Projectile::Type type) {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        std::unique_ptr<Projectile> bullet = std::make_unique<Projectile>(type, mTextures);
+        std::unique_ptr<Projectile> bullet = std::make_unique<Projectile>(type, mTexture);
 
         mProjectiles.push_back(bullet.get());
 
@@ -32,21 +32,18 @@ void ProjectileController::spawn(Projectile::Type type) {
 }
 
 void ProjectileController::accelerate(float speed) {
-    for (Projectile* bullet : mProjectiles)
-    {
-        bullet->accelerate(0.f, speed);
+    for (Projectile* projectile : mProjectiles) {
+        projectile->accelerate(0.f, speed);
     }
 }
 
 
-void ProjectileController::tick(sf::Time delta, sf::Vector2f position, float speed)
-{
+void ProjectileController::tick(sf::Time delta, sf::Vector2f position, float speed) {
     mTimeSinceLastSpawn += delta.asSeconds();
     mSpawnPosition = position;
     accelerate(speed);
 }
 
-unsigned int ProjectileController::getCategory() const
-{
+unsigned int ProjectileController::getCategory() const {
     return Category::PlayerProjectile;
 }
