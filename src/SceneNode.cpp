@@ -13,7 +13,7 @@ SceneNode::SceneNode()
 void SceneNode::attachChild(Ptr child)
 {
     child->mParent = this;
-    mChildren.push_back(std::move(child));
+    mChildren.push_back(child);
 }
 
 SceneNode::Ptr SceneNode::detachChild(const SceneNode& node)

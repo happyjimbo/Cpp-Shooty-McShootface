@@ -1,6 +1,7 @@
 #include "Aircraft.h"
 #include "ResourceHolder.h"
 #include "Category.h"
+#include "Logger.h"
 
 
 Textures::ID toTextureID(Aircraft::Type type)
@@ -38,4 +39,9 @@ unsigned int Aircraft::getCategory() const
         default:
             return Category::EnemyAircraft;
     }
+}
+
+void Aircraft::hit() {
+     Log("hit!");
+    // detachChild(*this);
 }

@@ -8,6 +8,7 @@
 #include "CommandQueue.h"
 #include "ProjectileController.h"
 #include "EnemyAircraftController.h"
+#include "ProjectileCollisionController.h"
 
 // forward declaration
 namespace sf
@@ -17,43 +18,46 @@ namespace sf
 
 class World {
 
-public:
-    explicit                            World(sf::RenderWindow& window);
-    void                                update(sf::Time);
-    void                                draw();
+    public:
+        explicit                            World(sf::RenderWindow& window);
+        void                                update(sf::Time);
+        void                                draw();
 
-    CommandQueue&                       getCommandQueue();
+        CommandQueue&                       getCommandQueue();
 
 
-private:
-    void                                loadTextures();
-    void                                buildScene();
-    void                                adaptPlayerPosition();
-    void                                adaptPlayerVelocity();
+    private:
+        void                                loadTextures();
+        void                                buildScene();
+        void                                adaptPlayerPosition();
+        void                                adaptPlayerVelocity();
 
-private:
-    enum Layer {
-        Background,
-        Air,
-        Bulelts,
-        LayerCount
-    };
+    private:
+        enum Layer {
+            Background,
+            Air,
+            Bulelts,
+            LayerCount
+        };
 
-private:
-    sf::RenderWindow&                   mWindow;
-    sf::View                            mWorldView;
-    TextureHolder                       mTextures;
+    private:
+        sf::RenderWindow&                   mWindow;
+        sf::View                            mWorldView;
+        TextureHolder                       mTextures;
 
-    SceneNode                           mSceneGraph;
-    std::array<SceneNode*, LayerCount>  mSceneLayer;
-    CommandQueue                        mCommandQueue;
+        SceneNode                           mSceneGraph;
+        std::array<SceneNode*, LayerCount>  mSceneLayer;
+        CommandQueue                        mCommandQueue;
 
-    sf::FloatRect                       mWorldBounds;
-    sf::Vector2f                        mSpawnPosition;
-    float                               mScrollSpeed;
-    Aircraft*                           mPlayerAircraft;
-    ProjectileController*               mProjectileController;
-    EnemyAircraftController*               mEnemyAircraftController;
+        sf::FloatRect                       mWorldBounds;
+        sf::Vector2f                        mSpawnPosition;
+        float                               mScrollSpeed;
+        Aircraft*                           mPlayerAircraft;
+
+    private:
+        std::shared_ptr<ProjectileController>               mProjectileController;
+        std::shared_ptr<EnemyAircraftController>            mEnemyAircraftController;
+        std::unique_ptr<ProjectileCollisionController>      mProjectileCollisionController;
 };
 
 

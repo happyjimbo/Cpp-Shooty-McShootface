@@ -17,6 +17,7 @@ class Aircraft : public Entity
     public:
                             Aircraft(Type type, const TextureHolder& textures);
     virtual unsigned int	getCategory() const;
+    void                    hit();
 
 
     private:

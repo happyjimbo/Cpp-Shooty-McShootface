@@ -1,5 +1,4 @@
 #include "EnemyAircraftController.h"
-#include "Logger.h"
 #include "Random.h"
 
 EnemyAircraftController::EnemyAircraftController(const TextureHolder &textures, Aircraft::Type type, sf::Vector2f position)
@@ -40,5 +39,9 @@ void EnemyAircraftController::accelerate(float speed) {
     for (Aircraft* aircraft : mAircrafts) {
         aircraft->accelerate(0.f, -speed);
     }
+}
+
+const std::vector<Aircraft*> EnemyAircraftController::getAircrafts() const {
+    return mAircrafts;
 }
 

@@ -5,20 +5,23 @@
 
 class ProjectileController : public SceneNode {
 
-private:
-    enum Position {
-        Left,
-        Right
-    };
+    private:
+        enum Position {
+            Left,
+            Right
+        };
 
     public:
-                                                    ProjectileController(const TextureHolder& texture);
         void                                        spawn(Projectile::Type type);
+
+        ProjectileController(const TextureHolder& texture);
+
         void                                        tick(sf::Time delta, sf::Vector2f position, float speed);
         virtual unsigned int	                    getCategory() const;
+        std::vector<Projectile*>                    getProjectiles() const;
 
     private:
-        void                                        accelerate(float speed);
+        void                                        accelerate(float speed) const;
 
     private:
         std::vector<Projectile*>                    mProjectiles;

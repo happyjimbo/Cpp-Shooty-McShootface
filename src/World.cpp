@@ -1,7 +1,10 @@
 #include "World.h"
+
+#include <iostream>
+
 #include "SpriteNode.h"
-#include "Projectile.h"
 #include "EnemyAircraftController.h"
+#include "ProjectileCollisionController.h"
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -33,6 +36,7 @@ void World::update(sf::Time delta)
     adaptPlayerVelocity();
     mProjectileController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
     mEnemyAircraftController->tick(delta, mScrollSpeed);
+    mProjectileCollisionController->tick(delta);
 
     mSceneGraph.update(delta);
     adaptPlayerPosition();
@@ -72,24 +76,26 @@ void World::buildScene()
     sf::IntRect textureRect(mWorldBounds);
     texture.setRepeated(true);
 
-    std::unique_ptr<SpriteNode> backgroundSprite(std::make_unique<SpriteNode>(texture, textureRect));
+    std::shared_ptr<SpriteNode> backgroundSprite(std::make_shared<SpriteNode>(texture, textureRect));
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-    mSceneLayer[Background]->attachChild(std::move(backgroundSprite));
+    mSceneLayer[Background]->attachChild(backgroundSprite);
 
-    std::unique_ptr<Aircraft> leader(std::make_unique<Aircraft>(Aircraft::Eagle, mTextures));
+    std::shared_ptr<Aircraft> leader(std::make_shared<Aircraft>(Aircraft::Eagle, mTextures));
     mPlayerAircraft = leader.get();
     mPlayerAircraft->setPosition(mSpawnPosition);
     mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
-    mSceneLayer[Air]->attachChild(std::move(leader));
-
-    std::unique_ptr<ProjectileController> projectileController (std::make_unique<ProjectileController>(mTextures));
-    mProjectileController = projectileController.get();
-    mSceneLayer[Air]->attachChild(std::move(projectileController));
+    mSceneLayer[Air]->attachChild(leader);
 
     sf::Vector2f startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
-    std::unique_ptr<EnemyAircraftController> enemyAircraftController (std::make_unique<EnemyAircraftController>(mTextures, Aircraft::Type::Raptor, startPosition));
-    mEnemyAircraftController = enemyAircraftController.get();
-    mSceneLayer[Air]->attachChild(std::move(enemyAircraftController));
+
+    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mTextures, Aircraft::Type::Raptor, startPosition);
+    mSceneLayer[Air]->attachChild(mEnemyAircraftController);
+
+    mProjectileController = std::make_shared<ProjectileController>(mTextures);
+    mSceneLayer[Air]->attachChild(mProjectileController);
+
+    mProjectileCollisionController =
+        std::make_unique<ProjectileCollisionController>(mProjectileController, mEnemyAircraftController);
 }
 
 void World::adaptPlayerPosition()

@@ -8,7 +8,7 @@ struct Command;
 class SceneNode : public sf::Transformable, public sf::Drawable, private sf::NonCopyable
 {
     public:
-        typedef std::unique_ptr<SceneNode> Ptr;
+        typedef std::shared_ptr<SceneNode> Ptr;
 
     public:
                                 SceneNode();

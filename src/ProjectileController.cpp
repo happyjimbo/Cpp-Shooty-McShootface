@@ -1,11 +1,12 @@
-#import "ProjectileController.h"
+#include "ProjectileController.h"
 #include "Category.h"
-#include "Logger.h"
 
 ProjectileController::ProjectileController(const TextureHolder& texture)
 : mProjectiles()
+, mTimeSinceLastSpawn()
 , mTexture(texture)
-, mPosition(ProjectileController::Position::Left)
+, mPosition(Left)
+, mSpawnPosition()
 {
 
 }
@@ -14,15 +15,13 @@ void ProjectileController::spawn(Projectile::Type type) {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        std::unique_ptr<Projectile> bullet = std::make_unique<Projectile>(type, mTexture);
+        std::shared_ptr<Projectile> bullet = std::make_shared<Projectile>(type, mTexture);
 
         mProjectiles.push_back(bullet.get());
 
-        mPosition = mPosition == ProjectileController::Position::Left ?
-                    ProjectileController::Position::Right :
-                    ProjectileController::Position::Left;
+        mPosition = mPosition == Left ? Right : Left;
 
-        float xOffset = mPosition == ProjectileController::Position::Left ? -mXOffsetAmount : mXOffsetAmount;
+        float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
 
         mSpawnPosition = sf::Vector2f(mSpawnPosition.x - xOffset, mSpawnPosition.y - mYOffsetAmount);
 
@@ -31,7 +30,7 @@ void ProjectileController::spawn(Projectile::Type type) {
     }
 }
 
-void ProjectileController::accelerate(float speed) {
+void ProjectileController::accelerate(float speed) const {
     for (Projectile* projectile : mProjectiles) {
         projectile->accelerate(0.f, speed);
     }
@@ -46,4 +45,8 @@ void ProjectileController::tick(sf::Time delta, sf::Vector2f position, float spe
 
 unsigned int ProjectileController::getCategory() const {
     return Category::PlayerProjectile;
+}
+
+std::vector<Projectile*> ProjectileController::getProjectiles() const {
+    return mProjectiles;
 }

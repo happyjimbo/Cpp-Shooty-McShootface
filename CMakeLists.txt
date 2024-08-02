@@ -47,6 +47,8 @@ add_executable(main src/main.cpp
         src/EnemyAircraftController.h
         src/Random.h
         src/Random.h
+        src/ProjectileCollisionController.cpp
+        src/ProjectileCollisionController.h
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)
