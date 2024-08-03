@@ -19,6 +19,7 @@ class ProjectileController : public SceneNode {
         void                                        tick(sf::Time delta, sf::Vector2f position, float speed);
         virtual unsigned int	                    getCategory() const;
         std::vector<Projectile*>                    getProjectiles() const;
+        void                                        destroy(const Projectile& projectile);
 
     private:
         void                                        accelerate(float speed) const;

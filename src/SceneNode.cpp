@@ -10,7 +10,7 @@ SceneNode::SceneNode()
 
 }
 
-void SceneNode::attachChild(Ptr child)
+void SceneNode::attachChild(const Ptr& child)
 {
     child->mParent = this;
     mChildren.push_back(child);

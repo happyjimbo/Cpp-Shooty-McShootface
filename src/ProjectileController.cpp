@@ -15,7 +15,7 @@ void ProjectileController::spawn(Projectile::Type type) {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        std::shared_ptr<Projectile> bullet = std::make_shared<Projectile>(type, mTexture);
+        auto bullet = std::make_shared<Projectile>(type, mTexture);
 
         mProjectiles.push_back(bullet.get());
 
@@ -26,7 +26,7 @@ void ProjectileController::spawn(Projectile::Type type) {
         mSpawnPosition = sf::Vector2f(mSpawnPosition.x - xOffset, mSpawnPosition.y - mYOffsetAmount);
 
         bullet->setPosition(mSpawnPosition);
-        attachChild(std::move(bullet));
+        attachChild(bullet);
     }
 }
 
@@ -49,4 +49,12 @@ unsigned int ProjectileController::getCategory() const {
 
 std::vector<Projectile*> ProjectileController::getProjectiles() const {
     return mProjectiles;
+}
+
+void ProjectileController::destroy(const Projectile& projectile) {
+    auto it = std::find(mProjectiles.begin(), mProjectiles.end(), &projectile);
+    if (it != mProjectiles.end()) {
+        mProjectiles.erase(it);
+        detachChild(projectile);
+    }
 }

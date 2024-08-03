@@ -16,7 +16,7 @@ namespace sf
     class RenderWindow;
 }
 
-class World {
+class World final {
 
     public:
         explicit                            World(sf::RenderWindow& window);

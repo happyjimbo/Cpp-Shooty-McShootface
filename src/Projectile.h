@@ -6,7 +6,7 @@
 
 #include "SFML/Graphics/Sprite.hpp"
 
-class Projectile : public Entity
+class Projectile final : public Entity
 {
     public:
         enum Type {
@@ -15,7 +15,6 @@ class Projectile : public Entity
 
     public:
                             Projectile(Type type, const TextureHolder& textures);
-
     private:
         virtual void        drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 

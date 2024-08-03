@@ -1,7 +1,8 @@
 #include "ProjectileCollisionController.h"
-#include "Aircraft.h"
 
-#include "Logger.h"
+#include <iostream>
+
+#include "Aircraft.h"
 
 ProjectileCollisionController::ProjectileCollisionController(
     const std::shared_ptr<ProjectileController>& projectileController,
@@ -24,21 +25,23 @@ void ProjectileCollisionController::tick(sf::Time delta) {
             const auto projectilePos = p->getPosition();
             const auto aircraftPos = a->getPosition();
 
-            const float projectileSqrt = getSquareMagnitude(projectilePos);
-            const float aircraftSqrt = getSquareMagnitude(aircraftPos);
+            const float distanceSqrt = getSquareMagnitude(projectilePos, aircraftPos);
+            constexpr float collisionThreshold = 30.f * 30.f; // Adjust the threshold as necessary
 
-            if (projectileSqrt - aircraftSqrt < 1) {
+            if (distanceSqrt < collisionThreshold) {
                 collided(*p, *a);
             }
         }
     }
 }
 
-float ProjectileCollisionController::getSquareMagnitude(sf::Vector2f position) {
-    return (position.x * position.x) + (position.y * position.y);
+float ProjectileCollisionController::getSquareMagnitude(sf::Vector2f pos1, sf::Vector2f pos2) {
+    const float dx = pos1.x - pos2.x;
+    const float dy = pos1.y - pos2.y;
+    return (dx * dx) + (dy * dy);
 }
 
-void ProjectileCollisionController::collided(Projectile &projectile, Aircraft &aircraft) {
-    Log("collide!");
-    aircraft.hit();
+void ProjectileCollisionController::collided(const Projectile &projectile, const Aircraft &aircraft) const {
+    mProjectileController->destroy(projectile);
+    mEnemyAircraftController->destroy(aircraft);
 }

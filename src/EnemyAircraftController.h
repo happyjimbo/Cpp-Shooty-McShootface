@@ -10,10 +10,11 @@ class EnemyAircraftController : public SceneNode {
     public:
                                         EnemyAircraftController(const TextureHolder& textures, Aircraft::Type type, sf::Vector2f position);
         void                            tick(sf::Time, float speed);
-        const std::vector<Aircraft*>    getAircrafts() const;
+        std::vector<Aircraft*>          getAircrafts();
+        void                            destroy(const Aircraft&);
 
     private:
-        void                            accelerate(float speed);
+        void                            accelerate(float speed) const;
         void                            spawn();
 
     private:
