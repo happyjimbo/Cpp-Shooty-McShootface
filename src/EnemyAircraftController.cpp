@@ -1,16 +1,29 @@
 #include "EnemyAircraftController.h"
 
-#include "Logger.h"
+#include <iostream>
+
 #include "Random.h"
 
-EnemyAircraftController::EnemyAircraftController(const TextureHolder &textures, Aircraft::Type type, sf::Vector2f position)
+EnemyAircraftController::EnemyAircraftController(
+    const TextureHolder &textures,
+    const Aircraft::Type type,
+    const sf::Vector2f position,
+    const sf::FloatRect worldBounds)
 : mTexture(textures)
 , mAircraftType(type)
+, mWorldBounds(worldBounds)
 , mStartPosition(position)
 , mAircrafts()
 , mTimeSinceLastSpawn()
 {
 
+}
+
+void EnemyAircraftController::tick(const sf::Time& delta, const float speed) {
+    mTimeSinceLastSpawn += delta.asSeconds();
+    accelerate(speed / 50);
+    spawn();
+    checkBounds();
 }
 
 void EnemyAircraftController::spawn() {
@@ -31,11 +44,14 @@ void EnemyAircraftController::spawn() {
     }
 }
 
-void EnemyAircraftController::tick(sf::Time const delta, float const speed) {
-    mTimeSinceLastSpawn += delta.asSeconds();
-    accelerate(speed / 50);
-    spawn();
+void EnemyAircraftController::checkBounds() {
+    for (const Aircraft* aircraft : mAircrafts) {
+        if (aircraft->getPosition().y > mWorldBounds.height) {
+            destroy(*aircraft);
+        }
+    }
 }
+
 
 void EnemyAircraftController::accelerate(float const speed) const {
     for (Aircraft* aircraft : mAircrafts) {

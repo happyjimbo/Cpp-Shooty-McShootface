@@ -16,7 +16,7 @@ class ProjectileCollisionController {
                             ProjectileCollisionController(
                                 const std::shared_ptr<ProjectileController>&,
                                 const std::shared_ptr<EnemyAircraftController>&);
-        void                tick(sf::Time delta);
+        void                tick(sf::Time delta) const;
 
     private:
         void                collided(const Projectile& projectile, const Aircraft& aircraft) const;

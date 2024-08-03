@@ -21,7 +21,7 @@ class World final {
     public:
         explicit                            World(sf::RenderWindow& window);
         void                                update(sf::Time);
-        void                                draw();
+        void                                draw() const;
 
         CommandQueue&                       getCommandQueue();
 
@@ -29,8 +29,8 @@ class World final {
     private:
         void                                loadTextures();
         void                                buildScene();
-        void                                adaptPlayerPosition();
-        void                                adaptPlayerVelocity();
+        void                                adaptPlayerPosition() const;
+        void                                adaptPlayerVelocity() const;
 
     private:
         enum Layer {

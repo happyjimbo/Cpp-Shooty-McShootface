@@ -12,21 +12,21 @@ class ProjectileController : public SceneNode {
         };
 
     public:
+                                                    ProjectileController(const TextureHolder& texture, const sf::FloatRect worldBounds);
         void                                        spawn(Projectile::Type type);
-
-        ProjectileController(const TextureHolder& texture);
-
-        void                                        tick(sf::Time delta, sf::Vector2f position, float speed);
+        void                                        tick(const sf::Time delta, const sf::Vector2f position, const float speed);
         virtual unsigned int	                    getCategory() const;
         std::vector<Projectile*>                    getProjectiles() const;
         void                                        destroy(const Projectile& projectile);
 
     private:
-        void                                        accelerate(float speed) const;
+        void accelerate(float speed) const;
+        void checkBounds();
 
     private:
         std::vector<Projectile*>                    mProjectiles;
         const TextureHolder&                        mTexture;
+        const sf::FloatRect                         mWorldBounds;
         sf::Vector2f                                mSpawnPosition;
         float                                       mTimeSinceLastSpawn;
         Position                                    mPosition;

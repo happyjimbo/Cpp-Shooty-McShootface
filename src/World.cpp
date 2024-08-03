@@ -23,26 +23,7 @@ World::World(sf::RenderWindow& window)
     mWorldView.setCenter(mSpawnPosition);
 }
 
-void World::update(sf::Time delta)
-{
-    mWorldView.move(0.f, mScrollSpeed * delta.asSeconds());
-    mPlayerAircraft->setVelocity(0.f, 0.f);
-
-    while (!mCommandQueue.isEmpty())
-    {
-        mSceneGraph.onCommand(mCommandQueue.pop(), delta);
-    }
-
-    adaptPlayerVelocity();
-    mProjectileController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
-    mEnemyAircraftController->tick(delta, mScrollSpeed);
-    mProjectileCollisionController->tick(delta);
-
-    mSceneGraph.update(delta);
-    adaptPlayerPosition();
-}
-
-void World::draw()
+void World::draw() const
 {
     mWindow.setView(mWorldView);
     mWindow.draw(mSceneGraph);
@@ -86,19 +67,38 @@ void World::buildScene()
     mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
     mSceneLayer[Air]->attachChild(leader);
 
-    sf::Vector2f startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
+    auto startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
 
-    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mTextures, Aircraft::Type::Raptor, startPosition);
+    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mTextures, Aircraft::Type::Raptor, startPosition, mWorldBounds);
     mSceneLayer[Air]->attachChild(mEnemyAircraftController);
 
-    mProjectileController = std::make_shared<ProjectileController>(mTextures);
+    mProjectileController = std::make_shared<ProjectileController>(mTextures, mWorldBounds);
     mSceneLayer[Air]->attachChild(mProjectileController);
 
     mProjectileCollisionController =
         std::make_unique<ProjectileCollisionController>(mProjectileController, mEnemyAircraftController);
 }
 
-void World::adaptPlayerPosition()
+void World::update(sf::Time delta)
+{
+    mWorldView.move(0.f, mScrollSpeed * delta.asSeconds());
+    mPlayerAircraft->setVelocity(0.f, 0.f);
+
+    while (!mCommandQueue.isEmpty())
+    {
+        mSceneGraph.onCommand(mCommandQueue.pop(), delta);
+    }
+
+    adaptPlayerVelocity();
+    mProjectileController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
+    mEnemyAircraftController->tick(delta, mScrollSpeed);
+    mProjectileCollisionController->tick(delta);
+
+    mSceneGraph.update(delta);
+    adaptPlayerPosition();
+}
+
+void World::adaptPlayerPosition() const
 {
     sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
     const float borderDistance = 40.f;
@@ -111,7 +111,7 @@ void World::adaptPlayerPosition()
     mPlayerAircraft->setPosition(position);
 }
 
-void World::adaptPlayerVelocity()
+void World::adaptPlayerVelocity() const
 {
     sf::Vector2f velocity = mPlayerAircraft->getVelocity();
 

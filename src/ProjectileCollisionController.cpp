@@ -1,7 +1,4 @@
 #include "ProjectileCollisionController.h"
-
-#include <iostream>
-
 #include "Aircraft.h"
 
 ProjectileCollisionController::ProjectileCollisionController(
@@ -13,7 +10,7 @@ ProjectileCollisionController::ProjectileCollisionController(
 
 }
 
-void ProjectileCollisionController::tick(sf::Time delta) {
+void ProjectileCollisionController::tick(sf::Time delta) const {
 
     auto projectiles = mProjectileController->getProjectiles();
     auto aircrafts = mEnemyAircraftController->getAircrafts();

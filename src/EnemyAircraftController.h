@@ -5,17 +5,23 @@
 #include "Aircraft.h"
 #include "ResourceIdentifiers.h"
 
-class EnemyAircraftController : public SceneNode {
+class EnemyAircraftController final : public SceneNode {
 
     public:
-                                        EnemyAircraftController(const TextureHolder& textures, Aircraft::Type type, sf::Vector2f position);
-        void                            tick(sf::Time, float speed);
+                                        EnemyAircraftController(
+                                            const TextureHolder& textures,
+                                            const Aircraft::Type type,
+                                            const sf::Vector2f position,
+                                            const sf::FloatRect worldBounds);
+
+        void                            tick(const sf::Time&, const float speed);
         std::vector<Aircraft*>          getAircrafts();
         void                            destroy(const Aircraft&);
 
     private:
         void                            accelerate(float speed) const;
         void                            spawn();
+        void                            checkBounds() ;
 
     private:
         std::vector<Aircraft*>          mAircrafts;
@@ -23,6 +29,7 @@ class EnemyAircraftController : public SceneNode {
         Aircraft::Type                  mAircraftType;
         float                           mTimeSinceLastSpawn;
         sf::Vector2f                    mStartPosition;
+        sf::FloatRect                   mWorldBounds;
 };
 
 #endif // CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H

@@ -1,12 +1,14 @@
 #include "ProjectileController.h"
 #include "Category.h"
+#include "Logger.h"
 
-ProjectileController::ProjectileController(const TextureHolder& texture)
+ProjectileController::ProjectileController(const TextureHolder& texture, const sf::FloatRect worldBounds)
 : mProjectiles()
-, mTimeSinceLastSpawn()
 , mTexture(texture)
-, mPosition(Left)
+, mWorldBounds(worldBounds)
 , mSpawnPosition()
+, mTimeSinceLastSpawn()
+, mPosition(Left)
 {
 
 }
@@ -30,18 +32,28 @@ void ProjectileController::spawn(Projectile::Type type) {
     }
 }
 
+void ProjectileController::tick(const sf::Time delta, const sf::Vector2f position, const float speed) {
+    mTimeSinceLastSpawn += delta.asSeconds();
+    mSpawnPosition = position;
+    accelerate(speed);
+    checkBounds();
+}
+
 void ProjectileController::accelerate(float speed) const {
     for (Projectile* projectile : mProjectiles) {
         projectile->accelerate(0.f, speed);
     }
 }
 
-
-void ProjectileController::tick(sf::Time delta, sf::Vector2f position, float speed) {
-    mTimeSinceLastSpawn += delta.asSeconds();
-    mSpawnPosition = position;
-    accelerate(speed);
+void ProjectileController::checkBounds() {
+    for (const Projectile* projectile : mProjectiles) {
+        if (projectile->getPosition().y > mWorldBounds.height ||
+            projectile->getPosition().y < 0) {
+            destroy(*projectile);
+        }
+    }
 }
+
 
 unsigned int ProjectileController::getCategory() const {
     return Category::PlayerProjectile;
