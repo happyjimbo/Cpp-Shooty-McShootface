@@ -5,9 +5,7 @@
 #include "World.h"
 #include "Player.h"
 
-class Game : private sf::NonCopyable
-{
-
+class Game final : private sf::NonCopyable {
     public:
                                 Game();
         void                    run();
@@ -23,7 +21,6 @@ class Game : private sf::NonCopyable
         sf::RenderWindow        mWindow;
         World                   mWorld;
         Player                  mPlayer;
-
 };
 
 

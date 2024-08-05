@@ -1,9 +1,9 @@
 #ifndef CMAKESFMLPROJECT_PROJECTILE_CONTROLLER_H
 #define CMAKESFMLPROJECT_PROJECTILE_CONTROLLER_H
 
-#include "projectile.h"
+#include "Projectile.h"
 
-class ProjectileController : public SceneNode {
+class ProjectileController final : public SceneNode {
 
     private:
         enum Position {

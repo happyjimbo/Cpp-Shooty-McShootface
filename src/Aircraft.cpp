@@ -16,11 +16,11 @@ Textures::ID toTextureID(Aircraft::Type type)
     return Textures::Eagle;
 }
 
-Aircraft::Aircraft(Aircraft::Type type, const TextureHolder& textures)
+Aircraft::Aircraft(const Type type, const TextureHolder& textures)
 : mType(type)
 , mSprite(textures.get(toTextureID(type)))
 {
-    sf::FloatRect bounds = mSprite.getLocalBounds();
+    const sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
@@ -39,9 +39,4 @@ unsigned int Aircraft::getCategory() const
         default:
             return Category::EnemyAircraft;
     }
-}
-
-void Aircraft::hit() {
-     Log("hit!");
-    // detachChild(*this);
 }

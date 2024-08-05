@@ -1,6 +1,4 @@
 #include "Projectile.h"
-
-#include "Logger.h"
 #include "ResourceHolder.h"
 
 

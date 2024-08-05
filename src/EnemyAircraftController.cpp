@@ -30,10 +30,10 @@ void EnemyAircraftController::spawn() {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        auto aircraft = std::make_shared<Aircraft>(mAircraftType, mTexture);
+        const auto aircraft = std::make_shared<Aircraft>(mAircraftType, mTexture);
 
-        float x = getRandomFloat(0, mStartPosition.x);
-        sf::Vector2f startPosition = sf::Vector2f(x, mStartPosition.y);
+        const float x = getRandomFloat(0, mStartPosition.x);
+        const auto startPosition = sf::Vector2f(x, mStartPosition.y);
         aircraft->setPosition(startPosition);
 
         aircraft->setRotation(180);

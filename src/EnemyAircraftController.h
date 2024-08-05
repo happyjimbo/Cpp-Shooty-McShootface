@@ -12,7 +12,8 @@ class EnemyAircraftController final : public SceneNode {
                                             const TextureHolder& textures,
                                             const Aircraft::Type type,
                                             const sf::Vector2f position,
-                                            const sf::FloatRect worldBounds);
+                                            const sf::FloatRect worldBounds
+                                        );
 
         void                            tick(const sf::Time&, const float speed);
         std::vector<Aircraft*>          getAircrafts();

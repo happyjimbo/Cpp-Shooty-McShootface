@@ -15,8 +15,8 @@ class Aircraft : public Entity
         };
 
     public:
-                            Aircraft(Type type, const TextureHolder& textures);
-    virtual unsigned int	getCategory() const;
+                            Aircraft(const Type type, const TextureHolder& textures);
+    unsigned int	getCategory() const override;
     void                    hit();
 
 
