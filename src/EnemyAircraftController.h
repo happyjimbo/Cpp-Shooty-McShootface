@@ -1,23 +1,27 @@
 #ifndef CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H
 #define CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H
 
-#include "SceneNode.h"
 #include "Aircraft.h"
 #include "ResourceIdentifiers.h"
 
-class EnemyAircraftController final : public SceneNode {
+class EntitySystem;
+
+class EnemyAircraftController final
+{
+    public:
+        EnemyAircraftController(
+            EntitySystem& entitySystem,
+            const TextureHolder& textures,
+            Aircraft::Type type,
+            sf::Vector2f position,
+            sf::FloatRect worldBounds
+        );
 
     public:
-                                        EnemyAircraftController(
-                                            const TextureHolder& textures,
-                                            const Aircraft::Type type,
-                                            const sf::Vector2f position,
-                                            const sf::FloatRect worldBounds
-                                        );
 
-        void                                            tick(const sf::Time&, const float speed);
-        std::vector<std::shared_ptr<Aircraft>>&          getAircrafts();
-        void                                            destroy(const std::shared_ptr<Aircraft>& aircraft);
+        void                                            tick(const sf::Time&, float speed);
+        std::vector<std::shared_ptr<Aircraft>>&         getAircrafts();
+        void                                            destroy(std::shared_ptr<Aircraft>& aircraft);
 
     private:
         void                            accelerate(float speed) const;
@@ -26,6 +30,7 @@ class EnemyAircraftController final : public SceneNode {
 
     private:
         std::vector<std::shared_ptr<Aircraft>>          mAircrafts;
+        EntitySystem&                                   mEntitySystem;
         const TextureHolder&                            mTexture;
         Aircraft::Type                                  mAircraftType;
         float                                           mTimeSinceLastSpawn;

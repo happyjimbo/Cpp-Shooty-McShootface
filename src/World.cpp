@@ -79,8 +79,8 @@ void World::buildScene() {
 
     auto startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
 
-    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mTextures, Aircraft::Type::Raptor, startPosition, mWorldBounds);
-    mSceneLayer[Air]->attachChild(mEnemyAircraftController);
+    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mEntitySystem, mTextures, Aircraft::Type::Raptor, startPosition, mWorldBounds);
+    //mSceneLayer[Air]->attachChild(mEnemyAircraftController);
 
     for (const auto& aircraft : mEnemyAircraftController->getAircrafts()) {
         mEntitySystem.addObject(aircraft);

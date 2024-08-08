@@ -2,14 +2,17 @@
 
 #include <iostream>
 
+#include "EntitySystem.h"
 #include "Random.h"
 
 EnemyAircraftController::EnemyAircraftController(
+    EntitySystem& entitySystem,
     const TextureHolder& textures,
     const Aircraft::Type type,
     const sf::Vector2f position,
     const sf::FloatRect worldBounds)
 : mTexture(textures)
+, mEntitySystem(entitySystem)
 , mAircraftType(type)
 , mWorldBounds(worldBounds)
 , mStartPosition(position)
@@ -40,15 +43,22 @@ void EnemyAircraftController::spawn() {
 
         mAircrafts.push_back(aircraft);
 
-        // attachChild(aircraft);
+        mEntitySystem.addObject(aircraft);
     }
 }
 
 void EnemyAircraftController::checkBounds() {
-    for (const auto& aircraft : mAircrafts) {
+
+    std::vector<std::shared_ptr<Aircraft>> toRemove;
+
+    for (auto& aircraft : mAircrafts) {
         if (aircraft->getPosition().y > mWorldBounds.height) {
-            destroy(aircraft);
+            toRemove.push_back(aircraft);
         }
+    }
+
+    for (auto& aircraft : toRemove) {
+        destroy(aircraft);
     }
 }
 
@@ -63,11 +73,14 @@ std::vector<std::shared_ptr<Aircraft>>& EnemyAircraftController::getAircrafts() 
     return mAircrafts;
 }
 
-void EnemyAircraftController::destroy(const std::shared_ptr<Aircraft>& aircraft) {
-    /*auto it = std::find(mAircrafts.begin(), mAircrafts.end(), &aircraft);
-    if (it != mAircrafts.end()) {
-        mAircrafts.erase(it);
-        // detachChild(aircraft);
-    }*/
+void EnemyAircraftController::destroy(std::shared_ptr<Aircraft>& aircraft) {
+    auto found = std::find_if(mAircrafts.begin(), mAircrafts.end(),
+        [&](const std::shared_ptr<Aircraft>& a) {
+        return a.get() == aircraft.get();
+    });
+    if (found != mAircrafts.end()) {
+        mAircrafts.erase(found);
+        mEntitySystem.removeObject(aircraft);
+    }
 }
 

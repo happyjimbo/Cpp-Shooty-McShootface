@@ -1,7 +1,6 @@
 #ifndef CMAKESFMLPROJECT_AIRCRAFT_H
 #define CMAKESFMLPROJECT_AIRCRAFT_H
 
-#include "Entity.h"
 #include "ResourceIdentifiers.h"
 
 #include <SFML/Graphics/Sprite.hpp>

@@ -19,7 +19,7 @@ class ProjectileCollisionController {
         void                tick(sf::Time delta) const;
 
     private:
-        void                collided(const Projectile& projectile, const std::shared_ptr<Aircraft>& aircraft) const;
+        void                collided(const Projectile& projectile, std::shared_ptr<Aircraft>& aircraft) const;
         static float        getSquareMagnitude(sf::Vector2f projectilePos, sf::Vector2f aircraftPos);
 
     private:

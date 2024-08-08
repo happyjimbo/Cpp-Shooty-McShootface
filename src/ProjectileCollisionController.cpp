@@ -12,12 +12,12 @@ ProjectileCollisionController::ProjectileCollisionController(
 
 void ProjectileCollisionController::tick(sf::Time delta) const {
 
-    auto projectiles = mProjectileController->getProjectiles();
-    auto aircrafts = mEnemyAircraftController->getAircrafts();
+    const auto projectiles = mProjectileController->getProjectiles();
+    const auto aircrafts = mEnemyAircraftController->getAircrafts();
 
     for(const auto p : projectiles)
     {
-        for(const auto a : aircrafts)
+        for(auto a : aircrafts)
         {
             const auto projectilePos = p->getPosition();
             const auto aircraftPos = a->getPosition();
@@ -38,7 +38,7 @@ float ProjectileCollisionController::getSquareMagnitude(sf::Vector2f pos1, sf::V
     return (dx * dx) + (dy * dy);
 }
 
-void ProjectileCollisionController::collided(const Projectile &projectile, const std::shared_ptr<Aircraft>& aircraft) const {
+void ProjectileCollisionController::collided(const Projectile &projectile, std::shared_ptr<Aircraft>& aircraft) const {
     mProjectileController->destroy(projectile);
     mEnemyAircraftController->destroy(aircraft);
 }

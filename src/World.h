@@ -49,7 +49,7 @@ class World final {
         TextureHolder                       mTextures;
         FontHolder                          mFonts;
 
-        EntitySystem                        mEntitySystem;
+        EntitySystem                       mEntitySystem;
 
         SceneNode                           mSceneGraph;
         std::array<SceneNode*, LayerCount>  mSceneLayer;
