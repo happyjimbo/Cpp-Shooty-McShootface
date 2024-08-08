@@ -38,36 +38,36 @@ void EnemyAircraftController::spawn() {
 
         aircraft->setRotation(180);
 
-        mAircrafts.push_back(aircraft.get());
+        mAircrafts.push_back(aircraft);
 
-        attachChild(aircraft);
+        // attachChild(aircraft);
     }
 }
 
 void EnemyAircraftController::checkBounds() {
-    for (const Aircraft* aircraft : mAircrafts) {
+    for (const auto& aircraft : mAircrafts) {
         if (aircraft->getPosition().y > mWorldBounds.height) {
-            destroy(*aircraft);
+            destroy(aircraft);
         }
     }
 }
 
 
 void EnemyAircraftController::accelerate(float const speed) const {
-    for (Aircraft* aircraft : mAircrafts) {
+    for (const auto& aircraft : mAircrafts) {
         aircraft->accelerate(0.f, -speed);
     }
 }
 
-std::vector<Aircraft*> EnemyAircraftController::getAircrafts() {
+std::vector<std::shared_ptr<Aircraft>>& EnemyAircraftController::getAircrafts() {
     return mAircrafts;
 }
 
-void EnemyAircraftController::destroy(const Aircraft& aircraft) {
-    auto it = std::find(mAircrafts.begin(), mAircrafts.end(), &aircraft);
+void EnemyAircraftController::destroy(const std::shared_ptr<Aircraft>& aircraft) {
+    /*auto it = std::find(mAircrafts.begin(), mAircrafts.end(), &aircraft);
     if (it != mAircrafts.end()) {
         mAircrafts.erase(it);
-        detachChild(aircraft);
-    }
+        // detachChild(aircraft);
+    }*/
 }
 

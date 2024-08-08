@@ -1,8 +1,6 @@
 #include "Aircraft.h"
 #include "ResourceHolder.h"
 #include "Category.h"
-#include "Logger.h"
-
 
 Textures::ID toTextureID(Aircraft::Type type)
 {
@@ -24,8 +22,13 @@ Aircraft::Aircraft(const Type type, const TextureHolder& textures)
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+void Aircraft::drawEntity(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    draw(target, states);
+}
+
+void Aircraft::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    states.transform *= getTransform();
     target.draw(mSprite, states);
 }
 
@@ -39,4 +42,9 @@ unsigned int Aircraft::getCategory() const
         default:
             return Category::EnemyAircraft;
     }
+}
+
+void Aircraft::update(sf::Time delta)
+{
+    move(mVelocity * delta.asSeconds());
 }

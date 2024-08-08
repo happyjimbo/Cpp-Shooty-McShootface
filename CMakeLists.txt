@@ -51,6 +51,17 @@ add_executable(main src/main.cpp
         src/ProjectileCollisionController.h
         src/Gui/Label.cpp
         src/Gui/Label.h
+        src/Entity/EntitySystem.cpp
+        src/Entity/EntitySystem.h
+        src/Entity/EntityObject.cpp
+        src/Entity/EntityObject.h
+)
+
+# Add the parent directory of src and Gui to the include path for the target
+target_include_directories(main PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/Gui
+        ${CMAKE_SOURCE_DIR}/src/Entity
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)

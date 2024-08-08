@@ -100,10 +100,10 @@ void Player::initializeActions()
     constexpr float playerSpeed = 200.f;
     constexpr float horizontalSpeed = playerSpeed * 1.4f;
 
-    mActionBinding[MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-horizontalSpeed, 0.f));
-    mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(+horizontalSpeed, 0.f));
-    mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
-    mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, +playerSpeed));
+    mActionBinding[MoveLeft].entityAction = derivedEntityAction<Aircraft>(AircraftMover(-horizontalSpeed, 0.f));
+    mActionBinding[MoveRight].entityAction = derivedEntityAction<Aircraft>(AircraftMover(+horizontalSpeed, 0.f));
+    mActionBinding[MoveUp].entityAction = derivedEntityAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
+    mActionBinding[MoveDown].entityAction = derivedEntityAction<Aircraft>(AircraftMover(0.f, +playerSpeed));
     mActionBinding[Fire].action = derivedAction<ProjectileController>([] (ProjectileController& b, sf::Time){
         b.spawn(Projectile::Player);
     });

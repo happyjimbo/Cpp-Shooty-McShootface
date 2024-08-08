@@ -6,7 +6,9 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
-class Aircraft : public Entity
+#include "EntityObject.h"
+
+class Aircraft final : public EntityObject
 {
     public:
         enum Type {
@@ -16,12 +18,12 @@ class Aircraft : public Entity
 
     public:
                             Aircraft(Type type, const TextureHolder& textures);
-    unsigned int	        getCategory() const override;
     void                    hit();
 
-
-    private:
-        void        drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+    unsigned int	        getCategory() const override;
+    void                    update(sf::Time delta) override;
+    void                    drawEntity(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void                    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
         Type                mType;

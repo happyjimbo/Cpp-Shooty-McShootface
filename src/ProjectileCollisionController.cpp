@@ -26,7 +26,7 @@ void ProjectileCollisionController::tick(sf::Time delta) const {
             constexpr float collisionThreshold = 30.f * 30.f; // Adjust the threshold as necessary
 
             if (distanceSqrt < collisionThreshold) {
-                collided(*p, *a);
+                collided(*p, a);
             }
         }
     }
@@ -38,7 +38,7 @@ float ProjectileCollisionController::getSquareMagnitude(sf::Vector2f pos1, sf::V
     return (dx * dx) + (dy * dy);
 }
 
-void ProjectileCollisionController::collided(const Projectile &projectile, const Aircraft &aircraft) const {
+void ProjectileCollisionController::collided(const Projectile &projectile, const std::shared_ptr<Aircraft>& aircraft) const {
     mProjectileController->destroy(projectile);
     mEnemyAircraftController->destroy(aircraft);
 }

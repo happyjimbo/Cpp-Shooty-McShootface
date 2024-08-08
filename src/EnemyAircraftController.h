@@ -15,9 +15,9 @@ class EnemyAircraftController final : public SceneNode {
                                             const sf::FloatRect worldBounds
                                         );
 
-        void                            tick(const sf::Time&, const float speed);
-        std::vector<Aircraft*>          getAircrafts();
-        void                            destroy(const Aircraft&);
+        void                                            tick(const sf::Time&, const float speed);
+        std::vector<std::shared_ptr<Aircraft>>&          getAircrafts();
+        void                                            destroy(const std::shared_ptr<Aircraft>& aircraft);
 
     private:
         void                            accelerate(float speed) const;
@@ -25,12 +25,12 @@ class EnemyAircraftController final : public SceneNode {
         void                            checkBounds() ;
 
     private:
-        std::vector<Aircraft*>          mAircrafts;
-        const TextureHolder&            mTexture;
-        Aircraft::Type                  mAircraftType;
-        float                           mTimeSinceLastSpawn;
-        sf::Vector2f                    mStartPosition;
-        sf::FloatRect                   mWorldBounds;
+        std::vector<std::shared_ptr<Aircraft>>          mAircrafts;
+        const TextureHolder&                            mTexture;
+        Aircraft::Type                                  mAircraftType;
+        float                                           mTimeSinceLastSpawn;
+        sf::Vector2f                                    mStartPosition;
+        sf::FloatRect                                   mWorldBounds;
 };
 
 #endif // CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H

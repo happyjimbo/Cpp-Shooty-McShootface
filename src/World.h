@@ -8,6 +8,7 @@
 #include "CommandQueue.h"
 #include "ProjectileController.h"
 #include "EnemyAircraftController.h"
+#include "EntitySystem.h"
 #include "ProjectileCollisionController.h"
 
 // forward declaration
@@ -47,6 +48,8 @@ class World final {
         sf::View                            mWorldView;
         TextureHolder                       mTextures;
         FontHolder                          mFonts;
+
+        EntitySystem                        mEntitySystem;
 
         SceneNode                           mSceneGraph;
         std::array<SceneNode*, LayerCount>  mSceneLayer;
