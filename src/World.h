@@ -28,6 +28,7 @@ class World final {
 
     private:
         void                                loadTextures();
+        void                                loadFonts();
         void                                buildScene();
         void                                adaptPlayerPosition() const;
         void                                adaptPlayerVelocity() const;
@@ -37,6 +38,7 @@ class World final {
             Background,
             Air,
             Bulelts,
+            GUI,
             LayerCount
         };
 
@@ -44,6 +46,7 @@ class World final {
         sf::RenderWindow&                   mWindow;
         sf::View                            mWorldView;
         TextureHolder                       mTextures;
+        FontHolder                          mFonts;
 
         SceneNode                           mSceneGraph;
         std::array<SceneNode*, LayerCount>  mSceneLayer;

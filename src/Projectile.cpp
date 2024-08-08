@@ -12,7 +12,7 @@ Textures::ID toTextureID(Projectile::Type type)
     return Textures::Bullet;
 }
 
-Projectile::Projectile(Type type, const TextureHolder &textures)
+Projectile::Projectile(const Type type, const TextureHolder &textures)
 : mSprite(textures.get(toTextureID(type)))
 {
     sf::FloatRect bounds = mSprite.getLocalBounds();

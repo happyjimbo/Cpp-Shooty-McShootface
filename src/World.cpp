@@ -5,11 +5,13 @@
 #include "SpriteNode.h"
 #include "EnemyAircraftController.h"
 #include "ProjectileCollisionController.h"
+#include "Gui/Label.h"
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
 , mTextures()
+, mFonts()
 , mSceneGraph()
 , mSceneLayer()
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f)
@@ -18,6 +20,7 @@ World::World(sf::RenderWindow& window)
 , mPlayerAircraft(nullptr)
 {
     loadTextures();
+    loadFonts();
     buildScene();
 
     mWorldView.setCenter(mSpawnPosition);
@@ -42,11 +45,14 @@ void World::loadTextures()
     mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
 }
 
-void World::buildScene()
-{
+void World::loadFonts() {
+    mFonts.load(Fonts::Main, "Media/Sansation.ttf");
+}
+
+void World::buildScene() {
     for (std::size_t i = 0; i < LayerCount; i++)
     {
-        SceneNode::Ptr layer(std::make_unique<SceneNode>());
+        auto layer(std::make_unique<SceneNode>());
         mSceneLayer[i] = layer.get();
 
         mSceneGraph.attachChild(std::move(layer));
@@ -57,15 +63,15 @@ void World::buildScene()
     sf::IntRect textureRect(mWorldBounds);
     texture.setRepeated(true);
 
-    std::shared_ptr<SpriteNode> backgroundSprite(std::make_shared<SpriteNode>(texture, textureRect));
+    auto backgroundSprite(std::make_unique<SpriteNode>(texture, textureRect));
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-    mSceneLayer[Background]->attachChild(backgroundSprite);
+    mSceneLayer[Background]->attachChild(std::move(backgroundSprite));
 
-    std::shared_ptr<Aircraft> leader(std::make_shared<Aircraft>(Aircraft::Eagle, mTextures));
+    auto leader(std::make_unique<Aircraft>(Aircraft::Eagle, mTextures));
     mPlayerAircraft = leader.get();
     mPlayerAircraft->setPosition(mSpawnPosition);
     mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
-    mSceneLayer[Air]->attachChild(leader);
+    mSceneLayer[Air]->attachChild(std::move(leader));
 
     auto startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
 
@@ -77,6 +83,12 @@ void World::buildScene()
 
     mProjectileCollisionController =
         std::make_unique<ProjectileCollisionController>(mProjectileController, mEnemyAircraftController);
+
+
+    auto label(std::make_unique<GUI::Label>("hello world", mFonts));
+    const auto labelPtr = label.get();
+    labelPtr->setPosition(mSpawnPosition);
+    mSceneLayer[GUI]->attachChild(std::move(label));
 }
 
 void World::update(sf::Time delta)
@@ -100,8 +112,8 @@ void World::update(sf::Time delta)
 
 void World::adaptPlayerPosition() const
 {
-    sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-    const float borderDistance = 40.f;
+    const sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+    constexpr float borderDistance = 40.f;
 
     sf::Vector2f position = mPlayerAircraft->getPosition();
     position.x = std::max(position.x, viewBounds.left + borderDistance);

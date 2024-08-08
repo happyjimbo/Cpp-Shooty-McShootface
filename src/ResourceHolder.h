@@ -25,4 +25,5 @@ class ResourceHolder
 
 
 #include "ResourceHolder.inl"
+
 #endif //CMAKESFMLPROJECT_RESOURCEHOLDER_H

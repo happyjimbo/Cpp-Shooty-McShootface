@@ -16,12 +16,12 @@ class Aircraft : public Entity
 
     public:
                             Aircraft(const Type type, const TextureHolder& textures);
-    unsigned int	getCategory() const override;
+    unsigned int	        getCategory() const override;
     void                    hit();
 
 
     private:
-        virtual void        drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+        void        drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
         Type                mType;

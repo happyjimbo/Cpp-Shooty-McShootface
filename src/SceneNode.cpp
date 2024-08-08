@@ -3,6 +3,7 @@
 #include "Category.h"
 #include "Command.h"
 
+
 SceneNode::SceneNode()
 : mChildren()
 , mParent(nullptr)
@@ -10,24 +11,19 @@ SceneNode::SceneNode()
 
 }
 
-void SceneNode::attachChild(const Ptr& child)
+std::shared_ptr<SceneNode> SceneNode::detachChild(const SceneNode& node)
 {
-    child->mParent = this;
-    mChildren.push_back(child);
-}
-
-SceneNode::Ptr SceneNode::detachChild(const SceneNode& node)
-{
-    auto found = std::find_if(mChildren.begin(), mChildren.end(), [&] (Ptr& p) { return p.get() == &node; });
+    const auto found = std::find_if(mChildren.begin(), mChildren.end(),
+        [&] (const std::shared_ptr<SceneNode>& p) { return p.get() == &node; });
     assert(found != mChildren.end());
 
-    Ptr result = std::move(*found);
+    std::shared_ptr<SceneNode> result = *found;
     result->mParent = nullptr;
     mChildren.erase(found);
     return result;
 }
 
-void SceneNode::update(sf::Time delta)
+void SceneNode::update(const sf::Time delta)
 {
     updateChildren(delta);
     updateCurrent(delta);
@@ -48,14 +44,14 @@ sf::Transform SceneNode::getWorldTransform() const
     return transform;
 }
 
-void SceneNode::onCommand(const Command& command, sf::Time dt)
+void SceneNode::onCommand(const Command& command, const sf::Time dt)
 {
     if (command.category & getCategory())
     {
         command.action(*this, dt);
     }
 
-    for (Ptr& child : mChildren)
+    for (auto& child : mChildren)
     {
         child->onCommand(command, dt);
     }
@@ -73,9 +69,9 @@ void SceneNode::updateCurrent(sf::Time dt)
     // do nothing by default
 }
 
-void SceneNode::updateChildren(sf::Time dt)
+void SceneNode::updateChildren(const sf::Time dt)
 {
-    for (Ptr& child : mChildren)
+    for (const auto& child : mChildren)
     {
         child->update(dt);
     }
@@ -97,7 +93,7 @@ void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) c
 
 void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for (const Ptr& child : mChildren)
+    for (const auto& child : mChildren)
     {
         child->draw(target, states);
     }

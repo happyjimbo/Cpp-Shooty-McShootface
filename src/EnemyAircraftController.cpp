@@ -5,7 +5,7 @@
 #include "Random.h"
 
 EnemyAircraftController::EnemyAircraftController(
-    const TextureHolder &textures,
+    const TextureHolder& textures,
     const Aircraft::Type type,
     const sf::Vector2f position,
     const sf::FloatRect worldBounds)

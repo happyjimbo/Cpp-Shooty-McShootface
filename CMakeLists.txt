@@ -49,6 +49,8 @@ add_executable(main src/main.cpp
         src/Random.h
         src/ProjectileCollisionController.cpp
         src/ProjectileCollisionController.h
+        src/Gui/Label.cpp
+        src/Gui/Label.h
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)

@@ -17,9 +17,9 @@ void ProjectileController::spawn(Projectile::Type type) {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        auto bullet = std::make_shared<Projectile>(type, mTexture);
+        auto projectile = std::make_shared<Projectile>(type, mTexture);
 
-        mProjectiles.push_back(bullet.get());
+        mProjectiles.push_back(projectile.get());
 
         mPosition = mPosition == Left ? Right : Left;
 
@@ -27,8 +27,8 @@ void ProjectileController::spawn(Projectile::Type type) {
 
         mSpawnPosition = sf::Vector2f(mSpawnPosition.x - xOffset, mSpawnPosition.y - mYOffsetAmount);
 
-        bullet->setPosition(mSpawnPosition);
-        attachChild(bullet);
+        projectile->setPosition(mSpawnPosition);
+        attachChild(projectile);
     }
 }
 
