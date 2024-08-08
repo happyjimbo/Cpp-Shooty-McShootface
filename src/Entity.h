@@ -13,7 +13,7 @@ class Entity : public SceneNode
         sf::Vector2f            getVelocity();
 
     private:
-        virtual void            updateCurrent(sf::Time delta);
+        void                    updateCurrent(sf::Time delta) override;
 
     private:
         sf::Vector2f            mVelocity;
