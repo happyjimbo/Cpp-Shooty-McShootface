@@ -1,7 +1,13 @@
 #ifndef CMAKESFMLPROJECT_ENTITY_OBJECT_H
 #define CMAKESFMLPROJECT_ENTITY_OBJECT_H
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/System/NonCopyable.hpp>
+#include <SFML/System/Time.hpp>
 
-#include "SceneNode.h"
+struct Command;
 
 class EntityObject : public sf::Transformable, public sf::Drawable, private sf::NonCopyable
 {

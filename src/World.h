@@ -3,7 +3,6 @@
 
 #include "ResourceIdentifiers.h"
 #include "ResourceHolder.h"
-#include "SceneNode.h"
 #include "Aircraft.h"
 #include "CommandQueue.h"
 #include "ProjectileController.h"
@@ -22,6 +21,8 @@ class World final {
     public:
         explicit                            World(sf::RenderWindow& window);
         void                                update(sf::Time);
+        void                                lateUpdate(sf::Time);
+
         void                                draw() const;
 
         CommandQueue&                       getCommandQueue();
@@ -51,8 +52,6 @@ class World final {
 
         EntitySystem                       mEntitySystem;
 
-        SceneNode                           mSceneGraph;
-        std::array<SceneNode*, LayerCount>  mSceneLayer;
         CommandQueue                        mCommandQueue;
 
         sf::FloatRect                       mWorldBounds;

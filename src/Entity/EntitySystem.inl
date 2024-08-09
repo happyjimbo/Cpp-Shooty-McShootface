@@ -14,9 +14,7 @@ void EntitySystem::addObject(PtrType&& entity)
 
 template<typename PtrType, typename = EnabledIfSharedOrUniquePtr<PtrType>>
 void EntitySystem::removeObject(PtrType&& entity) {
-    auto found = std::find_if(mEntities.begin(), mEntities.end(),
-        [&] (const std::shared_ptr<EntityObject>& p) { return p.get() == entity.get(); });
-    if (found != mEntities.end()) {
-        mEntities.erase(found);
+    if (entity) {
+        mEntitiesToRemove.insert(entity.get());
     }
 }

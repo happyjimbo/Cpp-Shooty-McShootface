@@ -1,6 +1,7 @@
 #include "Aircraft.h"
 #include "ResourceHolder.h"
 #include "Category.h"
+#include "ProjectileController.h"
 
 Textures::ID toTextureID(Aircraft::Type type)
 {
@@ -14,17 +15,13 @@ Textures::ID toTextureID(Aircraft::Type type)
     return Textures::Eagle;
 }
 
-Aircraft::Aircraft(const Type type, const TextureHolder& textures)
-: mType(type)
+Aircraft::Aircraft(ProjectileController& projectileController, const Type type, const TextureHolder& textures)
+: mprojectileController(projectileController)
+, mType(type)
 , mSprite(textures.get(toTextureID(type)))
 {
     const sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-}
-
-void Aircraft::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    states.transform *= getTransform();
-    target.draw(mSprite, states);
 }
 
 unsigned int Aircraft::getCategory() const
@@ -42,4 +39,16 @@ unsigned int Aircraft::getCategory() const
 void Aircraft::update(sf::Time delta)
 {
     move(mVelocity * delta.asSeconds());
+}
+
+void Aircraft::triggerProjectile(const Projectile::Type type) const
+{
+    mprojectileController.spawn(type, getPosition());
+}
+
+
+void Aircraft::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    states.transform *= getTransform();
+    target.draw(mSprite, states);
 }

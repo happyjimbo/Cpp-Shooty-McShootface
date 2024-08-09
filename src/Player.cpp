@@ -36,8 +36,6 @@ Player::Player()
     {
         pair.second.category = Category::PlayerAircraft;
     }
-
-    mActionBinding[Fire].category = Category::PlayerProjectile;
 }
 
 void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
@@ -104,8 +102,8 @@ void Player::initializeActions()
     mActionBinding[MoveRight].entityAction = derivedEntityAction<Aircraft>(AircraftMover(+horizontalSpeed, 0.f));
     mActionBinding[MoveUp].entityAction = derivedEntityAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
     mActionBinding[MoveDown].entityAction = derivedEntityAction<Aircraft>(AircraftMover(0.f, +playerSpeed));
-    mActionBinding[Fire].action = derivedAction<ProjectileController>([] (ProjectileController& b, sf::Time){
-        b.spawn(Projectile::Player);
+    mActionBinding[Fire].entityAction = derivedEntityAction<Aircraft>([] (const Aircraft& b, sf::Time){
+        b.triggerProjectile(Projectile::Player);
     });
 }
 

@@ -1,6 +1,8 @@
 #ifndef CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H
 #define CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H
 
+#include <vector>
+
 #include "Aircraft.h"
 #include "ResourceIdentifiers.h"
 
@@ -11,6 +13,7 @@ class EnemyAircraftController final
     public:
         EnemyAircraftController(
             EntitySystem& entitySystem,
+            ProjectileController& projectileController,
             const TextureHolder& textures,
             Aircraft::Type type,
             sf::Vector2f position,
@@ -26,11 +29,12 @@ class EnemyAircraftController final
     private:
         void                            accelerate(float speed) const;
         void                            spawn();
-        void                            checkBounds() ;
+        void                            checkBounds();
 
     private:
         std::vector<std::shared_ptr<Aircraft>>          mAircrafts;
         EntitySystem&                                   mEntitySystem;
+        ProjectileController&                           mProjectileController;
         const TextureHolder&                            mTexture;
         Aircraft::Type                                  mAircraftType;
         float                                           mTimeSinceLastSpawn;

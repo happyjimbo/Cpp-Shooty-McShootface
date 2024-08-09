@@ -15,6 +15,7 @@ class Game final : private sf::NonCopyable {
         void                    processInputs();
         void                    render();
         void                    update(sf::Time);
+        void                    lateUpdate(sf::Time);
 
     private:
         static const sf::Time   TimePerFrame;

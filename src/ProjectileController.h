@@ -1,9 +1,13 @@
 #ifndef CMAKESFMLPROJECT_PROJECTILE_CONTROLLER_H
 #define CMAKESFMLPROJECT_PROJECTILE_CONTROLLER_H
 
+#include <vector>
+
 #include "Projectile.h"
 
-class ProjectileController final : public SceneNode {
+class EntitySystem;
+
+class ProjectileController final {
 
     private:
         enum Position {
@@ -12,22 +16,21 @@ class ProjectileController final : public SceneNode {
         };
 
     public:
-                                                    ProjectileController(const TextureHolder& texture, const sf::FloatRect worldBounds);
-        void                                        spawn(Projectile::Type type);
-        void                                        tick(const sf::Time delta, const sf::Vector2f position, const float speed);
-        virtual unsigned int	                    getCategory() const;
-        std::vector<Projectile*>                    getProjectiles() const;
-        void                                        destroy(const Projectile& projectile);
+                                                    ProjectileController(EntitySystem& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds);
+        void                                        spawn(Projectile::Type type, sf::Vector2f spawnPosition);
+        void                                        tick(sf::Time delta, float speed);
+        std::vector<std::shared_ptr<Projectile>>&   getProjectiles();
+        void                                        destroy(std::shared_ptr<Projectile>& projectile);
 
     private:
         void accelerate(float speed) const;
         void checkBounds();
 
     private:
-        std::vector<Projectile*>                    mProjectiles;
+        EntitySystem&                               mEntitySystem;
+        std::vector<std::shared_ptr<Projectile>>    mProjectiles;
         const TextureHolder&                        mTexture;
         const sf::FloatRect                         mWorldBounds;
-        sf::Vector2f                                mSpawnPosition;
         float                                       mTimeSinceLastSpawn;
         Position                                    mPosition;
         const float                                 mXOffsetAmount = 15.f;

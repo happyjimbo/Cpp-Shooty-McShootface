@@ -1,6 +1,7 @@
 #ifndef CMAKESFMLPROJECT_ENTTY_SYSTEM_H
 #define CMAKESFMLPROJECT_ENTTY_SYSTEM_H
 
+#include <unordered_set>
 #include <vector>
 #include <SFML/Graphics.hpp>
 
@@ -16,13 +17,19 @@ class EntitySystem {
         void removeObject(PtrType&& entity);
 
         void update(sf::Time dt) const;
+        void lateUpdate(sf::Time dt);
+
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         void onCommand(const Command& command, sf::Time dt) const;
         std::vector<std::shared_ptr<EntityObject>> getEntities() const;
 
+    private:
+        void removeMarkedEntities();
+
 
     private:
         std::vector<std::shared_ptr<EntityObject>> mEntities;
+        std::unordered_set<EntityObject*> mEntitiesToRemove;
 };
 
 #include "EntitySystem.inl"

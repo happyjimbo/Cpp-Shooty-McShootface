@@ -1,6 +1,6 @@
 #include "World.h"
 
-#include "SpriteNode.h"
+#include "SpriteEntity.h"
 #include "EnemyAircraftController.h"
 #include "ProjectileCollisionController.h"
 #include <Gui/Label.h>
@@ -10,9 +10,7 @@ World::World(sf::RenderWindow& window)
 , mWorldView(window.getDefaultView())
 , mTextures()
 , mFonts()
-, mSceneGraph()
 , mEntitySystem()
-, mSceneLayer()
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 , mScrollSpeed(-50.f)
@@ -28,7 +26,6 @@ World::World(sf::RenderWindow& window)
 void World::draw() const
 {
     mWindow.setView(mWorldView);
-    mWindow.draw(mSceneGraph);
 
     for(const auto entity : mEntitySystem.getEntities()) {
         mWindow.draw(*entity);
@@ -53,50 +50,45 @@ void World::loadFonts() {
 }
 
 void World::buildScene() {
-    for (std::size_t i = 0; i < LayerCount; i++)
+    /*for (std::size_t i = 0; i < LayerCount; i++)
     {
         auto layer(std::make_unique<SceneNode>());
         mSceneLayer[i] = layer.get();
 
         mSceneGraph.attachChild(std::move(layer));
-    }
+    }*/
+
+
+    const auto startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
+
+    mProjectileController = std::make_shared<ProjectileController>(mEntitySystem, mTextures, mWorldBounds);
+    ProjectileController& projectileControllerRef(*mProjectileController.get());
+
+    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mEntitySystem, projectileControllerRef, mTextures, Aircraft::Type::Raptor, startPosition, mWorldBounds);
+    mProjectileCollisionController = std::make_unique<ProjectileCollisionController>(mProjectileController, mEnemyAircraftController);
 
     // Prepare tiled background
     sf::Texture& texture = mTextures.get(Textures::Desert);
     sf::IntRect textureRect(mWorldBounds);
     texture.setRepeated(true);
 
-    auto backgroundSprite(std::make_unique<SpriteNode>(texture, textureRect));
+    auto backgroundSprite(std::make_unique<SpriteEntity>(texture, textureRect));
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-    mSceneLayer[Background]->attachChild(std::move(backgroundSprite));
+    mEntitySystem.addObject(std::move(backgroundSprite));
+    //mSceneLayer[Background]->attachChild(std::move(backgroundSprite));
 
-    auto leader(std::make_unique<Aircraft>(Aircraft::Eagle, mTextures));
+    auto leader(std::make_unique<Aircraft>(projectileControllerRef, Aircraft::Eagle, mTextures));
+
     mPlayerAircraft = leader.get();
     mPlayerAircraft->setPosition(mSpawnPosition);
     mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
     mEntitySystem.addObject(std::move(leader));
     // mSceneLayer[Air]->attachChild(std::move(leader));
 
-    auto startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
 
-    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mEntitySystem, mTextures, Aircraft::Type::Raptor, startPosition, mWorldBounds);
-    //mSceneLayer[Air]->attachChild(mEnemyAircraftController);
-
-    for (const auto& aircraft : mEnemyAircraftController->getAircrafts()) {
-        mEntitySystem.addObject(aircraft);
-    }
-
-    mProjectileController = std::make_shared<ProjectileController>(mTextures, mWorldBounds);
-    mSceneLayer[Air]->attachChild(mProjectileController);
-
-    mProjectileCollisionController =
-        std::make_unique<ProjectileCollisionController>(mProjectileController, mEnemyAircraftController);
-
-
-    auto label(std::make_unique<GUI::Label>("hello world", mFonts));
+    /*auto label(std::make_unique<GUI::Label>("hello world", mFonts));
     const auto labelPtr = label.get();
-    labelPtr->setPosition(mSpawnPosition);
-    mSceneLayer[GUI]->attachChild(std::move(label));
+    labelPtr->setPosition(mSpawnPosition);*/
 }
 
 void World::update(sf::Time delta)
@@ -111,7 +103,7 @@ void World::update(sf::Time delta)
     }
 
     adaptPlayerVelocity();
-    mProjectileController->tick(delta, mPlayerAircraft->getPosition(), mScrollSpeed);
+    mProjectileController->tick(delta, mScrollSpeed);
     mEnemyAircraftController->tick(delta, mScrollSpeed);
     mProjectileCollisionController->tick(delta);
 
@@ -121,9 +113,11 @@ void World::update(sf::Time delta)
 
     mPlayerAircraft->update(delta);
 
-
-    mSceneGraph.update(delta);
     adaptPlayerPosition();
+}
+
+void World::lateUpdate(const sf::Time delta) {
+    mEntitySystem.lateUpdate(delta);
 }
 
 void World::adaptPlayerPosition() const

@@ -1,72 +1,74 @@
 #include "ProjectileController.h"
-#include "Category.h"
-#include "Logger.h"
+#include "EntitySystem.h"
 
-ProjectileController::ProjectileController(const TextureHolder& texture, const sf::FloatRect worldBounds)
+ProjectileController::ProjectileController(EntitySystem& entitySystem, const TextureHolder& texture, const sf::FloatRect worldBounds)
 : mProjectiles()
+, mEntitySystem(entitySystem)
 , mTexture(texture)
 , mWorldBounds(worldBounds)
-, mSpawnPosition()
 , mTimeSinceLastSpawn()
 , mPosition(Left)
 {
 
 }
 
-void ProjectileController::spawn(Projectile::Type type) {
+void ProjectileController::spawn(Projectile::Type type, const sf::Vector2f spawnPosition) {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        auto projectile = std::make_shared<Projectile>(type, mTexture);
-
-        mProjectiles.push_back(projectile.get());
+        const auto projectile = std::make_shared<Projectile>(type, mTexture);
 
         mPosition = mPosition == Left ? Right : Left;
+        const float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
+        const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - mYOffsetAmount);
+        projectile->setPosition(spawnPos);
 
-        float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
+        mProjectiles.push_back(projectile);
 
-        mSpawnPosition = sf::Vector2f(mSpawnPosition.x - xOffset, mSpawnPosition.y - mYOffsetAmount);
-
-        projectile->setPosition(mSpawnPosition);
-        attachChild(projectile);
+        mEntitySystem.addObject(projectile);
     }
 }
 
-void ProjectileController::tick(const sf::Time delta, const sf::Vector2f position, const float speed) {
+void ProjectileController::tick(const sf::Time delta, const float speed) {
     mTimeSinceLastSpawn += delta.asSeconds();
-    mSpawnPosition = position;
     accelerate(speed);
     checkBounds();
 }
 
 void ProjectileController::accelerate(float speed) const {
-    for (Projectile* projectile : mProjectiles) {
+    for (auto& projectile : mProjectiles) {
         projectile->accelerate(0.f, speed);
     }
 }
 
 void ProjectileController::checkBounds() {
-    for (const Projectile* projectile : mProjectiles) {
+
+    std::vector<std::shared_ptr<Projectile>> toDelete;
+
+    for (const auto& projectile : mProjectiles) {
         if (projectile->getPosition().y > mWorldBounds.height ||
             projectile->getPosition().y < 0) {
-            destroy(*projectile);
+            toDelete.push_back(projectile);
         }
+    }
+
+    for (auto& projectile : toDelete) {
+        destroy(projectile);
     }
 }
 
 
-unsigned int ProjectileController::getCategory() const {
-    return Category::PlayerProjectile;
-}
-
-std::vector<Projectile*> ProjectileController::getProjectiles() const {
+std::vector<std::shared_ptr<Projectile>>& ProjectileController::getProjectiles() {
     return mProjectiles;
 }
 
-void ProjectileController::destroy(const Projectile& projectile) {
-    auto it = std::find(mProjectiles.begin(), mProjectiles.end(), &projectile);
-    if (it != mProjectiles.end()) {
-        mProjectiles.erase(it);
-        detachChild(projectile);
+void ProjectileController::destroy(std::shared_ptr<Projectile>& projectile) {
+    auto found = std::find_if(mProjectiles.begin(), mProjectiles.end(),
+        [&](const std::shared_ptr<Projectile>& p) {
+           return p.get() == projectile.get();
+        });
+    if (found != mProjectiles.end()) {
+        mProjectiles.erase(found);
+        mEntitySystem.removeObject(projectile);
     }
 }

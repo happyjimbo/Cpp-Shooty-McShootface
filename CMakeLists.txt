@@ -23,13 +23,8 @@ add_executable(main src/main.cpp
         src/ResourceHolder.inl
         src/ResourceHolder.h
         src/ResourceIdentifiers.h
-        src/SceneNode.cpp
-        src/SceneNode.h
         src/SpriteNode.cpp
         src/SpriteNode.h
-        src/Entity.cpp
-        src/Entity.h
-        src/Entity.h
         src/Aircraft.cpp
         src/Aircraft.h
         src/Command.cpp

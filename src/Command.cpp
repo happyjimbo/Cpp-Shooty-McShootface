@@ -2,7 +2,7 @@
 #include "Category.h"
 
 Command::Command()
-: action()
+: entityAction()
 , category(Category::None)
 {
 

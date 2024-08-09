@@ -1,12 +1,12 @@
 #ifndef CMAKESFMLPROJECT_PROJECTILE_H
 #define CMAKESFMLPROJECT_PROJECTILE_H
 
-#include "Entity.h"
+#include "EntityObject.h"
 #include "ResourceIdentifiers.h"
 
 #include "SFML/Graphics/Sprite.hpp"
 
-class Projectile final : public Entity
+class Projectile final : public EntityObject
 {
     public:
         enum Type {
@@ -15,8 +15,9 @@ class Projectile final : public Entity
 
     public:
                             Projectile(Type type, const TextureHolder& textures);
+        void                update(sf::Time delta) override;
     private:
-        virtual void        drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+        void                draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
         sf::Sprite          mSprite;

@@ -7,12 +7,14 @@
 
 EnemyAircraftController::EnemyAircraftController(
     EntitySystem& entitySystem,
+    ProjectileController& projectileController,
     const TextureHolder& textures,
     const Aircraft::Type type,
     const sf::Vector2f position,
     const sf::FloatRect worldBounds)
 : mTexture(textures)
 , mEntitySystem(entitySystem)
+, mProjectileController(projectileController)
 , mAircraftType(type)
 , mWorldBounds(worldBounds)
 , mStartPosition(position)
@@ -33,7 +35,7 @@ void EnemyAircraftController::spawn() {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        const auto aircraft = std::make_shared<Aircraft>(mAircraftType, mTexture);
+        const auto aircraft = std::make_shared<Aircraft>(mProjectileController, mAircraftType, mTexture);
 
         const float x = getRandomFloat(0, mStartPosition.x);
         const auto startPosition = sf::Vector2f(x, mStartPosition.y);

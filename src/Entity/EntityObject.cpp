@@ -41,7 +41,7 @@ void EntityObject::drawEntity(sf::RenderTarget& target, sf::RenderStates states)
 }
 
 void EntityObject::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    states.transform *= getTransform();
+
 }
 
 unsigned int EntityObject::getCategory() const {
@@ -52,6 +52,7 @@ void EntityObject::onCommand(const Command& command, sf::Time dt)
 {
     if (command.category & getCategory())
     {
+        // need to check the triggerprojctile calls
         command.entityAction(*this, dt);
     }
 }

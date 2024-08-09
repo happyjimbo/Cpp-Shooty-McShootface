@@ -35,12 +35,18 @@ void Game::run()
         }
 
         render();
+        lateUpdate(TimePerFrame);
     }
 }
 
-void Game::update(sf::Time elapsedTime)
+void Game::update(const sf::Time elapsedTime)
 {
     mWorld.update(elapsedTime);
+}
+
+void Game::lateUpdate(const sf::Time elapsedTime)
+{
+    mWorld.lateUpdate(elapsedTime);
 }
 
 void Game::processInputs()
