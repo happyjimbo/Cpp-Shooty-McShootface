@@ -12,15 +12,15 @@ class EntityObject : public sf::Transformable, public sf::Drawable, private sf::
         void                    accelerate(float ux, float uy);
         sf::Vector2f            getVelocity() const;
 
+        void                    drawEntity(sf::RenderTarget& target, sf::RenderStates states) const;
 
         virtual unsigned int    getCategory() const;
         virtual void            update(sf::Time delta);
-        virtual void            drawEntity(sf::RenderTarget& target, sf::RenderStates states) const;
 
         void                    onCommand(const Command& command, sf::Time dt);
 
     private:
-        void                     draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+        void                    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     public:
         sf::Vector2f            mVelocity;

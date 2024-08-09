@@ -21,7 +21,6 @@ class Aircraft final : public EntityObject
 
     unsigned int	        getCategory() const override;
     void                    update(sf::Time delta) override;
-    void                    drawEntity(sf::RenderTarget& target, sf::RenderStates states) const override;
     void                    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:

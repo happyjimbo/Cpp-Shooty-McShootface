@@ -22,11 +22,6 @@ Aircraft::Aircraft(const Type type, const TextureHolder& textures)
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-void Aircraft::drawEntity(sf::RenderTarget& target, sf::RenderStates states) const
-{
-    draw(target, states);
-}
-
 void Aircraft::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
     target.draw(mSprite, states);

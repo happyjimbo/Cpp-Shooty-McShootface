@@ -37,7 +37,7 @@ void EntityObject::update(sf::Time delta)
 
 void EntityObject::drawEntity(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    // do nothing
+    draw(target, states);
 }
 
 void EntityObject::draw(sf::RenderTarget& target, sf::RenderStates states) const {
