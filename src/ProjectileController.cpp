@@ -31,13 +31,14 @@ void ProjectileController::spawn(Projectile::Type type, const sf::Vector2f spawn
 
 void ProjectileController::tick(const sf::Time delta, const float speed) {
     mTimeSinceLastSpawn += delta.asSeconds();
-    accelerate(speed);
+    accelerate(delta, speed);
     checkBounds();
 }
 
-void ProjectileController::accelerate(float speed) const {
+void ProjectileController::accelerate(const sf::Time delta, const float speed) const {
     for (auto& projectile : mProjectiles) {
         projectile->accelerate(0.f, speed);
+        projectile->update(delta);
     }
 }
 
@@ -69,6 +70,6 @@ void ProjectileController::destroy(std::shared_ptr<Projectile>& projectile) {
         });
     if (found != mProjectiles.end()) {
         mProjectiles.erase(found);
-        mEntitySystem.removeObject(projectile);
-    }
+         mEntitySystem.removeObject(projectile);
+       }
 }

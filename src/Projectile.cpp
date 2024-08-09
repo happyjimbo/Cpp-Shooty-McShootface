@@ -2,7 +2,7 @@
 #include "ResourceHolder.h"
 
 
-Textures::ID toTextureID(Projectile::Type type)
+Textures::ID toTextureID(const Projectile::Type type)
 {
     switch (type) {
         case Projectile::Player:

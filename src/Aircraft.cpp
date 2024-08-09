@@ -3,7 +3,7 @@
 #include "Category.h"
 #include "ProjectileController.h"
 
-Textures::ID toTextureID(Aircraft::Type type)
+Textures::ID toTextureID(const Aircraft::Type type)
 {
     switch (type) {
         case Aircraft::Eagle:
@@ -36,7 +36,7 @@ unsigned int Aircraft::getCategory() const
     }
 }
 
-void Aircraft::update(sf::Time delta)
+void Aircraft::update(const sf::Time delta)
 {
     move(mVelocity * delta.asSeconds());
 }

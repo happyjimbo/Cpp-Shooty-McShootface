@@ -23,7 +23,7 @@ class ProjectileController final {
         void                                        destroy(std::shared_ptr<Projectile>& projectile);
 
     private:
-        void accelerate(float speed) const;
+        void accelerate(sf::Time delta, float speed) const;
         void checkBounds();
 
     private:
