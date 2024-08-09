@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Command.h"
 #include "CommandQueue.h"
-#include "Aircraft.h"
+#include "Entity/AircraftEntity.h"
 #include "Category.h"
 #include "ProjectileController.h"
 
@@ -14,7 +14,7 @@ struct AircraftMover
     }
 
     // some magic in order to do a callback
-    void operator() (Aircraft& aircraft, sf::Time) const
+    void operator() (AircraftEntity& aircraft, sf::Time) const
     {
         aircraft.accelerate(velocity);
     }
@@ -98,12 +98,12 @@ void Player::initializeActions()
     constexpr float playerSpeed = 200.f;
     constexpr float horizontalSpeed = playerSpeed * 1.4f;
 
-    mActionBinding[MoveLeft].entityAction = derivedEntityAction<Aircraft>(AircraftMover(-horizontalSpeed, 0.f));
-    mActionBinding[MoveRight].entityAction = derivedEntityAction<Aircraft>(AircraftMover(+horizontalSpeed, 0.f));
-    mActionBinding[MoveUp].entityAction = derivedEntityAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
-    mActionBinding[MoveDown].entityAction = derivedEntityAction<Aircraft>(AircraftMover(0.f, +playerSpeed));
-    mActionBinding[Fire].entityAction = derivedEntityAction<Aircraft>([] (const Aircraft& b, sf::Time){
-        b.triggerProjectile(Projectile::Player);
+    mActionBinding[MoveLeft].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(-horizontalSpeed, 0.f));
+    mActionBinding[MoveRight].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(+horizontalSpeed, 0.f));
+    mActionBinding[MoveUp].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, -playerSpeed));
+    mActionBinding[MoveDown].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, +playerSpeed));
+    mActionBinding[Fire].entityAction = derivedEntityAction<AircraftEntity>([] (const AircraftEntity& b, sf::Time){
+        b.triggerProjectile(ProjectileEntity::Player);
     });
 }
 

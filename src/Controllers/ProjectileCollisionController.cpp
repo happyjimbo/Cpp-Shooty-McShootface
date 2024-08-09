@@ -1,5 +1,5 @@
 #include "ProjectileCollisionController.h"
-#include "Aircraft.h"
+#include "Entity/AircraftEntity.h"
 
 ProjectileCollisionController::ProjectileCollisionController(
     const std::shared_ptr<ProjectileController>& projectileController,
@@ -39,7 +39,7 @@ float ProjectileCollisionController::getSquareMagnitude(sf::Vector2f pos1, sf::V
     return (dx * dx) + (dy * dy);
 }
 
-void ProjectileCollisionController::collided(std::shared_ptr<Projectile>& projectile, std::shared_ptr<Aircraft>& aircraft) const {
+void ProjectileCollisionController::collided(std::shared_ptr<ProjectileEntity>& projectile, std::shared_ptr<AircraftEntity>& aircraft) const {
     mProjectileController->destroy(projectile);
     mEnemyAircraftController->destroy(aircraft);
 }

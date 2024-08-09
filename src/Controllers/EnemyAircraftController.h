@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Aircraft.h"
+#include "Entity/AircraftEntity.h"
 #include "ResourceIdentifiers.h"
 
 class EntitySystem;
@@ -15,7 +15,7 @@ class EnemyAircraftController final
             EntitySystem& entitySystem,
             ProjectileController& projectileController,
             const TextureHolder& textures,
-            Aircraft::Type type,
+            AircraftEntity::Type type,
             sf::Vector2f position,
             sf::FloatRect worldBounds
         );
@@ -23,8 +23,8 @@ class EnemyAircraftController final
     public:
 
         void                                            tick(const sf::Time&, float speed);
-        std::vector<std::shared_ptr<Aircraft>>&         getAircrafts();
-        void                                            destroy(std::shared_ptr<Aircraft>& aircraft);
+        std::vector<std::shared_ptr<AircraftEntity>>&         getAircrafts();
+        void                                            destroy(std::shared_ptr<AircraftEntity>& aircraft);
 
     private:
         void                            accelerate(float speed) const;
@@ -32,11 +32,11 @@ class EnemyAircraftController final
         void                            checkBounds();
 
     private:
-        std::vector<std::shared_ptr<Aircraft>>          mAircrafts;
+        std::vector<std::shared_ptr<AircraftEntity>>          mAircrafts;
         EntitySystem&                                   mEntitySystem;
         ProjectileController&                           mProjectileController;
         const TextureHolder&                            mTexture;
-        Aircraft::Type                                  mAircraftType;
+        AircraftEntity::Type                                  mAircraftType;
         float                                           mTimeSinceLastSpawn;
         sf::Vector2f                                    mStartPosition;
         sf::FloatRect                                   mWorldBounds;

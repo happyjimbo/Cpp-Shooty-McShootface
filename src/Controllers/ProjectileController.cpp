@@ -12,11 +12,11 @@ ProjectileController::ProjectileController(EntitySystem& entitySystem, const Tex
 
 }
 
-void ProjectileController::spawn(Projectile::Type type, const sf::Vector2f spawnPosition) {
+void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition) {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        const auto projectile = std::make_shared<Projectile>(type, mTexture);
+        const auto projectile = std::make_shared<ProjectileEntity>(type, mTexture);
 
         mPosition = mPosition == Left ? Right : Left;
         const float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
@@ -44,7 +44,7 @@ void ProjectileController::accelerate(const sf::Time delta, const float speed) c
 
 void ProjectileController::checkBounds() {
 
-    std::vector<std::shared_ptr<Projectile>> toDelete;
+    std::vector<std::shared_ptr<ProjectileEntity>> toDelete;
 
     for (const auto& projectile : mProjectiles) {
         if (projectile->getPosition().y > mWorldBounds.height ||
@@ -59,13 +59,13 @@ void ProjectileController::checkBounds() {
 }
 
 
-std::vector<std::shared_ptr<Projectile>>& ProjectileController::getProjectiles() {
+std::vector<std::shared_ptr<ProjectileEntity>>& ProjectileController::getProjectiles() {
     return mProjectiles;
 }
 
-void ProjectileController::destroy(std::shared_ptr<Projectile>& projectile) {
+void ProjectileController::destroy(std::shared_ptr<ProjectileEntity>& projectile) {
     auto found = std::find_if(mProjectiles.begin(), mProjectiles.end(),
-        [&](const std::shared_ptr<Projectile>& p) {
+        [&](const std::shared_ptr<ProjectileEntity>& p) {
            return p.get() == projectile.get();
         });
     if (found != mProjectiles.end()) {

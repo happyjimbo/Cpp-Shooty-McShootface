@@ -23,10 +23,10 @@ add_executable(main src/main.cpp
         src/ResourceHolder.inl
         src/ResourceHolder.h
         src/ResourceIdentifiers.h
-        src/SpriteEntity.cpp
-        src/SpriteEntity.h
-        src/Aircraft.cpp
-        src/Aircraft.h
+        src/Entity/SpriteEntity.cpp
+        src/Entity/SpriteEntity.h
+        src/Entity/AircraftEntity.cpp
+        src/Entity/AircraftEntity.h
         src/Command.cpp
         src/Command.h
         src/Category.h
@@ -34,16 +34,16 @@ add_executable(main src/main.cpp
         src/CommandQueue.h
         src/Player.cpp
         src/Player.h
-        src/Projectile.cpp
-        src/Projectile.h
-        src/ProjectileController.cpp
-        src/ProjectileController.h
-        src/EnemyAircraftController.cpp
-        src/EnemyAircraftController.h
+        src/Entity/ProjectileEntity.cpp
+        src/Entity/ProjectileEntity.h
+        src/Controllers/ProjectileController.cpp
+        src/Controllers/ProjectileController.h
+        src/Controllers/EnemyAircraftController.cpp
+        src/Controllers/EnemyAircraftController.h
         src/Random.h
         src/Random.h
-        src/ProjectileCollisionController.cpp
-        src/ProjectileCollisionController.h
+        src/Controllers/ProjectileCollisionController.cpp
+        src/Controllers/ProjectileCollisionController.h
         src/Gui/Label.cpp
         src/Gui/Label.h
         src/Entity/EntitySystem.cpp
@@ -58,6 +58,7 @@ target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/Gui
         ${CMAKE_SOURCE_DIR}/src/Entity
+        ${CMAKE_SOURCE_DIR}/src/Controllers
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)

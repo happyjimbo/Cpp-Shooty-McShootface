@@ -1,21 +1,21 @@
-#include "Aircraft.h"
-#include "ResourceHolder.h"
-#include "Category.h"
-#include "ProjectileController.h"
+#include <AircraftEntity.h>
+#include "../ResourceHolder.h"
+#include "../Category.h"
+#include <Controllers/ProjectileController.h>
 
-Textures::ID toTextureID(const Aircraft::Type type)
+Textures::ID toTextureID(const AircraftEntity::Type type)
 {
     switch (type) {
-        case Aircraft::Eagle:
+        case AircraftEntity::Eagle:
             return Textures::Eagle;
 
-        case Aircraft::Raptor:
+        case AircraftEntity::Raptor:
             return Textures::Raptor;
     }
     return Textures::Eagle;
 }
 
-Aircraft::Aircraft(ProjectileController& projectileController, const Type type, const TextureHolder& textures)
+AircraftEntity::AircraftEntity(ProjectileController& projectileController, const Type type, const TextureHolder& textures)
 : mprojectileController(projectileController)
 , mType(type)
 , mSprite(textures.get(toTextureID(type)))
@@ -24,7 +24,7 @@ Aircraft::Aircraft(ProjectileController& projectileController, const Type type, 
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-unsigned int Aircraft::getCategory() const
+unsigned int AircraftEntity::getCategory() const
 {
     switch (mType)
     {
@@ -36,18 +36,18 @@ unsigned int Aircraft::getCategory() const
     }
 }
 
-void Aircraft::update(const sf::Time delta)
+void AircraftEntity::update(const sf::Time delta)
 {
     move(mVelocity * delta.asSeconds());
 }
 
-void Aircraft::triggerProjectile(const Projectile::Type type) const
+void AircraftEntity::triggerProjectile(const ProjectileEntity::Type type) const
 {
     mprojectileController.spawn(type, getPosition());
 }
 
 
-void Aircraft::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void AircraftEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
     target.draw(mSprite, states);

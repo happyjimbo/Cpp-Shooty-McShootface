@@ -3,7 +3,7 @@
 
 #include "ResourceIdentifiers.h"
 #include "ResourceHolder.h"
-#include "Aircraft.h"
+#include "Entity/AircraftEntity.h"
 #include "CommandQueue.h"
 #include "ProjectileController.h"
 #include "EnemyAircraftController.h"
@@ -57,7 +57,7 @@ class World final {
         sf::FloatRect                       mWorldBounds;
         sf::Vector2f                        mSpawnPosition;
         float                               mScrollSpeed;
-        Aircraft*                           mPlayerAircraft;
+        AircraftEntity*                           mPlayerAircraft;
 
     private:
         std::shared_ptr<ProjectileController>               mProjectileController;

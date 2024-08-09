@@ -1,6 +1,6 @@
 #include "World.h"
 
-#include "SpriteEntity.h"
+#include "Entity/SpriteEntity.h"
 #include "EnemyAircraftController.h"
 #include "ProjectileCollisionController.h"
 #include <Gui/Label.h>
@@ -45,26 +45,19 @@ void World::loadTextures()
     mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
 }
 
-void World::loadFonts() {
+void World::loadFonts()
+{
     mFonts.load(Fonts::Main, "Media/Sansation.ttf");
 }
 
-void World::buildScene() {
-    /*for (std::size_t i = 0; i < LayerCount; i++)
-    {
-        auto layer(std::make_unique<SceneNode>());
-        mSceneLayer[i] = layer.get();
-
-        mSceneGraph.attachChild(std::move(layer));
-    }*/
-
-
+void World::buildScene()
+{
     const auto startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
 
     mProjectileController = std::make_shared<ProjectileController>(mEntitySystem, mTextures, mWorldBounds);
     ProjectileController& projectileControllerRef(*mProjectileController.get());
 
-    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mEntitySystem, projectileControllerRef, mTextures, Aircraft::Type::Raptor, startPosition, mWorldBounds);
+    mEnemyAircraftController = std::make_shared<EnemyAircraftController>(mEntitySystem, projectileControllerRef, mTextures, AircraftEntity::Type::Raptor, startPosition, mWorldBounds);
     mProjectileCollisionController = std::make_unique<ProjectileCollisionController>(mProjectileController, mEnemyAircraftController);
 
     // Prepare tiled background
@@ -75,20 +68,18 @@ void World::buildScene() {
     auto backgroundSprite(std::make_unique<SpriteEntity>(texture, textureRect));
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
     mEntitySystem.addObject(std::move(backgroundSprite));
-    //mSceneLayer[Background]->attachChild(std::move(backgroundSprite));
 
-    auto leader(std::make_unique<Aircraft>(projectileControllerRef, Aircraft::Eagle, mTextures));
+    auto leader(std::make_unique<AircraftEntity>(projectileControllerRef, AircraftEntity::Eagle, mTextures));
 
     mPlayerAircraft = leader.get();
     mPlayerAircraft->setPosition(mSpawnPosition);
     mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
     mEntitySystem.addObject(std::move(leader));
-    // mSceneLayer[Air]->attachChild(std::move(leader));
 
-
-    /*auto label(std::make_unique<GUI::Label>("hello world", mFonts));
+    auto label(std::make_unique<GUI::Label>("hello world", mFonts));
     const auto labelPtr = label.get();
-    labelPtr->setPosition(mSpawnPosition);*/
+    labelPtr->setPosition(mSpawnPosition);
+    mEntitySystem.addObject(std::move(label));
 }
 
 void World::update(sf::Time delta)

@@ -6,8 +6,8 @@
 #include "ProjectileController.h"
 #include "EnemyAircraftController.h"
 
-class Aircraft;
-class Projectile;
+class AircraftEntity;
+class ProjectileEntity;
 
 
 class ProjectileCollisionController {
@@ -19,7 +19,7 @@ class ProjectileCollisionController {
         void                tick(sf::Time delta) const;
 
     private:
-        void                collided(std::shared_ptr<Projectile>& projectile, std::shared_ptr<Aircraft>& aircraft) const;
+        void                collided(std::shared_ptr<ProjectileEntity>& projectile, std::shared_ptr<AircraftEntity>& aircraft) const;
         static float        getSquareMagnitude(sf::Vector2f projectilePos, sf::Vector2f aircraftPos);
 
     private:

@@ -9,7 +9,7 @@ EnemyAircraftController::EnemyAircraftController(
     EntitySystem& entitySystem,
     ProjectileController& projectileController,
     const TextureHolder& textures,
-    const Aircraft::Type type,
+    const AircraftEntity::Type type,
     const sf::Vector2f position,
     const sf::FloatRect worldBounds)
 : mTexture(textures)
@@ -35,7 +35,7 @@ void EnemyAircraftController::spawn() {
     if (mTimeSinceLastSpawn > 0.1f) {
         mTimeSinceLastSpawn = 0;
 
-        const auto aircraft = std::make_shared<Aircraft>(mProjectileController, mAircraftType, mTexture);
+        const auto aircraft = std::make_shared<AircraftEntity>(mProjectileController, mAircraftType, mTexture);
 
         const float x = getRandomFloat(0, mStartPosition.x);
         const auto startPosition = sf::Vector2f(x, mStartPosition.y);
@@ -51,7 +51,7 @@ void EnemyAircraftController::spawn() {
 
 void EnemyAircraftController::checkBounds() {
 
-    std::vector<std::shared_ptr<Aircraft>> toRemove;
+    std::vector<std::shared_ptr<AircraftEntity>> toRemove;
 
     for (auto& aircraft : mAircrafts) {
         if (aircraft->getPosition().y > mWorldBounds.height) {
@@ -71,13 +71,13 @@ void EnemyAircraftController::accelerate(float const speed) const {
     }
 }
 
-std::vector<std::shared_ptr<Aircraft>>& EnemyAircraftController::getAircrafts() {
+std::vector<std::shared_ptr<AircraftEntity>>& EnemyAircraftController::getAircrafts() {
     return mAircrafts;
 }
 
-void EnemyAircraftController::destroy(std::shared_ptr<Aircraft>& aircraft) {
+void EnemyAircraftController::destroy(std::shared_ptr<AircraftEntity>& aircraft) {
     auto found = std::find_if(mAircrafts.begin(), mAircrafts.end(),
-        [&](const std::shared_ptr<Aircraft>& a) {
+        [&](const std::shared_ptr<AircraftEntity>& a) {
         return a.get() == aircraft.get();
     });
     if (found != mAircrafts.end()) {

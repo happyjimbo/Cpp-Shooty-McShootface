@@ -2,11 +2,11 @@
 #define CMAKESFMLPROJECT_PROJECTILE_H
 
 #include "EntityObject.h"
-#include "ResourceIdentifiers.h"
+#include "../ResourceIdentifiers.h"
 
-#include "SFML/Graphics/Sprite.hpp"
+#include "../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics/Sprite.hpp"
 
-class Projectile final : public EntityObject
+class ProjectileEntity final : public EntityObject
 {
     public:
         enum Type {
@@ -14,7 +14,7 @@ class Projectile final : public EntityObject
         };
 
     public:
-                            Projectile(Type type, const TextureHolder& textures);
+                            ProjectileEntity(Type type, const TextureHolder& textures);
         void                update(sf::Time delta) override;
     private:
         void                draw(sf::RenderTarget& target, sf::RenderStates states) const override;

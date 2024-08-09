@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Projectile.h"
+#include "Entity/ProjectileEntity.h"
 
 class EntitySystem;
 
@@ -17,10 +17,10 @@ class ProjectileController final {
 
     public:
                                                     ProjectileController(EntitySystem& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds);
-        void                                        spawn(Projectile::Type type, sf::Vector2f spawnPosition);
+        void                                        spawn(ProjectileEntity::Type type, sf::Vector2f spawnPosition);
         void                                        tick(sf::Time delta, float speed);
-        std::vector<std::shared_ptr<Projectile>>&   getProjectiles();
-        void                                        destroy(std::shared_ptr<Projectile>& projectile);
+        std::vector<std::shared_ptr<ProjectileEntity>>&   getProjectiles();
+        void                                        destroy(std::shared_ptr<ProjectileEntity>& projectile);
 
     private:
         void accelerate(sf::Time delta, float speed) const;
@@ -28,7 +28,7 @@ class ProjectileController final {
 
     private:
         EntitySystem&                               mEntitySystem;
-        std::vector<std::shared_ptr<Projectile>>    mProjectiles;
+        std::vector<std::shared_ptr<ProjectileEntity>>    mProjectiles;
         const TextureHolder&                        mTexture;
         const sf::FloatRect                         mWorldBounds;
         float                                       mTimeSinceLastSpawn;

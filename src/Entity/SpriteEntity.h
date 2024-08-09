@@ -1,9 +1,9 @@
 #ifndef CMAKESFMLPROJECT_SPRITENODE_H
 #define CMAKESFMLPROJECT_SPRITENODE_H
 
-#include <Entity/EntityObject.h>
+#include <EntityObject.h>
 
-#include "SFML/Graphics/Sprite.hpp"
+#include "../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics/Sprite.hpp"
 
 class SpriteEntity final : public EntityObject
 {
