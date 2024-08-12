@@ -23,7 +23,7 @@ class World final {
         void                                update(sf::Time);
         void                                lateUpdate(sf::Time);
 
-        void                                draw() const;
+        void                                draw();
 
         CommandQueue&                       getCommandQueue();
 

@@ -18,7 +18,7 @@ class EntityObject : public sf::Transformable, public sf::Drawable, private sf::
         void                    accelerate(float ux, float uy);
         sf::Vector2f            getVelocity() const;
 
-        void                    drawEntity(sf::RenderTarget& target, sf::RenderStates states) const;
+        void                    drawEntity(sf::RenderTarget& target, const sf::RenderStates& states) const;
 
         virtual unsigned int    getCategory() const;
         virtual void            update(sf::Time delta);

@@ -16,7 +16,7 @@ Textures::ID toTextureID(const AircraftEntity::Type type)
 }
 
 AircraftEntity::AircraftEntity(ProjectileController& projectileController, const Type type, const TextureHolder& textures)
-: mprojectileController(projectileController)
+: mProjectileController(projectileController)
 , mType(type)
 , mSprite(textures.get(toTextureID(type)))
 {
@@ -43,7 +43,7 @@ void AircraftEntity::update(const sf::Time delta)
 
 void AircraftEntity::triggerProjectile(const ProjectileEntity::Type type) const
 {
-    mprojectileController.spawn(type, getPosition());
+    mProjectileController.spawn(type, getPosition());
 }
 
 

@@ -42,6 +42,7 @@ void EnemyAircraftController::spawn() {
         aircraft->setPosition(startPosition);
 
         aircraft->setRotation(180);
+        // aircraft->triggerProjectile(ProjectileEntity::Enemy);
 
         mAircrafts.push_back(aircraft);
 
@@ -77,12 +78,12 @@ std::vector<std::shared_ptr<AircraftEntity>>& EnemyAircraftController::getAircra
 
 void EnemyAircraftController::destroy(std::shared_ptr<AircraftEntity>& aircraft) {
     auto found = std::find_if(mAircrafts.begin(), mAircrafts.end(),
-        [&](const std::shared_ptr<AircraftEntity>& a) {
-        return a.get() == aircraft.get();
+        [&](const std::shared_ptr<AircraftEntity>& a)   {
+        return a == aircraft;
     });
     if (found != mAircrafts.end()) {
         mAircrafts.erase(found);
-        mEntitySystem.removeObject(aircraft);
+         mEntitySystem.removeObject(aircraft);
     }
 }
 

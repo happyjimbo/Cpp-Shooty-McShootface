@@ -1,5 +1,5 @@
 #include "ProjectileController.h"
-#include "EntitySystem.h"
+#include <EntitySystem.h>
 
 ProjectileController::ProjectileController(EntitySystem& entitySystem, const TextureHolder& texture, const sf::FloatRect worldBounds)
 : mProjectiles()
@@ -12,8 +12,10 @@ ProjectileController::ProjectileController(EntitySystem& entitySystem, const Tex
 
 }
 
-void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition) {
-    if (mTimeSinceLastSpawn > 0.1f) {
+void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition)
+{
+    if (mTimeSinceLastSpawn > 0.1f)
+    {
         mTimeSinceLastSpawn = 0;
 
         const auto projectile = std::make_shared<ProjectileEntity>(type, mTexture);
@@ -63,13 +65,13 @@ std::vector<std::shared_ptr<ProjectileEntity>>& ProjectileController::getProject
     return mProjectiles;
 }
 
-void ProjectileController::destroy(std::shared_ptr<ProjectileEntity>& projectile) {
+void ProjectileController::destroy(const std::shared_ptr<ProjectileEntity>& projectile) {
     auto found = std::find_if(mProjectiles.begin(), mProjectiles.end(),
         [&](const std::shared_ptr<ProjectileEntity>& p) {
-           return p.get() == projectile.get();
+           return p == projectile;
         });
     if (found != mProjectiles.end()) {
         mProjectiles.erase(found);
-         mEntitySystem.removeObject(projectile);
-       }
+        mEntitySystem.removeObject(projectile);
+    }
 }

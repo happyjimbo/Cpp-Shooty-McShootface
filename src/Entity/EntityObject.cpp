@@ -3,12 +3,12 @@
 #include "Category.h"
 
 
-void EntityObject::setVelocity(sf::Vector2f velocity)
+void EntityObject::setVelocity(const sf::Vector2f velocity)
 {
     mVelocity = velocity;
 }
 
-void EntityObject::setVelocity(float vx, float vy)
+void EntityObject::setVelocity(const float vx, const float vy)
 {
     mVelocity.x = vx;
     mVelocity.y = vy;
@@ -19,23 +19,23 @@ sf::Vector2f EntityObject::getVelocity() const
     return mVelocity;
 }
 
-void EntityObject::accelerate(sf::Vector2f velocity)
+void EntityObject::accelerate(const sf::Vector2f velocity)
 {
     mVelocity += velocity;
 }
 
-void EntityObject::accelerate(float ux, float uy)
+void EntityObject::accelerate(const float ux, const float uy)
 {
     mVelocity.x += ux;
     mVelocity.y += uy;
 }
 
-void EntityObject::update(sf::Time delta)
+void EntityObject::update(const sf::Time delta)
 {
     move(mVelocity * delta.asSeconds());
 }
 
-void EntityObject::drawEntity(sf::RenderTarget& target, sf::RenderStates states) const
+void EntityObject::drawEntity(sf::RenderTarget& target, const sf::RenderStates& states) const
 {
     draw(target, states);
 }
@@ -48,11 +48,7 @@ unsigned int EntityObject::getCategory() const {
     return Category::Scene;
 }
 
-void EntityObject::onCommand(const Command& command, sf::Time dt)
+void EntityObject::onCommand(const Command& command, const sf::Time dt)
 {
-    if (command.category & getCategory())
-    {
-        // need to check the triggerprojctile calls
-        command.entityAction(*this, dt);
-    }
+    command.entityAction(*this, dt);
 }

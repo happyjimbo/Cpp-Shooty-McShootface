@@ -20,7 +20,7 @@ class ProjectileCollisionController {
 
     private:
         void                collided(std::shared_ptr<ProjectileEntity>& projectile, std::shared_ptr<AircraftEntity>& aircraft) const;
-        static float        getSquareMagnitude(sf::Vector2f projectilePos, sf::Vector2f aircraftPos);
+        static float        getSquareMagnitude(sf::Vector2f pos1, sf::Vector2f pos2);
 
     private:
         const std::shared_ptr<ProjectileController> mProjectileController;

@@ -21,14 +21,16 @@ class EntitySystem {
 
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         void onCommand(const Command& command, sf::Time dt) const;
-        std::vector<std::shared_ptr<EntityObject>> getEntities() const;
+        std::vector<std::shared_ptr<EntityObject>>& getEntities();
 
     private:
+        void addMarkedEntities();
         void removeMarkedEntities();
-
 
     private:
         std::vector<std::shared_ptr<EntityObject>> mEntities;
+        std::vector<std::shared_ptr<EntityObject>> mEntitiesToAdd;
+
         std::unordered_set<EntityObject*> mEntitiesToRemove;
 };
 

@@ -23,11 +23,11 @@ World::World(sf::RenderWindow& window)
     mWorldView.setCenter(mSpawnPosition);
 }
 
-void World::draw() const
+void World::draw()
 {
     mWindow.setView(mWorldView);
 
-    for(const auto entity : mEntitySystem.getEntities()) {
+    for(auto entity : mEntitySystem.getEntities()) {
         mWindow.draw(*entity);
     }
 }
@@ -89,7 +89,6 @@ void World::update(sf::Time delta)
 
     while (!mCommandQueue.isEmpty())
     {
-        //mSceneGraph.onCommand(mCommandQueue.pop(), delta);
         mEntitySystem.onCommand(mCommandQueue.pop(), delta);
     }
 

@@ -1,5 +1,6 @@
 #include <EntitySystem.h>
 #include <EntityObject.h>
+#include "Command.h"
 
 void EntitySystem::update(const sf::Time dt) const
 {
@@ -10,10 +11,8 @@ void EntitySystem::update(const sf::Time dt) const
 }
 
 void EntitySystem::lateUpdate(const sf::Time) {
-    if (!mEntitiesToRemove.empty())
-    {
-        removeMarkedEntities();
-    }
+    removeMarkedEntities();
+    addMarkedEntities();
 }
 
 void EntitySystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -28,23 +27,30 @@ void EntitySystem::onCommand(const Command& command, const sf::Time dt) const
 {
     for (const auto& entity : mEntities)
     {
-        entity->onCommand(command, dt);
+        if (command.category & entity->getCategory()) {
+            entity->onCommand(command, dt);
+        }
     }
 }
 
-std::vector<std::shared_ptr<EntityObject>> EntitySystem::getEntities() const
+std::vector<std::shared_ptr<EntityObject>>& EntitySystem::getEntities()
 {
     return mEntities;
 }
 
+void EntitySystem::addMarkedEntities() {
+    for (auto& entity : mEntitiesToAdd) {
+        mEntities.emplace_back(std::move(entity));
+    }
+    mEntitiesToAdd.clear();
+}
+
 void EntitySystem::removeMarkedEntities()
 {
-    mEntities.erase(
-        std::remove_if(mEntities.begin(), mEntities.end(),
-                       [this](const std::shared_ptr<EntityObject>& entity) {
-                           return entity == nullptr || mEntitiesToRemove.count(entity.get()) > 0;
-                       }),
-        mEntities.end());
+    mEntities.erase( std::remove_if(mEntities.begin(), mEntities.end(),
+        [this](const std::shared_ptr<EntityObject>& entity) {
+            return entity == nullptr || mEntitiesToRemove.count(entity.get()) > 0;
+        }), mEntities.end());
 
     mEntitiesToRemove.clear();
 }

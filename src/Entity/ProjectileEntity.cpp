@@ -1,11 +1,16 @@
 #include "ProjectileEntity.h"
 #include "../ResourceHolder.h"
+#include "../Category.h"
 
 
 Textures::ID toTextureID(const ProjectileEntity::Type type)
 {
     switch (type) {
         case ProjectileEntity::Player:
+            return Textures::Bullet;
+
+        // TODO: change this
+        case ProjectileEntity::Enemy:
             return Textures::Bullet;
     }
 
@@ -14,6 +19,7 @@ Textures::ID toTextureID(const ProjectileEntity::Type type)
 
 ProjectileEntity::ProjectileEntity(const Type type, const TextureHolder &textures)
 : mSprite(textures.get(toTextureID(type)))
+, mType(type)
 {
     const sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
@@ -29,3 +35,21 @@ void ProjectileEntity::draw(sf::RenderTarget &target, sf::RenderStates states) c
     states.transform *= getTransform();
     target.draw(mSprite, states);
 }
+
+ProjectileEntity::Type ProjectileEntity::getType() const
+{
+    return mType;
+}
+
+unsigned int ProjectileEntity::getCategory() const
+{
+    switch (mType)
+    {
+        case Player:
+            return Category::PlayerProjectile;
+
+        default:
+            return Category::EnemyAircraft;
+    }
+}
+

@@ -23,7 +23,7 @@ class EnemyAircraftController final
     public:
 
         void                                            tick(const sf::Time&, float speed);
-        std::vector<std::shared_ptr<AircraftEntity>>&         getAircrafts();
+        std::vector<std::shared_ptr<AircraftEntity>>&   getAircrafts();
         void                                            destroy(std::shared_ptr<AircraftEntity>& aircraft);
 
     private:
@@ -32,11 +32,11 @@ class EnemyAircraftController final
         void                            checkBounds();
 
     private:
-        std::vector<std::shared_ptr<AircraftEntity>>          mAircrafts;
+        std::vector<std::shared_ptr<AircraftEntity>>    mAircrafts;
         EntitySystem&                                   mEntitySystem;
         ProjectileController&                           mProjectileController;
         const TextureHolder&                            mTexture;
-        AircraftEntity::Type                                  mAircraftType;
+        AircraftEntity::Type                            mAircraftType;
         float                                           mTimeSinceLastSpawn;
         sf::Vector2f                                    mStartPosition;
         sf::FloatRect                                   mWorldBounds;
