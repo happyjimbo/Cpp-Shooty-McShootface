@@ -19,7 +19,7 @@ void EntitySystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (const auto& entity : mEntities)
     {
-        entity->drawEntity(target, states);
+        entity->draw(target, states);
     }
 }
 
@@ -28,7 +28,7 @@ void EntitySystem::onCommand(const Command& command, const sf::Time dt) const
     for (const auto& entity : mEntities)
     {
         if (command.category & entity->getCategory()) {
-            entity->onCommand(command, dt);
+            command.entityAction(*entity, dt);
         }
     }
 }

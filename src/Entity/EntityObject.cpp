@@ -35,20 +35,12 @@ void EntityObject::update(const sf::Time delta)
     move(mVelocity * delta.asSeconds());
 }
 
-void EntityObject::drawEntity(sf::RenderTarget& target, const sf::RenderStates& states) const
+void EntityObject::draw(const sf::RenderTarget& target, const sf::RenderStates& states) const
 {
-    draw(target, states);
-}
-
-void EntityObject::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 }
 
-unsigned int EntityObject::getCategory() const {
+unsigned int EntityObject::getCategory() const
+{
     return Category::Scene;
-}
-
-void EntityObject::onCommand(const Command& command, const sf::Time dt)
-{
-    command.entityAction(*this, dt);
 }
