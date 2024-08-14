@@ -4,9 +4,8 @@
 #include <unordered_set>
 #include <vector>
 
-#include "Entity/ProjectileEntity.h"
-
-class EntitySystem;
+#include <Entity/ProjectileEntity.h>
+#include <Entity/EntitySystem.h>
 
 class ProjectileController final {
 
@@ -17,29 +16,28 @@ class ProjectileController final {
         };
 
     public:
-                                                            ProjectileController(EntitySystem& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds);
-        void                                                spawn(ProjectileEntity::Type type, sf::Vector2f spawnPosition);
-        void                                                tick(sf::Time delta, float speed);
-        std::vector<std::shared_ptr<ProjectileEntity>>&     getProjectiles();
-
-        void                                                removeMarkedProjectiles();
-        void                                                destroy(const std::shared_ptr<ProjectileEntity>& projectile);
-
+        ProjectileController(EntitySystem<ProjectileEntity>& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds);
+        void spawn(ProjectileEntity::Type type, sf::Vector2f spawnPosition);
+        void tick(sf::Time delta, float speed);
+        void removeEntity(ProjectileEntity* entity) const;
+        const std::vector<ProjectileEntity*>& getProjectiles() const;
 
     private:
-        void                                                accelerate(sf::Time delta, float speed) const;
-        void                                                checkBounds();
+        void accelerate(sf::Time delta, float speed) const;
+        void checkBounds() const;
 
     private:
-        EntitySystem&                                           mEntitySystem;
-        std::vector<std::shared_ptr<ProjectileEntity>>          mProjectiles;
-        std::unordered_set<ProjectileEntity*>                   mProjectilesToRemove;
-        const TextureHolder&                        mTexture;
-        const sf::FloatRect                         mWorldBounds;
-        float                                       mTimeSinceLastSpawn;
-        Position                                    mPosition;
-        const float                                 mXOffsetAmount = 15.f;
-        const float                                 mYOffsetAmount = 5.f;
+        const TextureHolder& mTexture;
+        const sf::FloatRect mWorldBounds;
+        float mTimeSinceLastSpawn;
+
+        Position mPosition;
+        const float mXOffsetAmount = 15.f;
+        const float  mYOffsetAmount = 5.f;
+
+
+        std::vector<ProjectileEntity*>  mEntities;
+        EntitySystem<ProjectileEntity>& mEntitySystem;
 };
 
 #endif // CMAKESFMLPROJECT_PROJECTILE_CONTROLLER_H

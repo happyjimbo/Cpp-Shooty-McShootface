@@ -9,6 +9,7 @@
 #include "EnemyAircraftController.h"
 #include "EntitySystem.h"
 #include "ProjectileCollisionController.h"
+#include "SpriteEntity.h"
 
 // forward declaration
 namespace sf
@@ -20,9 +21,10 @@ class World final {
 
     public:
         explicit                            World(sf::RenderWindow& window);
-        void                                update(sf::Time);
-        void                                lateUpdate(sf::Time);
+                                            ~World();
 
+    public:
+        void                                update(sf::Time);
         void                                draw();
 
         CommandQueue&                       getCommandQueue();
@@ -50,19 +52,24 @@ class World final {
         TextureHolder                       mTextures;
         FontHolder                          mFonts;
 
-        EntitySystem                       mEntitySystem;
+        EntitySystem<ProjectileEntity>      mProjectileEntitySystem;
+        EntitySystem<AircraftEntity>        mEnemyAircraftEntitySystem;
+        EntitySystem<AircraftEntity>        mPlayerAircraftEntitySystem;
+        EntitySystem<SpriteEntity>          mSpriteEntitySystem;
 
         CommandQueue                        mCommandQueue;
 
         sf::FloatRect                       mWorldBounds;
         sf::Vector2f                        mSpawnPosition;
         float                               mScrollSpeed;
-        AircraftEntity*                           mPlayerAircraft;
+
+
 
     private:
-        std::shared_ptr<ProjectileController>               mProjectileController;
-        std::shared_ptr<EnemyAircraftController>            mEnemyAircraftController;
-        std::unique_ptr<ProjectileCollisionController>      mProjectileCollisionController;
+        AircraftEntity*                     mPlayerAircraft;
+        ProjectileController*               mProjectileController;
+        EnemyAircraftController*            mEnemyAircraftController;
+        ProjectileCollisionController*      mProjectileCollisionController;
 };
 
 

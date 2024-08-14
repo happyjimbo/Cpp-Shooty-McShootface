@@ -1,18 +1,15 @@
 #ifndef CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H
 #define CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H
 
-#include <vector>
-
 #include "Entity/AircraftEntity.h"
 #include "ResourceIdentifiers.h"
-
-class EntitySystem;
+#include "EntitySystem.h"
 
 class EnemyAircraftController final
 {
     public:
         EnemyAircraftController(
-            EntitySystem& entitySystem,
+            EntitySystem<AircraftEntity>& entitySystem,
             ProjectileController& projectileController,
             const TextureHolder& textures,
             AircraftEntity::Type type,
@@ -21,25 +18,25 @@ class EnemyAircraftController final
         );
 
     public:
-
-        void                                            tick(const sf::Time&, float speed);
-        std::vector<std::shared_ptr<AircraftEntity>>&   getAircrafts();
-        void                                            destroy(std::shared_ptr<AircraftEntity>& aircraft);
-
-    private:
-        void                            accelerate(float speed) const;
-        void                            spawn();
-        void                            checkBounds();
+        void tick(const sf::Time&, float speed);
+        void removeEntity(AircraftEntity* entity) const;
+        const std::vector<AircraftEntity*>& getEntities() const;
 
     private:
-        std::vector<std::shared_ptr<AircraftEntity>>    mAircrafts;
-        EntitySystem&                                   mEntitySystem;
-        ProjectileController&                           mProjectileController;
-        const TextureHolder&                            mTexture;
-        AircraftEntity::Type                            mAircraftType;
-        float                                           mTimeSinceLastSpawn;
-        sf::Vector2f                                    mStartPosition;
-        sf::FloatRect                                   mWorldBounds;
+        void accelerate(float speed) const;
+        void spawn();
+        void checkBounds() const;
+
+    private:
+        ProjectileController& mProjectileController;
+        const TextureHolder& mTexture;
+        AircraftEntity::Type mAircraftType;
+        float mTimeSinceLastSpawn;
+        sf::Vector2f mStartPosition;
+        sf::FloatRect mWorldBounds;
+
+        std::vector<AircraftEntity*>  mEntities;
+        EntitySystem<AircraftEntity>& mEntitySystem;
 };
 
 #endif // CMAKESFMLPROJECT_ENEMY_AIRCRAFT_CONTROLLER_H

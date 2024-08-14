@@ -23,7 +23,7 @@ void Game::run()
 
     while (mWindow.isOpen())
     {
-        sf::Time elapsedTime = clock.restart();
+        const sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
 
         while (timeSinceLastUpdate > TimePerFrame)
@@ -32,21 +32,15 @@ void Game::run()
 
             processInputs();
             update(TimePerFrame);
-        }
 
-        render();
-        lateUpdate(TimePerFrame);
+            render();
+        }
     }
 }
 
 void Game::update(const sf::Time elapsedTime)
 {
     mWorld.update(elapsedTime);
-}
-
-void Game::lateUpdate(const sf::Time elapsedTime)
-{
-    mWorld.lateUpdate(elapsedTime);
 }
 
 void Game::processInputs()

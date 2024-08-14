@@ -8,30 +8,26 @@
 class EntityObject;
 struct Command;
 
+template<typename T>
 class EntitySystem {
     public:
-        template<typename PtrType, typename>
-        void addObject(PtrType&& entity);
 
-        template<typename PtrType, typename>
-        void removeObject(PtrType&& entity);
+        template <typename... Args>
+        T* createObject(Args&&... args);
 
-        void update(sf::Time dt) const;
-        void lateUpdate(sf::Time dt);
+        void removeObject(T* entity);
+        void update(sf::Time dt);
 
-        void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        // void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         void onCommand(const Command& command, sf::Time dt) const;
-        std::vector<std::shared_ptr<EntityObject>>& getEntities();
+        const std::vector<T*>& getEntities() const;
 
     private:
-        void addMarkedEntities();
-        void removeMarkedEntities();
-
-    private:
-        std::vector<std::shared_ptr<EntityObject>> mEntities;
-        std::vector<std::shared_ptr<EntityObject>> mEntitiesToAdd;
-
-        std::unordered_set<EntityObject*> mEntitiesToRemove;
+        // mEntites should probably be a list due to removing
+        // entities from any part of it
+        std::vector<T*> mEntities;
+        std::vector<T*> mEntitiesToAdd;
+        std::unordered_set<T*> mEntitiesToRemove;
 };
 
 #include "EntitySystem.inl"

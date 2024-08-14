@@ -8,7 +8,7 @@
 
 struct AircraftMover
 {
-    AircraftMover(float vx, float vy)
+    AircraftMover(const float vx, const float vy)
     : velocity(vx, vy)
     {
     }

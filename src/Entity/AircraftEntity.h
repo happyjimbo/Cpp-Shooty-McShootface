@@ -1,9 +1,6 @@
 #ifndef CMAKESFMLPROJECT_AIRCRAFT_H
 #define CMAKESFMLPROJECT_AIRCRAFT_H
 
-#include "../ResourceIdentifiers.h"
-#include <../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics/Sprite.hpp>
-
 #include "EntityObject.h"
 #include "ProjectileEntity.h"
 

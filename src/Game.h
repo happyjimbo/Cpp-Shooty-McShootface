@@ -9,13 +9,11 @@ class Game final : private sf::NonCopyable {
     public:
                                 Game();
         void                    run();
-        void                    draw();
 
     private:
         void                    processInputs();
         void                    render();
         void                    update(sf::Time);
-        void                    lateUpdate(sf::Time);
 
     private:
         static const sf::Time   TimePerFrame;

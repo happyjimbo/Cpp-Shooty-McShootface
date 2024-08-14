@@ -1,9 +1,10 @@
 #include "ProjectileCollisionController.h"
 #include "Entity/AircraftEntity.h"
+#include <iostream>
 
 ProjectileCollisionController::ProjectileCollisionController(
-    const std::shared_ptr<ProjectileController>& projectileController,
-    const std::shared_ptr<EnemyAircraftController>& enemyAircraftController)
+    ProjectileController& projectileController,
+    EnemyAircraftController& enemyAircraftController)
     : mProjectileController(projectileController)
     , mEnemyAircraftController(enemyAircraftController)
 {
@@ -12,8 +13,9 @@ ProjectileCollisionController::ProjectileCollisionController(
 
 void ProjectileCollisionController::tick(sf::Time delta) const {
 
-    const auto projectiles = mProjectileController->getProjectiles();
-    const auto aircrafts = mEnemyAircraftController->getAircrafts();
+    // cloning for saftey, needs improving
+    const auto projectiles = mProjectileController.getProjectiles();
+    const auto aircrafts = mEnemyAircraftController.getEntities();
 
     for(auto p : projectiles)
     {
@@ -42,7 +44,8 @@ float ProjectileCollisionController::getSquareMagnitude(const sf::Vector2f pos1,
     return (dx * dx) + (dy * dy);
 }
 
-void ProjectileCollisionController::collided(std::shared_ptr<ProjectileEntity>& projectile, std::shared_ptr<AircraftEntity>& aircraft) const {
-    mProjectileController->destroy(projectile);
-    mEnemyAircraftController->destroy(aircraft);
+void ProjectileCollisionController::collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const {
+    std::cerr << "ProjectileCollisionController proj: " << projectile << " air: " << aircraft << std::endl;
+    mProjectileController.removeEntity(projectile);
+    mEnemyAircraftController.removeEntity(aircraft);
 }

@@ -1,22 +1,51 @@
 #include <iostream>
-#include <Entity/EntitySystem.h>
+#include <EntitySystem.h>
+#include <EntityObject.h>
+#include "Command.h"
 
-template<typename PtrType>
-using EnabledIfSharedOrUniquePtr = std::enable_if_t<
-    std::is_convertible_v<PtrType, std::unique_ptr<EntityObject>> ||
-    std::is_convertible_v<PtrType, std::shared_ptr<EntityObject>>
->;
-
-template<typename PtrType, typename = EnabledIfSharedOrUniquePtr<PtrType>>
-void EntitySystem::addObject(PtrType&& entity)
+template <typename T>
+template <typename... Args>
+T* EntitySystem<T>::createObject(Args&&... args)
 {
-    // std::cerr << "add entity object: " << entity.get() << std::endl;
-    mEntitiesToAdd.push_back(std::forward<PtrType>(entity));
+    T* entity = new T(std::forward<Args>(args)...);
+    mEntities.push_back(entity);
+    return entity;
 }
 
-template<typename PtrType, typename = EnabledIfSharedOrUniquePtr<PtrType>>
-void EntitySystem::removeObject(PtrType&& entity)
+template <typename T>
+void EntitySystem<T>::removeObject(T* entity)
 {
-    // std::cerr << "remove entity object: " << entity.get() << std::endl;
-    mEntitiesToRemove.insert(entity.get());
+    std::cerr << "remove entity object: " << &entity << std::endl;
+    auto it = std::find(mEntities.begin(), mEntities.end(), entity);
+    if (it != mEntities.end()) {
+        delete *it;
+        mEntities.erase(it);
+    }
+}
+
+template <typename T>
+void EntitySystem<T>::update(const sf::Time dt)
+{
+    for (const auto& entity : mEntities)
+    {
+        entity->update(dt);
+    }
+}
+
+template <typename T>
+void EntitySystem<T>::onCommand(const Command& command, const sf::Time dt) const
+{
+    for (const auto& entity : mEntities)
+    {
+        auto cat = entity->getCategory();
+        if (entity != nullptr && command.category & cat) {
+            command.entityAction(*entity, dt);
+        }
+    }
+}
+
+template<typename T>
+const std::vector<T*>& EntitySystem<T>::getEntities() const
+{
+    return mEntities;
 }

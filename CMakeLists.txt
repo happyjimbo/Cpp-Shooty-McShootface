@@ -46,10 +46,10 @@ add_executable(main src/main.cpp
         src/Controllers/ProjectileCollisionController.h
         src/Gui/Label.cpp
         src/Gui/Label.h
-        src/Entity/EntitySystem.cpp
         src/Entity/EntitySystem.h
         src/Entity/EntityObject.cpp
         src/Entity/EntityObject.h
+        src/Entity/EntitySystem.inl
         src/Entity/EntitySystem.inl
 )
 

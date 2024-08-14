@@ -14,17 +14,17 @@ class ProjectileCollisionController {
 
     public:
                             ProjectileCollisionController(
-                                const std::shared_ptr<ProjectileController>&,
-                                const std::shared_ptr<EnemyAircraftController>&);
+                                ProjectileController&,
+                                EnemyAircraftController&);
         void                tick(sf::Time delta) const;
 
     private:
-        void                collided(std::shared_ptr<ProjectileEntity>& projectile, std::shared_ptr<AircraftEntity>& aircraft) const;
+        void                collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const;
         static float        getSquareMagnitude(sf::Vector2f pos1, sf::Vector2f pos2);
 
     private:
-        const std::shared_ptr<ProjectileController> mProjectileController;
-        const std::shared_ptr<EnemyAircraftController> mEnemyAircraftController;
+        ProjectileController& mProjectileController;
+        EnemyAircraftController& mEnemyAircraftController;
 };
 
 #endif //CMAKESFMLPROJECT_PROJECTILE_COLLISION_CONTROLLER_H
