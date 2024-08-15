@@ -1,9 +1,8 @@
 #include "Label.h"
+#include "../ResourceHolder.h"
 
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-
-#include "../ResourceHolder.h"
 
 namespace GUI
 {
@@ -19,5 +18,9 @@ namespace GUI
 
     void Label::setText(const std::string& text) {
         mText.setString(text);
+    }
+
+    void Label::update(sf::Time delta) {
+        // do nothing
     }
 }

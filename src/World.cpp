@@ -43,6 +43,10 @@ void World::draw()
         mWindow.draw(*entity);
     }
 
+    for(const auto* entity : mLabelEntitySystem.getEntities()) {
+        mWindow.draw(*entity);
+    }
+
 }
 
 CommandQueue& World::getCommandQueue()
@@ -82,10 +86,8 @@ void World::buildScene()
     mPlayerAircraft = mPlayerAircraftEntitySystem.createObject(*mProjectileController, AircraftEntity::Eagle, mTextures);
     mPlayerAircraft->setPosition(mSpawnPosition);
 
-    /*const auto label(std::make_unique<GUI::Label>("hello world", mFonts));
-    const auto labelPtr = label.get();
-    labelPtr->setPosition(mSpawnPosition);
-    mEntitySystem.addObject(*label.get());*/
+    auto* lable = mLabelEntitySystem.createObject("Hello World", mFonts);
+    lable->setPosition(mSpawnPosition);
 }
 
 void World::update(const sf::Time delta)
@@ -106,6 +108,7 @@ void World::update(const sf::Time delta)
     mProjectileEntitySystem.update(delta);
     mPlayerAircraftEntitySystem.update(delta);
     mEnemyAircraftEntitySystem.update(delta);
+    mLabelEntitySystem.update(delta);
 
     adaptPlayerPosition();
 }

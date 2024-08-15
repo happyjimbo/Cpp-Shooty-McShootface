@@ -15,6 +15,7 @@ namespace GUI
                     Label(const std::string& text, const FontHolder& fonts);
             void    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
             void    setText(const std::string& string);
+            void    update(sf::Time delta) override;
 
         private:
             sf::Text            mText;

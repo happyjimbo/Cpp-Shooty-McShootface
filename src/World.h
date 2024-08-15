@@ -8,6 +8,7 @@
 #include "ProjectileController.h"
 #include "EnemyAircraftController.h"
 #include "EntitySystem.h"
+#include "Label.h"
 #include "ProjectileCollisionController.h"
 #include "SpriteEntity.h"
 
@@ -56,6 +57,7 @@ class World final {
         EntitySystem<AircraftEntity>        mEnemyAircraftEntitySystem;
         EntitySystem<AircraftEntity>        mPlayerAircraftEntitySystem;
         EntitySystem<SpriteEntity>          mSpriteEntitySystem;
+        EntitySystem<GUI::Label>            mLabelEntitySystem;
 
         CommandQueue                        mCommandQueue;
 
