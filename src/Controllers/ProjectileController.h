@@ -9,15 +9,9 @@
 
 class ProjectileController final {
 
-    private:
-        enum Position {
-            Left,
-            Right
-        };
-
     public:
         ProjectileController(EntitySystem<ProjectileEntity>& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds);
-        void spawn(ProjectileEntity::Type type, sf::Vector2f spawnPosition);
+        void spawn(ProjectileEntity::Type type, sf::Vector2f spawnPosition) const;
         void tick(sf::Time delta, float speed);
         void removeEntity(ProjectileEntity* entity) const;
         const std::vector<ProjectileEntity*>& getProjectiles() const;
@@ -31,12 +25,9 @@ class ProjectileController final {
         const sf::FloatRect mWorldBounds;
         float mTimeSinceLastSpawn;
 
-        Position mPosition;
-        const float mXOffsetAmount = 15.f;
-        const float  mYOffsetAmount = 5.f;
+        static constexpr float mSpeed = 1000.f;
 
 
-        std::vector<ProjectileEntity*>  mEntities;
         EntitySystem<ProjectileEntity>& mEntitySystem;
 };
 

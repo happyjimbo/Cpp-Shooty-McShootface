@@ -1,7 +1,7 @@
 #include "EnemyAircraftController.h"
 #include "Random.h"
 
-EnemyAircraftController::EnemyAircraftController(
+EnemyAircraftController::EnemyAircraftController (
     EntitySystem<AircraftEntity>& entitySystem,
     ProjectileController& projectileController,
     const TextureHolder& textures,
@@ -25,8 +25,9 @@ void EnemyAircraftController::tick(const sf::Time& delta, const float speed) {
     spawn();
     checkBounds();
 
-    for (const auto& aircraft : mEntities) {
+    for (const auto& aircraft : mEntitySystem.getEntities()) {
         aircraft->update(delta);
+        aircraft->triggerProjectile(ProjectileEntity::Enemy);
     }
 }
 
@@ -41,13 +42,11 @@ void EnemyAircraftController::spawn() {
         const auto startPosition = sf::Vector2f(x, mStartPosition.y);
         aircraft->setPosition(startPosition);
         aircraft->setRotation(180);
-        aircraft->setVelocity(0, 100.f); // remove hardcode 100
-        // aircraft->triggerProjectile(ProjectileEntity::Enemy);
     }
 }
 
 void EnemyAircraftController::checkBounds() const {
-    for (auto* aircraft : mEntities) {
+    for (auto* aircraft : mEntitySystem.getEntities()) {
         if (aircraft->getPosition().y > mWorldBounds.height) {
             removeEntity(aircraft);
         }
@@ -55,7 +54,7 @@ void EnemyAircraftController::checkBounds() const {
 }
 
 void EnemyAircraftController::accelerate(float const speed) const {
-    for (const auto& aircraft : mEntities) {
+    for (const auto& aircraft : mEntitySystem.getEntities()) {
         aircraft->accelerate(0.f, -speed);
     }
 }

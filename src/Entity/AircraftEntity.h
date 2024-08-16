@@ -8,6 +8,13 @@ class ProjectileController;
 
 class AircraftEntity final : public EntityObject
 {
+
+    private:
+        enum Position {
+            Left,
+            Right
+        };
+
     public:
         enum Type {
             Eagle,
@@ -26,6 +33,12 @@ class AircraftEntity final : public EntityObject
         Type                        mType;
         sf::Sprite                  mSprite;
         ProjectileController&       mProjectileController;
+
+        static constexpr float mXOffsetAmount = 15.f;
+        static constexpr float mYOffsetAmount = 5.f;
+
+        mutable Position mPosition = Left;
+        mutable float mTimeSinceLastProjectileSpawn = 0;
 
 };
 

@@ -38,14 +38,23 @@ unsigned int AircraftEntity::getCategory() const
 
 void AircraftEntity::update(const sf::Time delta)
 {
+    mTimeSinceLastProjectileSpawn += delta.asSeconds();
     move(mVelocity * delta.asSeconds());
 }
 
 void AircraftEntity::triggerProjectile(const ProjectileEntity::Type type) const
 {
-    mProjectileController.spawn(type, getPosition());
-}
+    if (mTimeSinceLastProjectileSpawn > 0.1f) {
+        mTimeSinceLastProjectileSpawn = 0;
 
+        const sf::Vector2f spawnPosition = getPosition();
+        mPosition = mPosition == Left ? Right : Left;
+        const float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
+        const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - mYOffsetAmount);
+
+        mProjectileController.spawn(type, spawnPos);
+    }
+}
 
 void AircraftEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {

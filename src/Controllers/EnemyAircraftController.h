@@ -34,8 +34,6 @@ class EnemyAircraftController final
         float mTimeSinceLastSpawn;
         sf::Vector2f mStartPosition;
         sf::FloatRect mWorldBounds;
-
-        std::vector<AircraftEntity*>  mEntities;
         EntitySystem<AircraftEntity>& mEntitySystem;
 };
 

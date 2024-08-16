@@ -5,25 +5,17 @@ ProjectileController::ProjectileController(EntitySystem<ProjectileEntity>& entit
 , mTexture(texture)
 , mWorldBounds(worldBounds)
 , mTimeSinceLastSpawn()
-, mPosition(Left)
 {
 
 }
 
-void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition)
+void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition) const
 {
-    if (mTimeSinceLastSpawn > 0.1f)
-    {
-        mTimeSinceLastSpawn = 0;
+    auto* projectile = mEntitySystem.createObject(type, mTexture);
+    projectile->setPosition(spawnPosition);
 
-        auto* projectile = mEntitySystem.createObject(type, mTexture);
-
-        mPosition = mPosition == Left ? Right : Left;
-        const float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
-        const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - mYOffsetAmount);
-        projectile->setPosition(spawnPos);
-        projectile->setVelocity(0, -1000.f); // remove hardcode -100
-    }
+    const float speed = type == ProjectileEntity::Type::Player ? -mSpeed : mSpeed;
+    projectile->setVelocity(0, speed);
 }
 
 void ProjectileController::tick(const sf::Time delta, const float speed) {
@@ -33,14 +25,14 @@ void ProjectileController::tick(const sf::Time delta, const float speed) {
 }
 
 void ProjectileController::accelerate(const sf::Time delta, const float speed) const {
-    for (auto& projectile : mEntities) {
-        projectile->accelerate(0.f, speed);
+    for (auto& projectile : mEntitySystem.getEntities()) {
+        // projectile->accelerate(0.f, speed);
         projectile->update(delta);
     }
 }
 
 void ProjectileController::checkBounds() const {
-    for (auto* projectile : mEntities) {
+    for (auto& projectile : mEntitySystem.getEntities()) {
         if (projectile->getPosition().y > mWorldBounds.height ||
             projectile->getPosition().y < 0) {
             removeEntity(projectile);
