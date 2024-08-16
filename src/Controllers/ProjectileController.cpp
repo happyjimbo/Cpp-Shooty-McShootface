@@ -26,7 +26,6 @@ void ProjectileController::tick(const sf::Time delta, const float speed) {
 
 void ProjectileController::accelerate(const sf::Time delta, const float speed) const {
     for (auto& projectile : mEntitySystem.getEntities()) {
-        // projectile->accelerate(0.f, speed);
         projectile->update(delta);
     }
 }

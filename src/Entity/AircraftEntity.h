@@ -26,7 +26,7 @@ class AircraftEntity final : public EntityObject
     unsigned int	        getCategory() const override;
     void                    update(sf::Time delta) override;
     void                    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-    void                    triggerProjectile(ProjectileEntity::Type type) const;
+    void                    triggerProjectile(ProjectileEntity::Type type);
     void                    hit();
 
     private:
@@ -37,8 +37,8 @@ class AircraftEntity final : public EntityObject
         static constexpr float mXOffsetAmount = 15.f;
         static constexpr float mYOffsetAmount = 5.f;
 
-        mutable Position mPosition = Left;
-        mutable float mTimeSinceLastProjectileSpawn = 0;
+        Position mPosition = Left;
+        float mTimeSinceLastProjectileSpawn = 0;
 
 };
 

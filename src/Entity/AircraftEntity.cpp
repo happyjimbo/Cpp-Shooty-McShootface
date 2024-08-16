@@ -42,7 +42,7 @@ void AircraftEntity::update(const sf::Time delta)
     move(mVelocity * delta.asSeconds());
 }
 
-void AircraftEntity::triggerProjectile(const ProjectileEntity::Type type) const
+void AircraftEntity::triggerProjectile(const ProjectileEntity::Type type)
 {
     if (mTimeSinceLastProjectileSpawn > 0.1f) {
         mTimeSinceLastProjectileSpawn = 0;

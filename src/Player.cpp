@@ -102,7 +102,7 @@ void Player::initializeActions()
     mActionBinding[MoveRight].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(+horizontalSpeed, 0.f));
     mActionBinding[MoveUp].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, -playerSpeed));
     mActionBinding[MoveDown].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, +playerSpeed));
-    mActionBinding[Fire].entityAction = derivedEntityAction<AircraftEntity>([] (const AircraftEntity& b, sf::Time){
+    mActionBinding[Fire].entityAction = derivedEntityAction<AircraftEntity>([] (AircraftEntity& b, sf::Time){
         b.triggerProjectile(ProjectileEntity::Player);
     });
 }
