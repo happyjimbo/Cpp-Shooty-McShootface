@@ -3,10 +3,12 @@
 #include <iostream>
 
 ProjectileCollisionController::ProjectileCollisionController(
-    ProjectileController& projectileController,
-    EnemyAircraftController& enemyAircraftController)
-    : mProjectileController(projectileController)
-    , mEnemyAircraftController(enemyAircraftController)
+    EntitySystem<ProjectileEntity>& projectileEntites,
+    EntitySystem<AircraftEntity>& enemyAircraftEntities,
+    EntitySystem<AircraftEntity>& playerAircraftEntities)
+: mProjectileEntites(projectileEntites)
+, mEnemyAircraftEntities(enemyAircraftEntities)
+, mPlayerAircraftEntities(playerAircraftEntities)
 {
 
 }
@@ -14,12 +16,12 @@ ProjectileCollisionController::ProjectileCollisionController(
 void ProjectileCollisionController::tick(sf::Time delta) const {
 
     // cloning for saftey, needs improving
-    const auto projectiles = mProjectileController.getProjectiles();
-    const auto aircrafts = mEnemyAircraftController.getEntities();
+    const auto projectiles = mProjectileEntites.getEntities();
+    const auto enemyAircraft = mEnemyAircraftEntities.getEntities();
 
     for(auto p : projectiles)
     {
-        for(auto a : aircrafts)
+        for(auto a : enemyAircraft)
         {
             const auto projectilePos = p->getPosition();
             const auto aircraftPos = a->getPosition();
@@ -46,6 +48,6 @@ float ProjectileCollisionController::getSquareMagnitude(const sf::Vector2f pos1,
 
 void ProjectileCollisionController::collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const {
     std::cerr << "ProjectileCollisionController proj: " << projectile << " air: " << aircraft << std::endl;
-    mProjectileController.removeEntity(projectile);
-    mEnemyAircraftController.removeEntity(aircraft);
+    mProjectileEntites.removeObject(projectile);
+    mEnemyAircraftEntities.removeObject(aircraft);
 }

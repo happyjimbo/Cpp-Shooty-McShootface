@@ -4,7 +4,6 @@ ProjectileController::ProjectileController(EntitySystem<ProjectileEntity>& entit
 : mEntitySystem(entitySystem)
 , mTexture(texture)
 , mWorldBounds(worldBounds)
-, mTimeSinceLastSpawn()
 {
 
 }

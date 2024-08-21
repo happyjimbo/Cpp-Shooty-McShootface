@@ -14,7 +14,6 @@ EnemyAircraftController::EnemyAircraftController (
       , mAircraftType(type)
       , mStartPosition(position)
       , mWorldBounds(worldBounds)
-      , mTimeSinceLastSpawn()
 {
 
 }

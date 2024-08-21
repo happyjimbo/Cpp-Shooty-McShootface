@@ -23,7 +23,7 @@ class ProjectileController final {
     private:
         const TextureHolder& mTexture;
         const sf::FloatRect mWorldBounds;
-        float mTimeSinceLastSpawn;
+        float mTimeSinceLastSpawn {};
 
         static constexpr float mSpeed = 1000.f;
 

@@ -73,7 +73,7 @@ void World::buildScene()
 
     mProjectileController = new ProjectileController(mProjectileEntitySystem, mTextures, mWorldBounds);
     mEnemyAircraftController = new EnemyAircraftController(mEnemyAircraftEntitySystem, *mProjectileController, mTextures, AircraftEntity::Type::Raptor, startPosition, mWorldBounds);
-    mProjectileCollisionController = new ProjectileCollisionController(*mProjectileController, *  mEnemyAircraftController);
+    mProjectileCollisionController = new ProjectileCollisionController(mProjectileEntitySystem, mEnemyAircraftEntitySystem, mPlayerAircraftEntitySystem);
 
     // Prepare tiled background
     sf::Texture& texture = mTextures.get(Textures::Desert);

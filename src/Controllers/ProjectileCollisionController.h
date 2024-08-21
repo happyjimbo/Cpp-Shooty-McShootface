@@ -14,8 +14,9 @@ class ProjectileCollisionController {
 
     public:
                             ProjectileCollisionController(
-                                ProjectileController&,
-                                EnemyAircraftController&);
+                                EntitySystem<ProjectileEntity>& projectileEntites,
+                                EntitySystem<AircraftEntity>& enemyAircraftEntities,
+                                EntitySystem<AircraftEntity>& playerAircraftEntities);
         void                tick(sf::Time delta) const;
 
     private:
@@ -23,8 +24,9 @@ class ProjectileCollisionController {
         static float        getSquareMagnitude(sf::Vector2f pos1, sf::Vector2f pos2);
 
     private:
-        ProjectileController& mProjectileController;
-        EnemyAircraftController& mEnemyAircraftController;
+        EntitySystem<ProjectileEntity>& mProjectileEntites;
+        EntitySystem<AircraftEntity>& mEnemyAircraftEntities;
+        EntitySystem<AircraftEntity>& mPlayerAircraftEntities;
 };
 
 #endif //CMAKESFMLPROJECT_PROJECTILE_COLLISION_CONTROLLER_H

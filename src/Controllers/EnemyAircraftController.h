@@ -31,7 +31,7 @@ class EnemyAircraftController final
         ProjectileController& mProjectileController;
         const TextureHolder& mTexture;
         AircraftEntity::Type mAircraftType;
-        float mTimeSinceLastSpawn;
+        float mTimeSinceLastSpawn {};
         sf::Vector2f mStartPosition;
         sf::FloatRect mWorldBounds;
         EntitySystem<AircraftEntity>& mEntitySystem;
