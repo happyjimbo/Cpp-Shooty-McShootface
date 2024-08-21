@@ -1,5 +1,7 @@
 #include "SpriteEntity.h"
 
+#include "SFML/Graphics/RenderTarget.hpp"
+
 SpriteEntity::SpriteEntity(const sf::Texture& texture)
 : mSprite(texture)
 {

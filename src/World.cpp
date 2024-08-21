@@ -2,6 +2,7 @@
 
 #include "Entity/SpriteEntity.h"
 #include "EnemyAircraftController.h"
+#include "ProjectileController.h"
 #include "ProjectileCollisionController.h"
 #include <Gui/Label.h>
 

@@ -1,6 +1,8 @@
 #include "ProjectileEntity.h"
 #include "../ResourceHolder.h"
 #include "../Category.h"
+#include "SFML/Graphics/RenderTarget.hpp"
+#include "SFML/System/Time.hpp"
 
 
 Textures::ID toTextureID(const ProjectileEntity::Type type)

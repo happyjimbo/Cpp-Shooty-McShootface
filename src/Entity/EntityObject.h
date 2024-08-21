@@ -1,13 +1,16 @@
 #pragma once
 
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/System/NonCopyable.hpp>
-#include <SFML/System/Time.hpp>
 
 struct Command;
+
+namespace sf {
+    class RenderTarget;
+    class RenderStates;
+    class Time;
+}
 
 class EntityObject : public sf::Transformable, public sf::Drawable, private sf::NonCopyable
 {

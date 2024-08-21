@@ -1,5 +1,4 @@
 #include "EnemyAircraftController.h"
-#include "Random.h"
 
 EnemyAircraftController::EnemyAircraftController (
     EntitySystem<AircraftEntity>& entitySystem,

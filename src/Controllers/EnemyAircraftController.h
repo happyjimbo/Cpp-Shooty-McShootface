@@ -16,7 +16,6 @@ public:
         sf::FloatRect worldBounds
     );
 
-public:
     void tick(const sf::Time&, float speed);
     void removeEntity(AircraftEntity* entity) const;
     const std::vector<AircraftEntity*>& getEntities() const;
@@ -26,7 +25,6 @@ private:
     void spawn();
     void checkBounds() const;
 
-private:
     ProjectileController& mProjectileController;
     const TextureHolder& mTexture;
     AircraftEntity::Type mAircraftType;

@@ -1,21 +1,25 @@
 #pragma once
 
-#include "ResourceIdentifiers.h"
-#include "ResourceHolder.h"
-#include "Entity/AircraftEntity.h"
 #include "CommandQueue.h"
-#include "ProjectileController.h"
-#include "EnemyAircraftController.h"
 #include "EntitySystem.h"
-#include "Label.h"
-#include "ProjectileCollisionController.h"
-#include "SpriteEntity.h"
+#include "ResourceHolder.h"
+#include "ResourceIdentifiers.h"
 
-// forward declaration
 namespace sf
 {
     class RenderWindow;
 }
+
+namespace GUI {
+    class Label;
+}
+
+class ProjectileEntity;
+class AircraftEntity;
+class SpriteEntity;
+class ProjectileController;
+class EnemyAircraftController;
+class ProjectileCollisionController;
 
 class World final {
 
@@ -23,21 +27,12 @@ public:
     explicit World(sf::RenderWindow& window);
     ~World();
 
-public:
     void update(sf::Time);
     void draw();
-
     CommandQueue& getCommandQueue();
 
-
 private:
-    void loadTextures();
-    void loadFonts();
-    void buildScene();
-    void adaptPlayerPosition() const;
-    void adaptPlayerVelocity() const;
 
-private:
     enum Layer {
         Background,
         Air,
@@ -46,7 +41,13 @@ private:
         LayerCount
     };
 
-private:
+
+    void loadTextures();
+    void loadFonts();
+    void buildScene();
+    void adaptPlayerPosition() const;
+    void adaptPlayerVelocity() const;
+
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
     TextureHolder mTextures;
@@ -64,9 +65,6 @@ private:
     sf::Vector2f mSpawnPosition;
     float mScrollSpeed;
 
-
-
-private:
     AircraftEntity* mPlayerAircraft;
     ProjectileController* mProjectileController;
     EnemyAircraftController* mEnemyAircraftController;

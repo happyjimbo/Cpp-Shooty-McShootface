@@ -3,6 +3,11 @@
 #include <EntityObject.h>
 #include "SFML/Graphics/Sprite.hpp"
 
+namespace sf {
+    class RenderTarget;
+    class RenderStates;
+}
+
 class SpriteEntity final : public EntityObject
 {
 public:
