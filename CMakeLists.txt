@@ -40,8 +40,6 @@ add_executable(main src/main.cpp
         src/Controllers/ProjectileController.h
         src/Controllers/EnemyAircraftController.cpp
         src/Controllers/EnemyAircraftController.h
-        src/Random.h
-        src/Random.h
         src/Controllers/ProjectileCollisionController.cpp
         src/Controllers/ProjectileCollisionController.h
         src/Gui/Label.cpp

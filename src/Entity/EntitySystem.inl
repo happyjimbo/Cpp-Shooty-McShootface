@@ -15,7 +15,6 @@ T* EntitySystem<T>::createObject(Args&&... args)
 template <typename T>
 void EntitySystem<T>::removeObject(T* entity)
 {
-    std::cerr << "remove entity object: " << &entity << std::endl;
     auto it = std::find(mEntities.begin(), mEntities.end(), entity);
     if (it != mEntities.end()) {
         delete *it;

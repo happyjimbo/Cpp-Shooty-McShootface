@@ -36,7 +36,7 @@ void EnemyAircraftController::spawn() {
 
         auto* aircraft = mEntitySystem.createObject(mProjectileController, mAircraftType, mTexture);
 
-        const float x = getRandomFloat(0, mStartPosition.x);
+        const int x = rand() % static_cast<int>(mStartPosition.x);
 
         const auto startPosition = sf::Vector2f(x, mStartPosition.y);
         aircraft->setPosition(startPosition);

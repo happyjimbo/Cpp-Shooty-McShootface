@@ -1,5 +1,4 @@
-#ifndef CMAKESFMLPROJECT_ENTTY_SYSTEM_H
-#define CMAKESFMLPROJECT_ENTTY_SYSTEM_H
+#pragma once
 
 #include <unordered_set>
 #include <vector>
@@ -31,5 +30,3 @@ class EntitySystem {
 };
 
 #include "EntitySystem.inl"
-
-#endif // CMAKESFMLPROJECT_ENTTY_SYSTEM_H

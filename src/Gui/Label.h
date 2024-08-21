@@ -1,6 +1,4 @@
-#ifndef CMAKESFMLPROJECT_LABEL_H
-#define CMAKESFMLPROJECT_LABEL_H
-
+#pragma once
 
 #include "EntityObject.h"
 #include "../ResourceIdentifiers.h"
@@ -21,6 +19,3 @@ namespace GUI
             sf::Text            mText;
     };
 }
-
-
-#endif // CMAKESFMLPROJECT_LABEL_H

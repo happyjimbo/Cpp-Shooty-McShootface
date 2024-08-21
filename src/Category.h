@@ -1,5 +1,4 @@
-#ifndef CMAKESFMLPROJECT_CATEGORY_H
-#define CMAKESFMLPROJECT_CATEGORY_H
+#pragma once
 
 namespace Category
 {
@@ -14,5 +13,3 @@ namespace Category
         EnemyProjectile     = 1 << 5,
     };
 }
-
-#endif //CMAKESFMLPROJECT_CATEGORY_H

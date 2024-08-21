@@ -1,6 +1,4 @@
-#ifndef CMAKESFMLPROJECT_COMMAND_H
-#define CMAKESFMLPROJECT_COMMAND_H
-
+#pragma once
 #include <SFML/System/Time.hpp>
 
 #include <functional>
@@ -9,9 +7,10 @@
 class EntityObject;
 
 struct Command
-{                                                   Command();
-    std::function<void(EntityObject&, sf::Time)>    entityAction;
-    unsigned int                                    category;
+{
+    Command();
+    std::function<void(EntityObject&, sf::Time)> entityAction;
+    unsigned int category;
 };
 
 template<typename GameObject, typename Function>
@@ -23,6 +22,3 @@ std::function<void(EntityObject&, sf::Time)> derivedEntityAction(Function fn)
         fn(static_cast<GameObject&>(node), dt);
     };
 }
-
-
-#endif // CMAKESFMLPROJECT_COMMAND_H

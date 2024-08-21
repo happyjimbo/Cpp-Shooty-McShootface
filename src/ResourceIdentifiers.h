@@ -1,5 +1,4 @@
-#ifndef CMAKESFMLPROJECT_RESOURCEIDENTIFIERS_HPP
-#define CMAKESFMLPROJECT_RESOURCEIDENTIFIERS_HPP
+#pragma once
 
 namespace sf {
     class Texture;
@@ -26,5 +25,3 @@ class ResourceHolder;
 
 typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
 typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
-
-#endif //CMAKESFMLPROJECT_RESOURCEIDENTIFIERS_HPP

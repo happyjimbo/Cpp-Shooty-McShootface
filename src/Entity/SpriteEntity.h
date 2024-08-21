@@ -1,21 +1,17 @@
-#ifndef CMAKESFMLPROJECT_SPRITENODE_H
-#define CMAKESFMLPROJECT_SPRITENODE_H
+#pragma once
 
 #include <EntityObject.h>
-
-#include "../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/Sprite.hpp"
 
 class SpriteEntity final : public EntityObject
 {
 public:
-    explicit            SpriteEntity(const sf::Texture&);
-                        SpriteEntity(const sf::Texture&, const sf::IntRect&);
+    explicit SpriteEntity(const sf::Texture&);
+    SpriteEntity(const sf::Texture&, const sf::IntRect&);
 
 private:
-    void                draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-    sf::Sprite          mSprite;
+    sf::Sprite mSprite;
 };
-
-#endif //CMAKESFMLPROJECT_SPRITENODE_H
