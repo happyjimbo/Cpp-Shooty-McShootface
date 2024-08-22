@@ -142,6 +142,7 @@ void World::adaptPlayerVelocity() const
 
 World::~World()
 {
+    delete mScoreController;
     delete mPlayerAircraft;
     delete mBackgroundSprite;
     delete mEnemyAircraftController;
