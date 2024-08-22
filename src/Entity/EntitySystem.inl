@@ -48,3 +48,11 @@ const std::vector<T*>& EntitySystem<T>::getEntities() const
 {
     return mEntities;
 }
+
+template<typename T>
+EntitySystem<T>::~EntitySystem() {
+    for (const T* entity : mEntities) {
+        delete entity;
+    }
+    mEntities.clear();
+}

@@ -23,6 +23,6 @@ private:
     const TextureHolder& mTexture;
     const sf::FloatRect mWorldBounds;
     float mTimeSinceLastSpawn {};
-    static constexpr float mSpeed = 1000.f;
+    static constexpr float mSpeed = 500.f;
     EntitySystem<ProjectileEntity>& mEntitySystem;
 };

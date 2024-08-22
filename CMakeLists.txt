@@ -45,6 +45,8 @@ add_executable(main src/main.cpp
         src/Entity/EntityObject.cpp
         src/Entity/EntityObject.h
         src/Entity/EntitySystem.inl
+        src/Controllers/BackgroundController.cpp
+        src/Controllers/BackgroundController.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target

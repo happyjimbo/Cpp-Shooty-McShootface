@@ -20,6 +20,7 @@ class SpriteEntity;
 class ProjectileController;
 class EnemyAircraftController;
 class ProjectileCollisionController;
+class BackgroundController;
 
 class World final {
 
@@ -28,7 +29,7 @@ public:
     ~World();
 
     void update(sf::Time);
-    void draw();
+    void draw() const;
     CommandQueue& getCommandQueue();
 
 private:
@@ -66,7 +67,9 @@ private:
     float mScrollSpeed;
 
     AircraftEntity* mPlayerAircraft;
+    SpriteEntity* mBackgroundSprite;
     ProjectileController* mProjectileController;
     EnemyAircraftController* mEnemyAircraftController;
     ProjectileCollisionController* mProjectileCollisionController;
+    BackgroundController* mBackgroundController;
 };

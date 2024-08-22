@@ -4,18 +4,20 @@
 #include "EnemyAircraftController.h"
 #include "ProjectileController.h"
 #include "ProjectileCollisionController.h"
+#include "BackgroundController.h"
 #include <Gui/Label.h>
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
-, mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f)
+, mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 , mScrollSpeed(-50.f)
 , mPlayerAircraft()
 , mProjectileController()
 , mEnemyAircraftController()
 , mProjectileCollisionController()
+, mBackgroundController()
 {
     loadTextures();
     loadFonts();
@@ -24,7 +26,7 @@ World::World(sf::RenderWindow& window)
     mWorldView.setCenter(mSpawnPosition);
 }
 
-void World::draw()
+void World::draw() const
 {
     mWindow.setView(mWorldView);
 
@@ -70,30 +72,25 @@ void World::loadFonts()
 
 void World::buildScene()
 {
-    const auto startPosition = sf::Vector2f (mWorldBounds.width, mWorldBounds.top);
+    const auto startPosition = sf::Vector2f (mWorldBounds.width, (mSpawnPosition.y - mWorldView.getSize().y / 2)-100);
 
     mProjectileController = new ProjectileController(mProjectileEntitySystem, mTextures, mWorldBounds);
     mEnemyAircraftController = new EnemyAircraftController(mEnemyAircraftEntitySystem, *mProjectileController, mTextures, AircraftEntity::Type::Raptor, startPosition, mWorldBounds);
     mProjectileCollisionController = new ProjectileCollisionController(mProjectileEntitySystem, mEnemyAircraftEntitySystem, mPlayerAircraftEntitySystem);
 
-    // Prepare tiled background
-    sf::Texture& texture = mTextures.get(Textures::Desert);
-    sf::IntRect textureRect(mWorldBounds);
-    texture.setRepeated(true);
-
-    auto* backgroundSprite = mSpriteEntitySystem.createObject(texture, textureRect);
-    backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
+    mBackgroundController = new BackgroundController(mSpriteEntitySystem, mTextures, mWindow.getSize(), mScrollSpeed);
+    mBackgroundController->createBackground();
 
     mPlayerAircraft = mPlayerAircraftEntitySystem.createObject(*mProjectileController, AircraftEntity::Eagle, mTextures);
     mPlayerAircraft->setPosition(mSpawnPosition);
 
-    auto* lable = mLabelEntitySystem.createObject("Hello World", mFonts);
+    const auto lable = mLabelEntitySystem.createObject("Hello World", mFonts);
     lable->setPosition(mSpawnPosition);
 }
 
 void World::update(const sf::Time delta)
 {
-    mWorldView.move(0.f, mScrollSpeed * delta.asSeconds());
+    // mWorldView.move(0.f, mScrollSpeed * delta.asSeconds());
     mPlayerAircraft->setVelocity(0.f, 0.f);
 
     while (!mCommandQueue.isEmpty())
@@ -105,6 +102,7 @@ void World::update(const sf::Time delta)
     mProjectileController->tick(delta, mScrollSpeed);
     mEnemyAircraftController->tick(delta, mScrollSpeed);
     mProjectileCollisionController->tick(delta);
+    mBackgroundController->tick(delta);
 
     mProjectileEntitySystem.update(delta);
     mPlayerAircraftEntitySystem.update(delta);
@@ -134,12 +132,15 @@ void World::adaptPlayerVelocity() const
     if (velocity.x != 0.f && velocity.y != 0.f)
         mPlayerAircraft->setVelocity(velocity / std::sqrt(2.f));
 
-    mPlayerAircraft->accelerate(0.f, mScrollSpeed);
+    mPlayerAircraft->accelerate(0.f, mScrollSpeed/2);
 }
 
-World::~World() {
+World::~World()
+{
     delete mPlayerAircraft;
+    delete mBackgroundSprite;
     delete mEnemyAircraftController;
     delete mProjectileController;
     delete mProjectileCollisionController;
+    delete mBackgroundController;
 }
