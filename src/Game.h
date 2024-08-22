@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "World.h"
-#include "Player.h"
+#include "Controls.h"
 
 class Game final : private sf::NonCopyable
 {
@@ -20,5 +20,5 @@ private:
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
     World mWorld;
-    Player mPlayer;
+    Controls mPlayer;
 };

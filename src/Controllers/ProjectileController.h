@@ -12,8 +12,6 @@ public:
     explicit ProjectileController(EntitySystem<ProjectileEntity>& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds);
     void spawn(ProjectileEntity::Type type, sf::Vector2f spawnPosition) const;
     void tick(sf::Time delta, float speed);
-    void removeEntity(ProjectileEntity* entity) const;
-    const std::vector<ProjectileEntity*>& getProjectiles() const;
 
 private:
     void accelerate(sf::Time delta, float speed) const;

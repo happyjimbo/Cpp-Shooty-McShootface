@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "Controls.h"
 #include "Command.h"
 #include "CommandQueue.h"
 #include "Entity/AircraftEntity.h"
@@ -22,12 +22,16 @@ struct AircraftMover
     sf::Vector2f velocity;
 };
 
-Player::Player()
+Controls::Controls()
 {
     mKeyBinding[sf::Keyboard::Left] = MoveLeft;
+    mKeyBinding[sf::Keyboard::A] = MoveLeft;
     mKeyBinding[sf::Keyboard::Right] = MoveRight;
+    mKeyBinding[sf::Keyboard::D] = MoveRight;
     mKeyBinding[sf::Keyboard::Up] = MoveUp;
+    mKeyBinding[sf::Keyboard::W] = MoveUp;
     mKeyBinding[sf::Keyboard::Down] = MoveDown;
+    mKeyBinding[sf::Keyboard::S] = MoveDown;
     mKeyBinding[sf::Keyboard::Space] = Fire;
 
     initializeActions();
@@ -38,7 +42,7 @@ Player::Player()
     }
 }
 
-void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
+void Controls::handleEvent(const sf::Event& event, CommandQueue& commands)
 {
     if (event.type == sf::Event::KeyPressed)
     {
@@ -50,7 +54,7 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
     }
 }
 
-void Player::handleRealtimeInput(CommandQueue& commands)
+void Controls::handleRealtimeInput(CommandQueue& commands)
 {
     for (auto pair : mKeyBinding)
     {
@@ -62,7 +66,7 @@ void Player::handleRealtimeInput(CommandQueue& commands)
 }
 
 
-void Player::initializeActions()
+void Controls::initializeActions()
 {
     mActionBinding[MoveLeft].action = derivedAction<AircraftEntity>(AircraftMover(-horizontalSpeed, 0.f));
     mActionBinding[MoveRight].action = derivedAction<AircraftEntity>(AircraftMover(+horizontalSpeed, 0.f));
@@ -73,7 +77,7 @@ void Player::initializeActions()
     });
 }
 
-bool Player::isRealtimeAction(const Action action)
+bool Controls::isRealtimeAction(const Action action)
 {
     switch (action) {
         case MoveLeft:

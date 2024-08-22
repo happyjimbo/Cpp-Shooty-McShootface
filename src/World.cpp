@@ -83,7 +83,7 @@ void World::buildScene()
 
     mScoreController = new ScoreController(*scoreAmountLabel);
     mProjectileController = new ProjectileController(mProjectileEntitySystem, mTextures, mWorldBounds);
-    mEnemyAircraftController = new EnemyAircraftController(mEnemyAircraftEntitySystem, *mProjectileController, mTextures, AircraftEntity::Type::Raptor, startPosition, mWorldBounds);
+    mEnemyAircraftController = new EnemyAircraftController(mEnemyAircraftEntitySystem, *mProjectileController, mTextures, AircraftEntity::Type::Raptor, startPosition, mWorldBounds, mScrollSpeed);
     mProjectileCollisionController = new ProjectileCollisionController(mProjectileEntitySystem, mEnemyAircraftEntitySystem, mPlayerAircraftEntitySystem, *mScoreController);
 
     mBackgroundController = new BackgroundController(mSpriteEntitySystem, mTextures, mWindow.getSize(), mScrollSpeed);
@@ -105,7 +105,7 @@ void World::update(const sf::Time delta)
 
     adaptPlayerVelocity();
     mProjectileController->tick(delta, mScrollSpeed);
-    mEnemyAircraftController->tick(delta, mScrollSpeed);
+    mEnemyAircraftController->tick(delta);
     mProjectileCollisionController->tick(delta);
     mBackgroundController->tick(delta);
 

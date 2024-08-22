@@ -33,15 +33,7 @@ void ProjectileController::checkBounds() const {
     for (auto& projectile : mEntitySystem.getEntities()) {
         if (projectile->getPosition().y > mWorldBounds.height ||
             projectile->getPosition().y < 0) {
-            removeEntity(projectile);
+            mEntitySystem.removeObject(projectile);
         }
     }
-}
-
-const std::vector<ProjectileEntity*>& ProjectileController::getProjectiles() const {
-    return mEntitySystem.getEntities();
-}
-
-void ProjectileController::removeEntity(ProjectileEntity* entity) const {
-    mEntitySystem.removeObject(entity);
 }

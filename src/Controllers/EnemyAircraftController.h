@@ -13,16 +13,16 @@ public:
         const TextureHolder& textures,
         AircraftEntity::Type type,
         sf::Vector2f position,
-        sf::FloatRect worldBounds
+        sf::FloatRect worldBounds,
+        float scrollSpeed
     );
 
-    void tick(const sf::Time&, float speed);
-    void removeEntity(AircraftEntity* entity) const;
-    const std::vector<AircraftEntity*>& getEntities() const;
+    void tick(const sf::Time&);
 
 private:
+    float spawnInterval(float delta);
+    void spawn(float spawnInterval);
     void accelerate(float speed) const;
-    void spawn();
     void checkBounds() const;
 
     ProjectileController& mProjectileController;
@@ -31,10 +31,16 @@ private:
     EntitySystem<AircraftEntity>& mEntitySystem;
 
     float mTimeSinceLastSpawn {};
+    float mScrollSpeed;
+
     sf::Vector2f mStartPosition;
     sf::FloatRect mWorldBounds;
 
     constexpr static float mEnemyProjectileSpawnSpeed = 3.f;
-    constexpr static float mSpeedDivider = 100;
+    constexpr static float mSpeedDivider = 100.f;
 
+    constexpr static float mMaxSpawnInterval = 1.f;
+    constexpr static float mMinSpawnInterval = 0.1f;
+    constexpr static float mTotalDecreaseTime = 60.0f;
+    float mElapsedTime = 0.0f;
 };

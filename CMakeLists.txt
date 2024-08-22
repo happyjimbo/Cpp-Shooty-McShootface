@@ -29,8 +29,8 @@ add_executable(main src/main.cpp
         src/Category.h
         src/CommandQueue.cpp
         src/CommandQueue.h
-        src/Player.cpp
-        src/Player.h
+        src/Controls.cpp
+        src/Controls.h
         src/Entity/ProjectileEntity.cpp
         src/Entity/ProjectileEntity.h
         src/Controllers/ProjectileController.cpp

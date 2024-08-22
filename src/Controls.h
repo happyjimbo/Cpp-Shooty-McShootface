@@ -7,7 +7,7 @@
 struct Command;
 class CommandQueue;
 
-class Player final
+class Controls final
 {
 public:
     enum Action
@@ -20,7 +20,7 @@ public:
         ActionCount
     };
 
-    explicit Player();
+    explicit Controls();
     void handleEvent(const sf::Event& event, CommandQueue& commands);
     void handleRealtimeInput(CommandQueue& commands);
 
