@@ -64,11 +64,11 @@ void Player::handleRealtimeInput(CommandQueue& commands)
 
 void Player::initializeActions()
 {
-    mActionBinding[MoveLeft].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(-horizontalSpeed, 0.f));
-    mActionBinding[MoveRight].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(+horizontalSpeed, 0.f));
-    mActionBinding[MoveUp].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, -playerSpeed));
-    mActionBinding[MoveDown].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, +playerSpeed));
-    mActionBinding[Fire].entityAction = derivedEntityAction<AircraftEntity>([] (AircraftEntity& b, sf::Time){
+    mActionBinding[MoveLeft].action = derivedAction<AircraftEntity>(AircraftMover(-horizontalSpeed, 0.f));
+    mActionBinding[MoveRight].action = derivedAction<AircraftEntity>(AircraftMover(+horizontalSpeed, 0.f));
+    mActionBinding[MoveUp].action = derivedAction<AircraftEntity>(AircraftMover(0.f, -playerSpeed));
+    mActionBinding[MoveDown].action = derivedAction<AircraftEntity>(AircraftMover(0.f, +playerSpeed));
+    mActionBinding[Fire].action = derivedAction<AircraftEntity>([] (AircraftEntity& b, sf::Time){
         b.triggerProjectile(ProjectileEntity::Player, mPlayerProjectileSpawnSpeed);
     });
 }

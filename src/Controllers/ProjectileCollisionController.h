@@ -2,6 +2,7 @@
 
 #include "EnemyAircraftController.h"
 
+class ScoreController;
 class AircraftEntity;
 class ProjectileEntity;
 
@@ -11,7 +12,8 @@ public:
     explicit ProjectileCollisionController(
         EntitySystem<ProjectileEntity>& projectileEntites,
         EntitySystem<AircraftEntity>& enemyAircraftEntities,
-        EntitySystem<AircraftEntity>& playerAircraftEntities
+        EntitySystem<AircraftEntity>& playerAircraftEntities,
+        ScoreController& scoreController
     );
     void tick(sf::Time delta) const;
 
@@ -23,4 +25,5 @@ private:
     EntitySystem<ProjectileEntity>& mProjectileEntites;
     EntitySystem<AircraftEntity>& mEnemyAircraftEntities;
     EntitySystem<AircraftEntity>& mPlayerAircraftEntities;
+    ScoreController& mScoreController;
 };

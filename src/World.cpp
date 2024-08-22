@@ -5,6 +5,7 @@
 #include "ProjectileController.h"
 #include "ProjectileCollisionController.h"
 #include "BackgroundController.h"
+#include "ScoreController.h"
 #include <Gui/Label.h>
 
 World::World(sf::RenderWindow& window)
@@ -72,20 +73,24 @@ void World::loadFonts()
 
 void World::buildScene()
 {
+    const auto scoreTextLable = mLabelEntitySystem.createObject("Score:", mFonts);
+    scoreTextLable->setPosition(10, 10);
+
+    const auto scoreAmountLabel = mLabelEntitySystem.createObject("0", mFonts);
+    scoreAmountLabel->setPosition(60, 10);
+
     const auto startPosition = sf::Vector2f (mWorldBounds.width, (mSpawnPosition.y - mWorldView.getSize().y / 2)-100);
 
+    mScoreController = new ScoreController(*scoreAmountLabel);
     mProjectileController = new ProjectileController(mProjectileEntitySystem, mTextures, mWorldBounds);
     mEnemyAircraftController = new EnemyAircraftController(mEnemyAircraftEntitySystem, *mProjectileController, mTextures, AircraftEntity::Type::Raptor, startPosition, mWorldBounds);
-    mProjectileCollisionController = new ProjectileCollisionController(mProjectileEntitySystem, mEnemyAircraftEntitySystem, mPlayerAircraftEntitySystem);
+    mProjectileCollisionController = new ProjectileCollisionController(mProjectileEntitySystem, mEnemyAircraftEntitySystem, mPlayerAircraftEntitySystem, *mScoreController);
 
     mBackgroundController = new BackgroundController(mSpriteEntitySystem, mTextures, mWindow.getSize(), mScrollSpeed);
     mBackgroundController->createBackground();
 
     mPlayerAircraft = mPlayerAircraftEntitySystem.createObject(*mProjectileController, AircraftEntity::Eagle, mTextures);
     mPlayerAircraft->setPosition(mSpawnPosition);
-
-    const auto lable = mLabelEntitySystem.createObject("Hello World", mFonts);
-    lable->setPosition(mSpawnPosition);
 }
 
 void World::update(const sf::Time delta)

@@ -38,7 +38,7 @@ void EntitySystem<T>::onCommand(const Command& command, const sf::Time dt) const
     {
         auto cat = entity->getCategory();
         if (entity != nullptr && command.category & cat) {
-            command.entityAction(*entity, dt);
+            command.action(*entity, dt);
         }
     }
 }

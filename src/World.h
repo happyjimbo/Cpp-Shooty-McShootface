@@ -5,6 +5,15 @@
 #include "ResourceHolder.h"
 #include "ResourceIdentifiers.h"
 
+class ScoreController;
+class ProjectileEntity;
+class AircraftEntity;
+class SpriteEntity;
+class ProjectileController;
+class EnemyAircraftController;
+class ProjectileCollisionController;
+class BackgroundController;
+
 namespace sf
 {
     class RenderWindow;
@@ -13,14 +22,6 @@ namespace sf
 namespace GUI {
     class Label;
 }
-
-class ProjectileEntity;
-class AircraftEntity;
-class SpriteEntity;
-class ProjectileController;
-class EnemyAircraftController;
-class ProjectileCollisionController;
-class BackgroundController;
 
 class World final {
 
@@ -66,6 +67,7 @@ private:
     sf::Vector2f mSpawnPosition;
     float mScrollSpeed;
 
+    ScoreController* mScoreController;
     AircraftEntity* mPlayerAircraft;
     SpriteEntity* mBackgroundSprite;
     ProjectileController* mProjectileController;

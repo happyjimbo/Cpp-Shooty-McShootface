@@ -11,12 +11,12 @@ class EntityObject;
 struct Command final
 {
     explicit Command() = default;
-    std::function<void(EntityObject&, sf::Time)> entityAction;
+    std::function<void(EntityObject&, sf::Time)> action;
     unsigned int category = Category::None;
 };
 
 template<typename GameObject, typename Function>
-std::function<void(EntityObject&, sf::Time)> derivedEntityAction(Function fn)
+std::function<void(EntityObject&, sf::Time)> derivedAction(Function fn)
 {
     return [=] (EntityObject& node, sf::Time dt)
     {
