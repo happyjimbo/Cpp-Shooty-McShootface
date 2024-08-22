@@ -7,7 +7,7 @@
 class EnemyAircraftController final
 {
 public:
-    EnemyAircraftController(
+    explicit EnemyAircraftController(
         EntitySystem<AircraftEntity>& entitySystem,
         ProjectileController& projectileController,
         const TextureHolder& textures,
@@ -33,4 +33,8 @@ private:
     float mTimeSinceLastSpawn {};
     sf::Vector2f mStartPosition;
     sf::FloatRect mWorldBounds;
+
+    constexpr static float mEnemyProjectileSpawnSpeed = 3.f;
+    constexpr static float mSpeedDivider = 100;
+
 };

@@ -3,7 +3,7 @@
 #include "Command.h"
 #include <queue>
 
-class CommandQueue
+class CommandQueue final
 {
 public:
     void push(const Command& command);

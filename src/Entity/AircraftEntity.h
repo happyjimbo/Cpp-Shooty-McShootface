@@ -19,12 +19,11 @@ public:
         Raptor
     };
 
-public:
-    AircraftEntity(ProjectileController& projectileController, Type type, const TextureHolder& textures);
+    explicit AircraftEntity(ProjectileController& projectileController, Type type, const TextureHolder& textures);
     unsigned int getCategory() const override;
     void update(sf::Time delta) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-    void triggerProjectile(ProjectileEntity::Type type);
+    void triggerProjectile(const ProjectileEntity::Type& type, float spawnSpeed);
     void hit();
 
 private:
@@ -37,5 +36,4 @@ private:
 
     Position mPosition = Left;
     float mTimeSinceLastProjectileSpawn = 0;
-
 };

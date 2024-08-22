@@ -7,7 +7,7 @@
 class Game final : private sf::NonCopyable
 {
 public:
-    Game();
+    explicit Game();
     void run();
 
 private:

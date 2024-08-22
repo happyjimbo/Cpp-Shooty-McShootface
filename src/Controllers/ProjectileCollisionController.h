@@ -5,10 +5,10 @@
 class AircraftEntity;
 class ProjectileEntity;
 
-class ProjectileCollisionController
+class ProjectileCollisionController final
 {
 public:
-    ProjectileCollisionController(
+    explicit ProjectileCollisionController(
         EntitySystem<ProjectileEntity>& projectileEntites,
         EntitySystem<AircraftEntity>& enemyAircraftEntities,
         EntitySystem<AircraftEntity>& playerAircraftEntities

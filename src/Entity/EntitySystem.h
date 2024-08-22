@@ -8,7 +8,7 @@ class EntityObject;
 struct Command;
 
 template<typename T>
-class EntitySystem {
+class EntitySystem final {
     public:
 
         template <typename... Args>

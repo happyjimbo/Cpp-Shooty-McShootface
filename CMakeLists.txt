@@ -25,7 +25,6 @@ add_executable(main src/main.cpp
         src/Entity/SpriteEntity.h
         src/Entity/AircraftEntity.cpp
         src/Entity/AircraftEntity.h
-        src/Command.cpp
         src/Command.h
         src/Category.h
         src/CommandQueue.cpp

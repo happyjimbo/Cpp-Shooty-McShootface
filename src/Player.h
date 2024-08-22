@@ -7,7 +7,7 @@
 struct Command;
 class CommandQueue;
 
-class Player
+class Player final
 {
 public:
     enum Action
@@ -20,14 +20,9 @@ public:
         ActionCount
     };
 
-public:
-
-    Player();
+    explicit Player();
     void handleEvent(const sf::Event& event, CommandQueue& commands);
     void handleRealtimeInput(CommandQueue& commands);
-
-    void assignKey(Action action, sf::Keyboard::Key key);
-    sf::Keyboard::Key getAssignedKey(Action action) const;
 
 
 private:
@@ -37,5 +32,9 @@ private:
 private:
     std::map<sf::Keyboard::Key, Action> mKeyBinding;
     std::map<Action, Command> mActionBinding;
+
+    constexpr static float playerSpeed = 400.f;
+    constexpr static float horizontalSpeed = playerSpeed * 1.4f;
+    constexpr static float mPlayerProjectileSpawnSpeed = 0.1f;
 
 };

@@ -3,7 +3,7 @@
 #include <map>
 
 template <typename Resource, typename Identifier>
-class ResourceHolder
+class ResourceHolder final
 {
 public:
     template<typename Parameter>

@@ -7,15 +7,15 @@
 namespace GUI
 {
     //class Label : public sf::Drawable, public sf::Transformable, private sf::NonCopyable
-    class Label : public EntityObject
+    class Label final: public EntityObject
     {
-        public:
-                    Label(const std::string& text, const FontHolder& fonts);
-            void    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-            void    setText(const std::string& string);
-            void    update(sf::Time delta) override;
+    public:
+        explicit Label(const std::string& text, const FontHolder& fonts);
+        void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+        void setText(const std::string& string);
+        void update(sf::Time delta) override;
 
-        private:
-            sf::Text            mText;
+    private:
+        sf::Text  mText;
     };
 }

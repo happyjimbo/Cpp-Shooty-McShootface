@@ -61,53 +61,19 @@ void Player::handleRealtimeInput(CommandQueue& commands)
     }
 }
 
-void Player::assignKey(Action action, sf::Keyboard::Key key)
-{
-    for (auto itr = mKeyBinding.begin(); itr != mKeyBinding.end();)
-    {
-        if (itr->second == action)
-        {
-            mKeyBinding.erase(itr++);
-        }
-        else
-        {
-            ++itr;
-        }
-
-        mKeyBinding[key] = action;
-    }
-}
-
-sf::Keyboard::Key Player::getAssignedKey(Action action) const
-{
-    for (auto pair : mKeyBinding)
-    {
-        if (pair.second == action)
-        {
-            return pair.first;
-        }
-    }
-    return sf::Keyboard::Unknown;
-}
-
-//// private
-
 
 void Player::initializeActions()
 {
-    constexpr float playerSpeed = 200.f;
-    constexpr float horizontalSpeed = playerSpeed * 1.4f;
-
     mActionBinding[MoveLeft].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(-horizontalSpeed, 0.f));
     mActionBinding[MoveRight].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(+horizontalSpeed, 0.f));
     mActionBinding[MoveUp].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, -playerSpeed));
     mActionBinding[MoveDown].entityAction = derivedEntityAction<AircraftEntity>(AircraftMover(0.f, +playerSpeed));
     mActionBinding[Fire].entityAction = derivedEntityAction<AircraftEntity>([] (AircraftEntity& b, sf::Time){
-        b.triggerProjectile(ProjectileEntity::Player);
+        b.triggerProjectile(ProjectileEntity::Player, mPlayerProjectileSpawnSpeed);
     });
 }
 
-bool Player::isRealtimeAction(Action action)
+bool Player::isRealtimeAction(const Action action)
 {
     switch (action) {
         case MoveLeft:

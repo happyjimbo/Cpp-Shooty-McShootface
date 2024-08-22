@@ -19,13 +19,13 @@ EnemyAircraftController::EnemyAircraftController (
 
 void EnemyAircraftController::tick(const sf::Time& delta, const float speed) {
     mTimeSinceLastSpawn += delta.asSeconds();
-    accelerate(speed / 50);
+    accelerate(speed / mSpeedDivider);
     spawn();
     checkBounds();
 
     for (const auto& aircraft : mEntitySystem.getEntities()) {
         aircraft->update(delta);
-        aircraft->triggerProjectile(ProjectileEntity::Enemy);
+        aircraft->triggerProjectile(ProjectileEntity::Enemy, mEnemyProjectileSpawnSpeed);
     }
 }
 

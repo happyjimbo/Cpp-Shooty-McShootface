@@ -13,8 +13,7 @@ public:
         Enemy
     };
 
-public:
-    ProjectileEntity(Type type, const TextureHolder& textures);
+    explicit ProjectileEntity(Type type, const TextureHolder& textures);
     void update(sf::Time delta) override;
     Type getType() const;
     unsigned int getCategory() const override;
@@ -22,7 +21,6 @@ public:
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-private:
     sf::Sprite mSprite;
     Type mType;
 };

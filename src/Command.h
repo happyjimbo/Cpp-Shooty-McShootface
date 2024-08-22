@@ -4,13 +4,15 @@
 #include <functional>
 #include <cassert>
 
+#include "Category.h"
+
 class EntityObject;
 
-struct Command
+struct Command final
 {
-    Command();
+    explicit Command() = default;
     std::function<void(EntityObject&, sf::Time)> entityAction;
-    unsigned int category;
+    unsigned int category = Category::None;
 };
 
 template<typename GameObject, typename Function>
