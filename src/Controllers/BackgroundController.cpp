@@ -17,7 +17,7 @@ BackgroundController::BackgroundController (
 
 void BackgroundController::createBackground()
 {
-    auto& texture = mTexture.get(Textures::Desert);
+    auto& texture = mTexture.get(Textures::Background);
 
     sf::IntRect textureRect(sf::FloatRect(0,0, mBounds.x, mBounds.y));
     texture.setRepeated(true);

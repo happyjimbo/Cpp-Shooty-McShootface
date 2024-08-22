@@ -57,7 +57,7 @@ void World::loadTextures()
 {
     mTextures.load(Textures::Eagle, "Media/Textures/Eagle.png");
     mTextures.load(Textures::Raptor, "Media/Textures/Raptor.png");
-    mTextures.load(Textures::Desert, "Media/Textures/Desert.png");
+    mTextures.load(Textures::Background, "Media/Textures/Grass.png");
     mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
 }
 
