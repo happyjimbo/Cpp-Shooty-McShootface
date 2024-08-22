@@ -30,8 +30,11 @@ public:
     ~World();
 
     void update(sf::Time);
-    void draw() const;
+    void draw();
     CommandQueue& getCommandQueue();
+
+    template <typename T>
+    void drawEntities(EntitySystem<T>& system);
 
 private:
 

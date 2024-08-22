@@ -1,6 +1,4 @@
-#include <iostream>
 #include <EntitySystem.h>
-#include <EntityObject.h>
 #include "Command.h"
 
 template <typename T>

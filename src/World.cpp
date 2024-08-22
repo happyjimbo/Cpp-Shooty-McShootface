@@ -24,33 +24,28 @@ World::World(sf::RenderWindow& window)
     loadFonts();
     buildScene();
 
+
     mWorldView.setCenter(mSpawnPosition);
 }
 
-void World::draw() const
+void World::draw()
 {
     mWindow.setView(mWorldView);
 
-    for(const auto* entity : mSpriteEntitySystem.getEntities()) {
+    drawEntities(mSpriteEntitySystem);
+    drawEntities(mProjectileEntitySystem);
+    drawEntities(mEnemyAircraftEntitySystem);
+    drawEntities(mPlayerAircraftEntitySystem);
+    drawEntities(mLabelEntitySystem);
+}
+
+template <typename T>
+void World::drawEntities(EntitySystem<T>& system)
+{
+    for (const auto* entity : system.getEntities())
+    {
         mWindow.draw(*entity);
     }
-
-    for(const auto* entity : mProjectileEntitySystem.getEntities()) {
-        mWindow.draw(*entity);
-    }
-
-    for(const auto* entity : mEnemyAircraftEntitySystem.getEntities()) {
-        mWindow.draw(*entity);
-    }
-
-    for(const auto* entity : mPlayerAircraftEntitySystem.getEntities()) {
-        mWindow.draw(*entity);
-    }
-
-    for(const auto* entity : mLabelEntitySystem.getEntities()) {
-        mWindow.draw(*entity);
-    }
-
 }
 
 CommandQueue& World::getCommandQueue()
