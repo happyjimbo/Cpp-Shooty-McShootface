@@ -5,7 +5,7 @@
 
 class ScoreController final {
 public:
-    explicit ScoreController(EntitySystem<GUI::Label>& entitySystem);
+    explicit ScoreController(EntitySystem<GUI::Label>& entitySystem) noexcept;
     void create(const FontHolder& fonts);
     void increaseScore();
 
