@@ -12,23 +12,9 @@ void ResourceHolder<Resource, Identifier>::load(Identifier id, const std::string
 }
 
 template<typename Resource, typename Identifier>
-template<typename Paramter>
-void ResourceHolder<Resource, Identifier>::load(Identifier id, const std::string& filename, const Paramter& secondParameter)
-{
-    std::unique_ptr<Resource> resource(new Resource());
-    if (!resource->loadFromFile(filename, secondParameter))
-        throw std::runtime_error("ResourceHolder::load - Failed to load " + filename);
-
-    insertResource(id, std::move(resource));
-}
-
-template<typename Resource, typename Identifier>
 Resource& ResourceHolder<Resource, Identifier>::get(Identifier id)
 {
-    auto found = mResourceMap.find(id);
-    assert(found != mResourceMap.end());
-
-    return *found->second;
+    return const_cast<Resource&>(static_cast<const ResourceHolder*>(this)->get(id));
 }
 
 template<typename Resource, typename Identifier>
