@@ -5,6 +5,7 @@
 #include "ResourceHolder.h"
 #include "ResourceIdentifiers.h"
 
+class PlayerAircraftController;
 class ScoreController;
 class ProjectileEntity;
 class AircraftEntity;
@@ -33,9 +34,6 @@ public:
     void draw();
     CommandQueue& getCommandQueue();
 
-    template <typename T>
-    void drawEntities(EntitySystem<T>& system);
-
 private:
 
     enum Layer {
@@ -46,7 +44,8 @@ private:
         LayerCount
     };
 
-
+    template <typename T>
+    void drawEntities(EntitySystem<T>& system);
     void loadTextures();
     void loadFonts();
     void buildScene();
@@ -70,11 +69,10 @@ private:
     sf::Vector2f mSpawnPosition;
     float mScrollSpeed;
 
+    PlayerAircraftController* mPlayerAircraftController;
     ScoreController* mScoreController;
-    AircraftEntity* mPlayerAircraft;
-    SpriteEntity* mBackgroundSprite;
-    ProjectileController* mProjectileController;
-    EnemyAircraftController* mEnemyAircraftController;
-    ProjectileCollisionController* mProjectileCollisionController;
     BackgroundController* mBackgroundController;
+    EnemyAircraftController* mEnemyAircraftController;
+    ProjectileController* mProjectileController;
+    ProjectileCollisionController* mProjectileCollisionController;
 };

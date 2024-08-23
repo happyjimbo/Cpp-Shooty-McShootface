@@ -49,6 +49,8 @@ add_executable(main src/main.cpp
         src/Controllers/BackgroundController.h
         src/Controllers/ScoreController.cpp
         src/Controllers/ScoreController.h
+        src/Controllers/PlayerAircraftController.cpp
+        src/Controllers/PlayerAircraftController.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target

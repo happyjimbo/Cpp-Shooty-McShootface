@@ -14,7 +14,7 @@ public:
         float scrollSpeed
     );
     ~BackgroundController();
-    void createBackground();
+    void create();
     void tick(sf::Time delta) const;
 
 private:

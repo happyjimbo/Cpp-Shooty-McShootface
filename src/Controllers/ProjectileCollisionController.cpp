@@ -1,5 +1,4 @@
 #include "ProjectileCollisionController.h"
-
 #include "ScoreController.h"
 #include "Entity/AircraftEntity.h"
 

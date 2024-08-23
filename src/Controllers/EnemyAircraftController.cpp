@@ -8,7 +8,7 @@ EnemyAircraftController::EnemyAircraftController (
     const sf::Vector2f position,
     const sf::FloatRect worldBounds,
     const float scrollSpeed
-    )
+    ) noexcept
       : mEntitySystem(entitySystem)
       , mProjectileController(projectileController)
       , mTexture(textures)

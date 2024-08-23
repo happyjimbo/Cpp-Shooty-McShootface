@@ -3,6 +3,7 @@
 #include "Entity/SpriteEntity.h"
 #include "EnemyAircraftController.h"
 #include "ProjectileController.h"
+#include "PlayerAircraftController.h"
 #include "ProjectileCollisionController.h"
 #include "BackgroundController.h"
 #include "ScoreController.h"
@@ -14,16 +15,10 @@ World::World(sf::RenderWindow& window)
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 , mScrollSpeed(-50.f)
-, mPlayerAircraft()
-, mProjectileController()
-, mEnemyAircraftController()
-, mProjectileCollisionController()
-, mBackgroundController()
 {
     loadTextures();
     loadFonts();
     buildScene();
-
 
     mWorldView.setCenter(mSpawnPosition);
 }
@@ -77,28 +72,58 @@ void World::buildScene()
     const auto startPosition = sf::Vector2f (mWorldBounds.width, (mSpawnPosition.y - mWorldView.getSize().y / 2)-100);
 
     mScoreController = new ScoreController(*scoreAmountLabel);
-    mProjectileController = new ProjectileController(mProjectileEntitySystem, mTextures, mWorldBounds);
-    mEnemyAircraftController = new EnemyAircraftController(mEnemyAircraftEntitySystem, *mProjectileController, mTextures, AircraftEntity::Type::Raptor, startPosition, mWorldBounds, mScrollSpeed);
-    mProjectileCollisionController = new ProjectileCollisionController(mProjectileEntitySystem, mEnemyAircraftEntitySystem, mPlayerAircraftEntitySystem, *mScoreController);
+    mProjectileController = new ProjectileController(
+        mProjectileEntitySystem,
+        mTextures,
+        mWorldBounds
+    );
+    mEnemyAircraftController = new EnemyAircraftController(
+        mEnemyAircraftEntitySystem,
+        *mProjectileController,
+        mTextures,
+        AircraftEntity::Type::Raptor,
+        startPosition,
+        mWorldBounds,
+        mScrollSpeed
+    );
+    mProjectileCollisionController = new ProjectileCollisionController(
+        mProjectileEntitySystem,
+        mEnemyAircraftEntitySystem,
+        mPlayerAircraftEntitySystem,
+        *mScoreController
+    );
 
-    mBackgroundController = new BackgroundController(mSpriteEntitySystem, mTextures, mWindow.getSize(), mScrollSpeed);
-    mBackgroundController->createBackground();
+    mBackgroundController = new BackgroundController(
+        mSpriteEntitySystem,
+        mTextures,
+        mWindow.getSize(),
+        mScrollSpeed
+    );
+    mBackgroundController->create();
 
-    mPlayerAircraft = mPlayerAircraftEntitySystem.createObject(*mProjectileController, AircraftEntity::Eagle, mTextures);
-    mPlayerAircraft->setPosition(mSpawnPosition);
+    mPlayerAircraftController = new PlayerAircraftController(
+        mPlayerAircraftEntitySystem,
+        *mProjectileController,
+        mCommandQueue,
+        mWorldView.getCenter(),
+        mWorldView.getSize(),
+        mScrollSpeed
+    );
+    mPlayerAircraftController->create(mTextures, mSpawnPosition);
 }
 
 void World::update(const sf::Time delta)
 {
     // mWorldView.move(0.f, mScrollSpeed * delta.asSeconds());
-    mPlayerAircraft->setVelocity(0.f, 0.f);
+    /*mPlayerAircraft->setVelocity(0.f, 0.f);
 
     while (!mCommandQueue.isEmpty())
     {
         mPlayerAircraftEntitySystem.onCommand(mCommandQueue.pop(), delta);
-    }
+    }*/
 
-    adaptPlayerVelocity();
+    //adaptPlayerVelocity();
+    mPlayerAircraftController->tick(delta);
     mProjectileController->tick(delta, mScrollSpeed);
     mEnemyAircraftController->tick(delta);
     mProjectileCollisionController->tick(delta);
@@ -109,9 +134,10 @@ void World::update(const sf::Time delta)
     mEnemyAircraftEntitySystem.update(delta);
     mLabelEntitySystem.update(delta);
 
-    adaptPlayerPosition();
+    //adaptPlayerPosition();
 }
 
+/*
 void World::adaptPlayerPosition() const
 {
     const sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
@@ -134,14 +160,14 @@ void World::adaptPlayerVelocity() const
 
     mPlayerAircraft->accelerate(0.f, mScrollSpeed/2);
 }
+*/
 
 World::~World()
 {
+    delete mPlayerAircraftController;
     delete mScoreController;
-    delete mPlayerAircraft;
-    delete mBackgroundSprite;
+    delete mBackgroundController;
     delete mEnemyAircraftController;
     delete mProjectileController;
     delete mProjectileCollisionController;
-    delete mBackgroundController;
 }

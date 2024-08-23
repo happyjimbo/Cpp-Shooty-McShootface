@@ -15,7 +15,7 @@ BackgroundController::BackgroundController (
 
 }
 
-void BackgroundController::createBackground()
+void BackgroundController::create()
 {
     auto& texture = mTexture.get(Textures::Background);
 

@@ -15,7 +15,7 @@ public:
         sf::Vector2f position,
         sf::FloatRect worldBounds,
         float scrollSpeed
-    );
+    ) noexcept;
 
     void tick(const sf::Time&);
 
