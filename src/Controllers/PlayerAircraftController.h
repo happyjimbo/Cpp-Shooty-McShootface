@@ -45,4 +45,6 @@ private:
     sf::FloatRect mViewBounds;
 
     const float mScrollSpeed;
+
+    constexpr static float mBorderDistance = 40.f;
 };

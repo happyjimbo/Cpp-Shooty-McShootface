@@ -1,6 +1,5 @@
 #include "World.h"
 
-#include "Entity/SpriteEntity.h"
 #include "EnemyAircraftController.h"
 #include "ProjectileController.h"
 #include "PlayerAircraftController.h"
@@ -63,15 +62,14 @@ void World::loadFonts()
 
 void World::buildScene()
 {
-    const auto scoreTextLable = mLabelEntitySystem.createObject("Score:", mFonts);
-    scoreTextLable->setPosition(10, 10);
-
-    const auto scoreAmountLabel = mLabelEntitySystem.createObject("0", mFonts);
-    scoreAmountLabel->setPosition(60, 10);
-
+    // this is for the mEnemyAircraftController and should be internalised in that logic
     const auto startPosition = sf::Vector2f (mWorldBounds.width, (mSpawnPosition.y - mWorldView.getSize().y / 2)-100);
 
-    mScoreController = new ScoreController(*scoreAmountLabel);
+    mScoreController = new ScoreController(
+        mLabelEntitySystem
+    );
+    mScoreController->create(mFonts);
+
     mProjectileController = new ProjectileController(
         mProjectileEntitySystem,
         mTextures,
@@ -114,15 +112,6 @@ void World::buildScene()
 
 void World::update(const sf::Time delta)
 {
-    // mWorldView.move(0.f, mScrollSpeed * delta.asSeconds());
-    /*mPlayerAircraft->setVelocity(0.f, 0.f);
-
-    while (!mCommandQueue.isEmpty())
-    {
-        mPlayerAircraftEntitySystem.onCommand(mCommandQueue.pop(), delta);
-    }*/
-
-    //adaptPlayerVelocity();
     mPlayerAircraftController->tick(delta);
     mProjectileController->tick(delta, mScrollSpeed);
     mEnemyAircraftController->tick(delta);
@@ -133,34 +122,7 @@ void World::update(const sf::Time delta)
     mPlayerAircraftEntitySystem.update(delta);
     mEnemyAircraftEntitySystem.update(delta);
     mLabelEntitySystem.update(delta);
-
-    //adaptPlayerPosition();
 }
-
-/*
-void World::adaptPlayerPosition() const
-{
-    const sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-    constexpr float borderDistance = 40.f;
-
-    auto position = mPlayerAircraft->getPosition();
-    position.x = std::max(position.x, viewBounds.left + borderDistance);
-    position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-    position.y = std::max(position.y, viewBounds.top + borderDistance);
-    position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
-    mPlayerAircraft->setPosition(position);
-}
-
-void World::adaptPlayerVelocity() const
-{
-    sf::Vector2f velocity = mPlayerAircraft->getVelocity();
-
-    if (velocity.x != 0.f && velocity.y != 0.f)
-        mPlayerAircraft->setVelocity(velocity / std::sqrt(2.f));
-
-    mPlayerAircraft->accelerate(0.f, mScrollSpeed/2);
-}
-*/
 
 World::~World()
 {

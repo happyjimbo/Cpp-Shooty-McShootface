@@ -41,13 +41,11 @@ void PlayerAircraftController::tick(const sf::Time delta) const
 
 void PlayerAircraftController::adaptPlayerVelocity() const
 {
-    constexpr float borderDistance = 40.f;
-
     auto position = mPlayerAircraft->getPosition();
-    position.x = std::max(position.x, mViewBounds.left + borderDistance);
-    position.x = std::min(position.x, mViewBounds.left + mViewBounds.width - borderDistance);
-    position.y = std::max(position.y, mViewBounds.top + borderDistance);
-    position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - borderDistance);
+    position.x = std::max(position.x, mViewBounds.left + mBorderDistance);
+    position.x = std::min(position.x, mViewBounds.left + mViewBounds.width - mBorderDistance);
+    position.y = std::max(position.y, mViewBounds.top + mBorderDistance);
+    position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - mBorderDistance);
     mPlayerAircraft->setPosition(position);
 }
 
@@ -63,5 +61,6 @@ void PlayerAircraftController::adaptPlayerPosition() const
 
 PlayerAircraftController::~PlayerAircraftController()
 {
-    delete mPlayerAircraft;
+    // don't delete as this is handled by the entity system
+ //   delete mPlayerAircraft;
 }

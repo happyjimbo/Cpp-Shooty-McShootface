@@ -1,8 +1,5 @@
 #pragma once
 
-#include <unordered_set>
-#include <vector>
-
 #include <Entity/ProjectileEntity.h>
 #include <Entity/EntitySystem.h>
 

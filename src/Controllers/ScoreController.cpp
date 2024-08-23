@@ -1,12 +1,21 @@
 #include "ScoreController.h"
 
-ScoreController::ScoreController(GUI::Label& scoreLabel)
-: mScoreLabel(scoreLabel)
+ScoreController::ScoreController(EntitySystem<GUI::Label>& entitySystem)
+: mEntitySystem(entitySystem)
 {
 
 }
 
+void ScoreController::create(const FontHolder& fonts)
+{
+    mScoreTextLabel = mEntitySystem.createObject("Score:", fonts);
+    mScoreTextLabel->setPosition(10, 10);
+
+    const auto scoreAmountLabel = mEntitySystem.createObject("0", fonts);
+    scoreAmountLabel->setPosition(60, 10);
+}
+
 void ScoreController::increaseScore() {
     ++mScore;
-    mScoreLabel.setText(std::to_string(mScore));
+    scoreAmountLabel->setText(std::to_string(mScore));
 }

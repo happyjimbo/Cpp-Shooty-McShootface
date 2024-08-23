@@ -2,8 +2,7 @@
 
 #include "EntityObject.h"
 #include "../ResourceIdentifiers.h"
-
-#include "../../cmake-build-debug/_deps/sfml-src/include/SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/Sprite.hpp"
 
 class ProjectileEntity final : public EntityObject
 {

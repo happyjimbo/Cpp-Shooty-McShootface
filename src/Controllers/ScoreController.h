@@ -1,13 +1,18 @@
 #pragma once
 
+#include "EntitySystem.h"
 #include "Label.h"
 
 class ScoreController final {
 public:
-    explicit ScoreController( GUI::Label& scoreLabel);
+    explicit ScoreController(EntitySystem<GUI::Label>& entitySystem);
+    void create(const FontHolder& fonts);
     void increaseScore();
 
 private:
-    GUI::Label& mScoreLabel;
+    EntitySystem<GUI::Label>& mEntitySystem;
+
     int mScore {};
+    GUI::Label* mScoreTextLabel;
+    GUI::Label* scoreAmountLabel;
 };
