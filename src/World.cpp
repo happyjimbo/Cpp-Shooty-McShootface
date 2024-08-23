@@ -49,6 +49,7 @@ CommandQueue& World::getCommandQueue()
 
 void World::loadTextures()
 {
+    // move these string values into a struct or similar
     mTextures.load(Textures::Eagle, "Media/Textures/Eagle.png");
     mTextures.load(Textures::Raptor, "Media/Textures/Raptor.png");
     mTextures.load(Textures::Background, "Media/Textures/Grass.png");

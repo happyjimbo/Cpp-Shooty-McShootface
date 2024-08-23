@@ -24,8 +24,6 @@ public:
         float scrollSpeed
     ) noexcept;
 
-    ~PlayerAircraftController();
-
     void create(const TextureHolder& textures, sf::Vector2f spawnPosition);
     void tick(sf::Time) const;
 

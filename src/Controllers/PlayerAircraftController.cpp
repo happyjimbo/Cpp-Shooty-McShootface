@@ -58,9 +58,3 @@ void PlayerAircraftController::adaptPlayerPosition() const
 
     mPlayerAircraft->accelerate(0.f, mScrollSpeed/2);
 }
-
-PlayerAircraftController::~PlayerAircraftController()
-{
-    // don't delete as this is handled by the entity system
- //   delete mPlayerAircraft;
-}
