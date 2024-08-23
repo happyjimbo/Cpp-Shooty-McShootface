@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entity/AircraftEntity.h"
-#include "ResourceIdentifiers.h"
+#include <Resource/ResourceIdentifiers.h>
 #include "EntitySystem.h"
 
 class EnemyAircraftController final

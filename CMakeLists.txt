@@ -18,17 +18,17 @@ add_executable(main src/main.cpp
         src/Game.h
         src/World.cpp
         src/World.h
-        src/ResourceHolder.inl
-        src/ResourceHolder.h
-        src/ResourceIdentifiers.h
+        src/Resource/ResourceHolder.inl
+        src/Resource/ResourceHolder.h
+        src/Resource/ResourceIdentifiers.h
         src/Entity/SpriteEntity.cpp
         src/Entity/SpriteEntity.h
         src/Entity/AircraftEntity.cpp
         src/Entity/AircraftEntity.h
-        src/Command.h
+        src/Command/Command.h
         src/Category.h
-        src/CommandQueue.cpp
-        src/CommandQueue.h
+        src/Command/CommandQueue.cpp
+        src/Command/CommandQueue.h
         src/Controls.cpp
         src/Controls.h
         src/Entity/ProjectileEntity.cpp
@@ -58,6 +58,8 @@ target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/Gui
         ${CMAKE_SOURCE_DIR}/src/Entity
+        ${CMAKE_SOURCE_DIR}/src/Resource
+        ${CMAKE_SOURCE_DIR}/src/Command
         ${CMAKE_SOURCE_DIR}/src/Controllers
 )
 

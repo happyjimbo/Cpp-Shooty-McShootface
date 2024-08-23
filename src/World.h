@@ -1,9 +1,9 @@
 #pragma once
 
-#include "CommandQueue.h"
+#include <Command/CommandQueue.h>
 #include "EntitySystem.h"
-#include "ResourceHolder.h"
-#include "ResourceIdentifiers.h"
+#include <Resource/ResourceHolder.h>
+#include <Resource/ResourceIdentifiers.h>
 
 class PlayerAircraftController;
 class ScoreController;

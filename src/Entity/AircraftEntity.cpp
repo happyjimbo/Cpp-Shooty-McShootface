@@ -1,5 +1,5 @@
 #include <AircraftEntity.h>
-#include "../ResourceHolder.h"
+#include <Resource/ResourceHolder.h>
 #include "../Category.h"
 #include <Controllers/ProjectileController.h>
 

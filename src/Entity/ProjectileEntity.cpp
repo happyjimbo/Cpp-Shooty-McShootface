@@ -1,5 +1,5 @@
 #include "ProjectileEntity.h"
-#include "../ResourceHolder.h"
+#include <Resource/ResourceHolder.h>
 #include "../Category.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/System/Time.hpp"

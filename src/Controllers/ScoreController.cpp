@@ -11,7 +11,7 @@ void ScoreController::create(const FontHolder& fonts)
     mScoreTextLabel = mEntitySystem.createObject("Score:", fonts);
     mScoreTextLabel->setPosition(10, 10);
 
-    const auto scoreAmountLabel = mEntitySystem.createObject("0", fonts);
+    scoreAmountLabel = mEntitySystem.createObject("0", fonts);
     scoreAmountLabel->setPosition(60, 10);
 }
 

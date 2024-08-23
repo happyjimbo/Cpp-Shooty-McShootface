@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EntitySystem.h"
-#include "ResourceIdentifiers.h"
+#include <Resource/ResourceIdentifiers.h>
 
 class ProjectileController;
 class CommandQueue;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EntityObject.h"
-#include "../ResourceIdentifiers.h"
+#include <Resource/ResourceIdentifiers.h>
 #include "SFML/Graphics/Sprite.hpp"
 
 class ProjectileEntity final : public EntityObject

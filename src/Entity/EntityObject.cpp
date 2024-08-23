@@ -1,5 +1,5 @@
 #include <EntityObject.h>
-#include "Command.h"
+#include <Command/Command.h>
 #include "Category.h"
 
 

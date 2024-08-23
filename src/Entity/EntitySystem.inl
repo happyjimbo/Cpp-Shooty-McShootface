@@ -1,5 +1,5 @@
 #include <EntitySystem.h>
-#include "Command.h"
+#include <Command/Command.h>
 
 template <typename T>
 template <typename... Args>

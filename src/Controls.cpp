@@ -1,6 +1,6 @@
 #include "Controls.h"
-#include "Command.h"
-#include "CommandQueue.h"
+#include <Command/Command.h>
+#include <Command/CommandQueue.h>
 #include "Entity/AircraftEntity.h"
 #include "Category.h"
 #include "ProjectileController.h"
