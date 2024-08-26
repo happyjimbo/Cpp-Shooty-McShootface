@@ -3,18 +3,6 @@
 #include "../Category.h"
 #include <Controllers/ProjectileController.h>
 
-Textures::ID toTextureID(const AircraftEntity::Type type)
-{
-    switch (type) {
-        case AircraftEntity::Eagle:
-            return Textures::Eagle;
-
-        case AircraftEntity::Raptor:
-            return Textures::Raptor;
-    }
-    return Textures::Eagle;
-}
-
 AircraftEntity::AircraftEntity(ProjectileController& projectileController, const Type type, const TextureHolder& textures)
 : mProjectileController(projectileController)
 , mType(type)
@@ -24,7 +12,7 @@ AircraftEntity::AircraftEntity(ProjectileController& projectileController, const
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-unsigned int AircraftEntity::getCategory() const
+unsigned int AircraftEntity::getCategory() const noexcept
 {
     switch (mType)
     {
@@ -60,4 +48,16 @@ void AircraftEntity::draw(sf::RenderTarget& target, sf::RenderStates states) con
 {
     states.transform *= getTransform();
     target.draw(mSprite, states);
+}
+
+Textures::ID AircraftEntity::toTextureID(const Type type) noexcept
+{
+    switch (type) {
+        case Eagle:
+            return Textures::Eagle;
+
+        case Raptor:
+            return Textures::Raptor;
+    }
+    return Textures::Eagle;
 }

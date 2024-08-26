@@ -1,6 +1,6 @@
 #include "PlayerAircraftController.h"
-#include "CommandQueue.h"
 #include <Entity/AircraftEntity.h>
+#include "Command/CommandQueue.h"
 
 PlayerAircraftController::PlayerAircraftController(
     EntitySystem<AircraftEntity>& entitySystem,

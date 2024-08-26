@@ -1,11 +1,10 @@
 #include "World.h"
-
-#include "EnemyAircraftController.h"
-#include "ProjectileController.h"
-#include "PlayerAircraftController.h"
-#include "ProjectileCollisionController.h"
-#include "BackgroundController.h"
-#include "ScoreController.h"
+#include <Controllers/EnemyAircraftController.h>
+#include <Controllers/ProjectileController.h>
+#include <Controllers/PlayerAircraftController.h>
+#include <Controllers/ProjectileCollisionController.h>
+#include <Controllers/BackgroundController.h>
+#include <Controllers/ScoreController.h>
 #include <Gui/Label.h>
 
 World::World(sf::RenderWindow& window)
@@ -13,7 +12,6 @@ World::World(sf::RenderWindow& window)
 , mWorldView(window.getDefaultView())
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
-, mScrollSpeed(-50.f)
 {
     loadTextures();
     loadFonts();
@@ -50,15 +48,15 @@ CommandQueue& World::getCommandQueue()
 void World::loadTextures()
 {
     // move these string values into a struct or similar
-    mTextures.load(Textures::Eagle, "Media/Textures/Eagle.png");
-    mTextures.load(Textures::Raptor, "Media/Textures/Raptor.png");
-    mTextures.load(Textures::Background, "Media/Textures/Grass.png");
-    mTextures.load(Textures::Bullet, "Media/Textures/Bullet.png");
+    mTextures.load(Textures::Eagle, MediaFiles::Eagle);
+    mTextures.load(Textures::Raptor, MediaFiles::Raptor);
+    mTextures.load(Textures::Background, MediaFiles::Background);
+    mTextures.load(Textures::Bullet, MediaFiles::Bullet);
 }
 
 void World::loadFonts()
 {
-    mFonts.load(Fonts::Main, "Media/Sansation.ttf");
+    mFonts.load(Fonts::Main, MediaFiles::Font);
 }
 
 void World::buildScene()

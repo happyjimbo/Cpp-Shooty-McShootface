@@ -7,12 +7,6 @@ class ProjectileController;
 
 class AircraftEntity final : public EntityObject
 {
-private:
-    enum Position {
-        Left,
-        Right
-    };
-
 public:
     enum Type {
         Eagle,
@@ -20,13 +14,20 @@ public:
     };
 
     explicit AircraftEntity(ProjectileController& projectileController, Type type, const TextureHolder& textures);
-    unsigned int getCategory() const override;
+    unsigned int getCategory() const noexcept override;
     void update(sf::Time delta) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void triggerProjectile(const ProjectileEntity::Type& type, float spawnSpeed);
     void hit();
 
 private:
+    enum Position {
+        Left,
+        Right
+    };
+
+    static Textures::ID toTextureID(Type type) noexcept;
+
     Type mType;
     sf::Sprite mSprite;
     ProjectileController& mProjectileController;

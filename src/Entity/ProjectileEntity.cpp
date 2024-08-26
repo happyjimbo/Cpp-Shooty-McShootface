@@ -5,20 +5,6 @@
 #include "SFML/System/Time.hpp"
 
 
-Textures::ID toTextureID(const ProjectileEntity::Type type)
-{
-    switch (type) {
-        case ProjectileEntity::Player:
-            return Textures::Bullet;
-
-        // TODO: change this
-        case ProjectileEntity::Enemy:
-            return Textures::Bullet;
-    }
-
-    return Textures::Bullet;
-}
-
 ProjectileEntity::ProjectileEntity(const Type type, const TextureHolder &textures)
 : mSprite(textures.get(toTextureID(type)))
 , mType(type)
@@ -38,12 +24,12 @@ void ProjectileEntity::draw(sf::RenderTarget &target, sf::RenderStates states) c
     target.draw(mSprite, states);
 }
 
-ProjectileEntity::Type ProjectileEntity::getType() const
+ProjectileEntity::Type ProjectileEntity::getType() const noexcept
 {
     return mType;
 }
 
-unsigned int ProjectileEntity::getCategory() const
+unsigned int ProjectileEntity::getCategory() const noexcept
 {
     switch (mType)
     {
@@ -55,3 +41,16 @@ unsigned int ProjectileEntity::getCategory() const
     }
 }
 
+Textures::ID ProjectileEntity::toTextureID(const Type type) noexcept
+{
+    switch (type) {
+        case Player:
+            return Textures::Bullet;
+
+        // TODO: change this
+        case Enemy:
+            return Textures::Bullet;
+    }
+
+    return Textures::Bullet;
+}

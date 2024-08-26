@@ -14,11 +14,12 @@ public:
 
     explicit ProjectileEntity(Type type, const TextureHolder& textures);
     void update(sf::Time delta) override;
-    Type getType() const;
-    unsigned int getCategory() const override;
+    Type getType() const noexcept;
+    unsigned int getCategory() const noexcept override;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    static Textures::ID toTextureID(Type type) noexcept;
 
     sf::Sprite mSprite;
     Type mType;

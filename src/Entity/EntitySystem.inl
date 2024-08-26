@@ -42,7 +42,7 @@ void EntitySystem<T>::onCommand(const Command& command, const sf::Time dt) const
 }
 
 template<typename T>
-const std::vector<T*>& EntitySystem<T>::getEntities() const
+const std::vector<T*>& EntitySystem<T>::getEntities() const noexcept
 {
     return mEntities;
 }

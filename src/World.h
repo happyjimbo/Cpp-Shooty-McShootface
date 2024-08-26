@@ -24,6 +24,16 @@ namespace GUI {
     class Label;
 }
 
+struct MediaFiles
+{
+    static constexpr const char* Eagle = "Media/Textures/Eagle.png";
+    static constexpr const char* Raptor = "Media/Textures/Raptor.png";
+    static constexpr const char* Background = "Media/Textures/Grass.png";
+    static constexpr const char* Bullet = "Media/Textures/Bullet.png";
+
+    static constexpr const char* Font = "Media/Sansation.ttf";
+};
+
 class World final {
 
 public:
@@ -49,8 +59,6 @@ private:
     void loadTextures();
     void loadFonts();
     void buildScene();
-    void adaptPlayerPosition() const;
-    void adaptPlayerVelocity() const;
 
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
@@ -67,7 +75,7 @@ private:
 
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;
-    float mScrollSpeed;
+    static constexpr float mScrollSpeed {-50.f};
 
     PlayerAircraftController* mPlayerAircraftController;
     ScoreController* mScoreController;

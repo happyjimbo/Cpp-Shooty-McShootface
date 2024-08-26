@@ -7,7 +7,7 @@
 
 namespace GUI
 {
-    Label::Label(const std::string& text, const FontHolder& fonts)
+    Label::Label(const std::string& text, const FontHolder& fonts) noexcept
     : mText(text, fonts.get(Fonts::ID::Main), 16)
     {
     }
@@ -17,7 +17,7 @@ namespace GUI
         target.draw(mText, states);
     }
 
-    void Label::setText(const std::string& text) {
+    void Label::setText(const std::string& text) noexcept {
         mText.setString(text);
     }
 

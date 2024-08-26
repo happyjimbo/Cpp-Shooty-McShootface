@@ -10,9 +10,9 @@ namespace GUI
     class Label final: public EntityObject
     {
     public:
-        explicit Label(const std::string& text, const FontHolder& fonts);
+        explicit Label(const std::string& text, const FontHolder& fonts) noexcept;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-        void setText(const std::string& text);
+        void setText(const std::string& text) noexcept;
         void update(sf::Time delta) override;
 
     private:
