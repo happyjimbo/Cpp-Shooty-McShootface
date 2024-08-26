@@ -20,7 +20,8 @@ namespace sf
     class RenderWindow;
 }
 
-namespace GUI {
+namespace GUI
+{
     class Label;
 }
 
@@ -30,11 +31,13 @@ struct MediaFiles
     static constexpr const char* Raptor = "Media/Textures/Raptor.png";
     static constexpr const char* Background = "Media/Textures/Grass.png";
     static constexpr const char* Bullet = "Media/Textures/Bullet.png";
+    static constexpr const char* Clouds = "Media/Textures/Clouds.png";
 
     static constexpr const char* Font = "Media/Sansation.ttf";
 };
 
-class World final {
+class World final
+{
 
 public:
     explicit World(sf::RenderWindow& window);
@@ -46,7 +49,8 @@ public:
 
 private:
 
-    enum Layer {
+    enum Layer
+    {
         Background,
         Air,
         Bulelts,

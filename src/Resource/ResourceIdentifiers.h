@@ -10,7 +10,8 @@ namespace Textures {
         Eagle,
         Raptor,
         Background,
-        Bullet
+        Bullet,
+        Clouds
     };
 }
 

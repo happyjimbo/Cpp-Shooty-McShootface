@@ -19,10 +19,15 @@ public:
 
 private:
     std::vector<SpriteEntity*> mBackgroundSprites {};
+    std::vector<SpriteEntity*> mCloudSprites {};
 
     TextureHolder& mTexture;
     const sf::Vector2f mBounds;
-    const float mScrollSpeed;
+
+    const float mScrollSpeedBackground;
+    const float mScrollSpeedClouds;
 
     EntitySystem<SpriteEntity>& mEntitySystem;
+
+    sf::IntRect cloudRect;
 };
