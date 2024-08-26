@@ -1,10 +1,6 @@
 #include "BackgroundController.h"
 
 #include <iostream>
-#include <random>
-#include <__random/random_device.h>
-
-#include "RandomFloatGenerator.h"
 #include "Resource/ResourceHolder.h"
 
 BackgroundController::BackgroundController (
