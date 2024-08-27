@@ -4,26 +4,27 @@
 #include <Resource/ResourceIdentifiers.h>
 #include "SpriteEntity.h"
 
-class BackgroundController final
+class CloudsController final
 {
 public:
-    explicit BackgroundController(
+    explicit CloudsController(
         EntitySystem<SpriteEntity>& entitySystem,
         TextureHolder& texture,
-        sf::Vector2u bounds,
         float scrollSpeed
     );
-    ~BackgroundController();
+    ~CloudsController();
     void create();
     void tick(sf::Time delta) const;
 
 private:
+
+    static float generateRandomXpos();
+
     EntitySystem<SpriteEntity>& mEntitySystem;
     std::vector<SpriteEntity*> mSprites {};
     TextureHolder& mTexture;
     sf::IntRect cloudRect;
-    const sf::Vector2f mBounds;
-    const float mScrollSpeed;
 
-
+    float mScrollSpeed;
+    const std::vector<float> mScrollSpeedOffsets = {0.3f, 1.f, 0.6f};
 };

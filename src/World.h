@@ -14,6 +14,7 @@ class ProjectileController;
 class EnemyAircraftController;
 class ProjectileCollisionController;
 class BackgroundController;
+class CloudsController;
 
 namespace sf
 {
@@ -84,6 +85,7 @@ private:
     PlayerAircraftController* mPlayerAircraftController;
     ScoreController* mScoreController;
     BackgroundController* mBackgroundController;
+    CloudsController* mCloudsController;
     EnemyAircraftController* mEnemyAircraftController;
     ProjectileController* mProjectileController;
     ProjectileCollisionController* mProjectileCollisionController;

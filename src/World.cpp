@@ -7,6 +7,8 @@
 #include <Controllers/ScoreController.h>
 #include <Gui/Label.h>
 
+#include "CloudsController.h"
+
 World::World(sf::RenderWindow& window)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
@@ -99,6 +101,13 @@ void World::buildScene()
     );
     mBackgroundController->create();
 
+    mCloudsController = new CloudsController (
+        mSpriteEntitySystem,
+        mTextures,
+        mScrollSpeed
+    );
+    mCloudsController->create();
+
     mPlayerAircraftController = new PlayerAircraftController(
         mPlayerAircraftEntitySystem,
         *mProjectileController,
@@ -117,6 +126,7 @@ void World::update(const sf::Time delta)
     mEnemyAircraftController->tick(delta);
     mProjectileCollisionController->tick(delta);
     mBackgroundController->tick(delta);
+    mCloudsController->tick(delta);
 
     mProjectileEntitySystem.update(delta);
     mPlayerAircraftEntitySystem.update(delta);
@@ -129,6 +139,7 @@ World::~World()
     delete mPlayerAircraftController;
     delete mScoreController;
     delete mBackgroundController;
+    delete mCloudsController;
     delete mEnemyAircraftController;
     delete mProjectileController;
     delete mProjectileCollisionController;
