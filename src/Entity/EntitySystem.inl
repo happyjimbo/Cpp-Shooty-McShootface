@@ -1,11 +1,13 @@
 #include <EntitySystem.h>
 #include <Command/Command.h>
 
+
 template <typename T>
 template <typename... Args>
 T* EntitySystem<T>::createObject(Args&&... args)
 {
-    T* entity = new T(std::forward<Args>(args)...);
+    //T* entity = new T(std::forward<Args>(args)...);
+    T* entity = mObjectPool.acquireObject(std::forward<Args>(args)...);
     mEntities.push_back(entity);
     return entity;
 }
@@ -15,7 +17,8 @@ void EntitySystem<T>::removeObject(T* entity)
 {
     auto it = std::find(mEntities.begin(), mEntities.end(), entity);
     if (it != mEntities.end()) {
-        delete *it;
+        //delete *it;
+        mObjectPool.releaseObject(*it);
         mEntities.erase(it);
     }
 }

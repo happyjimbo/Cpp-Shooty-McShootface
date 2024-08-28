@@ -54,6 +54,8 @@ add_executable(main src/main.cpp
         src/RandomFloatGenerator.h
         src/Controllers/CloudsController.cpp
         src/Controllers/CloudsController.h
+        src/Entity/ObjectPool.inl
+        src/Entity/ObjectPool.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target

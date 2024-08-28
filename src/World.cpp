@@ -77,6 +77,14 @@ void World::buildScene()
         mTextures,
         mWorldBounds
     );
+
+    mProjectileCollisionController = new ProjectileCollisionController(
+        mProjectileEntitySystem,
+        mEnemyAircraftEntitySystem,
+        mPlayerAircraftEntitySystem,
+        *mScoreController
+    );
+
     mEnemyAircraftController = new EnemyAircraftController(
         mEnemyAircraftEntitySystem,
         *mProjectileController,
@@ -86,12 +94,16 @@ void World::buildScene()
         mWorldBounds,
         mScrollSpeed
     );
-    mProjectileCollisionController = new ProjectileCollisionController(
-        mProjectileEntitySystem,
-        mEnemyAircraftEntitySystem,
-        mPlayerAircraftEntitySystem,
-        *mScoreController
-    );
+
+    mPlayerAircraftController = new PlayerAircraftController(
+       mPlayerAircraftEntitySystem,
+       *mProjectileController,
+       mCommandQueue,
+       mWorldView.getCenter(),
+       mWorldView.getSize(),
+       mScrollSpeed
+   );
+    mPlayerAircraftController->create(mTextures, mSpawnPosition);
 
     mBackgroundController = new BackgroundController(
         mSpriteEntitySystem,
@@ -108,28 +120,19 @@ void World::buildScene()
     );
     mCloudsController->create();
 
-    mPlayerAircraftController = new PlayerAircraftController(
-        mPlayerAircraftEntitySystem,
-        *mProjectileController,
-        mCommandQueue,
-        mWorldView.getCenter(),
-        mWorldView.getSize(),
-        mScrollSpeed
-    );
-    mPlayerAircraftController->create(mTextures, mSpawnPosition);
 }
 
 void World::update(const sf::Time delta)
 {
-    mPlayerAircraftController->tick(delta);
     mProjectileController->tick(delta, mScrollSpeed);
-    mEnemyAircraftController->tick(delta);
     mProjectileCollisionController->tick(delta);
+    mEnemyAircraftController->tick(delta);
+    mPlayerAircraftController->tick(delta);
     mBackgroundController->tick(delta);
     mCloudsController->tick(delta);
 
-    mProjectileEntitySystem.update(delta);
     mPlayerAircraftEntitySystem.update(delta);
+    mProjectileEntitySystem.update(delta);
     mEnemyAircraftEntitySystem.update(delta);
     mLabelEntitySystem.update(delta);
 }

@@ -7,9 +7,11 @@
 
 namespace GUI
 {
-    Label::Label(const std::string& text, const FontHolder& fonts) noexcept
-    : mText(text, fonts.get(Fonts::ID::Main), 16)
+    void Label::create(const std::string& text, const FontHolder& fonts)
     {
+        mText.setFont(fonts.get(Fonts::ID::Main));
+        mText.setCharacterSize(16);
+        mText.setString(text);
     }
 
     void Label::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -17,7 +19,7 @@ namespace GUI
         target.draw(mText, states);
     }
 
-    void Label::setText(const std::string& text) noexcept {
+    void Label::setText(const std::string& text) {
         mText.setString(text);
     }
 

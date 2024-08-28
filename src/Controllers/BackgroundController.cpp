@@ -1,6 +1,4 @@
 #include "BackgroundController.h"
-
-#include <iostream>
 #include "Resource/ResourceHolder.h"
 
 BackgroundController::BackgroundController (

@@ -56,11 +56,10 @@ void EnemyAircraftController::spawn(const float spawnInterval)
     {
         mTimeSinceLastSpawn = 0;
 
-        auto* aircraft = mEntitySystem.createObject(mProjectileController, mAircraftType, mTexture);
-
         const int x = mAircraftLeftPadding + rand() % static_cast<int>(mStartPosition.x - mAircraftRightPadding);
-
         const auto startPosition = sf::Vector2f(x, mStartPosition.y);
+
+        auto* aircraft = mEntitySystem.createObject(&mProjectileController, mAircraftType, mTexture);
         aircraft->setPosition(startPosition);
         aircraft->setRotation(180);
     }

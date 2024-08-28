@@ -4,7 +4,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-class EntityObject;
+#include "ObjectPool.h"
+
 struct Command;
 
 template<typename T>
@@ -27,6 +28,8 @@ private:
     std::vector<T*> mEntities;
     std::vector<T*> mEntitiesToAdd;
     std::unordered_set<T*> mEntitiesToRemove;
+
+    ObjectPool<T> mObjectPool;
 };
 
 #include "EntitySystem.inl"

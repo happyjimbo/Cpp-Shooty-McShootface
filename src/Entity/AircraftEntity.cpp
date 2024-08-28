@@ -3,11 +3,17 @@
 #include "../Category.h"
 #include <Controllers/ProjectileController.h>
 
-AircraftEntity::AircraftEntity(ProjectileController& projectileController, const Type type, const TextureHolder& textures)
-: mProjectileController(projectileController)
-, mType(type)
-, mSprite(textures.get(toTextureID(type)))
+void AircraftEntity::create(ProjectileController* projectileController, const Type type, const TextureHolder& textures)
 {
+    auto& texture = textures.get(toTextureID(type));
+    if (mSprite.getTexture() != &texture)
+    {
+        mSprite.setTexture(texture);
+    }
+
+    mProjectileController = projectileController;
+    mType = type;
+
     const sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
@@ -40,7 +46,7 @@ void AircraftEntity::triggerProjectile(const ProjectileEntity::Type& type, const
         const float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
         const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - mYOffsetAmount);
 
-        mProjectileController.spawn(type, spawnPos);
+        mProjectileController->spawn(type, spawnPos);
     }
 }
 

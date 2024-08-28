@@ -2,7 +2,6 @@
 #include <Command/Command.h>
 #include "Category.h"
 
-
 void EntityObject::setVelocity(const sf::Vector2f velocity) noexcept
 {
     mVelocity = velocity;
@@ -38,6 +37,12 @@ void EntityObject::update(const sf::Time delta)
 void EntityObject::draw(const sf::RenderTarget& target, const sf::RenderStates& states) const
 {
 
+}
+
+void EntityObject::reset()
+{
+    setPosition(100.f, 100.f);
+    setVelocity(sf::Vector2f(0, 0));
 }
 
 unsigned int EntityObject::getCategory() const noexcept

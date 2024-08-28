@@ -4,24 +4,29 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/System/Time.hpp"
 
-
-ProjectileEntity::ProjectileEntity(const Type type, const TextureHolder &textures)
-: mSprite(textures.get(toTextureID(type)))
-, mType(type)
+void ProjectileEntity::create(const Type type, const TextureHolder &textures)
 {
+    auto& texture = textures.get(toTextureID(type));
+    if (mSprite.getTexture() != &texture)
+    {
+        mSprite.setTexture(texture);
+    }
+
+    mType = type;
+
     const sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-}
-
-void ProjectileEntity::update(const sf::Time delta)
-{
-    move(mVelocity * delta.asSeconds());
 }
 
 void ProjectileEntity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
     target.draw(mSprite, states);
+}
+
+void ProjectileEntity::update(const sf::Time delta)
+{
+    move(mVelocity * delta.asSeconds());
 }
 
 ProjectileEntity::Type ProjectileEntity::getType() const noexcept

@@ -11,8 +11,10 @@ namespace sf {
 class SpriteEntity final : public EntityObject
 {
 public:
-    explicit SpriteEntity(const sf::Texture&);
-    SpriteEntity(const sf::Texture&, const sf::IntRect&);
+    SpriteEntity() = default;
+    SpriteEntity(const sf::Texture&, const sf::IntRect&) = delete;
+
+    void create(const sf::Texture&, const sf::IntRect&);
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

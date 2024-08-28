@@ -71,8 +71,8 @@ private:
     FontHolder mFonts;
 
     EntitySystem<ProjectileEntity> mProjectileEntitySystem;
-    EntitySystem<AircraftEntity> mEnemyAircraftEntitySystem;
     EntitySystem<AircraftEntity> mPlayerAircraftEntitySystem;
+    EntitySystem<AircraftEntity> mEnemyAircraftEntitySystem;
     EntitySystem<SpriteEntity> mSpriteEntitySystem;
     EntitySystem<GUI::Label> mLabelEntitySystem;
 
@@ -82,11 +82,11 @@ private:
     sf::Vector2f mSpawnPosition;
     static constexpr float mScrollSpeed {-50.f};
 
-    PlayerAircraftController* mPlayerAircraftController;
     ScoreController* mScoreController;
-    BackgroundController* mBackgroundController;
-    CloudsController* mCloudsController;
-    EnemyAircraftController* mEnemyAircraftController;
     ProjectileController* mProjectileController;
     ProjectileCollisionController* mProjectileCollisionController;
+    EnemyAircraftController* mEnemyAircraftController;
+    PlayerAircraftController* mPlayerAircraftController;
+    BackgroundController* mBackgroundController;
+    CloudsController* mCloudsController;
 };

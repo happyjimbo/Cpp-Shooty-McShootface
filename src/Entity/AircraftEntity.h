@@ -13,7 +13,10 @@ public:
         Raptor
     };
 
-    explicit AircraftEntity(ProjectileController& projectileController, Type type, const TextureHolder& textures);
+    AircraftEntity() = default;
+    AircraftEntity(ProjectileController& projectileController, Type type, const TextureHolder& textures) = delete;
+
+    void create(ProjectileController* projectileController, Type type, const TextureHolder& textures);
     unsigned int getCategory() const noexcept override;
     void update(sf::Time delta) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -27,10 +30,11 @@ private:
     };
 
     static Textures::ID toTextureID(Type type) noexcept;
+    Textures::ID mTexture {};
 
-    Type mType;
-    sf::Sprite mSprite;
-    ProjectileController& mProjectileController;
+    Type mType {};
+    sf::Sprite mSprite {};
+    ProjectileController* mProjectileController;
 
     static constexpr float mXOffsetAmount = 15.f;
     static constexpr float mYOffsetAmount = 5.f;
