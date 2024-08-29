@@ -16,6 +16,8 @@ class EntityObject : public sf::Transformable, public sf::Drawable, private sf::
 {
 public:
     EntityObject() = default;
+    ~EntityObject() override = default;
+
     void setVelocity(sf::Vector2f) noexcept;
     void setVelocity(float vx, float vy) noexcept;
     void accelerate(sf::Vector2f velocity) noexcept;

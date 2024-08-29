@@ -14,6 +14,7 @@ public:
 
     ProjectileEntity() = default;
     ProjectileEntity(Type type, const TextureHolder& textures) = delete;
+    ~ProjectileEntity() override = default;
 
     void create(Type type, const TextureHolder& textures);
     void update(sf::Time delta) override;
@@ -22,7 +23,7 @@ public:
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-    virtual Textures::ID toTextureID(Type type) noexcept;
+    Textures::ID toTextureID(Type type) noexcept;
 
     sf::Sprite mSprite {};
     Type mType {};

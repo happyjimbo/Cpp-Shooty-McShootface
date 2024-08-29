@@ -12,6 +12,7 @@ namespace GUI
     public:
         Label() = default;
         Label(const std::string& text, const FontHolder& fonts) = delete;
+        ~Label() override = default;
 
         void create(const std::string& text, const FontHolder& fonts);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

@@ -5,7 +5,7 @@ ProjectileController::ProjectileController(EntitySystem<ProjectileEntity>& entit
 , mTexture(texture)
 , mWorldBounds(worldBounds)
 {
-
+    mEntitySystem.prePool(20);
 }
 
 void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition) const

@@ -17,7 +17,7 @@ EnemyAircraftController::EnemyAircraftController (
       , mWorldBounds(worldBounds)
       , mScrollSpeed(scrollSpeed)
 {
-
+    mEntitySystem.prePool(20);
 }
 
 void EnemyAircraftController::tick(const sf::Time& delta)

@@ -11,7 +11,12 @@ struct Command;
 template<typename T>
 class EntitySystem final {
 public:
+
+    explicit EntitySystem() = default;
     ~EntitySystem();
+
+    void prePool(size_t count);
+
     template <typename... Args>
     T* createObject(Args&&... args);
 
@@ -26,9 +31,6 @@ private:
     // mEntites should probably be a list due to removing
     // entities from any part of it
     std::vector<T*> mEntities;
-    std::vector<T*> mEntitiesToAdd;
-    std::unordered_set<T*> mEntitiesToRemove;
-
     ObjectPool<T> mObjectPool;
 };
 

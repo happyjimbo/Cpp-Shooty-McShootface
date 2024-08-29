@@ -13,6 +13,7 @@ class SpriteEntity final : public EntityObject
 public:
     SpriteEntity() = default;
     SpriteEntity(const sf::Texture&, const sf::IntRect&) = delete;
+    ~SpriteEntity() override = default;
 
     void create(const sf::Texture&, const sf::IntRect&);
 

@@ -1,6 +1,11 @@
 #include <EntitySystem.h>
 #include <Command/Command.h>
 
+template<typename T>
+void EntitySystem<T>::prePool(size_t count)
+{
+    mObjectPool.prePool(count);
+}
 
 template <typename T>
 template <typename... Args>
@@ -52,8 +57,5 @@ const std::vector<T*>& EntitySystem<T>::getEntities() const noexcept
 
 template<typename T>
 EntitySystem<T>::~EntitySystem() {
-    for (const T* entity : mEntities) {
-        delete entity;
-    }
     mEntities.clear();
 }

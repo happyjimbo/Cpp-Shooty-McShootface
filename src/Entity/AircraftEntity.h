@@ -15,6 +15,7 @@ public:
 
     AircraftEntity() = default;
     AircraftEntity(ProjectileController& projectileController, Type type, const TextureHolder& textures) = delete;
+    ~AircraftEntity() override = default;
 
     void create(ProjectileController* projectileController, Type type, const TextureHolder& textures);
     unsigned int getCategory() const noexcept override;
