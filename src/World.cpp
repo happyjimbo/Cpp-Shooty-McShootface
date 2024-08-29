@@ -1,11 +1,11 @@
 #include "World.h"
-#include <Controllers/EnemyAircraftController.h>
-#include <Controllers/ProjectileController.h>
-#include <Controllers/PlayerAircraftController.h>
-#include <Controllers/ProjectileCollisionController.h>
-#include <Controllers/BackgroundController.h>
-#include <Controllers/ScoreController.h>
-#include <Gui/Label.h>
+#include "EnemyAircraftController.h"
+#include "ProjectileController.h"
+#include "PlayerAircraftController.h"
+#include "ProjectileCollisionController.h"
+#include "BackgroundController.h"
+#include "ScoreController.h"
+#include "Label.h"
 
 #include "CloudsController.h"
 

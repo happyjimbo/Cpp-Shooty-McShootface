@@ -1,5 +1,5 @@
 #include "Label.h"
-#include <Resource/ResourceHolder.h>
+#include "ResourceHolder.h"
 
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>

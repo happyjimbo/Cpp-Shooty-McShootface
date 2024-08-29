@@ -1,5 +1,5 @@
 #include "SpriteEntity.h"
-#include "SFML/Graphics/RenderTarget.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
 
 void SpriteEntity::create(const sf::Texture& texture, const sf::IntRect& rect)
 {

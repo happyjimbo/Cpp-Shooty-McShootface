@@ -1,8 +1,8 @@
+#include <SFML/System/Time.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include "ProjectileEntity.h"
-#include <Resource/ResourceHolder.h>
-#include "../Category.h"
-#include "SFML/Graphics/RenderTarget.hpp"
-#include "SFML/System/Time.hpp"
+#include "ResourceHolder.h"
+#include "Category.h"
 
 void ProjectileEntity::create(const Type type, const TextureHolder &textures)
 {

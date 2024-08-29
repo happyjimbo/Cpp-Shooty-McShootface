@@ -1,5 +1,5 @@
-#include <EntitySystem.h>
-#include <Command/Command.h>
+#include "EntitySystem.h"
+#include "Command.h"
 
 template<typename T>
 void EntitySystem<T>::prePool(size_t count)

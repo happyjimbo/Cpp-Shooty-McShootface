@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Entity/ProjectileEntity.h>
-#include <Entity/EntitySystem.h>
+#include "ProjectileEntity.h"
+#include "EntitySystem.h"
 
 class ProjectileController final
 {

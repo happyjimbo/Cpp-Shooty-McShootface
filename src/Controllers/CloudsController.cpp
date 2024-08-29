@@ -1,9 +1,9 @@
-#include "CloudsController.h"
+#include <CloudsController.h>
 
 #include <iostream>
 
-#include "RandomFloatGenerator.h"
-#include "Resource/ResourceHolder.h"
+#include <RandomFloatGenerator.h>
+#include <ResourceHolder.h>
 
 CloudsController::CloudsController (
     EntitySystem<SpriteEntity>& entitySystem,

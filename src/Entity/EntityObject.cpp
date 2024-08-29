@@ -1,5 +1,5 @@
-#include <EntityObject.h>
-#include <Command/Command.h>
+#include "EntityObject.h"
+#include "Command.h"
 #include "Category.h"
 
 void EntityObject::setVelocity(const sf::Vector2f velocity) noexcept

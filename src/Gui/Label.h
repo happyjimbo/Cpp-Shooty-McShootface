@@ -1,8 +1,8 @@
 #pragma once
 
 #include "EntityObject.h"
-#include <Resource/ResourceIdentifiers.h>
-#include "SFML/Graphics/Text.hpp"
+#include "ResourceIdentifiers.h"
+#include <SFML/Graphics/Text.hpp>
 
 namespace GUI
 {

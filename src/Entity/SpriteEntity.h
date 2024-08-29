@@ -1,7 +1,7 @@
 #pragma once
 
-#include <EntityObject.h>
-#include "SFML/Graphics/Sprite.hpp"
+#include "EntityObject.h"
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace sf {
     class RenderTarget;

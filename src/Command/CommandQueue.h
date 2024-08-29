@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Command/Command.h>
+#include <Command.h>
 #include <queue>
 
 class CommandQueue final

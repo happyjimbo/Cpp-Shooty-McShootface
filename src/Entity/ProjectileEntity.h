@@ -1,8 +1,8 @@
 #pragma once
 
+#include <SFML/Graphics/Sprite.hpp>
 #include "EntityObject.h"
-#include <Resource/ResourceIdentifiers.h>
-#include "SFML/Graphics/Sprite.hpp"
+#include "ResourceIdentifiers.h"
 
 class ProjectileEntity final : public EntityObject
 {

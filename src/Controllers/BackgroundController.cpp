@@ -1,5 +1,5 @@
-#include "BackgroundController.h"
-#include "Resource/ResourceHolder.h"
+#include <BackgroundController.h>
+#include <ResourceHolder.h>
 
 BackgroundController::BackgroundController (
     EntitySystem<SpriteEntity>& entitySystem,

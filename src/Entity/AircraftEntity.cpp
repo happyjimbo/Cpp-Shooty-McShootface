@@ -1,7 +1,7 @@
-#include <AircraftEntity.h>
-#include <Resource/ResourceHolder.h>
-#include "../Category.h"
-#include <Controllers/ProjectileController.h>
+#include "AircraftEntity.h"
+#include "ResourceHolder.h"
+#include "Category.h"
+#include "ProjectileController.h"
 
 void AircraftEntity::create(ProjectileController* projectileController, const Type type, const TextureHolder& textures)
 {

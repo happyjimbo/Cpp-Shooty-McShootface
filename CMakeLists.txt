@@ -54,8 +54,8 @@ add_executable(main src/main.cpp
         src/RandomFloatGenerator.h
         src/Controllers/CloudsController.cpp
         src/Controllers/CloudsController.h
-        src/Entity/ObjectPool.inl
-        src/Entity/ObjectPool.h
+        src/ObjectPool/ObjectPool.inl
+        src/ObjectPool/ObjectPool.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target
@@ -66,6 +66,7 @@ target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Resource
         ${CMAKE_SOURCE_DIR}/src/Command
         ${CMAKE_SOURCE_DIR}/src/Controllers
+        ${CMAKE_SOURCE_DIR}/src/ObjectPool
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)

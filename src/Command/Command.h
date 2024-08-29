@@ -4,7 +4,7 @@
 #include <functional>
 #include <cassert>
 
-#include "../Category.h"
+#include "Category.h"
 
 class EntityObject;
 

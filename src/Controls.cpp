@@ -1,6 +1,6 @@
 #include "Controls.h"
-#include <Command/CommandQueue.h>
-#include "Entity/AircraftEntity.h"
+#include "CommandQueue.h"
+#include "AircraftEntity.h"
 #include "Category.h"
 
 struct AircraftMover
