@@ -37,8 +37,8 @@ add_executable(main src/main.cpp
         src/Controllers/ProjectileController.h
         src/Controllers/EnemyAircraftController.cpp
         src/Controllers/EnemyAircraftController.h
-        src/Controllers/ProjectileCollisionController.cpp
-        src/Controllers/ProjectileCollisionController.h
+        src/System/ProjectileCollisionSystem.cpp
+        src/System/ProjectileCollisionSystem.h
         src/Gui/Label.cpp
         src/Gui/Label.h
         src/Entity/EntitySystem.h
@@ -56,6 +56,9 @@ add_executable(main src/main.cpp
         src/Controllers/CloudsController.h
         src/ObjectPool/ObjectPool.inl
         src/ObjectPool/ObjectPool.h
+        src/System/ProjectileSpawnSystem.cpp
+        src/System/ProjectileSpawnSystem.h
+        src/System/ProjectileSpawnSystem.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target
@@ -66,6 +69,7 @@ target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Resource
         ${CMAKE_SOURCE_DIR}/src/Command
         ${CMAKE_SOURCE_DIR}/src/Controllers
+        ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
 )
 

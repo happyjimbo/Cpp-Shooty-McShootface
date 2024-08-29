@@ -1,8 +1,8 @@
-#include "ProjectileCollisionController.h"
+#include "ProjectileCollisionSystem.h"
 #include "ScoreController.h"
 #include "AircraftEntity.h"
 
-ProjectileCollisionController::ProjectileCollisionController(
+ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,
     EntitySystem<AircraftEntity>& enemyAircraftEntities,
     EntitySystem<AircraftEntity>& playerAircraftEntities,
@@ -15,7 +15,7 @@ ProjectileCollisionController::ProjectileCollisionController(
 
 }
 
-void ProjectileCollisionController::tick(sf::Time delta) const
+void ProjectileCollisionSystem::tick(sf::Time delta) const
 {
     const auto& projectiles = mProjectileEntites.getEntities();
     const auto& enemyAircraft = mEnemyAircraftEntities.getEntities();
@@ -41,14 +41,14 @@ void ProjectileCollisionController::tick(sf::Time delta) const
     }
 }
 
-float ProjectileCollisionController::getSquareMagnitude(const sf::Vector2f pos1, const sf::Vector2f pos2)
+float ProjectileCollisionSystem::getSquareMagnitude(const sf::Vector2f pos1, const sf::Vector2f pos2)
 {
     const float dx = pos1.x - pos2.x;
     const float dy = pos1.y - pos2.y;
     return (dx * dx) + (dy * dy);
 }
 
-void ProjectileCollisionController::collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const
+void ProjectileCollisionSystem::collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const
 {
     mProjectileEntites.removeObject(projectile);
     mEnemyAircraftEntities.removeObject(aircraft);

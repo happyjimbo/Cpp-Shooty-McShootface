@@ -4,14 +4,12 @@
 
 PlayerAircraftController::PlayerAircraftController(
     EntitySystem<AircraftEntity>& entitySystem,
-    ProjectileController& projectileController,
     CommandQueue& commandQueue,
     const sf::Vector2f worldCenter,
     const sf::Vector2f worldSize,
     const float scrollSpeed
     ) noexcept
         : mEntitySystem(entitySystem)
-        , mProjectileController(projectileController)
         , mCommandQueue(commandQueue)
         , mWorldCenter(worldCenter)
         , mWorldSize(worldSize)
@@ -22,7 +20,7 @@ PlayerAircraftController::PlayerAircraftController(
 
 void PlayerAircraftController::create(const TextureHolder& textures, const sf::Vector2f spawnPosition)
 {
-    mPlayerAircraft = mEntitySystem.createObject(&mProjectileController, AircraftEntity::Eagle, textures);
+    mPlayerAircraft = mEntitySystem.createObject(AircraftEntity::Eagle, textures);
     mPlayerAircraft->setPosition(spawnPosition);
 }
 
@@ -36,7 +34,7 @@ void PlayerAircraftController::tick(const sf::Time delta) const
     }
 
     adaptPlayerVelocity();
-    adaptPlayerPosition();
+    mPlayerAircraft->accelerate(0.f, mScrollSpeed/2);
 }
 
 void PlayerAircraftController::adaptPlayerVelocity() const
@@ -47,14 +45,4 @@ void PlayerAircraftController::adaptPlayerVelocity() const
     position.y = std::max(position.y, mViewBounds.top + mBorderDistance);
     position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - mBorderDistance);
     mPlayerAircraft->setPosition(position);
-}
-
-void PlayerAircraftController::adaptPlayerPosition() const
-{
-    sf::Vector2f velocity = mPlayerAircraft->getVelocity();
-
-    if (velocity.x != 0.f && velocity.y != 0.f)
-        mPlayerAircraft->setVelocity(velocity / std::sqrt(2.f));
-
-    mPlayerAircraft->accelerate(0.f, mScrollSpeed/2);
 }

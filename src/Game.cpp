@@ -45,7 +45,7 @@ void Game::processInputs()
     sf::Event event;
     while(mWindow.pollEvent(event))
     {
-        mPlayer.handleEvent(event, commands);
+        mControls.handleEvent(event, commands);
 
         if (event.type == sf::Event::Closed)
         {
@@ -53,7 +53,7 @@ void Game::processInputs()
         }
     }
 
-    mPlayer.handleRealtimeInput(commands);
+    mControls.handleRealtimeInput(commands);
 }
 
 void Game::render()

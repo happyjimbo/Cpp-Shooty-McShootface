@@ -9,7 +9,6 @@ class EnemyAircraftController final
 public:
     explicit EnemyAircraftController(
         EntitySystem<AircraftEntity>& entitySystem,
-        ProjectileController& projectileController,
         const TextureHolder& textures,
         AircraftEntity::Type type,
         sf::Vector2f position,
@@ -25,7 +24,6 @@ private:
     void accelerate(float speed) const;
     void checkBounds() const;
 
-    ProjectileController& mProjectileController;
     const TextureHolder& mTexture;
     AircraftEntity::Type mAircraftType;
     EntitySystem<AircraftEntity>& mEntitySystem;

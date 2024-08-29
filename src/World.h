@@ -5,6 +5,7 @@
 #include <ResourceHolder.h>
 #include <ResourceIdentifiers.h>
 
+class ProjectileSpawnSystem;
 class PlayerAircraftController;
 class ScoreController;
 class ProjectileEntity;
@@ -12,7 +13,7 @@ class AircraftEntity;
 class SpriteEntity;
 class ProjectileController;
 class EnemyAircraftController;
-class ProjectileCollisionController;
+class ProjectileCollisionSystem;
 class BackgroundController;
 class CloudsController;
 
@@ -84,9 +85,12 @@ private:
 
     ScoreController* mScoreController;
     ProjectileController* mProjectileController;
-    ProjectileCollisionController* mProjectileCollisionController;
     EnemyAircraftController* mEnemyAircraftController;
     PlayerAircraftController* mPlayerAircraftController;
     BackgroundController* mBackgroundController;
     CloudsController* mCloudsController;
+
+    ProjectileSpawnSystem* mEnemyProjectileSpawnSystem;
+    ProjectileSpawnSystem* mPlayerProjectileSpawnSystem;
+    ProjectileCollisionSystem* mProjectileCollisionSystem;
 };

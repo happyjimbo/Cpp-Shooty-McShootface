@@ -17,7 +17,6 @@ class PlayerAircraftController final
 public:
     explicit PlayerAircraftController(
         EntitySystem<AircraftEntity>& entitySystem,
-        ProjectileController& projectileController,
         CommandQueue& commandQueue,
         sf::Vector2f worldCenter,
         sf::Vector2f worldSize,
@@ -29,12 +28,10 @@ public:
 
 private:
     void adaptPlayerVelocity() const;
-    void adaptPlayerPosition() const;
 
     AircraftEntity* mPlayerAircraft;
 
     EntitySystem<AircraftEntity>& mEntitySystem;
-    ProjectileController& mProjectileController;
     CommandQueue& mCommandQueue;
 
     const sf::Vector2f mWorldCenter;

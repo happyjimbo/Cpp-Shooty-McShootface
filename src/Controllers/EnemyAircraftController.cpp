@@ -2,7 +2,6 @@
 
 EnemyAircraftController::EnemyAircraftController (
     EntitySystem<AircraftEntity>& entitySystem,
-    ProjectileController& projectileController,
     const TextureHolder& textures,
     const AircraftEntity::Type type,
     const sf::Vector2f position,
@@ -10,7 +9,6 @@ EnemyAircraftController::EnemyAircraftController (
     const float scrollSpeed
     ) noexcept
       : mEntitySystem(entitySystem)
-      , mProjectileController(projectileController)
       , mTexture(textures)
       , mAircraftType(type)
       , mStartPosition(position)
@@ -59,7 +57,7 @@ void EnemyAircraftController::spawn(const float spawnInterval)
         const int x = mAircraftLeftPadding + rand() % static_cast<int>(mStartPosition.x - mAircraftRightPadding);
         const auto startPosition = sf::Vector2f(x, mStartPosition.y);
 
-        auto* aircraft = mEntitySystem.createObject(&mProjectileController, mAircraftType, mTexture);
+        auto* aircraft = mEntitySystem.createObject(mAircraftType, mTexture);
         aircraft->setPosition(startPosition);
         aircraft->setRotation(180);
     }

@@ -2,7 +2,8 @@
 #include "EnemyAircraftController.h"
 #include "ProjectileController.h"
 #include "PlayerAircraftController.h"
-#include "ProjectileCollisionController.h"
+#include "ProjectileCollisionSystem.h"
+#include "ProjectileSpawnSystem.h"
 #include "BackgroundController.h"
 #include "ScoreController.h"
 #include "Label.h"
@@ -78,16 +79,25 @@ void World::buildScene()
         mWorldBounds
     );
 
-    mProjectileCollisionController = new ProjectileCollisionController(
+    mProjectileCollisionSystem = new ProjectileCollisionSystem(
         mProjectileEntitySystem,
         mEnemyAircraftEntitySystem,
         mPlayerAircraftEntitySystem,
         *mScoreController
     );
 
+    mEnemyProjectileSpawnSystem = new ProjectileSpawnSystem(
+        mEnemyAircraftEntitySystem,
+        *mProjectileController
+    );
+
+    mPlayerProjectileSpawnSystem = new ProjectileSpawnSystem(
+        mPlayerAircraftEntitySystem,
+        *mProjectileController
+    );
+
     mEnemyAircraftController = new EnemyAircraftController(
         mEnemyAircraftEntitySystem,
-        *mProjectileController,
         mTextures,
         AircraftEntity::Type::Raptor,
         startPosition,
@@ -97,7 +107,6 @@ void World::buildScene()
 
     mPlayerAircraftController = new PlayerAircraftController(
        mPlayerAircraftEntitySystem,
-       *mProjectileController,
        mCommandQueue,
        mWorldView.getCenter(),
        mWorldView.getSize(),
@@ -125,7 +134,9 @@ void World::buildScene()
 void World::update(const sf::Time delta)
 {
     mProjectileController->tick(delta, mScrollSpeed);
-    mProjectileCollisionController->tick(delta);
+    mProjectileCollisionSystem->tick(delta);
+    mEnemyProjectileSpawnSystem->update();
+    mPlayerProjectileSpawnSystem->update();
     mEnemyAircraftController->tick(delta);
     mPlayerAircraftController->tick(delta);
     mBackgroundController->tick(delta);
@@ -139,11 +150,14 @@ void World::update(const sf::Time delta)
 
 World::~World()
 {
-    delete mPlayerAircraftController;
     delete mScoreController;
+    delete mProjectileController;
+    delete mEnemyAircraftController;
+    delete mPlayerAircraftController;
     delete mBackgroundController;
     delete mCloudsController;
-    delete mEnemyAircraftController;
-    delete mProjectileController;
-    delete mProjectileCollisionController;
+
+    delete mProjectileCollisionSystem;
+    delete mEnemyProjectileSpawnSystem;
+    delete mPlayerProjectileSpawnSystem;
 }

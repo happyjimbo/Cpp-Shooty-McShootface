@@ -3,7 +3,7 @@
 #include "Category.h"
 #include "ProjectileController.h"
 
-void AircraftEntity::create(ProjectileController* projectileController, const Type type, const TextureHolder& textures)
+void AircraftEntity::create(const Type type, const TextureHolder& textures)
 {
     auto& texture = textures.get(toTextureID(type));
     if (mSprite.getTexture() != &texture)
@@ -11,7 +11,6 @@ void AircraftEntity::create(ProjectileController* projectileController, const Ty
         mSprite.setTexture(texture);
     }
 
-    mProjectileController = projectileController;
     mType = type;
 
     const sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -41,12 +40,9 @@ void AircraftEntity::triggerProjectile(const ProjectileEntity::Type& type, const
     if (mTimeSinceLastProjectileSpawn > spawnSpeed) {
         mTimeSinceLastProjectileSpawn = 0;
 
-        const sf::Vector2f spawnPosition = getPosition();
+        mNeedsToFireProjectile = true;
+        mProjectileType = type;
         mPosition = mPosition == Left ? Right : Left;
-        const float xOffset = mPosition == Left ? -mXOffsetAmount : mXOffsetAmount;
-        const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - mYOffsetAmount);
-
-        mProjectileController->spawn(type, spawnPos);
     }
 }
 

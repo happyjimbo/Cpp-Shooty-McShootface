@@ -12,34 +12,40 @@ public:
         Eagle,
         Raptor
     };
-
-    AircraftEntity() = default;
-    AircraftEntity(ProjectileController& projectileController, Type type, const TextureHolder& textures) = delete;
-    ~AircraftEntity() override = default;
-
-    void create(ProjectileController* projectileController, Type type, const TextureHolder& textures);
-    unsigned int getCategory() const noexcept override;
-    void update(sf::Time delta) override;
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-    void triggerProjectile(const ProjectileEntity::Type& type, float spawnSpeed);
-    void hit();
-
-private:
     enum Position {
         Left,
         Right
     };
+
+    AircraftEntity() = default;
+    AircraftEntity(Type type, const TextureHolder& textures) = delete;
+    ~AircraftEntity() override = default;
+
+    void create(Type type, const TextureHolder& textures);
+    unsigned int getCategory() const noexcept override;
+    void update(sf::Time delta) override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void triggerProjectile(const ProjectileEntity::Type& type, float spawnSpeed);
+
+    bool needsToFireProjectile() const noexcept { return mNeedsToFireProjectile; }
+    ProjectileEntity::Type getProjectileType() const noexcept { return mProjectileType; }
+    Position getProjectilePosition() const noexcept { return mPosition; }
+    void resetFireProjectile() { mNeedsToFireProjectile = false; }
+
+    static constexpr float XOffsetAmount = 15.f;
+    static constexpr float YOffsetAmount = 5.f;
+
+private:
 
     static Textures::ID toTextureID(Type type) noexcept;
     Textures::ID mTexture {};
 
     Type mType {};
     sf::Sprite mSprite {};
-    ProjectileController* mProjectileController;
-
-    static constexpr float mXOffsetAmount = 15.f;
-    static constexpr float mYOffsetAmount = 5.f;
 
     Position mPosition = Left;
     float mTimeSinceLastProjectileSpawn = 0;
+
+    bool mNeedsToFireProjectile = false;
+    ProjectileEntity::Type mProjectileType;
 };

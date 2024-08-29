@@ -18,7 +18,7 @@ private:
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
     World mWorld;
-    Controls mPlayer;
+    Controls mControls;
 
     static constexpr const auto* mTitle = "Shooty McShootface";
     static constexpr int mScreenWidth {640};
