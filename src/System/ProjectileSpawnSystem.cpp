@@ -1,7 +1,6 @@
 #include "ProjectileSpawnSystem.h"
 
 using Aircraft::AircraftEntity;
-using Aircraft::ProjectileFiringData;
 
 void ProjectileSpawnSystem::update(const sf::Time delta) const
 {
@@ -9,17 +8,11 @@ void ProjectileSpawnSystem::update(const sf::Time delta) const
     {
         auto& firingData = aircraft->getProjectileFiringData();
 
-        firingData.mTimeSinceLastProjectileSpawn += delta.asSeconds();
-        if (firingData.needsToFireProjectile &&
-            firingData.mTimeSinceLastProjectileSpawn > firingData.speed)
+        firingData.updateTimeSinceLastProjectileSpawn(delta.asSeconds());
+        if (firingData.canFire())
         {
-            const auto& spawnPosition = aircraft->getPosition();
-            const auto position = firingData.position == ProjectileFiringData::Left ? ProjectileFiringData::Right : ProjectileFiringData::Left;
-            const float xOffset = position == ProjectileFiringData::Left ? -firingData.XOffsetAmount : firingData.XOffsetAmount;
-            const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - firingData.YOffsetAmount);
-
-            mProjectileController.spawn(firingData.projectileType, spawnPos);
-
+            const auto& pos = aircraft->getPosition();
+            mProjectileController.spawn(firingData.projectileType, firingData.getSpawnPos(pos));
             firingData.reset();
         }
     }

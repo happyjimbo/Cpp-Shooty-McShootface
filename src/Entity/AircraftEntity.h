@@ -2,27 +2,10 @@
 
 #include "EntityObject.h"
 #include "ProjectileEntity.h"
+#include "ProjectileFiringData.h"
 
 namespace Aircraft
 {
-    struct ProjectileFiringData {
-
-        float speed = 0;
-        float mTimeSinceLastProjectileSpawn = 0;
-        bool needsToFireProjectile;
-
-        ProjectileEntity::Type projectileType;
-        enum Position { Left, Right } position = Left;
-        static constexpr float XOffsetAmount = 15.f;
-        static constexpr float YOffsetAmount = 5.f;
-
-        void reset() noexcept
-        {
-            mTimeSinceLastProjectileSpawn = 0;
-            needsToFireProjectile = false;
-        }
-    };
-
     class AircraftEntity final : public EntityObject
     {
     public:

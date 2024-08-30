@@ -59,6 +59,7 @@ add_executable(main src/main.cpp
         src/System/ProjectileSpawnSystem.cpp
         src/System/ProjectileSpawnSystem.h
         src/System/ProjectileSpawnSystem.h
+        src/Data/ProjectileFiringData.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target
@@ -71,6 +72,7 @@ target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Controllers
         ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
+        ${CMAKE_SOURCE_DIR}/src/Data
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)
