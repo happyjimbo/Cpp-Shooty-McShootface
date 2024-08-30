@@ -38,7 +38,6 @@ namespace Aircraft
         void create(Type type, const TextureHolder& textures);
 
         unsigned int getCategory() const noexcept override;
-        void update(sf::Time delta) override;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
         void triggerProjectile(const ProjectileEntity::Type& type, float spawnSpeed);
