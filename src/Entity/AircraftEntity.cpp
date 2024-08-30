@@ -1,7 +1,7 @@
 #include "AircraftEntity.h"
 #include "ResourceHolder.h"
 #include "Category.h"
-#include "ProjectileController.h"
+#include "EntitySystem.h"
 
 using Aircraft::AircraftEntity;
 
