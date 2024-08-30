@@ -5,11 +5,11 @@
 
 struct ProjectileFiringData {
 
-    float speed = 0;
-    float mTimeSinceLastProjectileSpawn = 0;
-    bool needsToFireProjectile;
+    float speed {};
+    float mTimeSinceLastProjectileSpawn {};
+    bool needsToFireProjectile {};
 
-    ProjectileEntity::Type projectileType;
+    ProjectileEntity::Type projectileType {};
     enum Position { Left, Right } position = Left;
     static constexpr float XOffsetAmount = 15.f;
     static constexpr float YOffsetAmount = 5.f;
