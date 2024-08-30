@@ -1,6 +1,5 @@
 #include "ProjectileCollisionSystem.h"
 #include "ScoreController.h"
-#include "AircraftEntity.h"
 
 ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,

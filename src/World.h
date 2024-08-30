@@ -9,13 +9,18 @@ class ProjectileSpawnSystem;
 class PlayerAircraftController;
 class ScoreController;
 class ProjectileEntity;
-class AircraftEntity;
 class SpriteEntity;
 class ProjectileController;
 class EnemyAircraftController;
 class ProjectileCollisionSystem;
 class BackgroundController;
 class CloudsController;
+
+namespace Aircraft
+{
+    class AircraftEntity;
+}
+using Aircraft::AircraftEntity;
 
 namespace sf
 {

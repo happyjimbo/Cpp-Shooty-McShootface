@@ -3,6 +3,8 @@
 #include "AircraftEntity.h"
 #include "Category.h"
 
+using Aircraft::AircraftEntity;
+
 struct AircraftMover
 {
     AircraftMover(const float vx, const float vy)

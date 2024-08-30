@@ -4,6 +4,8 @@
 #include "ResourceIdentifiers.h"
 #include "EntitySystem.h"
 
+using Aircraft::AircraftEntity;
+
 class EnemyAircraftController final
 {
 public:
@@ -33,6 +35,7 @@ private:
 
     sf::Vector2f mStartPosition;
     sf::FloatRect mWorldBounds;
+
 
     constexpr static float mEnemyProjectileSpawnSpeed = 3.f;
     constexpr static float mSpeedDivider = 100.f;

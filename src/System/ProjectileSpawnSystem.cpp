@@ -1,18 +1,26 @@
 #include "ProjectileSpawnSystem.h"
 
-void ProjectileSpawnSystem::update() const
+using Aircraft::AircraftEntity;
+using Aircraft::ProjectileFiringData;
+
+void ProjectileSpawnSystem::update(const sf::Time delta) const
 {
     for (auto& aircraft : mAircraftSystem.getEntities())
     {
-        if (aircraft->needsToFireProjectile()) {
+        auto& firingData = aircraft->getProjectileFiringData();
+
+        firingData.mTimeSinceLastProjectileSpawn += delta.asSeconds();
+        if (firingData.needsToFireProjectile &&
+            firingData.mTimeSinceLastProjectileSpawn > firingData.speed)
+        {
             const auto& spawnPosition = aircraft->getPosition();
-            const auto mPosition = aircraft->getProjectilePosition() == AircraftEntity::Left ? AircraftEntity::Right : AircraftEntity::Left;
-            const float xOffset = mPosition == AircraftEntity::Left ? -AircraftEntity::XOffsetAmount : AircraftEntity::XOffsetAmount;
-            const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - AircraftEntity::YOffsetAmount);
+            const auto position = firingData.position == ProjectileFiringData::Left ? ProjectileFiringData::Right : ProjectileFiringData::Left;
+            const float xOffset = position == ProjectileFiringData::Left ? -firingData.XOffsetAmount : firingData.XOffsetAmount;
+            const auto spawnPos = sf::Vector2f(spawnPosition.x - xOffset, spawnPosition.y - firingData.YOffsetAmount);
 
-            mProjectileController.spawn(aircraft->getProjectileType(), spawnPos);
+            mProjectileController.spawn(firingData.projectileType, spawnPos);
 
-            aircraft->resetFireProjectile();
+            firingData.reset();
         }
     }
 }

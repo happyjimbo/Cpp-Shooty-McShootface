@@ -1,9 +1,11 @@
 #pragma once
 
-#include "EnemyAircraftController.h"
+#include "EntitySystem.h"
+#include "AircraftEntity.h"
+
+using Aircraft::AircraftEntity;
 
 class ScoreController;
-class AircraftEntity;
 class ProjectileEntity;
 
 class ProjectileCollisionSystem final

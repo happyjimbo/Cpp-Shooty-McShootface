@@ -3,6 +3,8 @@
 #include "Category.h"
 #include "ProjectileController.h"
 
+using Aircraft::AircraftEntity;
+
 void AircraftEntity::create(const Type type, const TextureHolder& textures)
 {
     auto& texture = textures.get(toTextureID(type));
@@ -31,19 +33,15 @@ unsigned int AircraftEntity::getCategory() const noexcept
 
 void AircraftEntity::update(const sf::Time delta)
 {
-    mTimeSinceLastProjectileSpawn += delta.asSeconds();
     move(mVelocity * delta.asSeconds());
 }
 
 void AircraftEntity::triggerProjectile(const ProjectileEntity::Type& type, const float spawnSpeed)
 {
-    if (mTimeSinceLastProjectileSpawn > spawnSpeed) {
-        mTimeSinceLastProjectileSpawn = 0;
-
-        mNeedsToFireProjectile = true;
-        mProjectileType = type;
-        mPosition = mPosition == Left ? Right : Left;
-    }
+    mProjectileFiringData.needsToFireProjectile = true;
+    mProjectileFiringData.speed = spawnSpeed;
+    mProjectileFiringData.projectileType = type;
+    mProjectileFiringData.position = (mProjectileFiringData.position == ProjectileFiringData::Left) ? ProjectileFiringData::Right : ProjectileFiringData::Left;
 }
 
 void AircraftEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const

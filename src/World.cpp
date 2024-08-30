@@ -135,8 +135,8 @@ void World::update(const sf::Time delta)
 {
     mProjectileController->tick(delta, mScrollSpeed);
     mProjectileCollisionSystem->tick(delta);
-    mEnemyProjectileSpawnSystem->update();
-    mPlayerProjectileSpawnSystem->update();
+    mEnemyProjectileSpawnSystem->update(delta);
+    mPlayerProjectileSpawnSystem->update(delta);
     mEnemyAircraftController->tick(delta);
     mPlayerAircraftController->tick(delta);
     mBackgroundController->tick(delta);

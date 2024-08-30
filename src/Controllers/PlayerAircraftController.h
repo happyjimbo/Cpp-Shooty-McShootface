@@ -3,9 +3,15 @@
 #include "EntitySystem.h"
 #include <Resource/ResourceIdentifiers.h>
 
+namespace Aircraft
+{
+    class AircraftEntity;
+}
+using Aircraft::AircraftEntity;
+
 class ProjectileController;
+
 class CommandQueue;
-class AircraftEntity;
 
 namespace sf
 {
