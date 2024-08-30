@@ -3,7 +3,6 @@
 #include "AircraftEntity.h"
 #include "EntitySystem.h"
 #include "ProjectileController.h"
-#include "ProjectileFiringData.h"
 
 using Aircraft::AircraftEntity;
 
