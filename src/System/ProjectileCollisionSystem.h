@@ -23,7 +23,6 @@ private:
     void collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const;
     static float getSquareMagnitude(sf::Vector2f pos1, sf::Vector2f pos2);
 
-private:
     EntitySystem<ProjectileEntity>& mProjectileEntites;
     EntitySystem<AircraftEntity>& mEnemyAircraftEntities;
     EntitySystem<AircraftEntity>& mPlayerAircraftEntities;

@@ -25,7 +25,7 @@ public:
 
     void create(const TextureHolder& textures, sf::Vector2f spawnPosition);
 
-    void tick(sf::Time) const;
+    void tick() const;
 
     AircraftEntity* getPlayerAircaft() const;
 

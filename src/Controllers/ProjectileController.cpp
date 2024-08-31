@@ -17,12 +17,7 @@ void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f
     projectile->setVelocity(0, speed);
 }
 
-void ProjectileController::tick(const sf::Time delta, const float speed) {
-    mTimeSinceLastSpawn += delta.asSeconds();
-    accelerate(delta);
-}
-
-void ProjectileController::accelerate(const sf::Time delta) const {
+void ProjectileController::tick(const sf::Time delta) const {
     for (auto& projectile : mEntitySystem.getEntities()) {
         projectile->update(delta);
     }

@@ -21,7 +21,7 @@ void PlayerAircraftController::create(const TextureHolder& textures, const sf::V
     mPlayerAircraft->setPosition(spawnPosition);
 }
 
-void PlayerAircraftController::tick(const sf::Time delta) const
+void PlayerAircraftController::tick() const
 {
     mPlayerAircraft->setVelocity(0.f, 0.f);
     enforceBoundaries();

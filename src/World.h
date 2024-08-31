@@ -5,6 +5,7 @@
 #include <ResourceIdentifiers.h>
 #include "PlayerControls.h"
 
+class SpawnEnemyAircraftSystem;
 class PlayerAircraftController;
 class ScoreController;
 class ProjectileEntity;
@@ -93,6 +94,7 @@ private:
     BackgroundController* mBackgroundController;
     CloudsController* mCloudsController;
 
+    SpawnEnemyAircraftSystem* mSpawnEnemyAircraftSystem;
     ProjectileSpawnSystem* mEnemyProjectileSpawnSystem;
     ProjectileSpawnSystem* mPlayerProjectileSpawnSystem;
     ProjectileCollisionSystem* mProjectileCollisionSystem;
