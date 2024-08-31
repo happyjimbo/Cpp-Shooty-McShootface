@@ -1,6 +1,6 @@
 #include "ScoreController.h"
 
-ScoreController::ScoreController(EntitySystem<GUI::Label>& entitySystem) noexcept
+ScoreController::ScoreController(EntitySystem<Label>& entitySystem) noexcept
 : mEntitySystem(entitySystem)
 {
 

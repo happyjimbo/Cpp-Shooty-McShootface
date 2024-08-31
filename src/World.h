@@ -28,10 +28,8 @@ namespace sf
     class RenderWindow;
 }
 
-namespace GUI
-{
-    class Label;
-}
+namespace GUI { class Label; }
+using GUI::Label;
 
 struct MediaFiles
 {

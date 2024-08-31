@@ -11,9 +11,10 @@ public:
     void tick(sf::Time delta) const;
 
 private:
+    EntitySystem<ProjectileEntity>& mEntitySystem;
     const TextureHolder& mTexture;
     const sf::FloatRect mWorldBounds;
+
     float mTimeSinceLastSpawn {};
     static constexpr float mSpeed = 500.f;
-    EntitySystem<ProjectileEntity>& mEntitySystem;
 };
