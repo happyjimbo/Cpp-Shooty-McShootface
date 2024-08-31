@@ -76,7 +76,7 @@ target_include_directories(main PRIVATE
 )
 
 target_link_libraries(main PRIVATE sfml-graphics)
-target_compile_features(main PRIVATE cxx_std_17)
+target_compile_features(main PRIVATE cxx_std_11)
 
 # Get a list of all texture files in the media directory
 file(GLOB_RECURSE TEXTURE_FILES

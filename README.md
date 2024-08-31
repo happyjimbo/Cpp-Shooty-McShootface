@@ -1,6 +1,6 @@
 # Shooty McShootface
 
-Basic C++ vertical shooter.
+Basic C++ 11 vertical shooter, built using [SFML](https://www.sfml-dev.org) and using the STL.
 
 - Deliberate mixture of smart and raw pointers with RAII in mind
 - Basic entity system
