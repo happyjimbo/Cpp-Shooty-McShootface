@@ -26,8 +26,6 @@ void EnemyAircraftController::tick(const sf::Time& delta)
     const float interval = spawnInterval(delta.asSeconds());
     spawn(interval);
 
-    checkBounds();
-
     for (const auto& aircraft : mEntitySystem.getEntities())
     {
         aircraft->update(delta);
@@ -59,17 +57,6 @@ void EnemyAircraftController::spawn(const float spawnInterval)
 
         auto* aircraft = mEntitySystem.createObject(mAircraftType, mTexture);
         aircraft->setPosition(startPosition);
-    }
-}
-
-void EnemyAircraftController::checkBounds() const
-{
-    for (auto* aircraft : mEntitySystem.getEntities())
-    {
-        if (aircraft->getPosition().y > mWorldBounds.height)
-        {
-            mEntitySystem.removeObject(aircraft);
-        }
     }
 }
 

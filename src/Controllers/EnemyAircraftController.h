@@ -24,7 +24,6 @@ private:
     float spawnInterval(float delta);
     void spawn(float spawnInterval);
     void accelerate(float speed) const;
-    void checkBounds() const;
 
     const TextureHolder& mTexture;
     AircraftEntity::Type mAircraftType;

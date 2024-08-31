@@ -14,7 +14,7 @@ ProjectileCollisionSystem::ProjectileCollisionSystem(
 
 }
 
-void ProjectileCollisionSystem::tick(sf::Time delta) const
+void ProjectileCollisionSystem::execute() const
 {
     const auto& projectiles = mProjectileEntites.getEntities();
     const auto& enemyAircraft = mEnemyAircraftEntities.getEntities();

@@ -8,12 +8,12 @@ using Aircraft::AircraftEntity;
 
 class ProjectileSpawnSystem {
 public:
-    ProjectileSpawnSystem(EntitySystem<AircraftEntity>& aircraftSystem, ProjectileController& projectileController)
-        : mAircraftSystem(aircraftSystem), mProjectileController(projectileController) {}
+    ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileController& projectileController) noexcept
+        : mEntiySystem(entiySystem), mProjectileController(projectileController) {}
 
-    void update(sf::Time delta) const;
+    void execute(sf::Time delta) const;
 
 private:
-    EntitySystem<AircraftEntity>& mAircraftSystem;
+    EntitySystem<AircraftEntity>& mEntiySystem;
     ProjectileController& mProjectileController;
 };

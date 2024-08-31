@@ -3,19 +3,21 @@
 #include "EntitySystem.h"
 #include <ResourceHolder.h>
 #include <ResourceIdentifiers.h>
-
 #include "PlayerControls.h"
 
-class ProjectileSpawnSystem;
 class PlayerAircraftController;
 class ScoreController;
 class ProjectileEntity;
 class SpriteEntity;
 class ProjectileController;
 class EnemyAircraftController;
-class ProjectileCollisionSystem;
 class BackgroundController;
 class CloudsController;
+
+class ProjectileCollisionSystem;
+class ProjectileSpawnSystem;
+class RemoveOffScreenEnemiesSystem;
+class RemoveOffScreenProjectilesSystem;
 
 namespace Aircraft { class AircraftEntity; }
 using Aircraft::AircraftEntity;
@@ -94,4 +96,6 @@ private:
     ProjectileSpawnSystem* mEnemyProjectileSpawnSystem;
     ProjectileSpawnSystem* mPlayerProjectileSpawnSystem;
     ProjectileCollisionSystem* mProjectileCollisionSystem;
+    RemoveOffScreenEnemiesSystem* mRemoveOffScreenEnemiesSystem;
+    RemoveOffScreenProjectilesSystem* mRemoveOffScreenProjectilesSystem;
 };

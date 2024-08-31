@@ -11,9 +11,7 @@ public:
     void tick(sf::Time delta, float speed);
 
 private:
-    void accelerate(sf::Time delta, float speed) const;
-    void checkBounds() const;
-
+    void accelerate(sf::Time delta) const;
 private:
     const TextureHolder& mTexture;
     const sf::FloatRect mWorldBounds;

@@ -2,9 +2,9 @@
 
 using Aircraft::AircraftEntity;
 
-void ProjectileSpawnSystem::update(const sf::Time delta) const
+void ProjectileSpawnSystem::execute(const sf::Time delta) const
 {
-    for (auto* aircraft : mAircraftSystem.getEntities())
+    for (auto* aircraft : mEntiySystem.getEntities())
     {
         auto& firingData = aircraft->getProjectileFiringData();
 

@@ -17,7 +17,7 @@ public:
         EntitySystem<AircraftEntity>& playerAircraftEntities,
         ScoreController& scoreController
     );
-    void tick(sf::Time delta) const;
+    void execute() const;
 
 private:
     void collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const;

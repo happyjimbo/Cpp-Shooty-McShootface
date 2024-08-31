@@ -19,21 +19,11 @@ void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f
 
 void ProjectileController::tick(const sf::Time delta, const float speed) {
     mTimeSinceLastSpawn += delta.asSeconds();
-    accelerate(delta, speed);
-    checkBounds();
+    accelerate(delta);
 }
 
-void ProjectileController::accelerate(const sf::Time delta, const float speed) const {
+void ProjectileController::accelerate(const sf::Time delta) const {
     for (auto& projectile : mEntitySystem.getEntities()) {
         projectile->update(delta);
-    }
-}
-
-void ProjectileController::checkBounds() const {
-    for (auto& projectile : mEntitySystem.getEntities()) {
-        if (projectile->getPosition().y > mWorldBounds.height ||
-            projectile->getPosition().y < 0) {
-            mEntitySystem.removeObject(projectile);
-        }
     }
 }

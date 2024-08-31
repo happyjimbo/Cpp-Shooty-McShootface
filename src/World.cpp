@@ -1,14 +1,15 @@
 #include "World.h"
+#include "Label.h"
 #include "EnemyAircraftController.h"
 #include "ProjectileController.h"
 #include "PlayerAircraftController.h"
-#include "ProjectileCollisionSystem.h"
-#include "ProjectileSpawnSystem.h"
 #include "BackgroundController.h"
 #include "ScoreController.h"
-#include "Label.h"
-
 #include "CloudsController.h"
+#include "ProjectileSpawnSystem.h"
+#include "ProjectileCollisionSystem.h"
+#include "RemoveOffScreenEnemiesSystem.h"
+#include "RemoveOffScreenProjectilesSystem.h"
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -92,6 +93,16 @@ void World::buildScene()
         *mProjectileController
     );
 
+    mRemoveOffScreenEnemiesSystem = new RemoveOffScreenEnemiesSystem(
+        mEnemyAircraftEntitySystem,
+        mWorldBounds.height
+    );
+
+    mRemoveOffScreenProjectilesSystem = new RemoveOffScreenProjectilesSystem(
+        mProjectileEntitySystem,
+        mWorldBounds.height
+    );
+
     mEnemyAircraftController = new EnemyAircraftController(
         mEnemyAircraftEntitySystem,
         mTextures,
@@ -132,9 +143,11 @@ void World::buildScene()
 void World::update(const sf::Time delta)
 {
     mProjectileController->tick(delta, mScrollSpeed);
-    mProjectileCollisionSystem->tick(delta);
-    mEnemyProjectileSpawnSystem->update(delta);
-    mPlayerProjectileSpawnSystem->update(delta);
+    mProjectileCollisionSystem->execute();
+    mEnemyProjectileSpawnSystem->execute(delta);
+    mPlayerProjectileSpawnSystem->execute(delta);
+    mRemoveOffScreenEnemiesSystem->execute();
+    mRemoveOffScreenProjectilesSystem->execute();
     mEnemyAircraftController->tick(delta);
     mPlayerAircraftController->tick(delta);
     mBackgroundController->tick(delta);
@@ -160,4 +173,6 @@ World::~World()
     delete mProjectileCollisionSystem;
     delete mEnemyProjectileSpawnSystem;
     delete mPlayerProjectileSpawnSystem;
+    delete mRemoveOffScreenEnemiesSystem;
+    delete mRemoveOffScreenProjectilesSystem;
 }

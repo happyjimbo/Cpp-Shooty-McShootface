@@ -35,6 +35,7 @@ T* ObjectPool<T>::acquireObject(Args&&... args)
 template<typename T>
 void ObjectPool<T>::releaseObject(T* obj)
 {
+    //std::cout << "release to the pool" << std::endl;
     mPool.push_back(obj);
 }
 
