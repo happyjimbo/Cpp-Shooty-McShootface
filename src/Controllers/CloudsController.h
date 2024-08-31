@@ -11,7 +11,8 @@ public:
         EntitySystem<SpriteEntity>& entitySystem,
         TextureHolder& texture,
         float scrollSpeed
-    );
+    ) noexcept;
+
     ~CloudsController();
     void create();
     void tick(sf::Time delta) const;

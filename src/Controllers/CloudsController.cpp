@@ -5,11 +5,7 @@
 #include <RandomFloatGenerator.h>
 #include <ResourceHolder.h>
 
-CloudsController::CloudsController (
-    EntitySystem<SpriteEntity>& entitySystem,
-    TextureHolder& texture,
-    const float scrollSpeed
-)
+CloudsController::CloudsController (EntitySystem<SpriteEntity>& entitySystem, TextureHolder& texture, const float scrollSpeed) noexcept
 : mEntitySystem(entitySystem)
 , mTexture(texture)
 , mScrollSpeed(scrollSpeed * 2.f)

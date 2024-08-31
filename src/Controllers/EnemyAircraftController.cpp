@@ -59,7 +59,6 @@ void EnemyAircraftController::spawn(const float spawnInterval)
 
         auto* aircraft = mEntitySystem.createObject(mAircraftType, mTexture);
         aircraft->setPosition(startPosition);
-        aircraft->setRotation(180);
     }
 }
 
