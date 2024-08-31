@@ -23,8 +23,6 @@ public:
     void removeObject(T* entity);
     void update(sf::Time dt);
 
-    // void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-    void onCommand(const Command& command, sf::Time dt) const;
     const std::vector<T*>& getEntities() const noexcept;
 
 private:

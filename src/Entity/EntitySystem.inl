@@ -1,5 +1,4 @@
 #include "EntitySystem.h"
-#include "Command.h"
 
 template<typename T>
 void EntitySystem<T>::prePool(size_t count)
@@ -34,18 +33,6 @@ void EntitySystem<T>::update(const sf::Time dt)
     for (const auto& entity : mEntities)
     {
         entity->update(dt);
-    }
-}
-
-template <typename T>
-void EntitySystem<T>::onCommand(const Command& command, const sf::Time dt) const
-{
-    for (const auto& entity : mEntities)
-    {
-        auto cat = entity->getCategory();
-        if (entity != nullptr && command.category & cat) {
-            command.action(*entity, dt);
-        }
     }
 }
 

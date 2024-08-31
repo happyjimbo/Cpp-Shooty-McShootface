@@ -30,7 +30,7 @@ namespace Aircraft
 
     private:
 
-        static Textures::ID toTextureID(Type type) noexcept;
+        constexpr static Textures::ID toTextureID(Type type) noexcept;
         Textures::ID mTexture {};
 
         Type mType {};

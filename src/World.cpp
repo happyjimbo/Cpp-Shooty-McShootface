@@ -43,11 +43,6 @@ void World::drawEntities(EntitySystem<T>& system)
     }
 }
 
-CommandQueue& World::getCommandQueue()
-{
-    return mCommandQueue;
-}
-
 void World::loadTextures()
 {
     // move these string values into a struct or similar
@@ -107,7 +102,6 @@ void World::buildScene()
 
     mPlayerAircraftController = new PlayerAircraftController(
        mPlayerAircraftEntitySystem,
-       mCommandQueue,
        mWorldView.getCenter(),
        mWorldView.getSize(),
        mScrollSpeed
@@ -129,6 +123,9 @@ void World::buildScene()
     );
     mCloudsController->create();
 
+    simpleControls.initializeActions(
+        *mPlayerAircraftController->getPlayerAircaft()
+    );
 }
 
 void World::update(const sf::Time delta)
@@ -141,6 +138,8 @@ void World::update(const sf::Time delta)
     mPlayerAircraftController->tick(delta);
     mBackgroundController->tick(delta);
     mCloudsController->tick(delta);
+
+    simpleControls.handleRealtimeInput();
 
     mPlayerAircraftEntitySystem.update(delta);
     mProjectileEntitySystem.update(delta);

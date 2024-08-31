@@ -1,9 +1,10 @@
 #pragma once
 
-#include <CommandQueue.h>
 #include "EntitySystem.h"
 #include <ResourceHolder.h>
 #include <ResourceIdentifiers.h>
+
+#include "PlayerControls.h"
 
 class ProjectileSpawnSystem;
 class PlayerAircraftController;
@@ -16,10 +17,7 @@ class ProjectileCollisionSystem;
 class BackgroundController;
 class CloudsController;
 
-namespace Aircraft
-{
-    class AircraftEntity;
-}
+namespace Aircraft { class AircraftEntity; }
 using Aircraft::AircraftEntity;
 
 namespace sf
@@ -52,8 +50,6 @@ public:
 
     void update(sf::Time);
     void draw();
-    CommandQueue& getCommandQueue();
-
 private:
 
     enum Layer
@@ -75,14 +71,13 @@ private:
     sf::View mWorldView;
     TextureHolder mTextures;
     FontHolder mFonts;
+    PlayerControls simpleControls;
 
     EntitySystem<ProjectileEntity> mProjectileEntitySystem;
     EntitySystem<AircraftEntity> mPlayerAircraftEntitySystem;
     EntitySystem<AircraftEntity> mEnemyAircraftEntitySystem;
     EntitySystem<SpriteEntity> mSpriteEntitySystem;
     EntitySystem<GUI::Label> mLabelEntitySystem;
-
-    CommandQueue mCommandQueue;
 
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;

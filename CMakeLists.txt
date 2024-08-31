@@ -25,12 +25,7 @@ add_executable(main src/main.cpp
         src/Entity/SpriteEntity.h
         src/Entity/AircraftEntity.cpp
         src/Entity/AircraftEntity.h
-        src/Command/Command.h
-        src/Category.h
-        src/Command/CommandQueue.cpp
-        src/Command/CommandQueue.h
-        src/Controls.cpp
-        src/Controls.h
+        src/Data/Category.h
         src/Entity/ProjectileEntity.cpp
         src/Entity/ProjectileEntity.h
         src/Controllers/ProjectileController.cpp
@@ -58,8 +53,9 @@ add_executable(main src/main.cpp
         src/ObjectPool/ObjectPool.h
         src/System/ProjectileSpawnSystem.cpp
         src/System/ProjectileSpawnSystem.h
-        src/System/ProjectileSpawnSystem.h
         src/Data/ProjectileFiringData.h
+        src/PlayerControls.cpp
+        src/PlayerControls.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target

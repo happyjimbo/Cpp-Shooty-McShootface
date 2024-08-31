@@ -23,7 +23,7 @@ public:
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-    Textures::ID toTextureID(Type type) noexcept;
+    constexpr static Textures::ID toTextureID(Type type) noexcept;
 
     sf::Sprite mSprite {};
     Type mType {};

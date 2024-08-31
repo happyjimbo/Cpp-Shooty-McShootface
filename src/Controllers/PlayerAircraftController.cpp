@@ -1,16 +1,13 @@
 #include "PlayerAircraftController.h"
 #include "AircraftEntity.h"
-#include "CommandQueue.h"
 
 PlayerAircraftController::PlayerAircraftController(
     EntitySystem<AircraftEntity>& entitySystem,
-    CommandQueue& commandQueue,
     const sf::Vector2f worldCenter,
     const sf::Vector2f worldSize,
     const float scrollSpeed
     ) noexcept
         : mEntitySystem(entitySystem)
-        , mCommandQueue(commandQueue)
         , mWorldCenter(worldCenter)
         , mWorldSize(worldSize)
         , mScrollSpeed(scrollSpeed)
@@ -27,17 +24,11 @@ void PlayerAircraftController::create(const TextureHolder& textures, const sf::V
 void PlayerAircraftController::tick(const sf::Time delta) const
 {
     mPlayerAircraft->setVelocity(0.f, 0.f);
-
-    while (!mCommandQueue.isEmpty())
-    {
-        mEntitySystem.onCommand(mCommandQueue.pop(), delta);
-    }
-
-    adaptPlayerVelocity();
+    enforceBoundaries();
     mPlayerAircraft->accelerate(0.f, mScrollSpeed/2);
 }
 
-void PlayerAircraftController::adaptPlayerVelocity() const
+void PlayerAircraftController::enforceBoundaries() const
 {
     auto position = mPlayerAircraft->getPosition();
     position.x = std::max(position.x, mViewBounds.left + mBorderDistance);
@@ -45,4 +36,9 @@ void PlayerAircraftController::adaptPlayerVelocity() const
     position.y = std::max(position.y, mViewBounds.top + mBorderDistance);
     position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - mBorderDistance);
     mPlayerAircraft->setPosition(position);
+}
+
+AircraftEntity* PlayerAircraftController::getPlayerAircaft() const
+{
+    return mPlayerAircraft;
 }

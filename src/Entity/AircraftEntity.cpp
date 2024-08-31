@@ -45,7 +45,7 @@ void AircraftEntity::draw(sf::RenderTarget& target, sf::RenderStates states) con
     target.draw(mSprite, states);
 }
 
-Textures::ID AircraftEntity::toTextureID(const Type type) noexcept
+constexpr Textures::ID AircraftEntity::toTextureID(const Type type) noexcept
 {
     switch (type) {
         case Eagle:

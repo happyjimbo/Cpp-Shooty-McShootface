@@ -46,7 +46,7 @@ unsigned int ProjectileEntity::getCategory() const noexcept
     }
 }
 
-Textures::ID ProjectileEntity::toTextureID(const Type type) noexcept
+constexpr Textures::ID ProjectileEntity::toTextureID(const Type type) noexcept
 {
     switch (type) {
         case Player:

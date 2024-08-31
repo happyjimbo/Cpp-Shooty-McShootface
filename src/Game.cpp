@@ -25,7 +25,7 @@ void Game::run()
         {
             timeSinceLastUpdate -= TimePerFrame;
 
-            processInputs();
+            processWindowEvents();
             update(TimePerFrame);
 
             render();
@@ -38,22 +38,16 @@ void Game::update(const sf::Time elapsedTime)
     mWorld.update(elapsedTime);
 }
 
-void Game::processInputs()
+void Game::processWindowEvents()
 {
-    CommandQueue& commands = mWorld.getCommandQueue();
-
     sf::Event event;
     while(mWindow.pollEvent(event))
     {
-        mControls.handleEvent(event, commands);
-
         if (event.type == sf::Event::Closed)
         {
             mWindow.close();
         }
     }
-
-    mControls.handleRealtimeInput(commands);
 }
 
 void Game::render()

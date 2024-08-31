@@ -2,7 +2,6 @@
 
 #include "SFML/Graphics.hpp"
 #include "World.h"
-#include "Controls.h"
 
 class Game final : private sf::NonCopyable
 {
@@ -11,14 +10,13 @@ public:
     void run();
 
 private:
-    void processInputs();
-    void render();
     void update(sf::Time);
+    void processWindowEvents();
+    void render();
 
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
     World mWorld;
-    Controls mControls;
 
     static constexpr const auto* mTitle = "Shooty McShootface";
     static constexpr int mScreenWidth {640};

@@ -1,6 +1,6 @@
 #include "EntityObject.h"
-#include "Command.h"
 #include "Category.h"
+#include <SFML/System/Time.hpp>
 
 void EntityObject::setVelocity(const sf::Vector2f velocity) noexcept
 {
