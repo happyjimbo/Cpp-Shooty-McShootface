@@ -50,6 +50,7 @@ void World::loadTextures()
     mTextures.load(Textures::Raptor, MediaFiles::Raptor);
     mTextures.load(Textures::Background, MediaFiles::Background);
     mTextures.load(Textures::Bullet, MediaFiles::Bullet);
+    mTextures.load(Textures::EnemyBullet, MediaFiles::EnemyBullet);
     mTextures.load(Textures::Clouds, MediaFiles::Clouds);
 }
 

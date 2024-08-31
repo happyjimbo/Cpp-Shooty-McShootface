@@ -52,10 +52,7 @@ constexpr Textures::ID ProjectileEntity::toTextureID(const Type type) noexcept
         case Player:
             return Textures::Bullet;
 
-        // TODO: change this
-        case Enemy:
-            return Textures::Bullet;
+        default:
+            return Textures::EnemyBullet;
     }
-
-    return Textures::Bullet;
 }
