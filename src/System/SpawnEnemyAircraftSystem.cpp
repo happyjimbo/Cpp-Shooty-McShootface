@@ -6,11 +6,11 @@
 SpawnEnemyAircraftSystem::SpawnEnemyAircraftSystem(
     EntitySystem<AircraftEntity>& entitySystem,
     const TextureHolder& textures,
-    const sf::Vector2f position
+    const float screenWidth
     ) noexcept
     : mEntitySystem(entitySystem)
     , mTexture(textures)
-    , mPosition(position)
+    , mPosition(screenWidth, mStartYPos)
 {
 
 }

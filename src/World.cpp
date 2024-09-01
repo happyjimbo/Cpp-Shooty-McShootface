@@ -63,9 +63,6 @@ void World::loadFonts()
 
 void World::buildScene()
 {
-    // this is for the mEnemyAircraftController and should be internalised in that logic
-    const auto startPosition = sf::Vector2f (mWorldBounds.width, (mSpawnPosition.y - mWorldView.getSize().y / 2)-100);
-
     mScoreController = new ScoreController(
         mLabelEntitySystem
     );
@@ -87,7 +84,7 @@ void World::buildScene()
     mSpawnEnemyAircraftSystem = new SpawnEnemyAircraftSystem(
         mEnemyAircraftEntitySystem,
         mTextures,
-        startPosition
+        mWorldBounds.width
     );
 
     mEnemyProjectileSpawnSystem = new ProjectileSpawnSystem(

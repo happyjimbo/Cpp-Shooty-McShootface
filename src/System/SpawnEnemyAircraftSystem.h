@@ -11,7 +11,7 @@ public:
     explicit SpawnEnemyAircraftSystem(
         EntitySystem<AircraftEntity>& entitySystem,
         const TextureHolder& textures,
-        sf::Vector2f position
+        float screenWidth
         ) noexcept;
 
     void execute(sf::Time delta);
@@ -30,8 +30,11 @@ private:
     constexpr static float mAircraftLeftPadding = 30.0f;
     constexpr static float mAircraftRightPadding = mAircraftLeftPadding * 2;
 
+    constexpr static float mStartYPos = -100;
+
     EntitySystem<AircraftEntity>& mEntitySystem;
 
     float mTimeSinceLastSpawn {};
     float mElapsedTime = 0.0f;
+
 };
