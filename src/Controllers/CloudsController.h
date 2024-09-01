@@ -13,7 +13,7 @@ public:
         float scrollSpeed
     ) noexcept;
 
-    ~CloudsController();
+    ~CloudsController() noexcept = default;
     void create();
     void tick(sf::Time delta) const;
 

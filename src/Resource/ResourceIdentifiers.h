@@ -12,7 +12,8 @@ namespace Textures {
         Background,
         Bullet,
         EnemyBullet,
-        Clouds
+        Clouds,
+        Explosion
     };
 }
 

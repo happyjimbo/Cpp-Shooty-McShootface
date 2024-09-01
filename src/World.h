@@ -5,6 +5,9 @@
 #include <ResourceIdentifiers.h>
 #include "PlayerControls.h"
 
+class ExplosionAnimationSystem;
+class ExplosionController;
+class ExplosionEntity;
 class SpawnEnemyAircraftSystem;
 class PlayerAircraftController;
 class ScoreController;
@@ -23,25 +26,10 @@ class RemoveOffScreenProjectilesSystem;
 namespace Aircraft { class AircraftEntity; }
 using Aircraft::AircraftEntity;
 
-namespace sf
-{
-    class RenderWindow;
-}
+namespace sf { class RenderWindow; }
 
 namespace GUI { class Label; }
 using GUI::Label;
-
-struct MediaFiles
-{
-    static constexpr const char* Eagle = "Media/Textures/Eagle.png";
-    static constexpr const char* Raptor = "Media/Textures/Raptor.png";
-    static constexpr const char* Background = "Media/Textures/Grass.png";
-    static constexpr const char* Bullet = "Media/Textures/Bullet.png";
-    static constexpr const char* EnemyBullet = "Media/Textures/EnemyBullet.png";
-    static constexpr const char* Clouds = "Media/Textures/Clouds.png";
-
-    static constexpr const char* Font = "Media/Sansation.ttf";
-};
 
 class World final
 {
@@ -79,7 +67,8 @@ private:
     EntitySystem<AircraftEntity> mPlayerAircraftEntitySystem;
     EntitySystem<AircraftEntity> mEnemyAircraftEntitySystem;
     EntitySystem<SpriteEntity> mSpriteEntitySystem;
-    EntitySystem<GUI::Label> mLabelEntitySystem;
+    EntitySystem<ExplosionEntity> mExplosionEntitySystem;
+    EntitySystem<Label> mLabelEntitySystem;
 
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;
@@ -91,6 +80,7 @@ private:
     PlayerAircraftController* mPlayerAircraftController;
     BackgroundController* mBackgroundController;
     CloudsController* mCloudsController;
+    ExplosionController* mExplosionController;
 
     SpawnEnemyAircraftSystem* mSpawnEnemyAircraftSystem;
     ProjectileSpawnSystem* mEnemyProjectileSpawnSystem;
@@ -98,4 +88,5 @@ private:
     ProjectileCollisionSystem* mProjectileCollisionSystem;
     RemoveOffScreenEnemiesSystem* mRemoveOffScreenEnemiesSystem;
     RemoveOffScreenProjectilesSystem* mRemoveOffScreenProjectilesSystem;
+    ExplosionAnimationSystem* mExplosionAnimationSystem;
 };

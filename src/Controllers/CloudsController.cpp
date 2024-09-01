@@ -16,7 +16,7 @@ CloudsController::CloudsController (EntitySystem<SpriteEntity>& entitySystem, Te
 void CloudsController::create()
 {
     auto& cloudsTexture = mTexture.get(Textures::Clouds);
-    cloudRect = sf::IntRect(sf::FloatRect(0,0, cloudsTexture.getSize().x, cloudsTexture.getSize().y));
+    cloudRect = sf::IntRect(0, 0, cloudsTexture.getSize().x, cloudsTexture.getSize().y);
 
     for (std::size_t i = 0; i < mScrollSpeedOffsets.size(); i++)
     {
@@ -46,10 +46,4 @@ void CloudsController::tick(const sf::Time delta) const
 float CloudsController::generateRandomXpos()
 {
     return generateRandomFloat(-10.f, 20.f);
-}
-
-
-CloudsController::~CloudsController()
-{
-    mSprites.clear();
 }

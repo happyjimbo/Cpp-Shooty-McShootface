@@ -60,9 +60,16 @@ add_executable(main src/main.cpp
         src/System/RemoveOffScreenEnemiesSystem.h
         src/System/RemoveOffScreenProjectilesSystem.cpp
         src/System/RemoveOffScreenProjectilesSystem.h
-        src/System/RemoveOffScreenProjectilesSystem.h
         src/System/SpawnEnemyAircraftSystem.cpp
         src/System/SpawnEnemyAircraftSystem.h
+        src/Entity/ExplosionEntity.cpp
+        src/Entity/ExplosionEntity.h
+        src/Data/MediaFiles.h
+        src/Controllers/ExplosionController.cpp
+        src/Controllers/ExplosionController.h
+        src/System/ExplosionAnimationSystem.cpp
+        src/System/ExplosionAnimationSystem.h
+        src/Data/AnimationData.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target

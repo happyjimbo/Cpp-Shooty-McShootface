@@ -6,7 +6,7 @@
 struct ProjectileFiringData {
 
     float speed {};
-    float mTimeSinceLastProjectileSpawn {};
+    float timeSinceLastProjectileSpawn {};
     bool needsToFireProjectile {};
 
     ProjectileEntity::Type projectileType {};
@@ -15,7 +15,7 @@ struct ProjectileFiringData {
     static constexpr float YOffsetAmount = 5.f;
 
     void updateTimeSinceLastProjectileSpawn(const float deltaTime) noexcept {
-        mTimeSinceLastProjectileSpawn += deltaTime;
+        timeSinceLastProjectileSpawn += deltaTime;
     }
 
     sf::Vector2f getSpawnPos(const sf::Vector2f& spawnPosition) const
@@ -28,12 +28,12 @@ struct ProjectileFiringData {
 
     bool canFire() const noexcept
     {
-        return needsToFireProjectile && mTimeSinceLastProjectileSpawn > speed;
+        return needsToFireProjectile && timeSinceLastProjectileSpawn > speed;
     }
 
     void reset() noexcept
     {
-        mTimeSinceLastProjectileSpawn = 0;
+        timeSinceLastProjectileSpawn = 0;
         needsToFireProjectile = false;
     }
 };

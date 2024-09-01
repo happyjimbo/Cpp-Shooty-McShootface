@@ -3,6 +3,7 @@
 #include "EntitySystem.h"
 #include "AircraftEntity.h"
 
+class ExplosionController;
 using Aircraft::AircraftEntity;
 
 class ScoreController;
@@ -15,6 +16,7 @@ public:
         EntitySystem<ProjectileEntity>& projectileEntites,
         EntitySystem<AircraftEntity>& enemyAircraftEntities,
         EntitySystem<AircraftEntity>& playerAircraftEntities,
+        ExplosionController& explosionController,
         ScoreController& scoreController
     );
     void execute() const;
@@ -26,5 +28,6 @@ private:
     EntitySystem<ProjectileEntity>& mProjectileEntites;
     EntitySystem<AircraftEntity>& mEnemyAircraftEntities;
     EntitySystem<AircraftEntity>& mPlayerAircraftEntities;
+    ExplosionController& mExplosionController;
     ScoreController& mScoreController;
 };

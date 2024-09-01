@@ -1,14 +1,18 @@
 #include "ProjectileCollisionSystem.h"
+
+#include "ExplosionController.h"
 #include "ScoreController.h"
 
 ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,
     EntitySystem<AircraftEntity>& enemyAircraftEntities,
     EntitySystem<AircraftEntity>& playerAircraftEntities,
+    ExplosionController& explosionController,
     ScoreController& scoreController)
 : mProjectileEntites(projectileEntites)
 , mEnemyAircraftEntities(enemyAircraftEntities)
 , mPlayerAircraftEntities(playerAircraftEntities)
+, mExplosionController(explosionController)
 , mScoreController(scoreController)
 {
 
@@ -51,6 +55,9 @@ void ProjectileCollisionSystem::collided(ProjectileEntity* projectile, AircraftE
 {
     mProjectileEntites.removeObject(projectile);
     mEnemyAircraftEntities.removeObject(aircraft);
+
+
+    mExplosionController.spawn(aircraft->getPosition());
 
     mScoreController.increaseScore();
 }

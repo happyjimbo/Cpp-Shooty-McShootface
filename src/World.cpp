@@ -6,11 +6,14 @@
 #include "BackgroundController.h"
 #include "ScoreController.h"
 #include "CloudsController.h"
+#include "ExplosionController.h"
+#include "MediaFiles.h"
 #include "SpawnEnemyAircraftSystem.h"
 #include "ProjectileSpawnSystem.h"
 #include "ProjectileCollisionSystem.h"
 #include "RemoveOffScreenEnemiesSystem.h"
 #include "RemoveOffScreenProjectilesSystem.h"
+#include "ExplosionAnimationSystem.h"
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -30,6 +33,7 @@ void World::draw()
     mWindow.setView(mWorldView);
 
     drawEntities(mSpriteEntitySystem);
+    drawEntities(mExplosionEntitySystem);
     drawEntities(mProjectileEntitySystem);
     drawEntities(mEnemyAircraftEntitySystem);
     drawEntities(mPlayerAircraftEntitySystem);
@@ -54,6 +58,7 @@ void World::loadTextures()
     mTextures.load(Textures::Bullet, MediaFiles::Bullet);
     mTextures.load(Textures::EnemyBullet, MediaFiles::EnemyBullet);
     mTextures.load(Textures::Clouds, MediaFiles::Clouds);
+    mTextures.load(Textures::Explosion, MediaFiles::Explosion);
 }
 
 void World::loadFonts()
@@ -68,6 +73,11 @@ void World::buildScene()
     );
     mScoreController->create(mFonts);
 
+    mExplosionController = new ExplosionController(
+        mExplosionEntitySystem,
+        mTextures
+    );
+
     mProjectileController = new ProjectileController(
         mProjectileEntitySystem,
         mTextures,
@@ -78,6 +88,7 @@ void World::buildScene()
         mProjectileEntitySystem,
         mEnemyAircraftEntitySystem,
         mPlayerAircraftEntitySystem,
+        *mExplosionController,
         *mScoreController
     );
 
@@ -105,6 +116,10 @@ void World::buildScene()
     mRemoveOffScreenProjectilesSystem = new RemoveOffScreenProjectilesSystem(
         mProjectileEntitySystem,
         mWorldBounds.height
+    );
+
+    mExplosionAnimationSystem = new ExplosionAnimationSystem(
+        mExplosionEntitySystem
     );
 
     mEnemyAircraftController = new EnemyAircraftController(
@@ -149,6 +164,8 @@ void World::update(const sf::Time delta)
     mPlayerProjectileSpawnSystem->execute(delta);
     mRemoveOffScreenEnemiesSystem->execute();
     mRemoveOffScreenProjectilesSystem->execute();
+    mExplosionAnimationSystem->execute(delta);
+
     mEnemyAircraftController->tick(delta);
     mPlayerAircraftController->tick();
     mBackgroundController->tick(delta);
@@ -160,11 +177,14 @@ void World::update(const sf::Time delta)
     mProjectileEntitySystem.update(delta);
     mEnemyAircraftEntitySystem.update(delta);
     mLabelEntitySystem.update(delta);
+    mExplosionEntitySystem.update(delta);
+
 }
 
 World::~World()
 {
     delete mScoreController;
+    delete mExplosionController;
     delete mProjectileController;
     delete mEnemyAircraftController;
     delete mPlayerAircraftController;
@@ -177,4 +197,5 @@ World::~World()
     delete mPlayerProjectileSpawnSystem;
     delete mRemoveOffScreenEnemiesSystem;
     delete mRemoveOffScreenProjectilesSystem;
+    delete mExplosionAnimationSystem;
 }
