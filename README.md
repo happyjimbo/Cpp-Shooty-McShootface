@@ -1,6 +1,6 @@
 # Shooty McShootface
 
-Basic C++ 14 vertical shooter, built using [SFML](https://www.sfml-dev.org) and using the STL.
+C++ 14 vertical shooter, built using [SFML](https://www.sfml-dev.org) and using the STL.
 
 C++ 14 Requirements:
 - `std::make_unique` -- used instead of `new` in ResourceHolder
