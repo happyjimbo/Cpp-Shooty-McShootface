@@ -16,7 +16,7 @@ Code Highlights:
 - **Animation**: Sprite sheet for frame-based animations.
 - **Entity System**: A basic system to manage game entities.
 - **ECS-Inspired Architecture**: Systems inspired by Entity-Component-System (ECS) architecture, although not fully component-based.
-- **Controllers**: Used for spawning and ticking entities, with tick logic gradually being migrated into the system.
+- **Controllers**: Used for spawning and ticking entities, with tick logic gradually being migrated into systems.
 
 
 
