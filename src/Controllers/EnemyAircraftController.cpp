@@ -2,9 +2,11 @@
 
 EnemyAircraftController::EnemyAircraftController (
     EntitySystem<AircraftEntity>& entitySystem,
+    const AircraftEntity& player,
     const float scrollSpeed
     ) noexcept
       : mEntitySystem(entitySystem)
+      , mPlayer(player)
       , mScrollSpeed(scrollSpeed)
 {
     mEntitySystem.prePool(20);
@@ -26,6 +28,7 @@ void EnemyAircraftController::accelerate(float const speed) const
 {
     for (const auto& aircraft : mEntitySystem.getEntities())
     {
-        aircraft->accelerate(0.f, -speed);
+        const float x = aircraft->getPosition().x > mPlayer.getPosition().x ?  -xSpeed : xSpeed;
+        aircraft->accelerate(x, -speed);
     }
 }

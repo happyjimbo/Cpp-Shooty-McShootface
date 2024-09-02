@@ -122,11 +122,6 @@ void World::buildScene()
         mExplosionEntitySystem
     );
 
-    mEnemyAircraftController = new EnemyAircraftController(
-        mEnemyAircraftEntitySystem,
-        mScrollSpeed
-    );
-
     mPlayerAircraftController = new PlayerAircraftController(
        mPlayerAircraftEntitySystem,
        mWorldView.getCenter(),
@@ -134,6 +129,13 @@ void World::buildScene()
        mScrollSpeed
    );
     mPlayerAircraftController->create(mTextures, mSpawnPosition);
+
+    mEnemyAircraftController = new EnemyAircraftController(
+        mEnemyAircraftEntitySystem,
+        *mPlayerAircraftController->getPlayerAircaft(),
+        mScrollSpeed
+    );
+
 
     mBackgroundController = new BackgroundController(
         mSpriteEntitySystem,
