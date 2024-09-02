@@ -2,14 +2,14 @@
 
 C++ 20 vertical shooter, built using [SFML](https://www.sfml-dev.org) and using the STL.
 
-_Note: If you wish to compile against C++11, adjust the below features accordingly._
-
-C++ 14 Requirements:
-- `std::make_unique` -- replace with `new` in ResourceHolder to downgrade
-- `constexpr` marked functions, remove this to downgrade.
+_Note: If you wish to compile against C++11, adjust the below features accordingly:_
 
 C++ 20 Requirements:
-- `std::invocable` using 'concepts' from C++20 -- this is used in ProjectileCollisionSystem to allow the template implementation to live within the cpp, to downgrade replace with header/.inl implementation.
+- `std::invocable` (using C++20 concepts) -- Used in ProjectileCollisionSystem to enable template implementation within the .cpp file. To downgrade, replace this with a header or .inl file implementation.
+
+C++ 14 Requirements:
+- `std::make_unique` -- Replace with `new` in ResourceHolder if downgrading.
+- `constexpr functions` Remove or modify as needed.
 
 Code Highlights:
 
