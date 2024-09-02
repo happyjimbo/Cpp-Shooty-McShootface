@@ -42,8 +42,8 @@ add_executable(main src/main.cpp
         src/Entity/EntitySystem.inl
         src/Controllers/BackgroundController.cpp
         src/Controllers/BackgroundController.h
-        src/Controllers/ScoreController.cpp
-        src/Controllers/ScoreController.h
+        src/Controllers/GuiController.cpp
+        src/Controllers/GuiController.h
         src/Controllers/PlayerAircraftController.cpp
         src/Controllers/PlayerAircraftController.h
         src/RandomFloatGenerator.h

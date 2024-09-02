@@ -1,4 +1,5 @@
 #include "ProjectileSpawnSystem.h"
+#include "ProjectileController.h"
 
 using Aircraft::AircraftEntity;
 

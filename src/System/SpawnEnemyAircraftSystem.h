@@ -31,6 +31,7 @@ private:
     constexpr static float sAircraftRightPadding = sAircraftLeftPadding * 2;
 
     constexpr static float sStartYPos = -100;
+    constexpr static int sEnemyHealth = 1;
 
     EntitySystem<AircraftEntity>& mEntitySystem;
 

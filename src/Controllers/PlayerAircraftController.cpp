@@ -17,7 +17,7 @@ PlayerAircraftController::PlayerAircraftController(
 
 void PlayerAircraftController::create(const TextureHolder& textures, const sf::Vector2f spawnPosition)
 {
-    mPlayerAircraft = mEntitySystem.createObject(AircraftEntity::Eagle, textures);
+    mPlayerAircraft = mEntitySystem.createObject(AircraftEntity::Eagle, textures, sPlayerHealth);
     mPlayerAircraft->setPosition(spawnPosition);
 }
 

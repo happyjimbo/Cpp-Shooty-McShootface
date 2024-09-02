@@ -30,6 +30,9 @@ public:
     AircraftEntity* getPlayerAircaft() const;
 
 private:
+
+    friend class GuiController;
+
     void enforceBoundaries() const;
 
     AircraftEntity* mPlayerAircraft;
@@ -44,4 +47,5 @@ private:
     const float mScrollSpeed;
 
     constexpr static float sBorderDistance = 40.f;
+    constexpr static int sPlayerHealth = 100;
 };

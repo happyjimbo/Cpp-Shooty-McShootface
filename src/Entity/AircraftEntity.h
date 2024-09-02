@@ -18,7 +18,7 @@ namespace Aircraft
         AircraftEntity(Type type, const TextureHolder& textures) = delete;
         ~AircraftEntity() override = default;
 
-        void create(Type type, const TextureHolder& textures);
+        void create(Type type, const TextureHolder& textures, int health);
 
         unsigned int getCategory() const noexcept override;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -28,6 +28,11 @@ namespace Aircraft
         ProjectileFiringData& getProjectileFiringData() noexcept { return mProjectileFiringData; }
         const ProjectileFiringData& getProjectileFiringData() const noexcept { return mProjectileFiringData; }
 
+        // these could be in their own data struct, in a more ecs approach
+        int getHealth() const { return mHealth; }
+        void hit() { --mHealth; }
+        bool destroyed() const { return  mHealth <= 0; }
+
     private:
 
         constexpr static Textures::ID toTextureID(Type type) noexcept;
@@ -35,6 +40,7 @@ namespace Aircraft
 
         Type mType {};
         sf::Sprite mSprite {};
+        int mHealth {};
         ProjectileFiringData mProjectileFiringData;
     };
 }

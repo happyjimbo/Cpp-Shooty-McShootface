@@ -1,17 +1,18 @@
 #include "ProjectileCollisionSystem.h"
+
+#include <iostream>
+
 #include "ExplosionController.h"
-#include "ScoreController.h"
+#include "GuiController.h"
 
 ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,
     EntitySystem<AircraftEntity>& enemyAircraftEntities,
-    EntitySystem<AircraftEntity>& playerAircraftEntities,
-    const AircraftEntity& player,
+    AircraftEntity& player,
     ExplosionController& explosionController,
-    ScoreController& scoreController)
+    GuiController& scoreController)
 : mProjectileEntites(projectileEntites)
 , mEnemyAircraftEntities(enemyAircraftEntities)
-, mPlayerAircraftEntities(playerAircraftEntities)
 , mPlayer(player)
 , mExplosionController(explosionController)
 , mScoreController(scoreController)
@@ -30,8 +31,8 @@ void ProjectileCollisionSystem::execute() const
     {
         if (projectile->getType() == ProjectileEntity::Enemy)
         {
-            checkCollision(projectile, &mPlayer, collisionSqr, [this]() -> void {
-                mExplosionController.spawn(mPlayer.getPosition(), Textures::PlayerExplosion);
+            checkCollision(projectile, &mPlayer, collisionSqr, [this, &projectile]() -> void {
+                playerHit(projectile);
             });
         }
 
@@ -40,7 +41,7 @@ void ProjectileCollisionSystem::execute() const
             for (const auto& enemy : enemyAircraft)
             {
                 checkCollision(projectile, enemy, collisionSqr, [this, &projectile, &enemy]() -> void {
-                    collided(projectile, enemy);
+                    enemyHit(projectile, enemy);
                 });
             }
         }
@@ -66,12 +67,31 @@ float ProjectileCollisionSystem::getSquareMagnitude(const sf::Vector2f& pos1, co
     return (dx * dx) + (dy * dy);
 }
 
-void ProjectileCollisionSystem::collided(ProjectileEntity* projectile, AircraftEntity* aircraft) const
+void ProjectileCollisionSystem::playerHit(ProjectileEntity* projectile) const
 {
-    mProjectileEntites.removeObject(projectile);
-    mEnemyAircraftEntities.removeObject(aircraft);
+    mPlayer.hit();
+    mScoreController.playerHit();
 
+    mProjectileEntites.removeObject(projectile);
+    mExplosionController.spawn(mPlayer.getPosition(), Textures::PlayerExplosion);
+
+    if (mPlayer.destroyed())
+    {
+        // TODO: end the game!
+        std::cout << "end the game!" << std::endl;
+    }
+}
+
+void ProjectileCollisionSystem::enemyHit(ProjectileEntity* projectile, AircraftEntity* aircraft) const
+{
+    aircraft->hit();
     mExplosionController.spawn(aircraft->getPosition(), Textures::Explosion);
 
-    mScoreController.increaseScore();
+    if (aircraft->destroyed())
+    {
+        mProjectileEntites.removeObject(projectile);
+        mEnemyAircraftEntities.removeObject(aircraft);
+
+        mScoreController.increaseScore();
+    }
 }

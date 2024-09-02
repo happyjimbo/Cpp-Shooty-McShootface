@@ -2,9 +2,10 @@
 
 #include "AircraftEntity.h"
 #include "EntitySystem.h"
-#include "ProjectileController.h"
 
 using Aircraft::AircraftEntity;
+
+class ProjectileController;
 
 class ProjectileSpawnSystem {
 public:

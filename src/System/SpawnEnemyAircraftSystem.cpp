@@ -45,7 +45,7 @@ void SpawnEnemyAircraftSystem::spawn(const float spawnInterval)
         const int x = sAircraftLeftPadding + rand() % static_cast<int>(mPosition.x - sAircraftRightPadding);
         const auto startPosition = sf::Vector2f(x, mPosition.y);
 
-        auto* aircraft = mEntitySystem.createObject(AircraftEntity::Type::Raptor, mTexture);
+        auto* aircraft = mEntitySystem.createObject(AircraftEntity::Type::Raptor, mTexture, sEnemyHealth);
         aircraft->setPosition(startPosition);
     }
 }

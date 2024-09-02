@@ -4,7 +4,7 @@
 #include "ProjectileController.h"
 #include "PlayerAircraftController.h"
 #include "BackgroundController.h"
-#include "ScoreController.h"
+#include "GuiController.h"
 #include "CloudsController.h"
 #include "ExplosionController.h"
 #include "MediaFiles.h"
@@ -23,7 +23,7 @@ World::World(sf::RenderWindow& window)
 {
     loadTextures();
     loadFonts();
-    buildScene();
+    initLogic();
 
     mWorldView.setCenter(mSpawnPosition);
 }
@@ -51,7 +51,6 @@ void World::drawEntities(EntitySystem<T>& system)
 
 void World::loadTextures()
 {
-    // move these string values into a struct or similar
     mTextures.load(Textures::Eagle, MediaFiles::Eagle);
     mTextures.load(Textures::Raptor, MediaFiles::Raptor);
     mTextures.load(Textures::Background, MediaFiles::Background);
@@ -67,13 +66,8 @@ void World::loadFonts()
     mFonts.load(Fonts::Main, MediaFiles::Font);
 }
 
-void World::buildScene()
+void World::initLogic()
 {
-    mScoreController = new ScoreController(
-        mLabelEntitySystem
-    );
-    mScoreController->create(mFonts);
-
     mExplosionController = new ExplosionController(
         mExplosionEntitySystem,
         mTextures
@@ -93,11 +87,17 @@ void World::buildScene()
    );
     mPlayerAircraftController->create(mTextures, mSpawnPosition);
 
+    mScoreController = new GuiController(
+        mLabelEntitySystem,
+        *mPlayerAircraftController->getPlayerAircaft(),
+        mWorldBounds.width
+    );
+    mScoreController->create(mFonts);
+
 
     mProjectileCollisionSystem = new ProjectileCollisionSystem(
         mProjectileEntitySystem,
         mEnemyAircraftEntitySystem,
-        mPlayerAircraftEntitySystem,
         *mPlayerAircraftController->getPlayerAircaft(),
         *mExplosionController,
         *mScoreController
@@ -138,7 +138,6 @@ void World::buildScene()
         *mPlayerAircraftController->getPlayerAircaft(),
         mScrollSpeed
     );
-
 
     mBackgroundController = new BackgroundController(
         mSpriteEntitySystem,

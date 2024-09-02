@@ -10,7 +10,7 @@ class ExplosionController;
 class ExplosionEntity;
 class SpawnEnemyAircraftSystem;
 class PlayerAircraftController;
-class ScoreController;
+class GuiController;
 class ProjectileEntity;
 class SpriteEntity;
 class ProjectileController;
@@ -55,7 +55,7 @@ private:
     void drawEntities(EntitySystem<T>& system);
     void loadTextures();
     void loadFonts();
-    void buildScene();
+    void initLogic();
 
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
@@ -74,7 +74,7 @@ private:
     sf::Vector2f mSpawnPosition;
     static constexpr float mScrollSpeed {-50.f};
 
-    ScoreController* mScoreController;
+    GuiController* mScoreController;
     ProjectileController* mProjectileController;
     EnemyAircraftController* mEnemyAircraftController;
     PlayerAircraftController* mPlayerAircraftController;
