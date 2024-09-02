@@ -16,5 +16,5 @@ private:
     const sf::FloatRect mWorldBounds;
 
     float mTimeSinceLastSpawn {};
-    static constexpr float mSpeed = 500.f;
+    static constexpr float sSpeed = 500.f;
 };

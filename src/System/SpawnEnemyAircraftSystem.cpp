@@ -10,7 +10,7 @@ SpawnEnemyAircraftSystem::SpawnEnemyAircraftSystem(
     ) noexcept
     : mEntitySystem(entitySystem)
     , mTexture(textures)
-    , mPosition(screenWidth, mStartYPos)
+    , mPosition(screenWidth, sStartYPos)
 {
 
 }
@@ -27,13 +27,13 @@ float SpawnEnemyAircraftSystem::spawnInterval(const float delta)
 {
     mElapsedTime += delta;
 
-    if (mElapsedTime > mTotalDecreaseTime)
+    if (mElapsedTime > sTotalDecreaseTime)
     {
-        mElapsedTime = mTotalDecreaseTime;
+        mElapsedTime = sTotalDecreaseTime;
     }
 
-    const float timeRatio = mElapsedTime / mTotalDecreaseTime;
-    return mMinSpawnInterval + (mMaxSpawnInterval - mMinSpawnInterval) * (mMaxSpawnInterval - timeRatio);
+    const float timeRatio = mElapsedTime / sTotalDecreaseTime;
+    return sMinSpawnInterval + (sMaxSpawnInterval - sMinSpawnInterval) * (sMaxSpawnInterval - timeRatio);
 }
 
 void SpawnEnemyAircraftSystem::spawn(const float spawnInterval)
@@ -42,7 +42,7 @@ void SpawnEnemyAircraftSystem::spawn(const float spawnInterval)
     {
         mTimeSinceLastSpawn = 0;
 
-        const int x = mAircraftLeftPadding + rand() % static_cast<int>(mPosition.x - mAircraftRightPadding);
+        const int x = sAircraftLeftPadding + rand() % static_cast<int>(mPosition.x - sAircraftRightPadding);
         const auto startPosition = sf::Vector2f(x, mPosition.y);
 
         auto* aircraft = mEntitySystem.createObject(AircraftEntity::Type::Raptor, mTexture);

@@ -14,7 +14,7 @@ void ExplosionAnimationSystem::execute(const sf::Time delta) const
         AnimationData& explosionData = entity->getExplosionData();;
         explosionData.updateTimeSinceLastFrame(delta.asSeconds());
 
-        if (explosionData.canIncreaseFrame(mDelay))
+        if (explosionData.canIncreaseFrame(sDelay))
         {
             explosionData.nextFrame();
 

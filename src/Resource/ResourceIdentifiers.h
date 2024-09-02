@@ -13,7 +13,8 @@ namespace Textures {
         Bullet,
         EnemyBullet,
         Clouds,
-        Explosion
+        Explosion,
+        PlayerExplosion
     };
 }
 

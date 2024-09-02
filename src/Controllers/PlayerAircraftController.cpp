@@ -31,10 +31,10 @@ void PlayerAircraftController::tick() const
 void PlayerAircraftController::enforceBoundaries() const
 {
     auto position = mPlayerAircraft->getPosition();
-    position.x = std::max(position.x, mViewBounds.left + mBorderDistance);
-    position.x = std::min(position.x, mViewBounds.left + mViewBounds.width - mBorderDistance);
-    position.y = std::max(position.y, mViewBounds.top + mBorderDistance);
-    position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - mBorderDistance);
+    position.x = std::max(position.x, mViewBounds.left + sBorderDistance);
+    position.x = std::min(position.x, mViewBounds.left + mViewBounds.width - sBorderDistance);
+    position.y = std::max(position.y, mViewBounds.top + sBorderDistance);
+    position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - sBorderDistance);
     mPlayerAircraft->setPosition(position);
 }
 

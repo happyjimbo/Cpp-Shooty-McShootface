@@ -24,7 +24,7 @@ void PlayerControls::initializeActions(AircraftEntity& player)
     mKeyBinding[sf::Keyboard::S] = mKeyBinding[sf::Keyboard::Down];
 
     mKeyBinding[sf::Keyboard::Space] = [&player]() -> void {
-        player.triggerProjectile(ProjectileEntity::Player, mPlayerProjectileSpawnSpeed);
+        player.triggerProjectile(ProjectileEntity::Player, sPlayerProjectileSpawnSpeed);
     };
 }
 

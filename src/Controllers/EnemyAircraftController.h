@@ -21,9 +21,9 @@ private:
     void spawn(float spawnInterval);
     void accelerate(float speed) const;
 
-    constexpr static float mSpeedDivider = 100.f;
-    constexpr static float mEnemyProjectileSpawnSpeed = 3.f;
-    constexpr static float xSpeed = 0.05f;
+    constexpr static float sSpeedDivider = 100.f;
+    constexpr static float sEnemyProjectileSpawnSpeed = 3.f;
+    constexpr static float sSpeedX = 0.05f;
 
     EntitySystem<AircraftEntity>& mEntitySystem;
 

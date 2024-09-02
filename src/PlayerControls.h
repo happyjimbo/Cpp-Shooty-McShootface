@@ -21,5 +21,5 @@ private:
 
     constexpr static float playerSpeed = 400.f;
     constexpr static float horizontalSpeed = playerSpeed * 1.4f;
-    constexpr static float mPlayerProjectileSpawnSpeed = 0.1f;
+    constexpr static float sPlayerProjectileSpawnSpeed = 0.1f;
 };

@@ -18,8 +18,8 @@ private:
     sf::RenderWindow mWindow;
     World mWorld;
 
-    static constexpr const auto* mTitle = "Shooty McShootface";
-    static constexpr int mScreenWidth {640};
-    static constexpr int mScreenHeight {480};
-    static constexpr float mSeconds {1.f / 60.f};
+    static constexpr const auto* sTitle = "Shooty McShootface";
+    static constexpr int sScreenWidth {640};
+    static constexpr int sScreenHeight {480};
+    static constexpr float sSeconds {1.f / 60.f};
 };

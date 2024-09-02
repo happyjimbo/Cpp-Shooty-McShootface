@@ -13,7 +13,7 @@ void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f
     auto* projectile = mEntitySystem.createObject(type, mTexture);
     projectile->setPosition(spawnPosition);
 
-    const float speed = type == ProjectileEntity::Type::Player ? -mSpeed : mSpeed;
+    const float speed = type == ProjectileEntity::Type::Player ? -sSpeed : sSpeed;
     projectile->setVelocity(0, speed);
 }
 

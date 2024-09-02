@@ -1,9 +1,9 @@
 #include "Game.h"
 
-const sf::Time Game::TimePerFrame = sf::seconds(mSeconds);
+const sf::Time Game::TimePerFrame = sf::seconds(sSeconds);
 
 Game::Game()
-: mWindow(sf::VideoMode(mScreenWidth, mScreenHeight), mTitle, sf::Style::Close)
+: mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
 , mWorld(mWindow)
 {
     mWindow.setKeyRepeatEnabled(false);

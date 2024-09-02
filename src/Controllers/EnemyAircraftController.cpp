@@ -15,12 +15,12 @@ EnemyAircraftController::EnemyAircraftController (
 void EnemyAircraftController::tick(const sf::Time& delta)
 {
     mTimeSinceLastSpawn += delta.asSeconds();
-    accelerate(mScrollSpeed / mSpeedDivider);
+    accelerate(mScrollSpeed / sSpeedDivider);
 
     for (const auto& aircraft : mEntitySystem.getEntities())
     {
         aircraft->update(delta);
-        aircraft->triggerProjectile(ProjectileEntity::Enemy, mEnemyProjectileSpawnSpeed);
+        aircraft->triggerProjectile(ProjectileEntity::Enemy, sEnemyProjectileSpawnSpeed);
     }
 }
 
@@ -28,7 +28,7 @@ void EnemyAircraftController::accelerate(float const speed) const
 {
     for (const auto& aircraft : mEntitySystem.getEntities())
     {
-        const float x = aircraft->getPosition().x > mPlayer.getPosition().x ?  -xSpeed : xSpeed;
+        const float x = aircraft->getPosition().x > mPlayer.getPosition().x ?  -sSpeedX : sSpeedX;
         aircraft->accelerate(x, -speed);
     }
 }

@@ -23,14 +23,14 @@ private:
     const TextureHolder& mTexture;
     const sf::Vector2f mPosition;
 
-    constexpr static float mMaxSpawnInterval = 1.f;
-    constexpr static float mMinSpawnInterval = 0.1f;
-    constexpr static float mTotalDecreaseTime = 60.0f;
+    constexpr static float sMaxSpawnInterval = 1.f;
+    constexpr static float sMinSpawnInterval = 0.1f;
+    constexpr static float sTotalDecreaseTime = 60.0f;
 
-    constexpr static float mAircraftLeftPadding = 30.0f;
-    constexpr static float mAircraftRightPadding = mAircraftLeftPadding * 2;
+    constexpr static float sAircraftLeftPadding = 30.0f;
+    constexpr static float sAircraftRightPadding = sAircraftLeftPadding * 2;
 
-    constexpr static float mStartYPos = -100;
+    constexpr static float sStartYPos = -100;
 
     EntitySystem<AircraftEntity>& mEntitySystem;
 

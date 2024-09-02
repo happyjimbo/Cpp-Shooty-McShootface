@@ -43,5 +43,5 @@ private:
 
     const float mScrollSpeed;
 
-    constexpr static float mBorderDistance = 40.f;
+    constexpr static float sBorderDistance = 40.f;
 };

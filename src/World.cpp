@@ -59,6 +59,7 @@ void World::loadTextures()
     mTextures.load(Textures::EnemyBullet, MediaFiles::EnemyBullet);
     mTextures.load(Textures::Clouds, MediaFiles::Clouds);
     mTextures.load(Textures::Explosion, MediaFiles::Explosion);
+    mTextures.load(Textures::PlayerExplosion, MediaFiles::PlayerExplosion);
 }
 
 void World::loadFonts()
@@ -84,10 +85,20 @@ void World::buildScene()
         mWorldBounds
     );
 
+    mPlayerAircraftController = new PlayerAircraftController(
+       mPlayerAircraftEntitySystem,
+       mWorldView.getCenter(),
+       mWorldView.getSize(),
+       mScrollSpeed
+   );
+    mPlayerAircraftController->create(mTextures, mSpawnPosition);
+
+
     mProjectileCollisionSystem = new ProjectileCollisionSystem(
         mProjectileEntitySystem,
         mEnemyAircraftEntitySystem,
         mPlayerAircraftEntitySystem,
+        *mPlayerAircraftController->getPlayerAircaft(),
         *mExplosionController,
         *mScoreController
     );
@@ -121,14 +132,6 @@ void World::buildScene()
     mExplosionAnimationSystem = new ExplosionAnimationSystem(
         mExplosionEntitySystem
     );
-
-    mPlayerAircraftController = new PlayerAircraftController(
-       mPlayerAircraftEntitySystem,
-       mWorldView.getCenter(),
-       mWorldView.getSize(),
-       mScrollSpeed
-   );
-    mPlayerAircraftController->create(mTextures, mSpawnPosition);
 
     mEnemyAircraftController = new EnemyAircraftController(
         mEnemyAircraftEntitySystem,
