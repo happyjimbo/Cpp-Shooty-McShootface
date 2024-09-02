@@ -74,12 +74,6 @@ void ProjectileCollisionSystem::playerHit(ProjectileEntity* projectile) const
 
     mProjectileEntites.removeObject(projectile);
     mExplosionController.spawn(mPlayer.getPosition(), Textures::PlayerExplosion);
-
-    if (mPlayer.destroyed())
-    {
-        // TODO: end the game!
-        std::cout << "end the game!" << std::endl;
-    }
 }
 
 void ProjectileCollisionSystem::enemyHit(ProjectileEntity* projectile, AircraftEntity* aircraft) const

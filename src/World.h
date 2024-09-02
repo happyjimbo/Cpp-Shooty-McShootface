@@ -5,6 +5,7 @@
 #include <ResourceIdentifiers.h>
 #include "PlayerControls.h"
 
+class PlayerKilledSystem;
 class ExplosionAnimationSystem;
 class ExplosionController;
 class ExplosionEntity;
@@ -35,7 +36,7 @@ class World final
 {
 
 public:
-    explicit World(sf::RenderWindow& window);
+    explicit World(sf::RenderWindow& window, const std::function<void()>& endGameCallback);
     ~World();
 
     void update(sf::Time);
@@ -59,6 +60,9 @@ private:
 
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
+
+    const std::function<void()>& mEndGameCallback;
+
     TextureHolder mTextures;
     FontHolder mFonts;
     PlayerControls simpleControls;
@@ -89,4 +93,5 @@ private:
     RemoveOffScreenEnemiesSystem* mRemoveOffScreenEnemiesSystem;
     RemoveOffScreenProjectilesSystem* mRemoveOffScreenProjectilesSystem;
     ExplosionAnimationSystem* mExplosionAnimationSystem;
+    PlayerKilledSystem* mPlayerKilledSystem;
 };

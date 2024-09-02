@@ -1,11 +1,14 @@
 #include "Game.h"
 
+#include <iostream>
+
 const sf::Time Game::TimePerFrame = sf::seconds(sSeconds);
 
 Game::Game()
 : mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
-, mWorld(mWindow)
+//, mWorld(std::make_unique<World>(mWindow, [this]() { endGame(); }))
 {
+    mWorld = new World(mWindow, [this]() { endGame(); });
     mWindow.setKeyRepeatEnabled(false);
 }
 
@@ -33,9 +36,12 @@ void Game::run()
     }
 }
 
-void Game::update(const sf::Time elapsedTime)
+void Game::update(const sf::Time elapsedTime) const
 {
-    mWorld.update(elapsedTime);
+    if (mWorld)
+    {
+        mWorld->update(elapsedTime);
+    }
 }
 
 void Game::processWindowEvents()
@@ -54,8 +60,20 @@ void Game::render()
 {
     mWindow.clear();
 
-    mWorld.draw();
+    if (mWorld)
+    {
+        mWorld->draw();
+    }
 
     mWindow.setView(mWindow.getDefaultView());
     mWindow.display();
+}
+
+void Game::endGame()
+{
+    std::cout << "end game" << std::endl;
+
+    //mWorld.reset();
+    delete mWorld;
+    mWorld = nullptr;
 }

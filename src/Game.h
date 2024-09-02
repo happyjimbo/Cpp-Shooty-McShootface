@@ -10,13 +10,16 @@ public:
     void run();
 
 private:
-    void update(sf::Time);
+    void update(sf::Time) const;
     void processWindowEvents();
     void render();
 
+    void endGame();
+
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
-    World mWorld;
+    // std::unique_ptr<World> mWorld;
+    World* mWorld;
 
     static constexpr const auto* sTitle = "Shooty McShootface";
     static constexpr int sScreenWidth {640};

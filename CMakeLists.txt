@@ -70,6 +70,8 @@ add_executable(main src/main.cpp
         src/System/ExplosionAnimationSystem.cpp
         src/System/ExplosionAnimationSystem.h
         src/Data/AnimationData.h
+        src/System/PlayerKilledSystem.cpp
+        src/System/PlayerKilledSystem.h
 )
 
 # Add the parent directory of src and Gui to the include path for the target

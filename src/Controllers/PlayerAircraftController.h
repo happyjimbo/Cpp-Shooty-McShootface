@@ -47,5 +47,5 @@ private:
     const float mScrollSpeed;
 
     constexpr static float sBorderDistance = 40.f;
-    constexpr static int sPlayerHealth = 100;
+    constexpr static int sPlayerHealth = 10;
 };

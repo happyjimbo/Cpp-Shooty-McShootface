@@ -8,7 +8,7 @@ C++ 20 Requirements:
 - `std::invocable` (using C++20 concepts) -- Used in ProjectileCollisionSystem to enable template implementation within the .cpp file. To downgrade, replace this with a header or .inl file implementation.
 
 C++ 14 Requirements:
-- `std::make_unique` -- Replace with `new` in ResourceHolder if downgrading.
+- `std::make_unique` -- Replace with `new` if downgrading.
 - `constexpr functions` Remove or modify as needed.
 
 Code Highlights:

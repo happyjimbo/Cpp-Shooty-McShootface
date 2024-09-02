@@ -14,9 +14,11 @@
 #include "RemoveOffScreenEnemiesSystem.h"
 #include "RemoveOffScreenProjectilesSystem.h"
 #include "ExplosionAnimationSystem.h"
+#include "PlayerKilledSystem.h"
 
-World::World(sf::RenderWindow& window)
+World::World(sf::RenderWindow& window, const std::function<void()>& endGameCallback)
 : mWindow(window)
+, mEndGameCallback(endGameCallback)
 , mWorldView(window.getDefaultView())
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
@@ -157,6 +159,11 @@ void World::initLogic()
     simpleControls.initializeActions(
         *mPlayerAircraftController->getPlayerAircaft()
     );
+
+    mPlayerKilledSystem = new PlayerKilledSystem (
+        *mPlayerAircraftController->getPlayerAircaft(),
+        mEndGameCallback
+    );
 }
 
 void World::update(const sf::Time delta)
@@ -183,6 +190,8 @@ void World::update(const sf::Time delta)
     mLabelEntitySystem.update(delta);
     mExplosionEntitySystem.update(delta);
 
+    // this needs to run last as it will tear this world object down
+    mPlayerKilledSystem->execute();
 }
 
 World::~World()
@@ -202,4 +211,5 @@ World::~World()
     delete mRemoveOffScreenEnemiesSystem;
     delete mRemoveOffScreenProjectilesSystem;
     delete mExplosionAnimationSystem;
+    delete mPlayerKilledSystem;
 }
