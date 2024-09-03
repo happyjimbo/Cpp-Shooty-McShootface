@@ -6,18 +6,16 @@
 
 namespace GUI
 {
-    //class Label : public sf::Drawable, public sf::Transformable, private sf::NonCopyable
     class Label final: public EntityObject
     {
     public:
         Label() = default;
-        Label(const std::string& text, const FontHolder& fonts) = delete;
+        Label(const std::string&, const FontHolder&, int) = delete;
         ~Label() override = default;
 
-        void create(const std::string& text, const FontHolder& fonts);
+        void create(const std::string& text, const FontHolder& fonts, int size = 16);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void setText(const std::string& text);
-        void update(sf::Time) override;
 
     private:
         sf::Text  mText;

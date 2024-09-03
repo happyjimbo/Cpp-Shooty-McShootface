@@ -15,7 +15,7 @@ namespace Aircraft
         };
 
         AircraftEntity() = default;
-        AircraftEntity(Type type, const TextureHolder& textures) = delete;
+        AircraftEntity(Type, const TextureHolder&) = delete;
         ~AircraftEntity() override = default;
 
         void create(Type type, const TextureHolder& textures, int health);

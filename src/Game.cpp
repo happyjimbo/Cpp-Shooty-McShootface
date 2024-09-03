@@ -6,9 +6,8 @@ const sf::Time Game::TimePerFrame = sf::seconds(sSeconds);
 
 Game::Game()
 : mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
-//, mWorld(std::make_unique<World>(mWindow, [this]() { endGame(); }))
 {
-    mWorld = new World(mWindow, [this]() { endGame(); });
+    startGame();
     mWindow.setKeyRepeatEnabled(false);
 }
 
@@ -26,6 +25,7 @@ void Game::run()
 
         while (timeSinceLastUpdate > TimePerFrame)
         {
+
             timeSinceLastUpdate -= TimePerFrame;
 
             processWindowEvents();
@@ -65,15 +65,34 @@ void Game::render()
         mWorld->draw();
     }
 
+    if (mGameOver)
+    {
+        mGameOver->draw();
+    }
+
     mWindow.setView(mWindow.getDefaultView());
     mWindow.display();
+}
+
+void Game::startGame()
+{
+    //mWorld = std::make_unique<World>(mWindow, [this]() { endGame(); });
+    mWorld = new World(mWindow, [this]() { endGame(); });
 }
 
 void Game::endGame()
 {
     std::cout << "end game" << std::endl;
-
     //mWorld.reset();
     delete mWorld;
     mWorld = nullptr;
+
+    mGameOver = new GameOver(mWindow);
+}
+
+
+Game::~Game() noexcept
+{
+    delete mWorld;
+    delete mGameOver;
 }

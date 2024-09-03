@@ -27,6 +27,7 @@ add_executable(main ${SOURCE_FILES})
 
 target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/state
         ${CMAKE_SOURCE_DIR}/src/Gui
         ${CMAKE_SOURCE_DIR}/src/Entity
         ${CMAKE_SOURCE_DIR}/src/Resource

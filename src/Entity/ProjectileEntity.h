@@ -13,7 +13,7 @@ public:
     };
 
     ProjectileEntity() = default;
-    ProjectileEntity(Type type, const TextureHolder& textures) = delete;
+    ProjectileEntity(Type, const TextureHolder&) = delete;
     ~ProjectileEntity() override = default;
 
     void create(Type type, const TextureHolder& textures);

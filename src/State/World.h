@@ -1,8 +1,8 @@
 #pragma once
 
 #include "EntitySystem.h"
-#include <ResourceHolder.h>
-#include <ResourceIdentifiers.h>
+#include "ResourceHolder.h"
+#include "ResourceIdentifiers.h"
 #include "PlayerControls.h"
 
 class PlayerKilledSystem;

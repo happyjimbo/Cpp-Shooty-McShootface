@@ -7,10 +7,10 @@
 
 namespace GUI
 {
-    void Label::create(const std::string& text, const FontHolder& fonts)
+    void Label::create(const std::string& text, const FontHolder& fonts, const int size)
     {
         mText.setFont(fonts.get(Fonts::ID::Main));
-        mText.setCharacterSize(16);
+        mText.setCharacterSize(size);
         mText.setString(text);
     }
 
@@ -21,9 +21,5 @@ namespace GUI
 
     void Label::setText(const std::string& text) {
         mText.setString(text);
-    }
-
-    void Label::update(sf::Time) {
-        // do nothing
     }
 }

@@ -19,7 +19,6 @@ void EnemyAircraftController::tick(const sf::Time& delta)
 
     for (const auto& aircraft : mEntitySystem.getEntities())
     {
-        aircraft->update(delta);
         aircraft->triggerProjectile(ProjectileEntity::Enemy, sEnemyProjectileSpawnSpeed);
     }
 }

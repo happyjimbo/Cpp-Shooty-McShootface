@@ -27,5 +27,5 @@ private:
     sf::IntRect cloudRect;
 
     float mScrollSpeed;
-    const std::vector<float> mScrollSpeedOffsets = {0.3f, 1.f, 0.6f};
+    const std::vector<float> mScrollSpeedOffsets = {0.3f, 0.6f, 0.9f, 1.2f};
 };
