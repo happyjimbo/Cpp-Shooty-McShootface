@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/System/NonCopyable.hpp>
 
 struct Command;
 
@@ -12,11 +11,17 @@ namespace sf {
     class Time;
 }
 
-class EntityObject : public sf::Transformable, public sf::Drawable, private sf::NonCopyable
+class EntityObject : public sf::Transformable, public sf::Drawable
 {
 public:
     EntityObject() = default;
     ~EntityObject() override = default;
+
+    EntityObject(const EntityObject&) = delete;
+    EntityObject& operator=(const EntityObject&) = delete;
+
+    EntityObject(EntityObject&&) = delete;
+    EntityObject& operator=(EntityObject&&) = delete;
 
     void setVelocity(sf::Vector2f) noexcept;
     void setVelocity(float vx, float vy) noexcept;

@@ -19,6 +19,18 @@ public:
         ExplosionController& explosionController,
         GuiController& scoreController
     );
+
+    ~ProjectileCollisionSystem() = default;
+
+    // delete
+    explicit ProjectileCollisionSystem() = delete;
+
+    ProjectileCollisionSystem(const ProjectileCollisionSystem&) = delete;
+    ProjectileCollisionSystem& operator=(const ProjectileCollisionSystem&) = delete;
+
+    ProjectileCollisionSystem(ProjectileCollisionSystem&&) = delete;
+    ProjectileCollisionSystem& operator=(ProjectileCollisionSystem&&) = delete;
+
     void execute() const;
 
 private:

@@ -14,6 +14,17 @@ public:
         float screenWidth
         ) noexcept;
 
+    ~SpawnEnemyAircraftSystem() = default;
+
+    // delete
+    explicit SpawnEnemyAircraftSystem() = delete;
+
+    SpawnEnemyAircraftSystem(const SpawnEnemyAircraftSystem&) = delete;
+    SpawnEnemyAircraftSystem& operator=(const SpawnEnemyAircraftSystem&) = delete;
+
+    SpawnEnemyAircraftSystem(SpawnEnemyAircraftSystem&&) = delete;
+    SpawnEnemyAircraftSystem& operator=(SpawnEnemyAircraftSystem&&) = delete;
+
     void execute(sf::Time delta);
 
 private:

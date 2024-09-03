@@ -39,6 +39,12 @@ public:
     explicit World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback);
     ~World();
 
+    World(const World&) = delete;
+    World& operator=(const World&) = delete;
+
+    World(World&&) = delete;
+    World& operator=(World&&) = delete;
+
     void update(sf::Time);
     void draw();
 private:

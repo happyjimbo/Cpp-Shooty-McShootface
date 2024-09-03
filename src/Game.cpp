@@ -8,8 +8,8 @@ Game::Game()
 : mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
 {
     mFont.load(Fonts::Main, MediaFiles::Font);
+    mStateHandler = new StateHandler(mWindow, mFont);
 
-    transitionScreen("Shooty Mcshootface", "Play now!");
     mWindow.setKeyRepeatEnabled(false);
 }
 
@@ -39,10 +39,7 @@ void Game::run()
 
 void Game::update(const sf::Time elapsedTime) const
 {
-    if (mWorld)
-    {
-        mWorld->update(elapsedTime);
-    }
+    mStateHandler->update(elapsedTime);
 }
 
 void Game::processWindowEvents()
@@ -55,13 +52,7 @@ void Game::processWindowEvents()
             mWindow.close();
         }
 
-        if (mTransitionScreen)
-        {
-            mTransitionScreen->handleEvent(event, [this]()
-            {
-                startGame();
-            });
-        }
+        mStateHandler->processWindowEvents(event);
     }
 }
 
@@ -69,39 +60,15 @@ void Game::render()
 {
     mWindow.clear();
 
-    if (mWorld)
-    {
-        mWorld->draw();
-    }
-
-    if (mTransitionScreen)
-    {
-        mTransitionScreen->draw();
-    }
+    mStateHandler->draw();
 
     mWindow.setView(mWindow.getDefaultView());
     mWindow.display();
 }
 
-void Game::startGame()
-{
-    delete mTransitionScreen;
-    mTransitionScreen = nullptr;
-
-    //mWorld = std::make_unique<World>(mWindow, mFont, [this]() { endGame(); });
-    mWorld = new World(mWindow, mFont, [this]() { transitionScreen("YOU DIED", "Play again!"); });
-}
-
-void Game::transitionScreen(const char* title, const char* buttonText)
-{
-    delete mWorld;
-    mWorld = nullptr;
-
-    mTransitionScreen = new TransitionScreen(mWindow, mFont, title, buttonText);
-}
 
 Game::~Game() noexcept
 {
-    delete mWorld;
-    delete mTransitionScreen;
+    delete mStateHandler;
 }
+

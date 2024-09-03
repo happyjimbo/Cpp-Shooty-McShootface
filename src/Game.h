@@ -1,14 +1,24 @@
 #pragma once
 
+#include "StateHandler.h"
 #include "TransitionScreen.h"
 #include "SFML/Graphics.hpp"
 #include "World.h"
 
-class Game final : private sf::NonCopyable
+class StateHandler;
+
+class Game final
 {
 public:
     explicit Game();
     ~Game() noexcept;
+
+    Game(const Game&) = delete;
+    Game& operator=(const Game&) = delete;
+
+    Game(Game&&) = delete;
+    Game& operator=(Game&&) = delete;
+
     void run();
 
 private:
@@ -24,9 +34,7 @@ private:
     // std::unique_ptr<World> mWorld;
 
     FontHolder mFont;
-
-    World* mWorld {nullptr};
-    TransitionScreen* mTransitionScreen {nullptr};
+    StateHandler* mStateHandler;
 
     static constexpr const auto* sTitle = "Shooty McShootface";
     static constexpr int sScreenWidth {640};
