@@ -18,8 +18,8 @@
 
 World::World(sf::RenderWindow& window, const std::function<void()>& endGameCallback)
 : mWindow(window)
-, mEndGameCallback(endGameCallback)
 , mWorldView(window.getDefaultView())
+, mEndGameCallback(endGameCallback)
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 {

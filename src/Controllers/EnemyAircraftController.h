@@ -26,9 +26,9 @@ private:
     constexpr static float sSpeedX = 0.05f;
 
     EntitySystem<AircraftEntity>& mEntitySystem;
+    const AircraftEntity& mPlayer;
 
     float mTimeSinceLastSpawn {};
     float mScrollSpeed;
 
-    const AircraftEntity& mPlayer;
 };

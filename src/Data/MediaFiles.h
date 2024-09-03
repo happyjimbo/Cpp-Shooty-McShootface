@@ -11,5 +11,5 @@ struct MediaFiles
     static constexpr const char* Explosion = "Media/Textures/Explosion.png";
     static constexpr const char* PlayerExplosion = "Media/Textures/PlayerExplosion.png";
 
-    static constexpr const char* Font = "Media/Sansation.ttf";
+    static constexpr const char* Font = "Media/Font/Sansation.ttf";
 };

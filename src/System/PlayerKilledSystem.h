@@ -16,6 +16,6 @@ public:
     void execute() const;
 
 private:
-    std::function<void()> mCallback;
     const AircraftEntity& mPlayerAircraft;
+    std::function<void()> mCallback;
 };

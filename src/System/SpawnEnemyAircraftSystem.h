@@ -20,6 +20,8 @@ private:
     float spawnInterval(float delta);
     void spawn(float spawnInterval);
 
+    EntitySystem<AircraftEntity>& mEntitySystem;
+
     const TextureHolder& mTexture;
     const sf::Vector2f mPosition;
 
@@ -33,9 +35,6 @@ private:
     constexpr static float sStartYPos = -100;
     constexpr static int sEnemyHealth = 1;
 
-    EntitySystem<AircraftEntity>& mEntitySystem;
-
     float mTimeSinceLastSpawn {};
     float mElapsedTime = 0.0f;
-
 };

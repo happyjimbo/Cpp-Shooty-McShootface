@@ -17,7 +17,7 @@ namespace GUI
         void create(const std::string& text, const FontHolder& fonts);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void setText(const std::string& text);
-        void update(sf::Time delta) override;
+        void update(sf::Time) override;
 
     private:
         sf::Text  mText;

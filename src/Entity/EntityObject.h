@@ -27,7 +27,7 @@ public:
 
     virtual unsigned int getCategory() const noexcept;
     virtual void update(sf::Time delta);
-    virtual void draw(const sf::RenderTarget& target, const sf::RenderStates& states) const;
+    void draw(sf::RenderTarget&, sf::RenderStates) const override;
 
     void reset();
 

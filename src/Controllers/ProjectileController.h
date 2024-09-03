@@ -15,6 +15,5 @@ private:
     const TextureHolder& mTexture;
     const sf::FloatRect mWorldBounds;
 
-    float mTimeSinceLastSpawn {};
     static constexpr float sSpeed = 500.f;
 };

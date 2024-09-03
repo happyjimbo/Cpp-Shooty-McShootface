@@ -7,74 +7,24 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 # Define the directory containing the media files
 set(MEDIA_DIR "${CMAKE_SOURCE_DIR}/Media")
 
+# Debug and Release flags
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+
 include(FetchContent)
 FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp
-        src/Game.cpp
-        src/Game.h
-        src/World.cpp
-        src/World.h
-        src/Resource/ResourceHolder.inl
-        src/Resource/ResourceHolder.h
-        src/Resource/ResourceIdentifiers.h
-        src/Entity/SpriteEntity.cpp
-        src/Entity/SpriteEntity.h
-        src/Entity/AircraftEntity.cpp
-        src/Entity/AircraftEntity.h
-        src/Data/Category.h
-        src/Entity/ProjectileEntity.cpp
-        src/Entity/ProjectileEntity.h
-        src/Controllers/ProjectileController.cpp
-        src/Controllers/ProjectileController.h
-        src/Controllers/EnemyAircraftController.cpp
-        src/Controllers/EnemyAircraftController.h
-        src/System/ProjectileCollisionSystem.cpp
-        src/System/ProjectileCollisionSystem.h
-        src/Gui/Label.cpp
-        src/Gui/Label.h
-        src/Entity/EntitySystem.h
-        src/Entity/EntityObject.cpp
-        src/Entity/EntityObject.h
-        src/Entity/EntitySystem.inl
-        src/Controllers/BackgroundController.cpp
-        src/Controllers/BackgroundController.h
-        src/Controllers/GuiController.cpp
-        src/Controllers/GuiController.h
-        src/Controllers/PlayerAircraftController.cpp
-        src/Controllers/PlayerAircraftController.h
-        src/RandomFloatGenerator.h
-        src/Controllers/CloudsController.cpp
-        src/Controllers/CloudsController.h
-        src/ObjectPool/ObjectPool.inl
-        src/ObjectPool/ObjectPool.h
-        src/System/ProjectileSpawnSystem.cpp
-        src/System/ProjectileSpawnSystem.h
-        src/Data/ProjectileFiringData.h
-        src/PlayerControls.cpp
-        src/PlayerControls.h
-        src/System/RemoveOffScreenEnemiesSystem.cpp
-        src/System/RemoveOffScreenEnemiesSystem.h
-        src/System/RemoveOffScreenProjectilesSystem.cpp
-        src/System/RemoveOffScreenProjectilesSystem.h
-        src/System/SpawnEnemyAircraftSystem.cpp
-        src/System/SpawnEnemyAircraftSystem.h
-        src/Entity/ExplosionEntity.cpp
-        src/Entity/ExplosionEntity.h
-        src/Data/MediaFiles.h
-        src/Controllers/ExplosionController.cpp
-        src/Controllers/ExplosionController.h
-        src/System/ExplosionAnimationSystem.cpp
-        src/System/ExplosionAnimationSystem.h
-        src/Data/AnimationData.h
-        src/System/PlayerKilledSystem.cpp
-        src/System/PlayerKilledSystem.h
+file(GLOB_RECURSE SOURCE_FILES
+        "${CMAKE_SOURCE_DIR}/src/*.cpp"
+        "${CMAKE_SOURCE_DIR}/src/*.h"
+        "${CMAKE_SOURCE_DIR}/src/*.inl"
 )
 
-# Add the parent directory of src and Gui to the include path for the target
+add_executable(main ${SOURCE_FILES})
+
 target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/Gui
@@ -90,25 +40,26 @@ target_include_directories(main PRIVATE
 target_link_libraries(main PRIVATE sfml-graphics)
 target_compile_features(main PRIVATE cxx_std_20)
 
-# Get a list of all texture files in the media directory
-file(GLOB_RECURSE TEXTURE_FILES
-        "${MEDIA_DIR}/*.png"
-        "${MEDIA_DIR}/*.jpg"
-        "${MEDIA_DIR}/*.jpeg"
-        "${MEDIA_DIR}/*.bmp"
-        "${MEDIA_DIR}/*.tga"
-        "${MEDIA_DIR}/*.dds"
-)
+if(MSVC)
+    target_compile_options(main PRIVATE /W4 /WX)
+else()
+    target_compile_options(main PRIVATE -Wall -Wextra -pedantic -Werror)
+endif()
 
-# Copy texture files to the build output directory
-foreach(TEXTURE_FILE ${TEXTURE_FILES})
-    get_filename_component(FILE_NAME ${TEXTURE_FILE} NAME)
+# Copy over all the media files
+file(GLOB_RECURSE TEXTURE_FILES "${MEDIA_DIR}/Textures/*")
+file(GLOB_RECURSE FONT_FILES "${MEDIA_DIR}/Font/*")
+
+foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${OTHER_FILES})
+    get_filename_component(FILE_NAME ${FILE} NAME)
+    get_filename_component(DIR_NAME ${FILE} DIRECTORY)
+    string(REPLACE ${MEDIA_DIR} "" REL_DIR ${DIR_NAME})
+
     add_custom_command(
-            TARGET main
-            POST_BUILD
+            TARGET main POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${TEXTURE_FILE}
-            $<TARGET_FILE_DIR:main>/Media/Textures/${FILE_NAME}
+            ${FILE}
+            $<TARGET_FILE_DIR:main>/Media/${REL_DIR}/${FILE_NAME}
     )
 endforeach()
 

@@ -23,7 +23,7 @@ namespace GUI
         mText.setString(text);
     }
 
-    void Label::update(sf::Time delta) {
+    void Label::update(sf::Time) {
         // do nothing
     }
 }

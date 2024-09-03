@@ -34,7 +34,7 @@ void EntityObject::update(const sf::Time delta)
     move(mVelocity * delta.asSeconds());
 }
 
-void EntityObject::draw(const sf::RenderTarget& target, const sf::RenderStates& states) const
+void EntityObject::draw(sf::RenderTarget&, sf::RenderStates) const
 {
 
 }
