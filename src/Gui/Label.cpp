@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/System/Time.hpp>
 
 namespace GUI
 {
@@ -14,12 +13,25 @@ namespace GUI
         mText.setString(text);
     }
 
-    void Label::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    void Label::draw(sf::RenderTarget &target, sf::RenderStates states) const
+    {
         states.transform *= getTransform();
         target.draw(mText, states);
     }
 
-    void Label::setText(const std::string& text) {
+    void Label::setText(const std::string& text)
+    {
         mText.setString(text);
     }
+
+    sf::FloatRect Label::getLocalBounds() const
+    {
+        return mText.getLocalBounds();
+    }
+
+    sf::FloatRect Label::getGlobalBounds() const
+    {
+        return mText.getGlobalBounds();
+    }
+
 }

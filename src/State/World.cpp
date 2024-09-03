@@ -16,15 +16,15 @@
 #include "ExplosionAnimationSystem.h"
 #include "PlayerKilledSystem.h"
 
-World::World(sf::RenderWindow& window, const std::function<void()>& endGameCallback)
+World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
 : mWindow(window)
 , mWorldView(window.getDefaultView())
 , mEndGameCallback(endGameCallback)
+, mFonts(font)
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 {
     loadTextures();
-    loadFonts();
     initLogic();
 
     mWorldView.setCenter(mSpawnPosition);
@@ -61,11 +61,6 @@ void World::loadTextures()
     mTextures.load(Textures::Clouds, MediaFiles::Clouds);
     mTextures.load(Textures::Explosion, MediaFiles::Explosion);
     mTextures.load(Textures::PlayerExplosion, MediaFiles::PlayerExplosion);
-}
-
-void World::loadFonts()
-{
-    mFonts.load(Fonts::Main, MediaFiles::Font);
 }
 
 void World::initLogic()

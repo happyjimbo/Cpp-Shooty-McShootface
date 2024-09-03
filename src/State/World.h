@@ -36,7 +36,7 @@ class World final
 {
 
 public:
-    explicit World(sf::RenderWindow& window, const std::function<void()>& endGameCallback);
+    explicit World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback);
     ~World();
 
     void update(sf::Time);
@@ -55,7 +55,6 @@ private:
     template <typename T>
     void drawEntities(EntitySystem<T>& system);
     void loadTextures();
-    void loadFonts();
     void initLogic();
 
     sf::RenderWindow& mWindow;
@@ -64,7 +63,7 @@ private:
     const std::function<void()>& mEndGameCallback;
 
     TextureHolder mTextures;
-    FontHolder mFonts;
+    const FontHolder& mFonts;
     PlayerControls simpleControls;
 
     EntitySystem<ProjectileEntity> mProjectileEntitySystem;

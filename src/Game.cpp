@@ -1,13 +1,15 @@
 #include "Game.h"
 
-#include <iostream>
+#include "MediaFiles.h"
 
 const sf::Time Game::TimePerFrame = sf::seconds(sSeconds);
 
 Game::Game()
 : mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
 {
-    startGame();
+    mFont.load(Fonts::Main, MediaFiles::Font);
+
+    transitionScreen("Shooty Mcshootface", "Play now!");
     mWindow.setKeyRepeatEnabled(false);
 }
 
@@ -25,7 +27,6 @@ void Game::run()
 
         while (timeSinceLastUpdate > TimePerFrame)
         {
-
             timeSinceLastUpdate -= TimePerFrame;
 
             processWindowEvents();
@@ -53,6 +54,14 @@ void Game::processWindowEvents()
         {
             mWindow.close();
         }
+
+        if (mTransitionScreen)
+        {
+            mTransitionScreen->handleEvent(event, [this]()
+            {
+                startGame();
+            });
+        }
     }
 }
 
@@ -65,9 +74,9 @@ void Game::render()
         mWorld->draw();
     }
 
-    if (mGameOver)
+    if (mTransitionScreen)
     {
-        mGameOver->draw();
+        mTransitionScreen->draw();
     }
 
     mWindow.setView(mWindow.getDefaultView());
@@ -76,23 +85,23 @@ void Game::render()
 
 void Game::startGame()
 {
-    //mWorld = std::make_unique<World>(mWindow, [this]() { endGame(); });
-    mWorld = new World(mWindow, [this]() { endGame(); });
+    delete mTransitionScreen;
+    mTransitionScreen = nullptr;
+
+    //mWorld = std::make_unique<World>(mWindow, mFont, [this]() { endGame(); });
+    mWorld = new World(mWindow, mFont, [this]() { transitionScreen("YOU DIED", "Play again!"); });
 }
 
-void Game::endGame()
+void Game::transitionScreen(const char* title, const char* buttonText)
 {
-    std::cout << "end game" << std::endl;
-    //mWorld.reset();
     delete mWorld;
     mWorld = nullptr;
 
-    mGameOver = new GameOver(mWindow);
+    mTransitionScreen = new TransitionScreen(mWindow, mFont, title, buttonText);
 }
-
 
 Game::~Game() noexcept
 {
     delete mWorld;
-    delete mGameOver;
+    delete mTransitionScreen;
 }

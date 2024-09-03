@@ -16,6 +16,8 @@ namespace GUI
         void create(const std::string& text, const FontHolder& fonts, int size = 16);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void setText(const std::string& text);
+        sf::FloatRect getLocalBounds() const;
+        sf::FloatRect getGlobalBounds() const;
 
     private:
         sf::Text  mText;

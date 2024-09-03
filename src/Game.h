@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameOver.h"
+#include "TransitionScreen.h"
 #include "SFML/Graphics.hpp"
 #include "World.h"
 
@@ -17,14 +17,16 @@ private:
     void render();
 
     void startGame();
-    void endGame();
+    void transitionScreen(const char* title, const char* buttonText);
 
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
     // std::unique_ptr<World> mWorld;
 
+    FontHolder mFont;
+
     World* mWorld {nullptr};
-    GameOver* mGameOver {nullptr};
+    TransitionScreen* mTransitionScreen {nullptr};
 
     static constexpr const auto* sTitle = "Shooty McShootface";
     static constexpr int sScreenWidth {640};
