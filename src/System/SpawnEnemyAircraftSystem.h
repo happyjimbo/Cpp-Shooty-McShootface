@@ -36,8 +36,8 @@ private:
     const TextureHolder& mTexture;
     const sf::Vector2f mPosition;
 
-    constexpr static float sMaxSpawnInterval = 1.f;
-    constexpr static float sMinSpawnInterval = 0.1f;
+    constexpr static float sMaxSpawnInterval = 0.6f;
+    constexpr static float sMinSpawnInterval = 0.3f;
     constexpr static float sTotalDecreaseTime = 60.0f;
 
     constexpr static float sAircraftLeftPadding = 30.0f;
