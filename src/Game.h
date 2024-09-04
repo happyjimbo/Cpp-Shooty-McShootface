@@ -11,7 +11,7 @@ class Game final
 {
 public:
     explicit Game();
-    ~Game() noexcept;
+    ~Game() = default;
 
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
@@ -31,10 +31,9 @@ private:
 
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
-    // std::unique_ptr<World> mWorld;
 
     FontHolder mFont;
-    StateHandler* mStateHandler;
+    std::unique_ptr<StateHandler> mStateHandler;
 
     static constexpr const auto* sTitle = "Shooty McShootface";
     static constexpr int sScreenWidth {640};

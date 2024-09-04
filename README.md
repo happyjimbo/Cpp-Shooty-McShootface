@@ -12,8 +12,8 @@ C++ 14 Requirements:
 - `constexpr functions` Remove or modify as needed.
 
 Code Highlights:
-
-- **Memory Management**: Deliberate mixture of smart and raw pointers with RAII (Resource Acquisition Is Initialization) in mind. Initially relied more on `shared_ptr` and `unique_ptr`, but opted to mostly focus on raw pointers in certain areas to manage memory manually. 
+ 
+- **Memory Management**: A deliberate mixture of smart and raw pointers is used, with RAII (Resource Acquisition Is Initialization) principles in mind. Raw pointers are used in performance-critical areas like the object pool, while smart pointers are used in areas like Game and StateHandler for automatic memory management.
 - **Template-Based Object Pool**: Efficient managedment of game objects. 
 - **Visual Effects**: Parallax scrolling for ground and clouds.
 - **Animation**: Sprite sheet for frame-based animations.

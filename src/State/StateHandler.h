@@ -12,7 +12,7 @@ class StateHandler final
 {
 public:
     explicit StateHandler(sf::RenderWindow& window, const FontHolder& font) noexcept;
-    ~StateHandler() noexcept;
+    ~StateHandler() noexcept = default;
 
     void startGame();
     void transitionScreen(const char* title, const char* buttonText);
@@ -23,8 +23,8 @@ public:
 private:
     sf::RenderWindow& mWindow;
 
-    World* mWorld {nullptr};
-    TransitionScreen* mTransitionScreen {nullptr};
+    std::unique_ptr<World> mWorld;
+    std::unique_ptr<TransitionScreen> mTransitionScreen;
 
     const FontHolder& mFont;
 };

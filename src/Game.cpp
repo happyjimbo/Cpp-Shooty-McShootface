@@ -8,7 +8,8 @@ Game::Game()
 : mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
 {
     mFont.load(Fonts::Main, MediaFiles::Font);
-    mStateHandler = new StateHandler(mWindow, mFont);
+
+    mStateHandler = std::make_unique<StateHandler>(mWindow, mFont);
 
     mWindow.setKeyRepeatEnabled(false);
 }
@@ -64,11 +65,5 @@ void Game::render()
 
     mWindow.setView(mWindow.getDefaultView());
     mWindow.display();
-}
-
-
-Game::~Game() noexcept
-{
-    delete mStateHandler;
 }
 

@@ -1,5 +1,4 @@
 #include "StateHandler.h"
-
 #include "TransitionScreen.h"
 #include "World.h"
 
@@ -12,20 +11,18 @@ StateHandler::StateHandler(sf::RenderWindow& window, const FontHolder& font) noe
 
 void StateHandler::startGame()
 {
-    delete mTransitionScreen;
-    mTransitionScreen = nullptr;
+    mTransitionScreen.reset();
 
-    //mWorld = std::make_unique<World>(mWindow, mFont, [this]() { endGame(); });
-    mWorld = new World(mWindow, mFont, [this]() { transitionScreen("YOU DIED", "Play again!"); });
-
+    mWorld = std::make_unique<World>(mWindow, mFont, [this]()
+    {
+        transitionScreen("YOU DIED", "Play again!");
+    });
 }
 
 void StateHandler::transitionScreen(const char* title, const char* buttonText)
 {
-    delete mWorld;
-    mWorld = nullptr;
-
-    mTransitionScreen = new TransitionScreen(mWindow, mFont, title, buttonText);
+    mWorld.reset();
+    mTransitionScreen = std::make_unique<TransitionScreen>(mWindow, mFont, title, buttonText);
 
 }
 
@@ -59,10 +56,4 @@ void StateHandler::draw() const
     {
         mTransitionScreen->draw();
     }
-}
-
-StateHandler::~StateHandler() noexcept
-{
-    delete mWorld;
-    delete mTransitionScreen;
 }
