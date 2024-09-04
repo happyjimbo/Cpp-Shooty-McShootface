@@ -1,3 +1,5 @@
+#pragma once
+
 #include "EntitySystem.h"
 #include "ExplosionEntity.h"
 #include "ResourceIdentifiers.h"
