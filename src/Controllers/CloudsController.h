@@ -1,31 +1,28 @@
 #pragma once
 
 #include "EntitySystem.h"
-#include <Resource/ResourceIdentifiers.h>
-#include "SpriteEntity.h"
+#include "ResourceIdentifiers.h"
+
+#include "CloudEntity.h"
 
 class CloudsController final
 {
 public:
     explicit CloudsController(
-        EntitySystem<SpriteEntity>& entitySystem,
+        EntitySystem<CloudEntity>& entitySystem,
         TextureHolder& texture,
         float scrollSpeed
     ) noexcept;
 
     ~CloudsController() noexcept = default;
-    void create();
-    void tick(sf::Time delta) const;
+    void create() const;
 
 private:
 
-    static float generateRandomXpos();
-
-    EntitySystem<SpriteEntity>& mEntitySystem;
-    std::vector<SpriteEntity*> mSprites {};
+    EntitySystem<CloudEntity>& mEntitySystem;
     TextureHolder& mTexture;
-    sf::IntRect cloudRect;
 
     float mScrollSpeed;
+
     const std::vector<float> mScrollSpeedOffsets = {0.3f, 0.6f, 0.9f, 1.2f};
 };

@@ -5,6 +5,7 @@
 #include "ResourceIdentifiers.h"
 #include "PlayerControls.h"
 
+class CloudMovementSystem;
 class PlayerKilledSystem;
 class ExplosionAnimationSystem;
 class ExplosionController;
@@ -14,6 +15,7 @@ class PlayerAircraftController;
 class GuiController;
 class ProjectileEntity;
 class SpriteEntity;
+class CloudEntity;
 class ProjectileController;
 class EnemyAircraftController;
 class BackgroundController;
@@ -76,6 +78,7 @@ private:
     EntitySystem<AircraftEntity> mPlayerAircraftEntitySystem;
     EntitySystem<AircraftEntity> mEnemyAircraftEntitySystem;
     EntitySystem<SpriteEntity> mSpriteEntitySystem;
+    EntitySystem<CloudEntity> mCloudEntitySystem;
     EntitySystem<ExplosionEntity> mExplosionEntitySystem;
     EntitySystem<Label> mLabelEntitySystem;
 
@@ -99,4 +102,5 @@ private:
     RemoveOffScreenProjectilesSystem* mRemoveOffScreenProjectilesSystem;
     ExplosionAnimationSystem* mExplosionAnimationSystem;
     PlayerKilledSystem* mPlayerKilledSystem;
+    CloudMovementSystem* mCloudMovementSystem;
 };

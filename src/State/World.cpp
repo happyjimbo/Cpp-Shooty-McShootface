@@ -15,6 +15,7 @@
 #include "RemoveOffScreenProjectilesSystem.h"
 #include "ExplosionAnimationSystem.h"
 #include "PlayerKilledSystem.h"
+#include "CloudMovementSystem.h"
 
 World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
 : mWindow(window)
@@ -35,6 +36,7 @@ void World::draw()
     mWindow.setView(mWorldView);
 
     drawEntities(mSpriteEntitySystem);
+    drawEntities(mCloudEntitySystem);
     drawEntities(mExplosionEntitySystem);
     drawEntities(mProjectileEntitySystem);
     drawEntities(mEnemyAircraftEntitySystem);
@@ -145,11 +147,15 @@ void World::initLogic()
     mBackgroundController->create();
 
     mCloudsController = new CloudsController (
-        mSpriteEntitySystem,
+        mCloudEntitySystem,
         mTextures,
         mScrollSpeed
     );
     mCloudsController->create();
+
+    mCloudMovementSystem = new CloudMovementSystem(
+        mCloudEntitySystem
+    );
 
     simpleControls.initializeActions(
         *mPlayerAircraftController->getPlayerAircaft()
@@ -172,10 +178,11 @@ void World::update(const sf::Time delta)
     mRemoveOffScreenProjectilesSystem->execute();
     mExplosionAnimationSystem->execute(delta);
 
+    mCloudMovementSystem->execute(delta);
+
     mEnemyAircraftController->tick(delta);
     mPlayerAircraftController->tick();
     mBackgroundController->tick(delta);
-    mCloudsController->tick(delta);
 
     simpleControls.handleRealtimeInput();
 
@@ -207,4 +214,5 @@ World::~World()
     delete mRemoveOffScreenProjectilesSystem;
     delete mExplosionAnimationSystem;
     delete mPlayerKilledSystem;
+    delete mCloudMovementSystem;
 }
