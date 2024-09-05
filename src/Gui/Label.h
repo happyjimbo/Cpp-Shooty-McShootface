@@ -10,8 +10,7 @@ namespace GUI
     {
     public:
         Label() = default;
-        Label(const std::string&, const FontHolder&, int) = delete;
-        ~Label() = default;
+        ~Label() override = default;
 
         Label(const Label&) = delete;
         Label operator=(const Label&) = delete;

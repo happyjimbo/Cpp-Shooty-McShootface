@@ -13,7 +13,6 @@ class CloudEntity final : public EntityObject
 {
 public:
     CloudEntity() = default;
-    CloudEntity(const sf::Texture&, const sf::IntRect&, float scrollSpeed) = delete;
     ~CloudEntity() override = default;
 
     CloudEntity(const CloudEntity&) = delete;

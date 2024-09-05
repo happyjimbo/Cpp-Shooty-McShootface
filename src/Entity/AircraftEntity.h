@@ -15,7 +15,6 @@ namespace Aircraft
         };
 
         AircraftEntity() = default;
-        AircraftEntity(Type, const TextureHolder&) = delete;
         ~AircraftEntity() override = default;
 
         AircraftEntity(const AircraftEntity&) = delete;

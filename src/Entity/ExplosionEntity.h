@@ -15,7 +15,6 @@ class ExplosionEntity final : public EntityObject
 {
 public:
     ExplosionEntity() = default;
-    ExplosionEntity(const sf::Texture&, const sf::IntRect&) = delete;
     ~ExplosionEntity() override = default;
 
     ExplosionEntity(const ExplosionEntity&) = delete;

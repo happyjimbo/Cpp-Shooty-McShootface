@@ -22,8 +22,6 @@ public:
     BackgroundEntity(const BackgroundEntity&&) = delete;
     BackgroundEntity operator=(const BackgroundEntity&&) = delete;
 
-    BackgroundEntity(const sf::Texture&, sf::Vector2u bounds, float scrollSpeed) = delete;
-
     void create(const sf::Texture&, sf::Vector2u bounds, float scrollSpeed);
 
     BackgroundData& getBackgroundData() { return mBackgrounData; };
