@@ -1,30 +1,50 @@
+# Minimum required version of CMake
 cmake_minimum_required(VERSION 3.16)
+
+# Define the project name and the languages used
 project(main LANGUAGES CXX)
 
+# Set the output directory for binaries
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Option to build shared libraries
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
-# Define the directory containing the media files
+# Define the directory containing media files
 set(MEDIA_DIR "${CMAKE_SOURCE_DIR}/Media")
 
 # Debug and Release flags
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
+# Include FetchContent module for fetching external projects
 include(FetchContent)
+
+# Fetch SFML
 FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
+# Fetch GoogleTest
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+# Collect all source files (you can modify the paths as needed)
 file(GLOB_RECURSE SOURCE_FILES
         "${CMAKE_SOURCE_DIR}/src/*.cpp"
         "${CMAKE_SOURCE_DIR}/src/*.h"
         "${CMAKE_SOURCE_DIR}/src/*.inl"
 )
 
+# Define the main executable with the collected source files
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+# Include directories for the project
 target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/state
@@ -38,16 +58,20 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Data
 )
 
+# Link SFML to the main project
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+
+# Enable C++20 features
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
+# Set compiler warnings
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 endif()
 
-# Copy over all the media files
+# Copy media files after the build
 file(GLOB_RECURSE TEXTURE_FILES "${MEDIA_DIR}/Textures/*")
 file(GLOB_RECURSE FONT_FILES "${MEDIA_DIR}/Font/*")
 
@@ -64,8 +88,49 @@ foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${OTHER_FILES})
     )
 endforeach()
 
-# Exclude CMakeLists.txt from being installed
+# Install media files but exclude CMakeLists.txt
 install(DIRECTORY ${MEDIA_DIR}
         DESTINATION ${PROJECT_NAME}/Media
         PATTERN "CMakeLists.txt" EXCLUDE
 )
+
+# -----------------------------
+# Unit Tests Target
+# -----------------------------
+
+# Add the test executable
+add_executable(UnitTests_tests
+        test_src/test_ProjectileFiringData.cpp
+)
+
+# Include directories for the test target as well
+target_include_directories(UnitTests_tests PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/state
+        ${CMAKE_SOURCE_DIR}/src/Gui
+        ${CMAKE_SOURCE_DIR}/src/Entity
+        ${CMAKE_SOURCE_DIR}/src/Resource
+        ${CMAKE_SOURCE_DIR}/src/Command
+        ${CMAKE_SOURCE_DIR}/src/Controllers
+        ${CMAKE_SOURCE_DIR}/src/System
+        ${CMAKE_SOURCE_DIR}/src/ObjectPool
+        ${CMAKE_SOURCE_DIR}/src/Data
+)
+
+# Link GoogleTest and SFML to the test executable
+target_link_libraries(UnitTests_tests PRIVATE GTest::gtest_main GTest::gmock_main sfml-graphics)
+
+# Enable C++20 features for the tests as well
+target_compile_features(UnitTests_tests PRIVATE cxx_std_20)
+
+# Compiler warnings for the tests
+if(MSVC)
+    target_compile_options(UnitTests_tests PRIVATE /W4 /WX)
+else()
+    target_compile_options(UnitTests_tests PRIVATE -Wall -Wextra -pedantic -Werror)
+endif()
+
+# Enable testing and discover tests
+enable_testing()
+include(GoogleTest)
+gtest_discover_tests(UnitTests_tests)
