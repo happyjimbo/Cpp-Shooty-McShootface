@@ -13,9 +13,16 @@ namespace sf {
 class BackgroundEntity final : public EntityObject
 {
 public:
-    BackgroundEntity() = default;
-    BackgroundEntity(const sf::Texture&, sf::Vector2u bounds, float scrollSpeed) = delete;
+    BackgroundEntity() noexcept = default;
     ~BackgroundEntity() override = default;
+
+    BackgroundEntity(const BackgroundEntity&) = delete;
+    BackgroundEntity operator=(const BackgroundEntity&) = delete;
+
+    BackgroundEntity(const BackgroundEntity&&) = delete;
+    BackgroundEntity operator=(const BackgroundEntity&&) = delete;
+
+    BackgroundEntity(const sf::Texture&, sf::Vector2u bounds, float scrollSpeed) = delete;
 
     void create(const sf::Texture&, sf::Vector2u bounds, float scrollSpeed);
 

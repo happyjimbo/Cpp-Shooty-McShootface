@@ -29,9 +29,33 @@ void EntityObject::accelerate(const float ux, const float uy) noexcept
     mVelocity.y += uy;
 }
 
+const sf::Vector2f& EntityObject::getPosition() const noexcept
+{
+    return mTransformable.getPosition();
+}
+
+void EntityObject::setPosition(float x, float y) noexcept
+{
+    mTransformable.setPosition(x, y);
+}
+void EntityObject::setPosition(const sf::Vector2f& position) noexcept
+{
+    mTransformable.setPosition(position);
+}
+
+void EntityObject::move(float offsetX, float offsetY)
+{
+    mTransformable.move(offsetX, offsetY);
+}
+
+void EntityObject::move(const sf::Vector2f& offset)
+{
+    mTransformable.move(offset);
+}
+
 void EntityObject::update(const sf::Time delta)
 {
-    move(mVelocity * delta.asSeconds());
+    mTransformable.move(mVelocity * delta.asSeconds());
 }
 
 void EntityObject::draw(sf::RenderTarget&, sf::RenderStates) const
@@ -41,11 +65,16 @@ void EntityObject::draw(sf::RenderTarget&, sf::RenderStates) const
 
 void EntityObject::reset()
 {
-    setPosition(100.f, 100.f);
+    mTransformable.setPosition(100.f, 100.f);
     setVelocity(sf::Vector2f(0, 0));
 }
 
 unsigned int EntityObject::getCategory() const noexcept
 {
     return Category::Scene;
+}
+
+const sf::Transform& EntityObject::getTransform() const
+{
+    return mTransformable.getTransform();
 }
