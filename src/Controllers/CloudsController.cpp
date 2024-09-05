@@ -10,17 +10,17 @@ CloudsController::CloudsController (EntitySystem<CloudEntity>& entitySystem, Tex
 
 void CloudsController::create() const
 {
-    auto& cloudsTexture = mTexture.get(Textures::Clouds);
-    auto cloudRect = sf::IntRect(0, 0, cloudsTexture.getSize().x, cloudsTexture.getSize().y);
+    auto& texture = mTexture.get(Textures::Clouds);
+    auto rect = sf::IntRect(0, 0, texture.getSize().x, texture.getSize().y);
 
     for (std::size_t i = 0; i < mScrollSpeedOffsets.size(); i++)
     {
-        CloudEntity* cloudSprite = mEntitySystem.createObject(cloudsTexture, cloudRect, mScrollSpeed);
+        CloudEntity* cloudSprite = mEntitySystem.createObject(texture, rect, mScrollSpeed);
 
         CloudData& cloudData = cloudSprite->getCloudData();
         cloudData.scrollSpeedOffset = mScrollSpeedOffsets[i];
 
-        const float yPos = -cloudData.cloudRect.getSize().y * i;
+        const float yPos = static_cast<float>(-rect.getSize().y * i);
         cloudSprite->setPosition(cloudData.generateRandomXpos(), (yPos * mScrollSpeedOffsets[i]));
     }
 }

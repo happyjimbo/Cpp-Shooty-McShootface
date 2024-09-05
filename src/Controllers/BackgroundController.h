@@ -1,29 +1,28 @@
 #pragma once
 
 #include "EntitySystem.h"
-#include <Resource/ResourceIdentifiers.h>
-#include "SpriteEntity.h"
+#include "BackgroundEntity.h"
+#include "ResourceIdentifiers.h"
 
 class BackgroundController final
 {
 public:
     explicit BackgroundController(
-        EntitySystem<SpriteEntity>& entitySystem,
+        EntitySystem<BackgroundEntity>& entitySystem,
         TextureHolder& texture,
         sf::Vector2u bounds,
         float scrollSpeed
     );
-    ~BackgroundController();
-    void create();
-    void tick(sf::Time delta) const;
+
+    ~BackgroundController() noexcept = default;
+
+    void create() const;
 
 private:
-    EntitySystem<SpriteEntity>& mEntitySystem;
-    std::vector<SpriteEntity*> mSprites {};
+    EntitySystem<BackgroundEntity>& mEntitySystem;
     TextureHolder& mTexture;
-    sf::IntRect cloudRect;
-    const sf::Vector2f mBounds;
+
+    const sf::Vector2u mBounds;
     const float mScrollSpeed;
-
-
+    constexpr static float sBackgroundCount {2};
 };

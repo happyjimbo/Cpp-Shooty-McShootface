@@ -2,7 +2,7 @@
 #include <ResourceHolder.h>
 
 BackgroundController::BackgroundController (
-    EntitySystem<SpriteEntity>& entitySystem,
+    EntitySystem<BackgroundEntity>& entitySystem,
     TextureHolder& texture,
     const sf::Vector2u bounds,
     const float scrollSpeed
@@ -10,38 +10,20 @@ BackgroundController::BackgroundController (
 : mEntitySystem(entitySystem)
 , mTexture(texture)
 , mBounds(bounds)
-, mScrollSpeed(scrollSpeed *0.5f)
+, mScrollSpeed(scrollSpeed)
 {
 
 }
 
-void BackgroundController::create()
+void BackgroundController::create() const
 {
-    auto& backgroundTexture = mTexture.get(Textures::Background);
+    auto& texture = mTexture.get(Textures::Background);
+    texture.setRepeated(true);
 
-    sf::IntRect textureRect(sf::FloatRect(0,0, mBounds.x, mBounds.y));
-    backgroundTexture.setRepeated(true);
-
-    for (std::size_t i = 0; i < 2; i++) {
-        auto* backgroundSprite = mEntitySystem.createObject(backgroundTexture, textureRect);
-        backgroundSprite->setPosition(0, -mBounds.y * i);
-        mSprites.push_back(backgroundSprite);
+    for (std::size_t i = 0; i < sBackgroundCount; i++)
+    {
+        auto* backgroundSprite = mEntitySystem.createObject(texture, mBounds, mScrollSpeed);
+        const float yPos = static_cast<float>(mBounds.y * i);
+        backgroundSprite->setPosition(0, -yPos);
     }
-}
-
-void BackgroundController::tick(const sf::Time delta) const
-{
-    for (auto* backgroundSprite : mSprites) {
-        backgroundSprite->move(0.f, -mScrollSpeed * delta.asSeconds());
-
-        if (backgroundSprite->getPosition().y > mBounds.y)
-        {
-            backgroundSprite->setPosition(0, -mBounds.y+1);
-        }
-    }
-}
-
-BackgroundController::~BackgroundController()
-{
-    mSprites.clear();
 }

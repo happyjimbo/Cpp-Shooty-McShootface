@@ -3,8 +3,6 @@
 #include <SFML/Graphics/Rect.hpp>
 #include "RandomFloatGenerator.h"
 
-class SpriteEntity;
-
 struct CloudData
 {
     sf::IntRect cloudRect;
