@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ShootyMcShootface LANGUAGES CXX)
+project(main LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
@@ -23,9 +23,9 @@ file(GLOB_RECURSE SOURCE_FILES
         "${CMAKE_SOURCE_DIR}/src/*.inl"
 )
 
-add_executable(main ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_include_directories(main PRIVATE
+target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/state
         ${CMAKE_SOURCE_DIR}/src/Gui
@@ -38,13 +38,13 @@ target_include_directories(main PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Data
 )
 
-target_link_libraries(main PRIVATE sfml-graphics)
-target_compile_features(main PRIVATE cxx_std_20)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 if(MSVC)
-    target_compile_options(main PRIVATE /W4 /WX)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 else()
-    target_compile_options(main PRIVATE -Wall -Wextra -pedantic -Werror)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 endif()
 
 # Copy over all the media files
@@ -57,10 +57,10 @@ foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${OTHER_FILES})
     string(REPLACE ${MEDIA_DIR} "" REL_DIR ${DIR_NAME})
 
     add_custom_command(
-            TARGET main POST_BUILD
+            TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${FILE}
-            $<TARGET_FILE_DIR:main>/Media/${REL_DIR}/${FILE_NAME}
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/Media/${REL_DIR}/${FILE_NAME}
     )
 endforeach()
 
