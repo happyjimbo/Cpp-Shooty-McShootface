@@ -25,7 +25,7 @@ public:
     SpawnEnemyAircraftSystem(SpawnEnemyAircraftSystem&&) = delete;
     SpawnEnemyAircraftSystem& operator=(SpawnEnemyAircraftSystem&&) = delete;
 
-    void execute(sf::Time delta);
+    void execute(const sf::Time& delta);
 
 private:
     float spawnInterval(float delta);

@@ -20,7 +20,7 @@ public:
     ExplosionAnimationSystem(ExplosionAnimationSystem&&) = delete;
     ExplosionAnimationSystem& operator=(ExplosionAnimationSystem&&) = delete;
 
-    void execute(sf::Time delta) const;
+    void execute(const sf::Time& delta) const;
 
 private:
     EntitySystem<ExplosionEntity>& mEntitySystem;

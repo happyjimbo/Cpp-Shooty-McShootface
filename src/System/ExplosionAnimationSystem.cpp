@@ -7,7 +7,7 @@ ExplosionAnimationSystem::ExplosionAnimationSystem(EntitySystem<ExplosionEntity>
 {
 }
 
-void ExplosionAnimationSystem::execute(const sf::Time delta) const
+void ExplosionAnimationSystem::execute(const sf::Time& delta) const
 {
     for (const auto& entity : mEntitySystem.getEntities())
     {

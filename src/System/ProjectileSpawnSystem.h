@@ -23,7 +23,7 @@ public:
     ProjectileSpawnSystem(ProjectileSpawnSystem&&) = delete;
     ProjectileSpawnSystem& operator=(ProjectileSpawnSystem&&) = delete;
 
-    void execute(sf::Time delta) const;
+    void execute(const sf::Time& delta) const;
 
 private:
     EntitySystem<AircraftEntity>& mEntiySystem;

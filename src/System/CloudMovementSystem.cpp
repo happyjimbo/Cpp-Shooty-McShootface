@@ -8,7 +8,7 @@ CloudMovementSystem::CloudMovementSystem(EntitySystem<CloudEntity>& entitySystem
 
 }
 
-void CloudMovementSystem::execute(const sf::Time delta) const
+void CloudMovementSystem::execute(const sf::Time& delta) const
 {
     for (CloudEntity* cloud : mEntitySystem.getEntities())
     {

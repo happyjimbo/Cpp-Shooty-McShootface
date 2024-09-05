@@ -1,6 +1,5 @@
 #include "BackgroundMovementSystem.h"
 #include "BackgroundEntity.h"
-#include <iostream>
 
 BackgroundMovementSystem::BackgroundMovementSystem(EntitySystem<BackgroundEntity>& entitySystem) noexcept
 : mEntitySystem(entitySystem)
@@ -8,7 +7,7 @@ BackgroundMovementSystem::BackgroundMovementSystem(EntitySystem<BackgroundEntity
 
 }
 
-void BackgroundMovementSystem::execute(const sf::Time delta) const
+void BackgroundMovementSystem::execute(const sf::Time& delta) const
 {
     for (BackgroundEntity* background : mEntitySystem.getEntities())
     {

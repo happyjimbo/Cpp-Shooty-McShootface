@@ -16,7 +16,7 @@ public:
     BackgroundMovementSystem(const BackgroundMovementSystem&&) = delete;
     BackgroundMovementSystem& operator=(const BackgroundMovementSystem&&) = delete;
 
-    void execute(sf::Time delta) const;
+    void execute(const sf::Time& delta) const;
 
 private:
     EntitySystem<BackgroundEntity>& mEntitySystem;

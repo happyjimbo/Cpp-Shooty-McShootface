@@ -15,7 +15,7 @@ SpawnEnemyAircraftSystem::SpawnEnemyAircraftSystem(
 
 }
 
-void SpawnEnemyAircraftSystem::execute(const sf::Time delta)
+void SpawnEnemyAircraftSystem::execute(const sf::Time& delta)
 {
     mTimeSinceLastSpawn += delta.asSeconds();
 
