@@ -17,6 +17,7 @@
 #include "PlayerKilledSystem.h"
 #include "CloudMovementSystem.h"
 #include "BackgroundMovementSystem.h"
+#include "PlayerAircraftMovementSystem.h"
 
 
 World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
@@ -81,12 +82,16 @@ void World::initLogic()
     );
 
     mPlayerAircraftController = new PlayerAircraftController(
-       mPlayerAircraftEntitySystem,
+       mPlayerAircraftEntitySystem
+   );
+    mPlayerAircraftController->create(mTextures, mSpawnPosition);
+
+    mPlayerAircraftMovementSystem = new PlayerAircraftMovementSystem(
+    *mPlayerAircraftController->getPlayerAircaft(),
        mWorldView.getCenter(),
        mWorldView.getSize(),
        mScrollSpeed
-   );
-    mPlayerAircraftController->create(mTextures, mSpawnPosition);
+    );
 
     mScoreController = new GuiController(
         mLabelEntitySystem,
@@ -94,7 +99,6 @@ void World::initLogic()
         mWorldBounds.width
     );
     mScoreController->create(mFonts);
-
 
     mProjectileCollisionSystem = new ProjectileCollisionSystem(
         mProjectileEntitySystem,
@@ -185,9 +189,9 @@ void World::update(const sf::Time delta)
     mExplosionAnimationSystem->execute(delta);
     mCloudMovementSystem->execute(delta);
     mBackgroundMovementSystem->execute(delta);
+    mPlayerAircraftMovementSystem->execute();
 
     mEnemyAircraftController->tick(delta);
-    mPlayerAircraftController->tick();
 
     simpleControls.handleRealtimeInput();
 
@@ -221,4 +225,5 @@ World::~World()
     delete mPlayerKilledSystem;
     delete mCloudMovementSystem;
     delete mBackgroundMovementSystem;
+    delete mPlayerAircraftMovementSystem;
 }
