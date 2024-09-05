@@ -3,7 +3,7 @@
 
 using Aircraft::AircraftEntity;
 
-void ProjectileSpawnSystem::execute(const sf::Time delta) const
+void ProjectileSpawnSystem::execute(const sf::Time& delta) const
 {
     for (auto* aircraft : mEntiySystem.getEntities())
     {
