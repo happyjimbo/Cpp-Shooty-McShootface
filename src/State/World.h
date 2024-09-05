@@ -5,6 +5,7 @@
 #include "ResourceIdentifiers.h"
 #include "PlayerControls.h"
 
+class ProjectileMovementSystem;
 class EnemyAircraftMovementSystem;
 class PlayerAircraftMovementSystem;
 class BackgroundMovementSystem;
@@ -109,4 +110,5 @@ private:
     BackgroundMovementSystem* mBackgroundMovementSystem;
     PlayerAircraftMovementSystem* mPlayerAircraftMovementSystem;
     EnemyAircraftMovementSystem* mEnemyAircraftMovementSystem;
+    ProjectileMovementSystem* mProjectileMovementSystem;
 };

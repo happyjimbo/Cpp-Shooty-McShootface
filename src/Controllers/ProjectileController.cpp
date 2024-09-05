@@ -16,9 +16,3 @@ void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f
     const float speed = type == ProjectileEntity::Type::Player ? -sSpeed : sSpeed;
     projectile->setVelocity(0, speed);
 }
-
-void ProjectileController::tick(const sf::Time delta) const {
-    for (auto& projectile : mEntitySystem.getEntities()) {
-        projectile->update(delta);
-    }
-}

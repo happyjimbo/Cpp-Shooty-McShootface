@@ -19,6 +19,7 @@
 #include "BackgroundMovementSystem.h"
 #include "EnemyAircraftMovementSystem.h"
 #include "PlayerAircraftMovementSystem.h"
+#include "ProjectileMovementSystem.h"
 
 
 World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
@@ -98,6 +99,10 @@ void World::initLogic()
         mEnemyAircraftEntitySystem,
         *mPlayerAircraftController->getPlayerAircaft(),
         mScrollSpeed
+    );
+
+    mProjectileMovementSystem = new ProjectileMovementSystem(
+        mProjectileEntitySystem
     );
 
     mScoreController = new GuiController(
@@ -184,7 +189,6 @@ void World::initLogic()
 
 void World::update(const sf::Time delta)
 {
-    mProjectileController->tick(delta);
     mProjectileCollisionSystem->execute();
     mSpawnEnemyAircraftSystem->execute(delta);
     mEnemyProjectileSpawnSystem->execute(delta);
@@ -196,6 +200,7 @@ void World::update(const sf::Time delta)
     mBackgroundMovementSystem->execute(delta);
     mPlayerAircraftMovementSystem->execute();
     mEnemyAircraftMovementSystem->execute(delta);
+    mProjectileMovementSystem->execute(delta);
 
     simpleControls.handleRealtimeInput();
 
@@ -231,4 +236,5 @@ World::~World()
     delete mBackgroundMovementSystem;
     delete mPlayerAircraftMovementSystem;
     delete mEnemyAircraftMovementSystem;
+    delete mProjectileMovementSystem;
 }

@@ -15,8 +15,6 @@ public:
         ) noexcept;
 
     ~SpawnEnemyAircraftSystem() = default;
-
-    // delete
     explicit SpawnEnemyAircraftSystem() = delete;
 
     SpawnEnemyAircraftSystem(const SpawnEnemyAircraftSystem&) = delete;
