@@ -9,10 +9,8 @@ class RemoveOffScreenEnemiesSystem {
 public:
     explicit RemoveOffScreenEnemiesSystem(EntitySystem<AircraftEntity>& entities, float heightBoundary) noexcept;
 
-    ~RemoveOffScreenEnemiesSystem() = default;
-
-    // delete
     explicit RemoveOffScreenEnemiesSystem() = delete;
+    ~RemoveOffScreenEnemiesSystem() = default;
 
     RemoveOffScreenEnemiesSystem(const RemoveOffScreenEnemiesSystem&) = delete;
     RemoveOffScreenEnemiesSystem& operator=(const RemoveOffScreenEnemiesSystem&) = delete;

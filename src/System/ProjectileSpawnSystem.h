@@ -12,10 +12,8 @@ public:
     explicit ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileController& projectileController) noexcept
         : mEntiySystem(entiySystem), mProjectileController(projectileController) {}
 
-    ~ProjectileSpawnSystem() = default;
-
-    // delete
     explicit ProjectileSpawnSystem() = delete;
+    ~ProjectileSpawnSystem() = default;
 
     ProjectileSpawnSystem(const ProjectileSpawnSystem&) = delete;
     ProjectileSpawnSystem& operator=(const ProjectileSpawnSystem&) = delete;

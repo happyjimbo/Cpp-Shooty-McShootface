@@ -20,10 +20,8 @@ public:
         GuiController& scoreController
     );
 
-    ~ProjectileCollisionSystem() = default;
-
-    // delete
     explicit ProjectileCollisionSystem() = delete;
+    ~ProjectileCollisionSystem() = default;
 
     ProjectileCollisionSystem(const ProjectileCollisionSystem&) = delete;
     ProjectileCollisionSystem& operator=(const ProjectileCollisionSystem&) = delete;
@@ -40,8 +38,6 @@ private:
 
     template<std::invocable CollisionHandler>
     static void checkCollision(const ProjectileEntity* projectile, const AircraftEntity* target, float collisionSqr, CollisionHandler onCollision);
-
-    static float getSquareMagnitude(const sf::Vector2f& pos1, const sf::Vector2f& pos2);
 
     EntitySystem<ProjectileEntity>& mProjectileEntites;
     EntitySystem<AircraftEntity>& mEnemyAircraftEntities;

@@ -1,9 +1,7 @@
 #include "ProjectileCollisionSystem.h"
-
-#include <iostream>
-
 #include "ExplosionController.h"
 #include "GuiController.h"
+#include "SquareMagnitude.h"
 
 ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,
@@ -58,13 +56,6 @@ void ProjectileCollisionSystem::checkCollision(const ProjectileEntity* projectil
     if (distanceSqrt < collisionSqr) {
         onCollision();
     }
-}
-
-float ProjectileCollisionSystem::getSquareMagnitude(const sf::Vector2f& pos1, const sf::Vector2f& pos2)
-{
-    const float dx = pos1.x - pos2.x;
-    const float dy = pos1.y - pos2.y;
-    return (dx * dx) + (dy * dy);
 }
 
 void ProjectileCollisionSystem::playerHit(ProjectileEntity* projectile) const

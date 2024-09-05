@@ -42,7 +42,8 @@ file(GLOB_RECURSE SOURCE_FILES
 )
 
 # Define the main executable with the collected source files
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES}
+        src/Math/SquareMagnitude.h)
 
 # Include directories for the project
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -56,6 +57,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data
+        ${CMAKE_SOURCE_DIR}/src/Math
 )
 
 # Link SFML to the main project
@@ -115,6 +117,7 @@ target_include_directories(UnitTests_tests PRIVATE
         ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data
+        ${CMAKE_SOURCE_DIR}/src/Math
 )
 
 # Link GoogleTest and SFML to the test executable

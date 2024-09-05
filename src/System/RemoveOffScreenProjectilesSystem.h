@@ -12,10 +12,8 @@ class RemoveOffScreenProjectilesSystem {
 public:
     explicit RemoveOffScreenProjectilesSystem(EntitySystem<ProjectileEntity>& entities, float heightBoundary) noexcept;
 
-    ~RemoveOffScreenProjectilesSystem() = default;
-
-    // delete
     explicit RemoveOffScreenProjectilesSystem() = delete;
+    ~RemoveOffScreenProjectilesSystem() = default;
 
     RemoveOffScreenProjectilesSystem(const RemoveOffScreenProjectilesSystem&) = delete;
     RemoveOffScreenProjectilesSystem& operator=(const RemoveOffScreenProjectilesSystem&) = delete;
