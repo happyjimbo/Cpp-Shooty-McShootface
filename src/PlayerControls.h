@@ -17,7 +17,8 @@ public:
 
 private:
 
-    std::map<sf::Keyboard::Key, std::function<void()>> mKeyBinding;
+
+    std::unordered_map<sf::Keyboard::Key, std::function<void()>> mKeyBinding;
 
     constexpr static float playerSpeed = 400.f;
     constexpr static float horizontalSpeed = playerSpeed * 1.4f;

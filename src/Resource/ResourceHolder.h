@@ -13,7 +13,7 @@ public:
 
 private:
     void insertResource(Identifier id, std::unique_ptr<Resource> resource);
-    std::map<Identifier, std::unique_ptr<Resource>> mResourceMap;
+    std::unordered_map<Identifier, std::unique_ptr<Resource>> mResourceMap;
 };
 
 

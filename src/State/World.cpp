@@ -17,6 +17,7 @@
 #include "PlayerKilledSystem.h"
 #include "CloudMovementSystem.h"
 #include "BackgroundMovementSystem.h"
+#include "EnemyAircraftMovementSystem.h"
 #include "PlayerAircraftMovementSystem.h"
 
 
@@ -93,6 +94,12 @@ void World::initLogic()
        mScrollSpeed
     );
 
+    mEnemyAircraftMovementSystem = new EnemyAircraftMovementSystem(
+        mEnemyAircraftEntitySystem,
+        *mPlayerAircraftController->getPlayerAircaft(),
+        mScrollSpeed
+    );
+
     mScoreController = new GuiController(
         mLabelEntitySystem,
         *mPlayerAircraftController->getPlayerAircaft(),
@@ -139,9 +146,7 @@ void World::initLogic()
     );
 
     mEnemyAircraftController = new EnemyAircraftController(
-        mEnemyAircraftEntitySystem,
-        *mPlayerAircraftController->getPlayerAircaft(),
-        mScrollSpeed
+        mEnemyAircraftEntitySystem
     );
 
     mBackgroundController = new BackgroundController(
@@ -190,8 +195,7 @@ void World::update(const sf::Time delta)
     mCloudMovementSystem->execute(delta);
     mBackgroundMovementSystem->execute(delta);
     mPlayerAircraftMovementSystem->execute();
-
-    mEnemyAircraftController->tick(delta);
+    mEnemyAircraftMovementSystem->execute(delta);
 
     simpleControls.handleRealtimeInput();
 
@@ -226,4 +230,5 @@ World::~World()
     delete mCloudMovementSystem;
     delete mBackgroundMovementSystem;
     delete mPlayerAircraftMovementSystem;
+    delete mEnemyAircraftMovementSystem;
 }

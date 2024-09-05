@@ -23,7 +23,9 @@ file(GLOB_RECURSE SOURCE_FILES
         "${CMAKE_SOURCE_DIR}/src/*.inl"
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES}
+        src/System/EnemyAircraftMovementSystem.cpp
+        src/System/EnemyAircraftMovementSystem.h)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src
