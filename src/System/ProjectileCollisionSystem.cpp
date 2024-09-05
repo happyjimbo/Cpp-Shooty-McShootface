@@ -69,7 +69,7 @@ float ProjectileCollisionSystem::getSquareMagnitude(const sf::Vector2f& pos1, co
 
 void ProjectileCollisionSystem::playerHit(ProjectileEntity* projectile) const
 {
-    mPlayer.hit();
+    mPlayer.getAircraftData().hit();
     mScoreController.playerHit();
 
     mProjectileEntites.removeObject(projectile);
@@ -78,10 +78,10 @@ void ProjectileCollisionSystem::playerHit(ProjectileEntity* projectile) const
 
 void ProjectileCollisionSystem::enemyHit(ProjectileEntity* projectile, AircraftEntity* aircraft) const
 {
-    aircraft->hit();
+    aircraft->getAircraftData().hit();
     mExplosionController.spawn(aircraft->getPosition(), Textures::Explosion);
 
-    if (aircraft->destroyed())
+    if (aircraft->getAircraftData().destroyed())
     {
         mProjectileEntites.removeObject(projectile);
         mEnemyAircraftEntities.removeObject(aircraft);

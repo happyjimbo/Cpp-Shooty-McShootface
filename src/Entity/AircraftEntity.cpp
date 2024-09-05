@@ -14,7 +14,7 @@ void AircraftEntity::create(const Type type, const TextureHolder& textures, int 
     }
 
     mType = type;
-    mHealth = health;
+    mAircraftData.mHealth = health;
 
     const sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);

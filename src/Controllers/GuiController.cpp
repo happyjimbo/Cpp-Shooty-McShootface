@@ -27,7 +27,7 @@ void GuiController::create(const FontHolder& fonts)
 
 void GuiController::playerHit() const
 {
-    mPlayerHealth->setText(std::to_string(mPlayerAircraft.getHealth()));
+    mPlayerHealth->setText(std::to_string(mPlayerAircraft.getAircraftData().getHealth()));
 }
 
 void GuiController::increaseScore() {

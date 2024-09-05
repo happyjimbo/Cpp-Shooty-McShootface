@@ -10,7 +10,7 @@ PlayerKilledSystem::PlayerKilledSystem(AircraftEntity& PlayerAircraft, const std
 
 void PlayerKilledSystem::execute() const
 {
-    if (mPlayerAircraft.destroyed())
+    if (mPlayerAircraft.getAircraftData().destroyed())
     {
         mCallback();
     }

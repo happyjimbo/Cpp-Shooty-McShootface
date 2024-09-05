@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AircraftData.h"
 #include "EntityObject.h"
 #include "ProjectileEntity.h"
 #include "ProjectileFiringData.h"
@@ -33,10 +34,8 @@ namespace Aircraft
         ProjectileFiringData& getProjectileFiringData() noexcept { return mProjectileFiringData; }
         const ProjectileFiringData& getProjectileFiringData() const noexcept { return mProjectileFiringData; }
 
-        // these could be in their own data struct, in a more ecs approach
-        int getHealth() const { return mHealth; }
-        void hit() { --mHealth; }
-        bool destroyed() const { return  mHealth <= 0; }
+        AircraftData& getAircraftData() noexcept { return mAircraftData; }
+        const AircraftData& getAircraftData() const noexcept { return mAircraftData; }
 
     private:
 
@@ -45,7 +44,7 @@ namespace Aircraft
 
         Type mType {};
         sf::Sprite mSprite {};
-        int mHealth {};
         ProjectileFiringData mProjectileFiringData;
+        AircraftData mAircraftData;
     };
 }
