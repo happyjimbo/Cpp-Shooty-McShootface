@@ -35,6 +35,21 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+FetchContent_Declare(
+        imgui
+        GIT_REPOSITORY https://github.com/ocornut/imgui
+        GIT_TAG 35b1148efb839381b84de9290d9caf0b66ad7d03
+)
+
+FetchContent_MakeAvailable(imgui)
+
+FetchContent_Declare(
+        imgui-sfml
+        GIT_REPOSITORY https://github.com/SFML/imgui-sfml
+        GIT_TAG 82dc2033e51b8323857c3ae1cf1f458b3a933c35
+)
+add_subdirectory(imgui-sfml)
+
 # Collect all source files (you can modify the paths as needed)
 file(GLOB_RECURSE SOURCE_FILES
         "${CMAKE_SOURCE_DIR}/src/*.cpp"
@@ -68,6 +83,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 # Link SFML to the main project
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-audio)
+target_link_libraries(${PROJECT_NAME} PRIVATE ImGui-SFML::ImGui-SFML)
 
 # Enable C++20 features
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
