@@ -20,6 +20,7 @@
 #include "EnemyAircraftMovementSystem.h"
 #include "PlayerAircraftMovementSystem.h"
 #include "ProjectileMovementSystem.h"
+#include "SoundEffects.h"
 
 
 World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
@@ -185,6 +186,8 @@ void World::initLogic()
         *mPlayerAircraftController->getPlayerAircaft(),
         mEndGameCallback
     );
+
+    mSoundEffects = new SoundEffects();
 }
 
 void World::update(const sf::Time delta)
@@ -237,4 +240,5 @@ World::~World()
     delete mPlayerAircraftMovementSystem;
     delete mEnemyAircraftMovementSystem;
     delete mProjectileMovementSystem;
+    delete mSoundEffects;
 }

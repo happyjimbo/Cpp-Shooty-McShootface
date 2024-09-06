@@ -30,6 +30,7 @@ FetchContent_MakeAvailable(SFML)
 FetchContent_Declare(
         googletest
         URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
@@ -43,7 +44,10 @@ file(GLOB_RECURSE SOURCE_FILES
 
 # Define the main executable with the collected source files
 add_executable(${PROJECT_NAME} ${SOURCE_FILES}
-        src/Math/SquareMagnitude.h)
+        src/Math/SquareMagnitude.h
+        src/Audio/SoundEffects.cpp
+        src/Audio/SoundEffects.h
+)
 
 # Include directories for the project
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -58,10 +62,12 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data
         ${CMAKE_SOURCE_DIR}/src/Math
+        ${CMAKE_SOURCE_DIR}/src/Audio
 )
 
 # Link SFML to the main project
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-audio)
 
 # Enable C++20 features
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
@@ -118,6 +124,7 @@ target_include_directories(UnitTests_tests PRIVATE
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data
         ${CMAKE_SOURCE_DIR}/src/Math
+        ${CMAKE_SOURCE_DIR}/src/Audio
 )
 
 # Link GoogleTest and SFML to the test executable

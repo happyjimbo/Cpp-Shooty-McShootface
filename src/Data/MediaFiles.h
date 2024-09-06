@@ -13,3 +13,11 @@ struct MediaFiles
 
     static constexpr const char* Font = "Media/Font/Sansation.ttf";
 };
+
+struct AudioFiles
+{
+    static constexpr const char* PlayerGunfire = "Media/Sounds/PlayerGunfire.wav";
+    static constexpr const char* EnemyGunfire = "Media/Sounds/EnemyGunfire.wav";
+    static constexpr const char* Explosion1 = "Media/Sounds/Explosion1.wav";
+    static constexpr const char* Explosion2 = "Media/Sounds/Explosion2.wav";
+};
