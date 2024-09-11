@@ -9,9 +9,18 @@ const sf::Time Game::TimePerFrame = sf::seconds(sSeconds);
 Game::Game()
 : mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
 {
+    // this is obviously ugly but I'm tired now.
+        mTextures.load(Textures::Eagle, MediaFiles::Eagle);
+        mTextures.load(Textures::Raptor, MediaFiles::Raptor);
+        mTextures.load(Textures::Background, MediaFiles::Background);
+        mTextures.load(Textures::Bullet, MediaFiles::Bullet);
+        mTextures.load(Textures::EnemyBullet, MediaFiles::EnemyBullet);
+        mTextures.load(Textures::Clouds, MediaFiles::Clouds);
+        mTextures.load(Textures::Explosion, MediaFiles::Explosion);
+        mTextures.load(Textures::PlayerExplosion, MediaFiles::PlayerExplosion);
     mFont.load(Fonts::Main, MediaFiles::Font);
 
-    mStateHandler = std::make_unique<StateHandler>(mWindow, mFont);
+    mStateHandler = std::make_unique<StateHandler>(mWindow, mTextures, mFont);
 
     mWindow.setKeyRepeatEnabled(false);
 }

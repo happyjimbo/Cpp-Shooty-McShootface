@@ -2,8 +2,9 @@
 #include "TransitionScreen.h"
 #include "World.h"
 
-StateHandler::StateHandler(sf::RenderWindow& window, const FontHolder& font) noexcept
+StateHandler::StateHandler(sf::RenderWindow& window, TextureHolder& textures, const FontHolder& font) noexcept
 : mWindow(window)
+, mTextures(textures)
 , mFont(font)
 {
     transitionScreen("Shooty Mcshootface", "Play now!");
@@ -13,7 +14,7 @@ void StateHandler::startGame()
 {
     mTransitionScreen.reset();
 
-    mWorld = std::make_unique<World>(mWindow, mFont, [this]()
+    mWorld = std::make_unique<World>(mWindow, mTextures, mFont, [this]()
     {
         transitionScreen("YOU DIED", "Play again!");
     });

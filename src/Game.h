@@ -32,6 +32,7 @@ private:
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
 
+    TextureHolder mTextures;
     FontHolder mFont;
     std::unique_ptr<StateHandler> mStateHandler;
 

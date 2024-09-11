@@ -16,10 +16,11 @@ namespace sf
 class PlayerAircraftController final
 {
 public:
-    explicit PlayerAircraftController(EntitySystem<AircraftEntity>& entitySystem) noexcept;
+    explicit PlayerAircraftController(EntitySystem<AircraftEntity>& entitySystem,
+                                      const TextureHolder& textures,
+                                      sf::Vector2f spawnPosition) noexcept;
     ~PlayerAircraftController() = default;
 
-    void create(const TextureHolder& textures, sf::Vector2f spawnPosition);
     AircraftEntity* getPlayerAircaft() const;
 
 private:
@@ -27,7 +28,6 @@ private:
     friend class GuiController;
 
     AircraftEntity* mPlayerAircraft;
-    EntitySystem<AircraftEntity>& mEntitySystem;
 
     constexpr static int sPlayerHealth = 10;
 };

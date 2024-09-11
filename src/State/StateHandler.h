@@ -11,7 +11,7 @@ namespace sf { class RenderWindow; }
 class StateHandler final
 {
 public:
-    explicit StateHandler(sf::RenderWindow& window, const FontHolder& font) noexcept;
+    explicit StateHandler(sf::RenderWindow& window, TextureHolder& textures, const FontHolder& font) noexcept;
     ~StateHandler() noexcept = default;
 
     void startGame();
@@ -26,5 +26,6 @@ private:
     std::unique_ptr<World> mWorld;
     std::unique_ptr<TransitionScreen> mTransitionScreen;
 
+    TextureHolder& mTextures;
     const FontHolder& mFont;
 };
