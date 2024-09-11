@@ -29,14 +29,8 @@ private:
     void startGame();
     void transitionScreen(const char* title, const char* buttonText);
 
-    static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
 
     FontHolder mFont;
     std::unique_ptr<StateHandler> mStateHandler;
-
-    static constexpr const auto* sTitle = "Shooty McShootface";
-    static constexpr int sScreenWidth {640};
-    static constexpr int sScreenHeight {480};
-    static constexpr float sSeconds {1.f / 60.f};
 };

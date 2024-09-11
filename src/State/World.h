@@ -56,15 +56,6 @@ public:
     void draw();
 private:
 
-    enum Layer
-    {
-        Background,
-        Air,
-        Bulelts,
-        GUI,
-        LayerCount
-    };
-
     template <typename T>
     void drawEntities(EntitySystem<T>& system);
     void loadTextures();
@@ -89,28 +80,27 @@ private:
 
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;
-    static constexpr float mScrollSpeed {-50.f};
 
-    GuiController* mScoreController;
-    ProjectileController* mProjectileController;
-    EnemyAircraftController* mEnemyAircraftController;
-    PlayerAircraftController* mPlayerAircraftController;
-    BackgroundController* mBackgroundController;
-    CloudsController* mCloudsController;
-    ExplosionController* mExplosionController;
+    std::unique_ptr<GuiController> mScoreController;
+    std::unique_ptr<ProjectileController> mProjectileController;
+    std::unique_ptr<EnemyAircraftController> mEnemyAircraftController;
+    std::unique_ptr<PlayerAircraftController> mPlayerAircraftController;
+    std::unique_ptr<BackgroundController> mBackgroundController;
+    std::unique_ptr<CloudsController> mCloudsController;
+    std::unique_ptr<ExplosionController> mExplosionController;
 
-    SpawnEnemyAircraftSystem* mSpawnEnemyAircraftSystem;
-    ProjectileSpawnSystem* mEnemyProjectileSpawnSystem;
-    ProjectileSpawnSystem* mPlayerProjectileSpawnSystem;
-    ProjectileCollisionSystem* mProjectileCollisionSystem;
-    RemoveOffScreenEnemiesSystem* mRemoveOffScreenEnemiesSystem;
-    RemoveOffScreenProjectilesSystem* mRemoveOffScreenProjectilesSystem;
-    ExplosionAnimationSystem* mExplosionAnimationSystem;
-    PlayerKilledSystem* mPlayerKilledSystem;
-    CloudMovementSystem* mCloudMovementSystem;
-    BackgroundMovementSystem* mBackgroundMovementSystem;
-    PlayerAircraftMovementSystem* mPlayerAircraftMovementSystem;
-    EnemyAircraftMovementSystem* mEnemyAircraftMovementSystem;
-    ProjectileMovementSystem* mProjectileMovementSystem;
-    SoundEffects* mSoundEffects;
+    std::unique_ptr<SpawnEnemyAircraftSystem> mSpawnEnemyAircraftSystem;
+    std::unique_ptr<ProjectileSpawnSystem> mEnemyProjectileSpawnSystem;
+    std::unique_ptr<ProjectileSpawnSystem> mPlayerProjectileSpawnSystem;
+    std::unique_ptr<ProjectileCollisionSystem> mProjectileCollisionSystem;
+    std::unique_ptr<RemoveOffScreenEnemiesSystem> mRemoveOffScreenEnemiesSystem;
+    std::unique_ptr<RemoveOffScreenProjectilesSystem> mRemoveOffScreenProjectilesSystem;
+    std::unique_ptr<ExplosionAnimationSystem> mExplosionAnimationSystem;
+    std::unique_ptr<PlayerKilledSystem> mPlayerKilledSystem;
+    std::unique_ptr<CloudMovementSystem> mCloudMovementSystem;
+    std::unique_ptr<BackgroundMovementSystem> mBackgroundMovementSystem;
+    std::unique_ptr<PlayerAircraftMovementSystem> mPlayerAircraftMovementSystem;
+    std::unique_ptr<EnemyAircraftMovementSystem> mEnemyAircraftMovementSystem;
+    std::unique_ptr<ProjectileMovementSystem> mProjectileMovementSystem;
+    std::unique_ptr<SoundEffects> mSoundEffects;
 };

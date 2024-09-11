@@ -4,7 +4,15 @@
 // #include <imgui-SFML.h>
 // #include <imgui.h>
 
-const sf::Time Game::TimePerFrame = sf::seconds(sSeconds);
+namespace
+{
+    constexpr const auto* sTitle = "Shooty McShootface";
+    constexpr int sScreenWidth {640};
+    constexpr int sScreenHeight {480};
+    constexpr float sSeconds {1.f / 60.f};
+
+    const sf::Time TimePerFrame = sf::seconds(sSeconds);
+}
 
 Game::Game()
 : mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)

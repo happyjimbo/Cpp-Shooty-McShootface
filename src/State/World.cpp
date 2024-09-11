@@ -22,6 +22,10 @@
 #include "ProjectileMovementSystem.h"
 #include "SoundEffects.h"
 
+namespace
+{
+    constexpr float mScrollSpeed {-50.f};
+}
 
 World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
 : mWindow(window)
@@ -73,47 +77,47 @@ void World::loadTextures()
 
 void World::initLogic()
 {
-    mExplosionController = new ExplosionController(
+    mExplosionController = std::make_unique<ExplosionController>(
         mExplosionEntitySystem,
         mTextures
     );
 
-    mProjectileController = new ProjectileController(
+    mProjectileController = std::make_unique<ProjectileController>(
         mProjectileEntitySystem,
         mTextures,
         mWorldBounds
     );
 
-    mPlayerAircraftController = new PlayerAircraftController(
+    mPlayerAircraftController = std::make_unique<PlayerAircraftController>(
        mPlayerAircraftEntitySystem
    );
     mPlayerAircraftController->create(mTextures, mSpawnPosition);
 
-    mPlayerAircraftMovementSystem = new PlayerAircraftMovementSystem(
+    mPlayerAircraftMovementSystem = std::make_unique<PlayerAircraftMovementSystem>(
     *mPlayerAircraftController->getPlayerAircaft(),
        mWorldView.getCenter(),
        mWorldView.getSize(),
        mScrollSpeed
     );
 
-    mEnemyAircraftMovementSystem = new EnemyAircraftMovementSystem(
+    mEnemyAircraftMovementSystem = std::make_unique<EnemyAircraftMovementSystem>(
         mEnemyAircraftEntitySystem,
         *mPlayerAircraftController->getPlayerAircaft(),
         mScrollSpeed
     );
 
-    mProjectileMovementSystem = new ProjectileMovementSystem(
+    mProjectileMovementSystem = std::make_unique<ProjectileMovementSystem>(
         mProjectileEntitySystem
     );
 
-    mScoreController = new GuiController(
+    mScoreController = std::make_unique<GuiController>(
         mLabelEntitySystem,
         *mPlayerAircraftController->getPlayerAircaft(),
         mWorldBounds.width
     );
     mScoreController->create(mFonts);
 
-    mProjectileCollisionSystem = new ProjectileCollisionSystem(
+    mProjectileCollisionSystem = std::make_unique<ProjectileCollisionSystem>(
         mProjectileEntitySystem,
         mEnemyAircraftEntitySystem,
         *mPlayerAircraftController->getPlayerAircaft(),
@@ -121,41 +125,41 @@ void World::initLogic()
         *mScoreController
     );
 
-    mSpawnEnemyAircraftSystem = new SpawnEnemyAircraftSystem(
+    mSpawnEnemyAircraftSystem = std::make_unique<SpawnEnemyAircraftSystem>(
         mEnemyAircraftEntitySystem,
         mTextures,
         mWorldBounds.width
     );
 
-    mEnemyProjectileSpawnSystem = new ProjectileSpawnSystem(
+    mEnemyProjectileSpawnSystem = std::make_unique<ProjectileSpawnSystem>(
         mEnemyAircraftEntitySystem,
         *mProjectileController
     );
 
-    mPlayerProjectileSpawnSystem = new ProjectileSpawnSystem(
+    mPlayerProjectileSpawnSystem = std::make_unique<ProjectileSpawnSystem>(
         mPlayerAircraftEntitySystem,
         *mProjectileController
     );
 
-    mRemoveOffScreenEnemiesSystem = new RemoveOffScreenEnemiesSystem(
+    mRemoveOffScreenEnemiesSystem = std::make_unique<RemoveOffScreenEnemiesSystem>(
         mEnemyAircraftEntitySystem,
         mWorldBounds.height
     );
 
-    mRemoveOffScreenProjectilesSystem = new RemoveOffScreenProjectilesSystem(
+    mRemoveOffScreenProjectilesSystem = std::make_unique<RemoveOffScreenProjectilesSystem>(
         mProjectileEntitySystem,
         mWorldBounds.height
     );
 
-    mExplosionAnimationSystem = new ExplosionAnimationSystem(
+    mExplosionAnimationSystem = std::make_unique<ExplosionAnimationSystem>(
         mExplosionEntitySystem
     );
 
-    mEnemyAircraftController = new EnemyAircraftController(
+    mEnemyAircraftController = std::make_unique<EnemyAircraftController>(
         mEnemyAircraftEntitySystem
     );
 
-    mBackgroundController = new BackgroundController(
+    mBackgroundController = std::make_unique<BackgroundController>(
         mBackgroundEntitySystem,
         mTextures,
         mWindow.getSize(),
@@ -163,18 +167,18 @@ void World::initLogic()
     );
     mBackgroundController->create();
 
-    mCloudsController = new CloudsController (
+    mCloudsController = std::make_unique<CloudsController> (
         mCloudEntitySystem,
         mTextures,
         mScrollSpeed
     );
     mCloudsController->create();
 
-    mCloudMovementSystem = new CloudMovementSystem(
+    mCloudMovementSystem = std::make_unique<CloudMovementSystem> (
         mCloudEntitySystem
     );
 
-    mBackgroundMovementSystem = new BackgroundMovementSystem(
+    mBackgroundMovementSystem = std::make_unique<BackgroundMovementSystem> (
         mBackgroundEntitySystem
     );
 
@@ -182,12 +186,12 @@ void World::initLogic()
         *mPlayerAircraftController->getPlayerAircaft()
     );
 
-    mPlayerKilledSystem = new PlayerKilledSystem (
+    mPlayerKilledSystem = std::make_unique<PlayerKilledSystem> (
         *mPlayerAircraftController->getPlayerAircaft(),
         mEndGameCallback
     );
 
-    mSoundEffects = new SoundEffects();
+    mSoundEffects = std::make_unique<SoundEffects>();
 }
 
 void World::update(const sf::Time delta)
@@ -217,28 +221,4 @@ void World::update(const sf::Time delta)
     mPlayerKilledSystem->execute();
 }
 
-World::~World()
-{
-    delete mScoreController;
-    delete mExplosionController;
-    delete mProjectileController;
-    delete mEnemyAircraftController;
-    delete mPlayerAircraftController;
-    delete mBackgroundController;
-    delete mCloudsController;
-
-    delete mProjectileCollisionSystem;
-    delete mSpawnEnemyAircraftSystem;
-    delete mEnemyProjectileSpawnSystem;
-    delete mPlayerProjectileSpawnSystem;
-    delete mRemoveOffScreenEnemiesSystem;
-    delete mRemoveOffScreenProjectilesSystem;
-    delete mExplosionAnimationSystem;
-    delete mPlayerKilledSystem;
-    delete mCloudMovementSystem;
-    delete mBackgroundMovementSystem;
-    delete mPlayerAircraftMovementSystem;
-    delete mEnemyAircraftMovementSystem;
-    delete mProjectileMovementSystem;
-    delete mSoundEffects;
-}
+World::~World() = default;
