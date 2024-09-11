@@ -1,8 +1,8 @@
 #include "Game.h"
 #include "MediaFiles.h"
 
-#include <imgui-SFML.h>
-#include <imgui.h>
+// #include <imgui-SFML.h>
+// #include <imgui.h>
 
 const sf::Time Game::TimePerFrame = sf::seconds(sSeconds);
 
@@ -23,7 +23,7 @@ void Game::run()
 
     mWindow.setFramerateLimit(144);
 
-    ImGui::SFML::Init(mWindow);
+    // ImGui::SFML::Init(mWindow);
 
     while (mWindow.isOpen())
     {
@@ -34,7 +34,7 @@ void Game::run()
         while (timeSinceLastUpdate > TimePerFrame)
         {
 
-            ImGui::SFML::Update(mWindow, elapsedTime);
+            // ImGui::SFML::Update(mWindow, elapsedTime);
             timeSinceLastUpdate -= TimePerFrame;
 
             processWindowEvents();
@@ -45,7 +45,7 @@ void Game::run()
         }
     }
 
-    ImGui::SFML::Shutdown();
+    // ImGui::SFML::Shutdown();
 }
 
 
@@ -60,7 +60,7 @@ void Game::processWindowEvents()
     sf::Event event;
     while(mWindow.pollEvent(event))
     {
-        ImGui::SFML::ProcessEvent(event);
+        // ImGui::SFML::ProcessEvent(event);
 
         if (event.type == sf::Event::Closed)
         {
@@ -75,15 +75,15 @@ void Game::render()
 {
     mWindow.clear();
 
-    ImGui::ShowDemoWindow();
-    ImGui::Render();
+    // ImGui::ShowDemoWindow();
+    // ImGui::Render();
 
     mStateHandler->draw();
 
     mWindow.setView(mWindow.getDefaultView());
 
 
-    ImGui::SFML::Render(mWindow);
+    // ImGui::SFML::Render(mWindow);
 
     mWindow.display();
 }
