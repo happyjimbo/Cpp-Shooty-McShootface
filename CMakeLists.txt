@@ -98,8 +98,9 @@ endif()
 # Copy media files after the build
 file(GLOB_RECURSE TEXTURE_FILES "${MEDIA_DIR}/Textures/*")
 file(GLOB_RECURSE FONT_FILES "${MEDIA_DIR}/Font/*")
+file(GLOB_RECURSE SOUND_FILES "${MEDIA_DIR}/Sounds/*")
 
-foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${OTHER_FILES})
+foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${SOUND_FILES} ${OTHER_FILES})
     get_filename_component(FILE_NAME ${FILE} NAME)
     get_filename_component(DIR_NAME ${FILE} DIRECTORY)
     string(REPLACE ${MEDIA_DIR} "" REL_DIR ${DIR_NAME})
