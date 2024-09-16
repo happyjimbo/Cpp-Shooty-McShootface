@@ -38,17 +38,46 @@ FetchContent_MakeAvailable(googletest)
 FetchContent_Declare(
         imgui
         GIT_REPOSITORY https://github.com/ocornut/imgui
-        GIT_TAG 35b1148efb839381b84de9290d9caf0b66ad7d03
+        GIT_TAG v1.91.0-docking
 )
 
 FetchContent_MakeAvailable(imgui)
 
+# Manually add ImGui source files (since ImGui doesn't define its own CMake target)
+set(IMGUI_SOURCES
+        ${imgui_SOURCE_DIR}/imgui.cpp
+        ${imgui_SOURCE_DIR}/imgui_draw.cpp
+        ${imgui_SOURCE_DIR}/imgui_demo.cpp
+        ${imgui_SOURCE_DIR}/imgui_tables.cpp
+        ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
+)
+
+add_library(imgui STATIC ${IMGUI_SOURCES})
+
+# Ensure C++20 is used for ImGui and ImGui-SFML
+set_target_properties(imgui PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+
+# Include ImGui directories
+target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
+
+
 FetchContent_Declare(
         imgui-sfml
         GIT_REPOSITORY https://github.com/SFML/imgui-sfml
-        GIT_TAG 82dc2033e51b8323857c3ae1cf1f458b3a933c35
+        GIT_TAG v2.6
 )
 add_subdirectory(imgui-sfml)
+
+# Set C++20 for ImGui-SFML as well
+set_target_properties(ImGui-SFML PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+
+
+# Ensure C++20 is used for ImGui and ImGui-SFML
+#set_target_properties(imgui PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+#set_target_properties(imgui-sfml PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+
 
 # Collect all source files (you can modify the paths as needed)
 file(GLOB_RECURSE SOURCE_FILES
@@ -81,12 +110,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 # Link SFML to the main project
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-audio)
-target_link_libraries(${PROJECT_NAME} PRIVATE ImGui-SFML::ImGui-SFML)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML)
 
 # Enable C++20 features
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
+
+# Enable multi-viewports in ImGui by defining the appropriate macro
+target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
 
 # Set compiler warnings
 if(MSVC)
