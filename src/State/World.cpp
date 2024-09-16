@@ -221,4 +221,6 @@ void World::update(const sf::Time delta)
     mPlayerKilledSystem->execute();
 }
 
+// If we set this in the header then the unique_ptr's do not work with forward declaration, as a default deconstructor
+// needs the full context of the objects.
 World::~World() = default;

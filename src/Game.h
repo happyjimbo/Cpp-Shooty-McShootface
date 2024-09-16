@@ -1,9 +1,5 @@
 #pragma once
-
-#include "StateHandler.h"
-#include "TransitionScreen.h"
-#include "SFML/Graphics.hpp"
-#include "World.h"
+#include <memory>
 
 class StateHandler;
 
@@ -11,7 +7,7 @@ class Game final
 {
 public:
     explicit Game();
-    ~Game() = default;
+    ~Game();
 
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
@@ -19,18 +15,9 @@ public:
     Game(Game&&) = delete;
     Game& operator=(Game&&) = delete;
 
-    void run();
+    void run() const;
 
 private:
-    void update(sf::Time) const;
-    void processWindowEvents();
-    void render();
-
-    void startGame();
-    void transitionScreen(const char* title, const char* buttonText);
-
-    sf::RenderWindow mWindow;
-
-    FontHolder mFont;
-    std::unique_ptr<StateHandler> mStateHandler;
+    struct Impl;
+    std::unique_ptr<Impl> mImpl;
 };

@@ -1,8 +1,11 @@
 #include "Game.h"
 #include "MediaFiles.h"
+#include "StateHandler.h"
+#include "TransitionScreen.h"
+#include "SFML/Graphics.hpp"
 
-// #include <imgui-SFML.h>
-// #include <imgui.h>
+#include <imgui-SFML.h>
+#include <imgui.h>
 
 namespace
 {
@@ -14,85 +17,88 @@ namespace
     const sf::Time TimePerFrame = sf::seconds(sSeconds);
 }
 
-Game::Game()
-: mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
+struct Game::Impl
 {
-    mFont.load(Fonts::Main, MediaFiles::Font);
+    Impl() :
+    mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
+    {
+        mFont.load(Fonts::Main, MediaFiles::Font);
+        mStateHandler = std::make_unique<StateHandler>(mWindow, mFont);
+        mWindow.setKeyRepeatEnabled(false);
+    }
 
-    mStateHandler = std::make_unique<StateHandler>(mWindow, mFont);
+    sf::RenderWindow mWindow;
+    FontHolder mFont;
+    std::unique_ptr<StateHandler> mStateHandler;
 
-    mWindow.setKeyRepeatEnabled(false);
-}
+    void update(const sf::Time elapsedTime) const
+    {
+        mStateHandler->update(elapsedTime);
+    }
 
-void Game::run()
+    void processWindowEvents()
+    {
+        sf::Event event;
+        while(mWindow.pollEvent(event))
+        {
+            ImGui::SFML::ProcessEvent(event);
+
+            if (event.type == sf::Event::Closed)
+            {
+                mWindow.close();
+            }
+
+            mStateHandler->processWindowEvents(event);
+        }
+    }
+
+    void render()
+    {
+        mWindow.clear();
+
+        // ImGui::ShowDemoWindow();
+
+        ImGui::Begin("My Test Yo");
+        ImGui::Text("i love you");
+        ImGui::End();
+
+        ImGui::Render();
+
+        mStateHandler->draw();
+
+        mWindow.setView(mWindow.getDefaultView());
+
+        ImGui::SFML::Render(mWindow);
+
+        mWindow.display();
+    }
+
+};
+
+Game::Game() : mImpl(std::make_unique<Impl>()) {}
+Game::~Game() = default;
+
+void Game::run() const
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    mImpl->mWindow.setFramerateLimit(144);
+    const auto success = ImGui::SFML::Init(mImpl->mWindow);
 
-    mWindow.setFramerateLimit(144);
-
-    // ImGui::SFML::Init(mWindow);
-
-    while (mWindow.isOpen())
+    while (success && mImpl->mWindow.isOpen())
     {
         const sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
 
-
         while (timeSinceLastUpdate > TimePerFrame)
         {
-
-            // ImGui::SFML::Update(mWindow, elapsedTime);
             timeSinceLastUpdate -= TimePerFrame;
-
-            processWindowEvents();
-            update(TimePerFrame);
-
-            render();
-
+            mImpl->processWindowEvents();
+            ImGui::SFML::Update(mImpl->mWindow, elapsedTime);
+            mImpl->update(TimePerFrame);
+            mImpl->render();
         }
     }
-
-    // ImGui::SFML::Shutdown();
+    
+    ImGui::SFML::Shutdown();
 }
-
-
-
-void Game::update(const sf::Time elapsedTime) const
-{
-    mStateHandler->update(elapsedTime);
-}
-
-void Game::processWindowEvents()
-{
-    sf::Event event;
-    while(mWindow.pollEvent(event))
-    {
-        // ImGui::SFML::ProcessEvent(event);
-
-        if (event.type == sf::Event::Closed)
-        {
-            mWindow.close();
-        }
-
-        mStateHandler->processWindowEvents(event);
-    }
-}
-
-void Game::render()
-{
-    mWindow.clear();
-
-    // ImGui::ShowDemoWindow();
-    // ImGui::Render();
-
-    mStateHandler->draw();
-
-    mWindow.setView(mWindow.getDefaultView());
-
-
-    // ImGui::SFML::Render(mWindow);
-
-    mWindow.display();
-}
-
