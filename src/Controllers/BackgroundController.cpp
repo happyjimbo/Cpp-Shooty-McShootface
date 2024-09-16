@@ -1,6 +1,11 @@
 #include <BackgroundController.h>
 #include <ResourceHolder.h>
 
+namespace
+{
+    constexpr float backgroundCount {2};
+}
+
 BackgroundController::BackgroundController (
     EntitySystem<BackgroundEntity>& entitySystem,
     TextureHolder& texture,
@@ -20,7 +25,7 @@ void BackgroundController::create() const
     auto& texture = mTexture.get(Textures::Background);
     texture.setRepeated(true);
 
-    for (std::size_t i = 0; i < sBackgroundCount; i++)
+    for (std::size_t i = 0; i < backgroundCount; i++)
     {
         auto* backgroundSprite = mEntitySystem.createObject(texture, mBounds, mScrollSpeed);
         const float yPos = static_cast<float>(mBounds.y * i);

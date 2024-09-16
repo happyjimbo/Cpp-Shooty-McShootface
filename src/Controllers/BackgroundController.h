@@ -24,5 +24,4 @@ private:
 
     const sf::Vector2u mBounds;
     const float mScrollSpeed;
-    constexpr static float sBackgroundCount {2};
 };
