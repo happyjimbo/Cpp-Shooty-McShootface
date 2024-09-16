@@ -2,58 +2,88 @@
 #include "TransitionScreen.h"
 #include "World.h"
 
-StateHandler::StateHandler(sf::RenderWindow& window, const FontHolder& font) noexcept
-: mWindow(window)
-, mFont(font)
+struct StateHandler::Impl
 {
-    transitionScreen("Shooty Mcshootface", "Play now!");
-}
+    std::unique_ptr<World> mWorld;
+    std::unique_ptr<TransitionScreen> mTransitionScreen;
 
-void StateHandler::startGame()
-{
-    mTransitionScreen.reset();
+    sf::RenderWindow& mWindow;
+    const FontHolder& mFont;
 
-    mWorld = std::make_unique<World>(mWindow, mFont, [this]()
+    Impl(sf::RenderWindow& window, const FontHolder& font) noexcept
+    : mWindow(window)
+    , mFont(font)
     {
-        transitionScreen("YOU DIED", "Play again!");
-    });
-}
+        transitionScreen("Shooty Mcshootface", "Play now!");
+    }
 
-void StateHandler::transitionScreen(const char* title, const char* buttonText)
+    void startGame()
+    {
+        mTransitionScreen.reset();
+
+        mWorld = std::make_unique<World>(mWindow, mFont, [this]()
+        {
+            transitionScreen("YOU DIED", "Play again!");
+        });
+    }
+
+    void transitionScreen(const char* title, const char* buttonText)
+    {
+        mWorld.reset();
+        mTransitionScreen = std::make_unique<TransitionScreen>(mWindow, mFont, title, buttonText);
+    }
+
+    void update(const sf::Time elapsedTime) const
+    {
+        if (mWorld)
+        {
+            mWorld->update(elapsedTime);
+        }
+    }
+
+    void processWindowEvents(const sf::Event& event)
+    {
+        if (mTransitionScreen)
+        {
+            mTransitionScreen->handleEvent(event, [this]()
+            {
+                startGame();
+            });
+        }
+    }
+
+    void draw() const
+    {
+        if (mWorld)
+        {
+            mWorld->draw();
+        }
+
+        if (mTransitionScreen)
+        {
+            mTransitionScreen->draw();
+        }
+    }
+};
+
+StateHandler::StateHandler(sf::RenderWindow& window, const FontHolder& font) noexcept
+: mImpl(std::make_unique<Impl>(window, font))
 {
-    mWorld.reset();
-    mTransitionScreen = std::make_unique<TransitionScreen>(mWindow, mFont, title, buttonText);
-
 }
+
+StateHandler::~StateHandler() noexcept = default;
 
 void StateHandler::update(const sf::Time elapsedTime) const
 {
-    if (mWorld)
-    {
-        mWorld->update(elapsedTime);
-    }
+    mImpl->update(elapsedTime);
 }
 
-void StateHandler::processWindowEvents(const sf::Event& event)
+void StateHandler::processWindowEvents(const sf::Event& event) const
 {
-    if (mTransitionScreen)
-    {
-        mTransitionScreen->handleEvent(event, [this]()
-        {
-            startGame();
-        });
-    }
+    mImpl->processWindowEvents(event);
 }
 
 void StateHandler::draw() const
 {
-    if (mWorld)
-    {
-        mWorld->draw();
-    }
-
-    if (mTransitionScreen)
-    {
-        mTransitionScreen->draw();
-    }
+    mImpl->draw();
 }
