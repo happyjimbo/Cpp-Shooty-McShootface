@@ -16,10 +16,10 @@ public:
     ~CloudEntity() override = default;
 
     CloudEntity(const CloudEntity&) = delete;
-    CloudEntity operator=(const CloudEntity&) = delete;
+    CloudEntity& operator=(const CloudEntity&) = delete;
 
     CloudEntity(const CloudEntity&&) = delete;
-    CloudEntity operator=(const CloudEntity&&) = delete;
+    CloudEntity& operator=(const CloudEntity&&) = delete;
 
     void create(const sf::Texture&, const sf::IntRect&, float scrollSpeed);
 

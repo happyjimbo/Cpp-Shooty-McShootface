@@ -14,10 +14,10 @@ public:
     ~EnemyAircraftMovementSystem() noexcept = default;
 
     EnemyAircraftMovementSystem(const EnemyAircraftMovementSystem&) = delete;
-    EnemyAircraftMovementSystem operator=(const EnemyAircraftMovementSystem&) = delete;
+    EnemyAircraftMovementSystem& operator=(const EnemyAircraftMovementSystem&) = delete;
 
     EnemyAircraftMovementSystem(const EnemyAircraftMovementSystem&&) = delete;
-    EnemyAircraftMovementSystem operator=(const EnemyAircraftMovementSystem&&) = delete;
+    EnemyAircraftMovementSystem& operator=(const EnemyAircraftMovementSystem&&) = delete;
 
     void execute(const sf::Time& delta);
 

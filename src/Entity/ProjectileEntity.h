@@ -16,10 +16,10 @@ public:
     ~ProjectileEntity() override = default;
 
     ProjectileEntity(const ProjectileEntity&) = delete;
-    ProjectileEntity operator=(const ProjectileEntity&) = delete;
+    ProjectileEntity& operator=(const ProjectileEntity&) = delete;
 
     ProjectileEntity(const ProjectileEntity&&) = delete;
-    ProjectileEntity operator=(const ProjectileEntity&&) = delete;
+    ProjectileEntity& operator=(const ProjectileEntity&&) = delete;
 
     void create(Type type, const TextureHolder& textures);
     void update(sf::Time delta) override;

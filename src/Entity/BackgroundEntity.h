@@ -17,10 +17,10 @@ public:
     ~BackgroundEntity() override = default;
 
     BackgroundEntity(const BackgroundEntity&) = delete;
-    BackgroundEntity operator=(const BackgroundEntity&) = delete;
+    BackgroundEntity& operator=(const BackgroundEntity&) = delete;
 
     BackgroundEntity(const BackgroundEntity&&) = delete;
-    BackgroundEntity operator=(const BackgroundEntity&&) = delete;
+    BackgroundEntity& operator=(const BackgroundEntity&&) = delete;
 
     void create(const sf::Texture&, sf::Vector2u bounds, float scrollSpeed);
 

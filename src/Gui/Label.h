@@ -13,10 +13,10 @@ namespace GUI
         ~Label() override = default;
 
         Label(const Label&) = delete;
-        Label operator=(const Label&) = delete;
+        Label& operator=(const Label&) = delete;
 
         Label(const Label&&) = delete;
-        Label operator=(const Label&&) = delete;
+        Label& operator=(const Label&&) = delete;
 
         void create(const std::string& text, const FontHolder& fonts, int size = 16);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
