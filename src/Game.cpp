@@ -19,6 +19,10 @@ namespace
 
 struct Game::Impl
 {
+    sf::RenderWindow mWindow;
+    FontHolder mFont;
+    std::unique_ptr<StateHandler> mStateHandler;
+
     Impl() :
     mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
     {
@@ -26,10 +30,6 @@ struct Game::Impl
         mStateHandler = std::make_unique<StateHandler>(mWindow, mFont);
         mWindow.setKeyRepeatEnabled(false);
     }
-
-    sf::RenderWindow mWindow;
-    FontHolder mFont;
-    std::unique_ptr<StateHandler> mStateHandler;
 
     void update(const sf::Time elapsedTime) const
     {
@@ -99,6 +99,6 @@ void Game::run() const
             mImpl->render();
         }
     }
-    
+
     ImGui::SFML::Shutdown();
 }
