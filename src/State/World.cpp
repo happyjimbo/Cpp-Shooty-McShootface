@@ -19,208 +19,269 @@
 #include "BackgroundMovementSystem.h"
 #include "EnemyAircraftMovementSystem.h"
 #include "PlayerAircraftMovementSystem.h"
+#include "PlayerControls.h"
 #include "ProjectileMovementSystem.h"
 #include "SoundEffects.h"
 
 namespace
 {
-    constexpr float mScrollSpeed {-50.f};
+    constexpr float ScrollSpeed {-50.f};
 }
+
+struct World::Impl
+{
+    sf::RenderWindow& window;
+    sf::View worldView;
+
+    const std::function<void()>& endGameCallback;
+
+    TextureHolder textures;
+    const FontHolder& fonts;
+    PlayerControls simpleControls;
+
+    sf::FloatRect worldBounds;
+    sf::Vector2f spawnPosition;
+
+    Impl(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
+    : window(window)
+    , worldView(window.getDefaultView())
+    , endGameCallback(endGameCallback)
+    , fonts(font)
+    , worldBounds(0.f, 0.f, worldView.getSize().x, worldView.getSize().y)
+    , spawnPosition(worldView.getSize().x / 2.f, worldBounds.height - worldView.getSize().y / 2.f)
+    {
+        loadTextures();
+        initLogic();
+
+        worldView.setCenter(spawnPosition);
+    }
+
+    void draw()
+    {
+        window.setView(worldView);
+
+        drawEntities(mBackgroundEntitySystem);
+        drawEntities(mCloudEntitySystem);
+        drawEntities(mExplosionEntitySystem);
+        drawEntities(mProjectileEntitySystem);
+        drawEntities(mEnemyAircraftEntitySystem);
+        drawEntities(mPlayerAircraftEntitySystem);
+        drawEntities(mLabelEntitySystem);
+    }
+
+    template <typename T>
+    void drawEntities(EntitySystem<T>& system)
+    {
+        for (const auto* entity : system.getEntities())
+        {
+            window.draw(*entity);
+        }
+    }
+
+    void loadTextures()
+    {
+        textures.load(Textures::Eagle, MediaFiles::Eagle);
+        textures.load(Textures::Raptor, MediaFiles::Raptor);
+        textures.load(Textures::Background, MediaFiles::Background);
+        textures.load(Textures::Bullet, MediaFiles::Bullet);
+        textures.load(Textures::EnemyBullet, MediaFiles::EnemyBullet);
+        textures.load(Textures::Clouds, MediaFiles::Clouds);
+        textures.load(Textures::Explosion, MediaFiles::Explosion);
+        textures.load(Textures::PlayerExplosion, MediaFiles::PlayerExplosion);
+    }
+
+    void initLogic()
+    {
+        mExplosionController = std::make_unique<ExplosionController>(
+            mExplosionEntitySystem,
+            textures
+        );
+
+        mProjectileController = std::make_unique<ProjectileController>(
+            mProjectileEntitySystem,
+            textures,
+            worldBounds
+        );
+
+        mPlayerAircraftController = std::make_unique<PlayerAircraftController>(
+           mPlayerAircraftEntitySystem
+       );
+        mPlayerAircraftController->create(textures, spawnPosition);
+
+        mPlayerAircraftMovementSystem = std::make_unique<PlayerAircraftMovementSystem>(
+        *mPlayerAircraftController->getPlayerAircaft(),
+           worldView.getCenter(),
+           worldView.getSize(),
+           ScrollSpeed
+        );
+
+        mEnemyAircraftMovementSystem = std::make_unique<EnemyAircraftMovementSystem>(
+            mEnemyAircraftEntitySystem,
+            *mPlayerAircraftController->getPlayerAircaft(),
+            ScrollSpeed
+        );
+
+        mProjectileMovementSystem = std::make_unique<ProjectileMovementSystem>(
+            mProjectileEntitySystem
+        );
+
+        mScoreController = std::make_unique<GuiController>(
+            mLabelEntitySystem,
+            *mPlayerAircraftController->getPlayerAircaft(),
+            worldBounds.width
+        );
+        mScoreController->create(fonts);
+
+        mProjectileCollisionSystem = std::make_unique<ProjectileCollisionSystem>(
+            mProjectileEntitySystem,
+            mEnemyAircraftEntitySystem,
+            *mPlayerAircraftController->getPlayerAircaft(),
+            *mExplosionController,
+            *mScoreController
+        );
+
+        mSpawnEnemyAircraftSystem = std::make_unique<SpawnEnemyAircraftSystem>(
+            mEnemyAircraftEntitySystem,
+            textures,
+            worldBounds.width
+        );
+
+        mEnemyProjectileSpawnSystem = std::make_unique<ProjectileSpawnSystem>(
+            mEnemyAircraftEntitySystem,
+            *mProjectileController
+        );
+
+        mPlayerProjectileSpawnSystem = std::make_unique<ProjectileSpawnSystem>(
+            mPlayerAircraftEntitySystem,
+            *mProjectileController
+        );
+
+        mRemoveOffScreenEnemiesSystem = std::make_unique<RemoveOffScreenEnemiesSystem>(
+            mEnemyAircraftEntitySystem,
+            worldBounds.height
+        );
+
+        mRemoveOffScreenProjectilesSystem = std::make_unique<RemoveOffScreenProjectilesSystem>(
+            mProjectileEntitySystem,
+            worldBounds.height
+        );
+
+        mExplosionAnimationSystem = std::make_unique<ExplosionAnimationSystem>(
+            mExplosionEntitySystem
+        );
+
+        mEnemyAircraftController = std::make_unique<EnemyAircraftController>(
+            mEnemyAircraftEntitySystem
+        );
+
+        mBackgroundController = std::make_unique<BackgroundController>(
+            mBackgroundEntitySystem,
+            textures,
+            window.getSize(),
+            ScrollSpeed
+        );
+        mBackgroundController->create();
+
+        mCloudsController = std::make_unique<CloudsController> (
+            mCloudEntitySystem,
+            textures,
+            ScrollSpeed
+        );
+        mCloudsController->create();
+
+        mCloudMovementSystem = std::make_unique<CloudMovementSystem> (
+            mCloudEntitySystem
+        );
+
+        mBackgroundMovementSystem = std::make_unique<BackgroundMovementSystem> (
+            mBackgroundEntitySystem
+        );
+
+        simpleControls.initializeActions(
+            *mPlayerAircraftController->getPlayerAircaft()
+        );
+
+        mPlayerKilledSystem = std::make_unique<PlayerKilledSystem> (
+            *mPlayerAircraftController->getPlayerAircaft(),
+            endGameCallback
+        );
+
+        mSoundEffects = std::make_unique<SoundEffects>();
+    }
+
+    void update(const sf::Time delta)
+    {
+        mProjectileCollisionSystem->execute();
+        mSpawnEnemyAircraftSystem->execute(delta);
+        mEnemyProjectileSpawnSystem->execute(delta);
+        mPlayerProjectileSpawnSystem->execute(delta);
+        mRemoveOffScreenEnemiesSystem->execute();
+        mRemoveOffScreenProjectilesSystem->execute();
+        mExplosionAnimationSystem->execute(delta);
+        mCloudMovementSystem->execute(delta);
+        mBackgroundMovementSystem->execute(delta);
+        mPlayerAircraftMovementSystem->execute();
+        mEnemyAircraftMovementSystem->execute(delta);
+        mProjectileMovementSystem->execute(delta);
+
+        simpleControls.handleRealtimeInput();
+
+        mPlayerAircraftEntitySystem.update(delta);
+        mProjectileEntitySystem.update(delta);
+        mEnemyAircraftEntitySystem.update(delta);
+        mLabelEntitySystem.update(delta);
+        mExplosionEntitySystem.update(delta);
+
+        // this needs to run last as it will tear this world object down
+        mPlayerKilledSystem->execute();
+    }
+
+    EntitySystem<ProjectileEntity> mProjectileEntitySystem;
+    EntitySystem<AircraftEntity> mPlayerAircraftEntitySystem;
+    EntitySystem<AircraftEntity> mEnemyAircraftEntitySystem;
+    EntitySystem<BackgroundEntity> mBackgroundEntitySystem;
+    EntitySystem<CloudEntity> mCloudEntitySystem;
+    EntitySystem<ExplosionEntity> mExplosionEntitySystem;
+    EntitySystem<Label> mLabelEntitySystem;
+
+    std::unique_ptr<GuiController> mScoreController;
+    std::unique_ptr<ProjectileController> mProjectileController;
+    std::unique_ptr<EnemyAircraftController> mEnemyAircraftController;
+    std::unique_ptr<PlayerAircraftController> mPlayerAircraftController;
+    std::unique_ptr<BackgroundController> mBackgroundController;
+    std::unique_ptr<CloudsController> mCloudsController;
+    std::unique_ptr<ExplosionController> mExplosionController;
+
+    std::unique_ptr<SpawnEnemyAircraftSystem> mSpawnEnemyAircraftSystem;
+    std::unique_ptr<ProjectileSpawnSystem> mEnemyProjectileSpawnSystem;
+    std::unique_ptr<ProjectileSpawnSystem> mPlayerProjectileSpawnSystem;
+    std::unique_ptr<ProjectileCollisionSystem> mProjectileCollisionSystem;
+    std::unique_ptr<RemoveOffScreenEnemiesSystem> mRemoveOffScreenEnemiesSystem;
+    std::unique_ptr<RemoveOffScreenProjectilesSystem> mRemoveOffScreenProjectilesSystem;
+    std::unique_ptr<ExplosionAnimationSystem> mExplosionAnimationSystem;
+    std::unique_ptr<PlayerKilledSystem> mPlayerKilledSystem;
+    std::unique_ptr<CloudMovementSystem> mCloudMovementSystem;
+    std::unique_ptr<BackgroundMovementSystem> mBackgroundMovementSystem;
+    std::unique_ptr<PlayerAircraftMovementSystem> mPlayerAircraftMovementSystem;
+    std::unique_ptr<EnemyAircraftMovementSystem> mEnemyAircraftMovementSystem;
+    std::unique_ptr<ProjectileMovementSystem> mProjectileMovementSystem;
+    std::unique_ptr<SoundEffects> mSoundEffects;
+};
 
 World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
-: mWindow(window)
-, mWorldView(window.getDefaultView())
-, mEndGameCallback(endGameCallback)
-, mFonts(font)
-, mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
-, mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
+: mImpl(std::make_unique<Impl>(window, font, endGameCallback))
 {
-    loadTextures();
-    initLogic();
-
-    mWorldView.setCenter(mSpawnPosition);
 }
 
-void World::draw()
+void World::draw() const
 {
-    mWindow.setView(mWorldView);
-
-    drawEntities(mBackgroundEntitySystem);
-    drawEntities(mCloudEntitySystem);
-    drawEntities(mExplosionEntitySystem);
-    drawEntities(mProjectileEntitySystem);
-    drawEntities(mEnemyAircraftEntitySystem);
-    drawEntities(mPlayerAircraftEntitySystem);
-    drawEntities(mLabelEntitySystem);
+    mImpl->draw();
 }
 
-template <typename T>
-void World::drawEntities(EntitySystem<T>& system)
+
+void World::update(const sf::Time delta) const
 {
-    for (const auto* entity : system.getEntities())
-    {
-        mWindow.draw(*entity);
-    }
+    mImpl->update(delta);
 }
 
-void World::loadTextures()
-{
-    mTextures.load(Textures::Eagle, MediaFiles::Eagle);
-    mTextures.load(Textures::Raptor, MediaFiles::Raptor);
-    mTextures.load(Textures::Background, MediaFiles::Background);
-    mTextures.load(Textures::Bullet, MediaFiles::Bullet);
-    mTextures.load(Textures::EnemyBullet, MediaFiles::EnemyBullet);
-    mTextures.load(Textures::Clouds, MediaFiles::Clouds);
-    mTextures.load(Textures::Explosion, MediaFiles::Explosion);
-    mTextures.load(Textures::PlayerExplosion, MediaFiles::PlayerExplosion);
-}
-
-void World::initLogic()
-{
-    mExplosionController = std::make_unique<ExplosionController>(
-        mExplosionEntitySystem,
-        mTextures
-    );
-
-    mProjectileController = std::make_unique<ProjectileController>(
-        mProjectileEntitySystem,
-        mTextures,
-        mWorldBounds
-    );
-
-    mPlayerAircraftController = std::make_unique<PlayerAircraftController>(
-       mPlayerAircraftEntitySystem
-   );
-    mPlayerAircraftController->create(mTextures, mSpawnPosition);
-
-    mPlayerAircraftMovementSystem = std::make_unique<PlayerAircraftMovementSystem>(
-    *mPlayerAircraftController->getPlayerAircaft(),
-       mWorldView.getCenter(),
-       mWorldView.getSize(),
-       mScrollSpeed
-    );
-
-    mEnemyAircraftMovementSystem = std::make_unique<EnemyAircraftMovementSystem>(
-        mEnemyAircraftEntitySystem,
-        *mPlayerAircraftController->getPlayerAircaft(),
-        mScrollSpeed
-    );
-
-    mProjectileMovementSystem = std::make_unique<ProjectileMovementSystem>(
-        mProjectileEntitySystem
-    );
-
-    mScoreController = std::make_unique<GuiController>(
-        mLabelEntitySystem,
-        *mPlayerAircraftController->getPlayerAircaft(),
-        mWorldBounds.width
-    );
-    mScoreController->create(mFonts);
-
-    mProjectileCollisionSystem = std::make_unique<ProjectileCollisionSystem>(
-        mProjectileEntitySystem,
-        mEnemyAircraftEntitySystem,
-        *mPlayerAircraftController->getPlayerAircaft(),
-        *mExplosionController,
-        *mScoreController
-    );
-
-    mSpawnEnemyAircraftSystem = std::make_unique<SpawnEnemyAircraftSystem>(
-        mEnemyAircraftEntitySystem,
-        mTextures,
-        mWorldBounds.width
-    );
-
-    mEnemyProjectileSpawnSystem = std::make_unique<ProjectileSpawnSystem>(
-        mEnemyAircraftEntitySystem,
-        *mProjectileController
-    );
-
-    mPlayerProjectileSpawnSystem = std::make_unique<ProjectileSpawnSystem>(
-        mPlayerAircraftEntitySystem,
-        *mProjectileController
-    );
-
-    mRemoveOffScreenEnemiesSystem = std::make_unique<RemoveOffScreenEnemiesSystem>(
-        mEnemyAircraftEntitySystem,
-        mWorldBounds.height
-    );
-
-    mRemoveOffScreenProjectilesSystem = std::make_unique<RemoveOffScreenProjectilesSystem>(
-        mProjectileEntitySystem,
-        mWorldBounds.height
-    );
-
-    mExplosionAnimationSystem = std::make_unique<ExplosionAnimationSystem>(
-        mExplosionEntitySystem
-    );
-
-    mEnemyAircraftController = std::make_unique<EnemyAircraftController>(
-        mEnemyAircraftEntitySystem
-    );
-
-    mBackgroundController = std::make_unique<BackgroundController>(
-        mBackgroundEntitySystem,
-        mTextures,
-        mWindow.getSize(),
-        mScrollSpeed
-    );
-    mBackgroundController->create();
-
-    mCloudsController = std::make_unique<CloudsController> (
-        mCloudEntitySystem,
-        mTextures,
-        mScrollSpeed
-    );
-    mCloudsController->create();
-
-    mCloudMovementSystem = std::make_unique<CloudMovementSystem> (
-        mCloudEntitySystem
-    );
-
-    mBackgroundMovementSystem = std::make_unique<BackgroundMovementSystem> (
-        mBackgroundEntitySystem
-    );
-
-    simpleControls.initializeActions(
-        *mPlayerAircraftController->getPlayerAircaft()
-    );
-
-    mPlayerKilledSystem = std::make_unique<PlayerKilledSystem> (
-        *mPlayerAircraftController->getPlayerAircaft(),
-        mEndGameCallback
-    );
-
-    mSoundEffects = std::make_unique<SoundEffects>();
-}
-
-void World::update(const sf::Time delta)
-{
-    mProjectileCollisionSystem->execute();
-    mSpawnEnemyAircraftSystem->execute(delta);
-    mEnemyProjectileSpawnSystem->execute(delta);
-    mPlayerProjectileSpawnSystem->execute(delta);
-    mRemoveOffScreenEnemiesSystem->execute();
-    mRemoveOffScreenProjectilesSystem->execute();
-    mExplosionAnimationSystem->execute(delta);
-    mCloudMovementSystem->execute(delta);
-    mBackgroundMovementSystem->execute(delta);
-    mPlayerAircraftMovementSystem->execute();
-    mEnemyAircraftMovementSystem->execute(delta);
-    mProjectileMovementSystem->execute(delta);
-
-    simpleControls.handleRealtimeInput();
-
-    mPlayerAircraftEntitySystem.update(delta);
-    mProjectileEntitySystem.update(delta);
-    mEnemyAircraftEntitySystem.update(delta);
-    mLabelEntitySystem.update(delta);
-    mExplosionEntitySystem.update(delta);
-
-    // this needs to run last as it will tear this world object down
-    mPlayerKilledSystem->execute();
-}
-
-// If we set this in the header then the unique_ptr's do not work with forward declaration, as a default deconstructor
-// needs the full context of the objects.
 World::~World() = default;
