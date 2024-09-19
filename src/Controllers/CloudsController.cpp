@@ -7,20 +7,13 @@ namespace
 }
 
 CloudsController::CloudsController (EntitySystem<CloudEntity>& entitySystem, TextureHolder& texture, const float scrollSpeed) noexcept
-: mEntitySystem(entitySystem)
-, mTexture(texture)
-, mScrollSpeed(scrollSpeed)
 {
-}
-
-void CloudsController::create() const
-{
-    auto& texture = mTexture.get(Textures::Clouds);
-    auto rect = sf::IntRect(0, 0, texture.getSize().x, texture.getSize().y);
+    auto& cloudTexture = texture.get(Textures::Clouds);
+    auto rect = sf::IntRect(0, 0, cloudTexture.getSize().x, cloudTexture.getSize().y);
 
     for (std::size_t i = 0; i < scrollSpeedOffsets.size(); i++)
     {
-        CloudEntity* cloudSprite = mEntitySystem.createObject(texture, rect, mScrollSpeed);
+        CloudEntity* cloudSprite = entitySystem.createObject(cloudTexture, rect, scrollSpeed);
 
         CloudData& cloudData = cloudSprite->getCloudData();
         cloudData.scrollSpeedOffset = scrollSpeedOffsets[i];

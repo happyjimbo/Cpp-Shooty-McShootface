@@ -24,11 +24,6 @@ void ProjectileEntity::draw(sf::RenderTarget &target, sf::RenderStates states) c
     target.draw(mSprite, states);
 }
 
-void ProjectileEntity::update(const sf::Time delta)
-{
-    move(mVelocity * delta.asSeconds());
-}
-
 ProjectileEntity::Type ProjectileEntity::getType() const noexcept
 {
     return mType;

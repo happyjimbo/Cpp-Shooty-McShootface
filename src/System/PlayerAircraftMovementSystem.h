@@ -34,6 +34,4 @@ private:
 
     const sf::Vector2f mWorldCenter;
     const sf::Vector2f mWorldSize;
-
-    constexpr static float sBorderDistance = 40.f;
 };

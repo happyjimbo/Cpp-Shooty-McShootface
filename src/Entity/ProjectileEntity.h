@@ -22,7 +22,6 @@ public:
     ProjectileEntity& operator=(const ProjectileEntity&&) = delete;
 
     void create(Type type, const TextureHolder& textures);
-    void update(sf::Time delta) override;
     Type getType() const noexcept;
     unsigned int getCategory() const noexcept override;
 

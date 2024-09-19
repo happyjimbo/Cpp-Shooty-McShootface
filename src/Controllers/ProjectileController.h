@@ -13,6 +13,4 @@ private:
     EntitySystem<ProjectileEntity>& mEntitySystem;
     const TextureHolder& mTexture;
     const sf::FloatRect mWorldBounds;
-
-    static constexpr float sSpeed = 500.f;
 };

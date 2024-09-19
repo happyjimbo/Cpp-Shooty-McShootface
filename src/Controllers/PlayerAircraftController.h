@@ -6,28 +6,28 @@
 namespace Aircraft { class AircraftEntity; }
 using Aircraft::AircraftEntity;
 
-class ProjectileController;
-
-namespace sf
-{
-    class Time;
-}
+struct PlayerData;
 
 class PlayerAircraftController final
 {
 public:
-    explicit PlayerAircraftController(EntitySystem<AircraftEntity>& entitySystem) noexcept;
-    ~PlayerAircraftController() = default;
+    explicit PlayerAircraftController(
+        EntitySystem<AircraftEntity>& entitySystem,
+        const TextureHolder& textures,
+        const PlayerData& playerData,
+        sf::Vector2f spawnPosition) noexcept;
 
-    void create(const TextureHolder& textures, sf::Vector2f spawnPosition);
+    ~PlayerAircraftController() noexcept = default;
+
+    explicit PlayerAircraftController(PlayerAircraftController&) = delete;
+    PlayerAircraftController& operator=(PlayerAircraftController&) = delete;
+
+    explicit PlayerAircraftController(PlayerAircraftController&&) = delete;
+    PlayerAircraftController& operator=(PlayerAircraftController&&) = delete;
+
     AircraftEntity* getPlayerAircaft() const;
 
 private:
-
     friend class GuiController;
-
     AircraftEntity* mPlayerAircraft;
-    EntitySystem<AircraftEntity>& mEntitySystem;
-
-    constexpr static int sPlayerHealth = 10;
 };

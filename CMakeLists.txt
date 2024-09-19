@@ -56,8 +56,6 @@ set(IMGUI_SOURCES
 
 add_library(imgui STATIC ${IMGUI_SOURCES})
 
-# Ensure C++20 is used for ImGui and ImGui-SFML
-set_target_properties(imgui PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
 
 # Include ImGui directories
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
@@ -70,13 +68,7 @@ FetchContent_Declare(
 )
 add_subdirectory(imgui-sfml)
 
-# Set C++20 for ImGui-SFML as well
-set_target_properties(ImGui-SFML PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
-
-
-# Ensure C++20 is used for ImGui and ImGui-SFML
-#set_target_properties(imgui PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
-#set_target_properties(imgui-sfml PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+set_target_properties(imgui ImGui-SFML PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
 
 
 # Collect all source files (you can modify the paths as needed)

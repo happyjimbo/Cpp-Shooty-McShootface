@@ -45,9 +45,9 @@ public:
     void reset();
 
 protected:
-
     const sf::Transform& getTransform() const;
 
+private:
     sf::Vector2f mVelocity;
     sf::Transformable mTransformable;
 };

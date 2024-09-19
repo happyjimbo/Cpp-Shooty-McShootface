@@ -44,6 +44,4 @@ private:
     AircraftEntity& mPlayer;
     ExplosionController& mExplosionController;
     GuiController& mScoreController;
-
-    constexpr static float sCollisionThreshold = 30.f;
 };

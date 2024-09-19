@@ -1,11 +1,17 @@
 #include "ProjectileController.h"
 
+namespace
+{
+    constexpr float Speed = 500.f;
+    constexpr int PrePoolAmount = 20;
+}
+
 ProjectileController::ProjectileController(EntitySystem<ProjectileEntity>& entitySystem, const TextureHolder& texture, const sf::FloatRect worldBounds)
 : mEntitySystem(entitySystem)
 , mTexture(texture)
 , mWorldBounds(worldBounds)
 {
-    mEntitySystem.prePool(20);
+    mEntitySystem.prePool(PrePoolAmount);
 }
 
 void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition) const
@@ -13,6 +19,6 @@ void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f
     auto* projectile = mEntitySystem.createObject(type, mTexture);
     projectile->setPosition(spawnPosition);
 
-    const float speed = type == ProjectileEntity::Type::Player ? -sSpeed : sSpeed;
+    const float speed = type == ProjectileEntity::Type::Player ? -Speed : Speed;
     projectile->setVelocity(0, speed);
 }

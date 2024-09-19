@@ -1,14 +1,15 @@
 #include "PlayerAircraftController.h"
 #include "AircraftEntity.h"
+#include "PlayerData.h"
 
-PlayerAircraftController::PlayerAircraftController(EntitySystem<AircraftEntity>& entitySystem) noexcept
-: mEntitySystem(entitySystem)
+PlayerAircraftController::PlayerAircraftController(
+    EntitySystem<AircraftEntity>& entitySystem,
+    const TextureHolder& textures,
+    const PlayerData& playerData,
+    const sf::Vector2f spawnPosition
+) noexcept
 {
-}
-
-void PlayerAircraftController::create(const TextureHolder& textures, const sf::Vector2f spawnPosition)
-{
-    mPlayerAircraft = mEntitySystem.createObject(AircraftEntity::Eagle, textures, sPlayerHealth);
+    mPlayerAircraft = entitySystem.createObject(AircraftEntity::Eagle, textures, playerData.Health);
     mPlayerAircraft->setPosition(spawnPosition);
 }
 

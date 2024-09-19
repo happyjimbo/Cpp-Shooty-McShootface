@@ -12,23 +12,14 @@ BackgroundController::BackgroundController (
     const sf::Vector2u bounds,
     const float scrollSpeed
 )
-: mEntitySystem(entitySystem)
-, mTexture(texture)
-, mBounds(bounds)
-, mScrollSpeed(scrollSpeed)
 {
-
-}
-
-void BackgroundController::create() const
-{
-    auto& texture = mTexture.get(Textures::Background);
-    texture.setRepeated(true);
+    auto& backgroundTexture = texture.get(Textures::Background);
+    backgroundTexture.setRepeated(true);
 
     for (std::size_t i = 0; i < backgroundCount; i++)
     {
-        auto* backgroundSprite = mEntitySystem.createObject(texture, mBounds, mScrollSpeed);
-        const float yPos = static_cast<float>(mBounds.y * i);
+        auto* backgroundSprite = entitySystem.createObject(backgroundTexture, bounds, scrollSpeed);
+        const float yPos = static_cast<float>(bounds.y * i);
         backgroundSprite->setPosition(0, -yPos);
     }
 }

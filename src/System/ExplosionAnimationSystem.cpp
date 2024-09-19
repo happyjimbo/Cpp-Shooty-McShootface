@@ -2,6 +2,11 @@
 #include "ExplosionEntity.h"
 #include <SFML/System/Time.hpp>
 
+namespace
+{
+    constexpr float delay = 0.05f;
+}
+
 ExplosionAnimationSystem::ExplosionAnimationSystem(EntitySystem<ExplosionEntity>& entitySystem) noexcept
 : mEntitySystem(entitySystem)
 {
@@ -14,7 +19,7 @@ void ExplosionAnimationSystem::execute(const sf::Time& delta) const
         AnimationData& explosionData = entity->getExplosionData();;
         explosionData.updateTimeSinceLastFrame(delta.asSeconds());
 
-        if (explosionData.canIncreaseFrame(sDelay))
+        if (explosionData.canIncreaseFrame(delay))
         {
             explosionData.nextFrame();
 

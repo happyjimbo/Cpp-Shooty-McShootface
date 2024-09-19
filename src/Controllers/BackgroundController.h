@@ -14,14 +14,11 @@ public:
         float scrollSpeed
     );
 
+    BackgroundController(BackgroundController&) = delete;
+    BackgroundController& operator=(BackgroundController&) = delete;
+
+    BackgroundController(BackgroundController&&) = delete;
+    BackgroundController& operator=(BackgroundController&&) = delete;
+
     ~BackgroundController() noexcept = default;
-
-    void create() const;
-
-private:
-    EntitySystem<BackgroundEntity>& mEntitySystem;
-    TextureHolder& mTexture;
-
-    const sf::Vector2u mBounds;
-    const float mScrollSpeed;
 };

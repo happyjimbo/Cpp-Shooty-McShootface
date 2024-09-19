@@ -1,7 +1,7 @@
 #include "PlayerControls.h"
 #include "AircraftEntity.h"
 
-void PlayerControls::initializeActions(AircraftEntity& player)
+PlayerControls::PlayerControls(AircraftEntity& player)
 {
     mKeyBinding[sf::Keyboard::Left] = [&player]() -> void {
         player.accelerate(-horizontalSpeed, 0.f);

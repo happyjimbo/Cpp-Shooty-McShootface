@@ -1,15 +1,20 @@
 #pragma once
-#include <Button.h>
 
-#include "Label.h"
 #include "ResourceHolder.h"
+#include "ResourceIdentifiers.h"
 #include "SFML/Graphics/View.hpp"
+#include "Button.h"
+#include "Label.h"
 
-namespace sf { class RenderWindow; }
+namespace sf
+{
+    class RenderWindow;
+    class Event;
+}
 
-class Button;
-
+using GUI::Button;
 using GUI::Label;
+
 
 class TransitionScreen final
 {
@@ -29,6 +34,5 @@ private:
     sf::View mWorldView;
 
     Button mButton;
-
     Label titleLabel {};
 };

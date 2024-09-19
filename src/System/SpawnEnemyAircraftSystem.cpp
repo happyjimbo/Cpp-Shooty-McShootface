@@ -3,6 +3,19 @@
 #include "AircraftEntity.h"
 #include "EntitySystem.h"
 
+namespace
+{
+    constexpr float MaxSpawnInterval = 0.6f;
+    constexpr float MinSpawnInterval = 0.3f;
+    constexpr float TotalDecreaseTime = 60.0f;
+
+    constexpr float AircraftLeftPadding = 30.0f;
+    constexpr float AircraftRightPadding = AircraftLeftPadding * 2;
+
+    constexpr float StartYPos = -100;
+    constexpr int EnemyHealth = 1;
+}
+
 SpawnEnemyAircraftSystem::SpawnEnemyAircraftSystem(
     EntitySystem<AircraftEntity>& entitySystem,
     const TextureHolder& textures,
@@ -10,7 +23,7 @@ SpawnEnemyAircraftSystem::SpawnEnemyAircraftSystem(
     ) noexcept
     : mEntitySystem(entitySystem)
     , mTexture(textures)
-    , mPosition(screenWidth, sStartYPos)
+    , mPosition(screenWidth, StartYPos)
 {
 
 }
@@ -27,13 +40,13 @@ float SpawnEnemyAircraftSystem::spawnInterval(const float delta)
 {
     mElapsedTime += delta;
 
-    if (mElapsedTime > sTotalDecreaseTime)
+    if (mElapsedTime > TotalDecreaseTime)
     {
-        mElapsedTime = sTotalDecreaseTime;
+        mElapsedTime = TotalDecreaseTime;
     }
 
-    const float timeRatio = mElapsedTime / sTotalDecreaseTime;
-    return sMinSpawnInterval + (sMaxSpawnInterval - sMinSpawnInterval) * (sMaxSpawnInterval - timeRatio);
+    const float timeRatio = mElapsedTime / TotalDecreaseTime;
+    return MinSpawnInterval + (MaxSpawnInterval - MinSpawnInterval) * (MaxSpawnInterval - timeRatio);
 }
 
 void SpawnEnemyAircraftSystem::spawn(const float spawnInterval)
@@ -42,10 +55,10 @@ void SpawnEnemyAircraftSystem::spawn(const float spawnInterval)
     {
         mTimeSinceLastSpawn = 0;
 
-        const int x = sAircraftLeftPadding + rand() % static_cast<int>(mPosition.x - sAircraftRightPadding);
+        const int x = AircraftLeftPadding + rand() % static_cast<int>(mPosition.x - AircraftRightPadding);
         const auto startPosition = sf::Vector2f(x, mPosition.y);
 
-        auto* aircraft = mEntitySystem.createObject(AircraftEntity::Type::Raptor, mTexture, sEnemyHealth);
+        auto* aircraft = mEntitySystem.createObject(AircraftEntity::Type::Raptor, mTexture, EnemyHealth);
         aircraft->setPosition(startPosition);
     }
 }

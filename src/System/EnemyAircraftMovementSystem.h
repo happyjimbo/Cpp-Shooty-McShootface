@@ -27,8 +27,4 @@ private:
 
     float mTimeSinceLastSpawn {};
     float mScrollSpeed {};
-
-    constexpr static float sSpeedDivider = 100.f;
-    constexpr static float sEnemyProjectileSpawnSpeed = 1.f;
-    constexpr static float sSpeedX = 0.05f;
 };

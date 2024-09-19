@@ -1,6 +1,11 @@
 #include "PlayerAircraftMovementSystem.h"
 #include "AircraftEntity.h"
 
+namespace
+{
+    constexpr float borderDistance = 40.f;
+}
+
 PlayerAircraftMovementSystem::PlayerAircraftMovementSystem(
     AircraftEntity& playerAircraft,
     const sf::Vector2f worldCenter,
@@ -24,9 +29,9 @@ void PlayerAircraftMovementSystem::execute() const
 void PlayerAircraftMovementSystem::enforceBoundaries() const
 {
     auto position = mPlayerAircraft.getPosition();
-    position.x = std::max(position.x, mViewBounds.left + sBorderDistance);
-    position.x = std::min(position.x, mViewBounds.left + mViewBounds.width - sBorderDistance);
-    position.y = std::max(position.y, mViewBounds.top + sBorderDistance);
-    position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - sBorderDistance);
+    position.x = std::max(position.x, mViewBounds.left + borderDistance);
+    position.x = std::min(position.x, mViewBounds.left + mViewBounds.width - borderDistance);
+    position.y = std::max(position.y, mViewBounds.top + borderDistance);
+    position.y = std::min(position.y, mViewBounds.top + mViewBounds.height - borderDistance);
     mPlayerAircraft.setPosition(position);
 }

@@ -9,10 +9,9 @@ using Aircraft::AircraftEntity;
 class PlayerControls final
 {
 public:
-    explicit PlayerControls() noexcept = default;
+    explicit PlayerControls(AircraftEntity& player);
     ~PlayerControls() noexcept = default;
 
-    void initializeActions(AircraftEntity& player);
     void handleRealtimeInput() const;
 
 private:

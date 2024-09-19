@@ -23,5 +23,4 @@ public:
 
 private:
     EntitySystem<ExplosionEntity>& mEntitySystem;
-    constexpr static float sDelay = 0.05f;
 };

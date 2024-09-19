@@ -1,28 +1,33 @@
 #include "GuiController.h"
-
+#include "PlayerData.h"
 #include "AircraftEntity.h"
 #include "PlayerAircraftController.h"
 
-GuiController::GuiController(EntitySystem<Label>& entitySystem, const AircraftEntity& playerAircraft, const float screenWidth) noexcept
-: mEntitySystem(entitySystem)
-, mPlayerAircraft(playerAircraft)
-, mScreenWidth(screenWidth)
+namespace
 {
-
+    const sf::Vector2f ScoreTextLabelPos(10, 10);
+    const sf::Vector2f ScoreAmountLabelPos(60, 10);
+    const sf::Vector2f PlayerHealthLabelPos(50, 10);
 }
 
-void GuiController::create(const FontHolder& fonts)
+GuiController::GuiController(
+    const FontHolder& fonts,
+    EntitySystem<Label>& entitySystem,
+    const AircraftEntity& playerAircraft,
+    const PlayerData& playerData,
+    const float screenWidth
+) noexcept
+: mPlayerAircraft(playerAircraft)
 {
-    mScoreTextLabel = mEntitySystem.createObject("Score:", fonts);
-    mScoreTextLabel->setPosition(10, 10);
+    const auto mScoreTextLabel = entitySystem.createObject("Score:", fonts);
+    mScoreTextLabel->setPosition(ScoreTextLabelPos);
 
-    mScoreAmountLabel = mEntitySystem.createObject("0", fonts);
-    mScoreAmountLabel->setPosition(60, 10);
+    mScoreAmountLabel = entitySystem.createObject("0", fonts);
+    mScoreAmountLabel->setPosition(ScoreAmountLabelPos);
 
-
-    const auto playerString = std::to_string(PlayerAircraftController::sPlayerHealth);
-    mPlayerHealth = mEntitySystem.createObject(playerString, fonts);
-    mPlayerHealth->setPosition(mScreenWidth - 50, 10);
+    const auto playerString = std::to_string(playerData.Health);
+    mPlayerHealth = entitySystem.createObject(playerString, fonts);
+    mPlayerHealth->setPosition(screenWidth - PlayerHealthLabelPos.x, PlayerHealthLabelPos.y);
 }
 
 void GuiController::playerHit() const

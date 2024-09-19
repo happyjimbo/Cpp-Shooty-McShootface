@@ -3,6 +3,11 @@
 #include "GuiController.h"
 #include "SquareMagnitude.h"
 
+namespace
+{
+    constexpr float CollisionThreshold = 30.f;
+}
+
 ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,
     EntitySystem<AircraftEntity>& enemyAircraftEntities,
@@ -23,7 +28,7 @@ void ProjectileCollisionSystem::execute() const
     const auto& projectiles = mProjectileEntites.getEntities();
     const auto& enemyAircraft = mEnemyAircraftEntities.getEntities();
 
-    constexpr float collisionSqr = sCollisionThreshold * sCollisionThreshold;
+    constexpr float collisionSqr = CollisionThreshold * CollisionThreshold;
 
     for(const auto& projectile : projectiles)
     {

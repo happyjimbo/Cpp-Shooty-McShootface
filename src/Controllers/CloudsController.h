@@ -14,13 +14,11 @@ public:
         float scrollSpeed
     ) noexcept;
 
+    CloudsController(CloudsController&) = delete;
+    CloudsController& operator=(CloudsController&) = delete;
+
+    CloudsController(CloudsController&&) = delete;
+    CloudsController& operator=(CloudsController&&) = delete;
+
     ~CloudsController() noexcept = default;
-    void create() const;
-
-private:
-
-    EntitySystem<CloudEntity>& mEntitySystem;
-    TextureHolder& mTexture;
-
-    float mScrollSpeed;
 };
