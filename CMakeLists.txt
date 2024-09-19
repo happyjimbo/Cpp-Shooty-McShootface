@@ -35,40 +35,56 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-FetchContent_Declare(
-        imgui
-        GIT_REPOSITORY https://github.com/ocornut/imgui
-        GIT_TAG v1.91.0-docking
-)
+# Detect platform
+if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    message(STATUS "Configuring for iOS")
+    set(CMAKE_OSX_SYSROOT iphoneos)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.0)
+    set(CMAKE_OSX_ARCHITECTURES arm64)
 
-FetchContent_MakeAvailable(imgui)
+    # Add any iOS-specific settings here
 
-# Manually add ImGui source files (since ImGui doesn't define its own CMake target)
-set(IMGUI_SOURCES
-        ${imgui_SOURCE_DIR}/imgui.cpp
-        ${imgui_SOURCE_DIR}/imgui_draw.cpp
-        ${imgui_SOURCE_DIR}/imgui_demo.cpp
-        ${imgui_SOURCE_DIR}/imgui_tables.cpp
-        ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
-        ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
-)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    message(STATUS "Configuring for macOS")
 
-add_library(imgui STATIC ${IMGUI_SOURCES})
+    FetchContent_Declare(
+            imgui
+            GIT_REPOSITORY https://github.com/ocornut/imgui
+            GIT_TAG v1.91.0-docking
+    )
+
+    FetchContent_MakeAvailable(imgui)
+
+    # Manually add ImGui source files (since ImGui doesn't define its own CMake target)
+    set(IMGUI_SOURCES
+            ${imgui_SOURCE_DIR}/imgui.cpp
+            ${imgui_SOURCE_DIR}/imgui_draw.cpp
+            ${imgui_SOURCE_DIR}/imgui_demo.cpp
+            ${imgui_SOURCE_DIR}/imgui_tables.cpp
+            ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+            ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+            ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
+    )
+
+    add_library(imgui STATIC ${IMGUI_SOURCES})
 
 
-# Include ImGui directories
-target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
+    # Include ImGui directories
+    target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
 
 
-FetchContent_Declare(
-        imgui-sfml
-        GIT_REPOSITORY https://github.com/SFML/imgui-sfml
-        GIT_TAG v2.6
-)
-add_subdirectory(imgui-sfml)
+    FetchContent_Declare(
+            imgui-sfml
+            GIT_REPOSITORY https://github.com/SFML/imgui-sfml
+            GIT_TAG v2.6
+    )
+    add_subdirectory(imgui-sfml)
 
-set_target_properties(imgui ImGui-SFML PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+    set_target_properties(imgui ImGui-SFML PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+
+
+endif()
+
 
 
 # Collect all source files (you can modify the paths as needed)
@@ -101,14 +117,17 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Audio
 )
 
-# Link SFML to the main project
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML)
+if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML)
+
+    # Enable multi-viewports in ImGui by defining the appropriate macro
+    target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
+endif ()
 
 # Enable C++20 features
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
-
-# Enable multi-viewports in ImGui by defining the appropriate macro
-target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
 
 # Set compiler warnings
 if(MSVC)
