@@ -8,28 +8,19 @@ SoundPool::SoundPool(const std::size_t poolSize)
     }
 }
 
-sf::Sound* SoundPool::acquire()
+std::unique_ptr<sf::Sound> SoundPool::acquire()
 {
     if (!mPool.empty())
     {
-        sf::Sound* sound = mPool.front();
+        std::unique_ptr<sf::Sound> sound = std::move(mPool.front());
         mPool.pop();
         return sound;
     }
     return nullptr;
 }
 
-void SoundPool::release(sf::Sound* sound)
+void SoundPool::release(std::unique_ptr<sf::Sound> sound)
 {
     sound->stop();
-    mPool.push(sound);
-}
-
-SoundPool::~SoundPool()
-{
-    while (!mPool.empty())
-    {
-        delete mPool.front();
-        mPool.pop();
-    }
+    mPool.push(std::move(sound));
 }

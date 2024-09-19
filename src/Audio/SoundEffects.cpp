@@ -14,34 +14,27 @@ SoundEffects::SoundEffects()
 
 void SoundEffects::play(const Sounds::ID effect)
 {
-	sf::Sound* sound = mSoundPool.acquire();
+	std::unique_ptr<sf::Sound> sound = mSoundPool.acquire();
 	if (sound)
 	{
 		sound->setBuffer(mSounds.get(effect));
 		sound->play();
-		mActiveSounds.push_back(sound);
+		mActiveSounds.push_back(std::move(sound));
 	}
 }
 
 void SoundEffects::update()
 {
-	std::erase_if(mActiveSounds, [this](sf::Sound* sound)
+	for (auto it = mActiveSounds.begin(); it != mActiveSounds.end();)
 	{
-		if (sound->getStatus() == sf::SoundSource::Stopped)
+		if ((*it) && (*it)->getStatus() == sf::SoundSource::Stopped)
 		{
-			mSoundPool.release(sound);
-			return true;
+			mSoundPool.release(std::move(*it));
+			it = mActiveSounds.erase(it);
 		}
-		return false;
-	});
-}
-
-SoundEffects::~SoundEffects()
-{
-	// Ensure that all active sounds are properly released or deleted
-	for (sf::Sound* sound : mActiveSounds)
-	{
-		mSoundPool.release(sound);
+		else
+		{
+			++it;
+		}
 	}
-	mActiveSounds.clear();
 }

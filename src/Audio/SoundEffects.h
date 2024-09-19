@@ -9,7 +9,7 @@ class SoundEffects final
 {
 public:
 	explicit SoundEffects();
-	~SoundEffects();
+	~SoundEffects() = default;
 
 	void play(Sounds::ID effect);
 	void update();
@@ -17,5 +17,5 @@ public:
 private:
 	SoundHolder mSounds {};
 	SoundPool mSoundPool {10};
-	std::vector<sf::Sound*> mActiveSounds;
+	std::vector<std::unique_ptr<sf::Sound>> mActiveSounds;
 };
