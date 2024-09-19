@@ -3,7 +3,8 @@
 #include <functional>
 #include "ResourceIdentifiers.h"
 
-namespace sf {
+namespace sf
+{
     class Time;
     class RenderWindow;
 }

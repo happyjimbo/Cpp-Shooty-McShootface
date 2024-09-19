@@ -1,4 +1,5 @@
 #include "ProjectileController.h"
+#include "SoundEffects.h"
 
 namespace
 {
@@ -6,10 +7,16 @@ namespace
     constexpr int PrePoolAmount = 20;
 }
 
-ProjectileController::ProjectileController(EntitySystem<ProjectileEntity>& entitySystem, const TextureHolder& texture, const sf::FloatRect worldBounds)
+ProjectileController::ProjectileController(
+    EntitySystem<ProjectileEntity>& entitySystem,
+    const TextureHolder& texture,
+    const sf::FloatRect worldBounds,
+    SoundEffects& soundEffects
+)
 : mEntitySystem(entitySystem)
 , mTexture(texture)
 , mWorldBounds(worldBounds)
+, mSoundEffects(soundEffects)
 {
     mEntitySystem.prePool(PrePoolAmount);
 }
@@ -21,4 +28,6 @@ void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f
 
     const float speed = type == ProjectileEntity::Type::Player ? -Speed : Speed;
     projectile->setVelocity(0, speed);
+
+    mSoundEffects.play(type == ProjectileEntity::Type::Player ? Sounds::PlayerGunfire : Sounds::EnemyGunfire);
 }

@@ -44,6 +44,7 @@ struct World::Impl
     sf::FloatRect worldBounds;
     sf::Vector2f spawnPosition;
     TextureHolder textures;
+    SoundEffects soundEffects;
 
     Impl(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
     : window(window)
@@ -54,44 +55,44 @@ struct World::Impl
     , spawnPosition(worldView.getSize().x / 2.f, worldBounds.height - worldView.getSize().y / 2.f)
     , textures(loadTextures())
     // Initalise the controllers and systems
-    , mPlayerAircraftController (mPlayerAircraftEntitySystem, textures, playerData, spawnPosition)
-    , mGuiController (
+    , playerAircraftController (playerAircraftEntitySystem, textures, playerData, spawnPosition)
+    , guiController (
         fonts,
-        mLabelEntitySystem,
-        *mPlayerAircraftController.getPlayerAircaft(),
+        labelEntitySystem,
+        *playerAircraftController.getPlayerAircaft(),
         playerData,
         worldBounds.width
     )
-    , mBackgroundController (mBackgroundEntitySystem, textures, window.getSize(), ScrollSpeed)
-    , mCloudsController (mCloudEntitySystem, textures, ScrollSpeed)
-    , mEnemyAircraftController (mEnemyAircraftEntitySystem)
-    , mExplosionController (mExplosionEntitySystem,textures)
-    , mProjectileController(mProjectileEntitySystem, textures, worldBounds)
-    , mPlayerAircraftMovementSystem(
-        *mPlayerAircraftController.getPlayerAircaft(),
+    , backgroundController (backgroundEntitySystem, textures, window.getSize(), ScrollSpeed)
+    , cloudsController (cloudEntitySystem, textures, ScrollSpeed)
+    , enemyAircraftController (enemyAircraftEntitySystem)
+    , explosionController (explosionEntitySystem, textures, soundEffects)
+    , projectileController (projectileEntitySystem, textures, worldBounds, soundEffects)
+    , playerAircraftMovementSystem(
+        *playerAircraftController.getPlayerAircaft(),
            worldView.getCenter(),
            worldView.getSize(),
            ScrollSpeed
         )
-    , mEnemyAircraftMovementSystem (mEnemyAircraftEntitySystem, *mPlayerAircraftController.getPlayerAircaft(), ScrollSpeed)
-    , mProjectileMovementSystem(mProjectileEntitySystem)
-    , mProjectileCollisionSystem (
-        mProjectileEntitySystem,
-        mEnemyAircraftEntitySystem,
-        *mPlayerAircraftController.getPlayerAircaft(),
-        mExplosionController,
-        mGuiController
+    , enemyAircraftMovementSystem (enemyAircraftEntitySystem, *playerAircraftController.getPlayerAircaft(), ScrollSpeed)
+    , projectileMovementSystem (projectileEntitySystem)
+    , projectileCollisionSystem (
+        projectileEntitySystem,
+        enemyAircraftEntitySystem,
+        *playerAircraftController.getPlayerAircaft(),
+        explosionController,
+        guiController
     )
-    , mSpawnEnemyAircraftSystem (mEnemyAircraftEntitySystem, textures, worldBounds.width)
-    , mEnemyProjectileSpawnSystem (mEnemyAircraftEntitySystem, mProjectileController)
-    , mPlayerProjectileSpawnSystem (mPlayerAircraftEntitySystem,mProjectileController)
-    , mRemoveOffScreenEnemiesSystem (mEnemyAircraftEntitySystem, worldBounds.height)
-    , mRemoveOffScreenProjectilesSystem (mProjectileEntitySystem, worldBounds.height)
-    , mExplosionAnimationSystem (mExplosionEntitySystem)
-    , mCloudMovementSystem (mCloudEntitySystem)
-    , mBackgroundMovementSystem (mBackgroundEntitySystem)
-    , mPlayerKilledSystem (*mPlayerAircraftController.getPlayerAircaft(), endGameCallback)
-    , simpleControls (*mPlayerAircraftController.getPlayerAircaft())
+    , spawnEnemyAircraftSystem (enemyAircraftEntitySystem, textures, worldBounds.width)
+    , enemyProjectileSpawnSystem (enemyAircraftEntitySystem, projectileController)
+    , playerProjectileSpawnSystem (playerAircraftEntitySystem,projectileController)
+    , removeOffScreenEnemiesSystem (enemyAircraftEntitySystem, worldBounds.height)
+    , removeOffScreenProjectilesSystem (projectileEntitySystem, worldBounds.height)
+    , explosionAnimationSystem (explosionEntitySystem)
+    , cloudMovementSystem (cloudEntitySystem)
+    , backgroundMovementSystem (backgroundEntitySystem)
+    , playerKilledSystem (*playerAircraftController.getPlayerAircaft(), endGameCallback)
+    , simpleControls (*playerAircraftController.getPlayerAircaft())
     {
         worldView.setCenter(spawnPosition);
     }
@@ -100,13 +101,13 @@ struct World::Impl
     {
         window.setView(worldView);
 
-        drawEntities(mBackgroundEntitySystem);
-        drawEntities(mCloudEntitySystem);
-        drawEntities(mExplosionEntitySystem);
-        drawEntities(mProjectileEntitySystem);
-        drawEntities(mEnemyAircraftEntitySystem);
-        drawEntities(mPlayerAircraftEntitySystem);
-        drawEntities(mLabelEntitySystem);
+        drawEntities(backgroundEntitySystem);
+        drawEntities(cloudEntitySystem);
+        drawEntities(explosionEntitySystem);
+        drawEntities(projectileEntitySystem);
+        drawEntities(enemyAircraftEntitySystem);
+        drawEntities(playerAircraftEntitySystem);
+        drawEntities(labelEntitySystem);
     }
 
     template <typename T>
@@ -134,61 +135,62 @@ struct World::Impl
 
     void update(const sf::Time delta)
     {
-        mProjectileCollisionSystem.execute();
-        mSpawnEnemyAircraftSystem.execute(delta);
-        mEnemyProjectileSpawnSystem.execute(delta);
-        mProjectileMovementSystem.execute(delta);
-        mPlayerProjectileSpawnSystem.execute(delta);
-        mRemoveOffScreenEnemiesSystem.execute();
-        mRemoveOffScreenProjectilesSystem.execute();
-        mExplosionAnimationSystem.execute(delta);
-        mCloudMovementSystem.execute(delta);
-        mBackgroundMovementSystem.execute(delta);
-        mPlayerAircraftMovementSystem.execute();
-        mEnemyAircraftMovementSystem.execute(delta);
+        projectileCollisionSystem.execute();
+        spawnEnemyAircraftSystem.execute(delta);
+        enemyProjectileSpawnSystem.execute(delta);
+        projectileMovementSystem.execute(delta);
+        playerProjectileSpawnSystem.execute(delta);
+        removeOffScreenEnemiesSystem.execute();
+        removeOffScreenProjectilesSystem.execute();
+        explosionAnimationSystem.execute(delta);
+        cloudMovementSystem.execute(delta);
+        backgroundMovementSystem.execute(delta);
+        playerAircraftMovementSystem.execute();
+        enemyAircraftMovementSystem.execute(delta);
 
         simpleControls.handleRealtimeInput();
 
-        mPlayerAircraftEntitySystem.update(delta);
-        mProjectileEntitySystem.update(delta);
-        mEnemyAircraftEntitySystem.update(delta);
-        mLabelEntitySystem.update(delta);
-        mExplosionEntitySystem.update(delta);
+        playerAircraftEntitySystem.update(delta);
+        projectileEntitySystem.update(delta);
+        enemyAircraftEntitySystem.update(delta);
+        labelEntitySystem.update(delta);
+        explosionEntitySystem.update(delta);
 
         // this needs to run last as it will tear this world object down
-        mPlayerKilledSystem.execute();
+        playerKilledSystem.execute();
+
+        soundEffects.update();
     }
 
-    EntitySystem<ProjectileEntity> mProjectileEntitySystem;
-    EntitySystem<AircraftEntity> mPlayerAircraftEntitySystem;
-    EntitySystem<AircraftEntity> mEnemyAircraftEntitySystem;
-    EntitySystem<BackgroundEntity> mBackgroundEntitySystem;
-    EntitySystem<CloudEntity> mCloudEntitySystem;
-    EntitySystem<ExplosionEntity> mExplosionEntitySystem;
-    EntitySystem<Label> mLabelEntitySystem;
+    EntitySystem<ProjectileEntity> projectileEntitySystem;
+    EntitySystem<AircraftEntity> playerAircraftEntitySystem;
+    EntitySystem<AircraftEntity> enemyAircraftEntitySystem;
+    EntitySystem<BackgroundEntity> backgroundEntitySystem;
+    EntitySystem<CloudEntity> cloudEntitySystem;
+    EntitySystem<ExplosionEntity> explosionEntitySystem;
+    EntitySystem<Label> labelEntitySystem;
 
-    PlayerAircraftController mPlayerAircraftController;
-    GuiController mGuiController;
-    BackgroundController mBackgroundController;
-    CloudsController mCloudsController;
-    EnemyAircraftController mEnemyAircraftController;
-    ExplosionController mExplosionController;
-    ProjectileController mProjectileController;
+    PlayerAircraftController playerAircraftController;
+    GuiController guiController;
+    BackgroundController backgroundController;
+    CloudsController cloudsController;
+    EnemyAircraftController enemyAircraftController;
+    ExplosionController explosionController;
+    ProjectileController projectileController;
 
-    PlayerAircraftMovementSystem mPlayerAircraftMovementSystem;
-    EnemyAircraftMovementSystem mEnemyAircraftMovementSystem;
-    ProjectileMovementSystem mProjectileMovementSystem;
-    ProjectileCollisionSystem mProjectileCollisionSystem;
-    SpawnEnemyAircraftSystem mSpawnEnemyAircraftSystem;
-    ProjectileSpawnSystem mEnemyProjectileSpawnSystem;
-    ProjectileSpawnSystem mPlayerProjectileSpawnSystem;
-    RemoveOffScreenEnemiesSystem mRemoveOffScreenEnemiesSystem;
-    RemoveOffScreenProjectilesSystem mRemoveOffScreenProjectilesSystem;
-    ExplosionAnimationSystem mExplosionAnimationSystem;
-    CloudMovementSystem mCloudMovementSystem;
-    BackgroundMovementSystem mBackgroundMovementSystem;
-    PlayerKilledSystem mPlayerKilledSystem;
-    SoundEffects mSoundEffects;
+    PlayerAircraftMovementSystem playerAircraftMovementSystem;
+    EnemyAircraftMovementSystem enemyAircraftMovementSystem;
+    ProjectileMovementSystem projectileMovementSystem;
+    ProjectileCollisionSystem projectileCollisionSystem;
+    SpawnEnemyAircraftSystem spawnEnemyAircraftSystem;
+    ProjectileSpawnSystem enemyProjectileSpawnSystem;
+    ProjectileSpawnSystem playerProjectileSpawnSystem;
+    RemoveOffScreenEnemiesSystem removeOffScreenEnemiesSystem;
+    RemoveOffScreenProjectilesSystem removeOffScreenProjectilesSystem;
+    ExplosionAnimationSystem explosionAnimationSystem;
+    CloudMovementSystem cloudMovementSystem;
+    BackgroundMovementSystem backgroundMovementSystem;
+    PlayerKilledSystem playerKilledSystem;
 
     PlayerControls simpleControls;
 };

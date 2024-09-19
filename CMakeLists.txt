@@ -95,11 +95,7 @@ file(GLOB_RECURSE SOURCE_FILES
 )
 
 # Define the main executable with the collected source files
-add_executable(${PROJECT_NAME} ${SOURCE_FILES}
-        src/Math/SquareMagnitude.h
-        src/Audio/SoundEffects.cpp
-        src/Audio/SoundEffects.h
-)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Include directories for the project
 target_include_directories(${PROJECT_NAME} PRIVATE

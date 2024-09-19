@@ -69,13 +69,13 @@ void ProjectileCollisionSystem::playerHit(ProjectileEntity* projectile) const
     mScoreController.playerHit();
 
     mProjectileEntites.removeObject(projectile);
-    mExplosionController.spawn(mPlayer.getPosition(), Textures::PlayerExplosion);
+    mExplosionController.spawn(mPlayer.getPosition(), Textures::PlayerExplosion, Sounds::Explosion1);
 }
 
 void ProjectileCollisionSystem::enemyHit(ProjectileEntity* projectile, AircraftEntity* aircraft) const
 {
     aircraft->getAircraftData().hit();
-    mExplosionController.spawn(aircraft->getPosition(), Textures::Explosion);
+    mExplosionController.spawn(aircraft->getPosition(), Textures::Explosion, Sounds::Explosion2);
 
     if (aircraft->getAircraftData().destroyed())
     {

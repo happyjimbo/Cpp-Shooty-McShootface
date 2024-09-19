@@ -9,8 +9,7 @@ class ProjectileController;
 
 class ProjectileSpawnSystem {
 public:
-    explicit ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileController& projectileController) noexcept
-        : mEntiySystem(entiySystem), mProjectileController(projectileController) {}
+    explicit ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileController& projectileController) noexcept;
 
     explicit ProjectileSpawnSystem() = delete;
     ~ProjectileSpawnSystem() = default;

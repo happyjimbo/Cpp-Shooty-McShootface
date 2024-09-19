@@ -7,11 +7,12 @@ C++ 20 vertical shooter, built using [SFML](https://www.sfml-dev.org) and using 
 The game utilizes features from C++20. If you wish to compile the project using earlier versions of C++ (like C++14 or C++11), you will need to make some adjustments.
 
 C++ 14 Features:
-- `std::make_unique` -- Replace with `new` if downgrading.
+- `std::make_unique` Replace with `new` if downgrading.
 - `constexpr functions` Remove or modify as needed.
 
 C++ 20 Features:
 - `std::invocable` (concepts) -- Used in `ProjectileCollisionSystem` to enable template implementation within the .cpp file. To downgrade, replace this with a header or .inl file implementation.
+- `std::erase_if` Used in SoundEffects to erase from a vector safely
 
 
 

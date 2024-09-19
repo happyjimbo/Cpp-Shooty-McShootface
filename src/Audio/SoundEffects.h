@@ -1,34 +1,21 @@
 #pragma once
+
 #include "ResourceHolder.h"
 #include "ResourceIdentifiers.h"
-#include <SFML/Audio/SoundBuffer.hpp> // needed to enable the forward declaration
-#include <SFML/Audio/Sound.hpp>
-
+#include "SoundPool.h"
+#include <SFML/Audio/SoundBuffer.hpp>
 
 class SoundEffects final
 {
 public:
 	explicit SoundEffects();
-    void play(Sounds::ID effect);
+	~SoundEffects();
+
+	void play(Sounds::ID effect);
+	void update();
 
 private:
 	SoundHolder mSounds {};
-	sf::Sound mSound {};
+	SoundPool mSoundPool {10};
+	std::vector<sf::Sound*> mActiveSounds;
 };
-
-
-
-	/*public:
-									SoundPlayer();
-
-		void						play(SoundEffect::ID effect);
-		void						play(SoundEffect::ID effect, sf::Vector2f position);
-
-		void						removeStoppedSounds();
-		void						setListenerPosition(sf::Vector2f position);
-		sf::Vector2f				getListenerPosition() const;
-
-
-	private:
-		SoundBufferHolder			mSoundBuffers;
-		std::list<sf::Sound>		mSounds;*/
