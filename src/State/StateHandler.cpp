@@ -2,6 +2,12 @@
 #include "TransitionScreen.h"
 #include "World.h"
 
+#include <imgui-SFML.h>
+
+#include "DebugSettings.h"
+
+using Debug::DebugSettings;
+
 struct StateHandler::Impl
 {
     std::unique_ptr<World> mWorld;
@@ -9,6 +15,8 @@ struct StateHandler::Impl
 
     sf::RenderWindow& mWindow;
     const FontHolder& mFont;
+
+    const DebugSettings debugSettings;
 
     Impl(sf::RenderWindow& window, const FontHolder& font) noexcept
     : mWindow(window)
@@ -37,7 +45,9 @@ struct StateHandler::Impl
 
     void update(const sf::Time elapsedTime) const
     {
-        if (mWorld)
+        ImGui::SFML::Update(mWindow, elapsedTime);
+
+        if (mWorld && !debugSettings.isPaused())
         {
             mWorld->update(elapsedTime);
         }
@@ -56,6 +66,8 @@ struct StateHandler::Impl
 
     void draw() const
     {
+        debugSettings.draw();
+
         if (mWorld)
         {
             mWorld->draw();

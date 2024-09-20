@@ -1,13 +1,11 @@
 #pragma once
 #include <memory>
 
-class StateHandler;
-
 class Game final
 {
 public:
-    explicit Game();
-    ~Game();
+    explicit Game() noexcept;
+    ~Game() noexcept;
 
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;

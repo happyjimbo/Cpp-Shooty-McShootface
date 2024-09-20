@@ -1,12 +1,15 @@
 #pragma once
 
+#include <memory>
+
 #include "ResourceIdentifiers.h"
-#include <SFML/Graphics/RenderWindow.hpp>
 
-class World;
-class TransitionScreen;
-
-namespace sf { class RenderWindow; }
+namespace sf
+{
+    class Event;
+    class Time;
+    class RenderWindow;
+}
 
 class StateHandler final
 {

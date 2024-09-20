@@ -1,11 +1,11 @@
 #include "Game.h"
+
+#include <imgui-SFML.h>
+
 #include "MediaFiles.h"
 #include "StateHandler.h"
 #include "TransitionScreen.h"
 #include "SFML/Graphics.hpp"
-
-#include <imgui-SFML.h>
-#include <imgui.h>
 
 namespace
 {
@@ -56,33 +56,24 @@ struct Game::Impl
     {
         mWindow.clear();
 
-        // ImGui::ShowDemoWindow();
-
-        ImGui::Begin("My Test Yo");
-        ImGui::Text("i love you");
-        ImGui::End();
-
-        ImGui::Render();
-
         mStateHandler->draw();
-
-        mWindow.setView(mWindow.getDefaultView());
 
         ImGui::SFML::Render(mWindow);
 
+        mWindow.setView(mWindow.getDefaultView());
         mWindow.display();
     }
-
 };
 
-Game::Game() : mImpl(std::make_unique<Impl>()) {}
-Game::~Game() = default;
+Game::Game() noexcept : mImpl(std::make_unique<Impl>()) {}
+Game::~Game() noexcept = default;
 
 void Game::run() const
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     mImpl->mWindow.setFramerateLimit(144);
+
     const auto success = ImGui::SFML::Init(mImpl->mWindow);
 
     while (success && mImpl->mWindow.isOpen())
@@ -93,8 +84,8 @@ void Game::run() const
         while (timeSinceLastUpdate > TimePerFrame)
         {
             timeSinceLastUpdate -= TimePerFrame;
+
             mImpl->processWindowEvents();
-            ImGui::SFML::Update(mImpl->mWindow, elapsedTime);
             mImpl->update(TimePerFrame);
             mImpl->render();
         }
