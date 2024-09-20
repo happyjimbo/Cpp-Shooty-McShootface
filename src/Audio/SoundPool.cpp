@@ -4,7 +4,7 @@ SoundPool::SoundPool(const std::size_t poolSize)
 {
     for (std::size_t i = 0; i < poolSize; ++i)
     {
-        mPool.emplace(new sf::Sound());
+        mPool.emplace(std::make_unique<sf::Sound>());
     }
 }
 

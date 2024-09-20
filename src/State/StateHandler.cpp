@@ -20,6 +20,7 @@ struct StateHandler::Impl
     void startGame()
     {
         mTransitionScreen.reset();
+        mTransitionScreen = nullptr;
 
         mWorld = std::make_unique<World>(mWindow, mFont, [this]()
         {
@@ -30,6 +31,7 @@ struct StateHandler::Impl
     void transitionScreen(const char* title, const char* buttonText)
     {
         mWorld.reset();
+        mWorld = nullptr;
         mTransitionScreen = std::make_unique<TransitionScreen>(mWindow, mFont, title, buttonText);
     }
 
