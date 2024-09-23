@@ -46,7 +46,7 @@ struct World::Impl
     TextureHolder textures;
     SoundEffects soundEffects;
 
-    Impl(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
+    Impl(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
     : window(window)
     , worldView(window.getDefaultView())
     , endGameCallback(endGameCallback)
@@ -54,6 +54,7 @@ struct World::Impl
     , worldBounds(0.f, 0.f, worldView.getSize().x, worldView.getSize().y)
     , spawnPosition(worldView.getSize().x / 2.f, worldBounds.height - worldView.getSize().y / 2.f)
     , textures(loadTextures())
+    , soundEffects(settings)
     // Initalise the controllers and systems
     , playerAircraftController (playerAircraftEntitySystem, textures, playerData, spawnPosition)
     , guiController (
@@ -195,8 +196,8 @@ struct World::Impl
     PlayerControls simpleControls;
 };
 
-World::World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback)
-: mImpl(std::make_unique<Impl>(window, font, endGameCallback))
+World::World(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
+: mImpl(std::make_unique<Impl>(window, font, settings, endGameCallback))
 {
 }
 

@@ -1,10 +1,8 @@
-#include "DebugSettings.h"
+#include "Settings.h"
 
 #include <imgui.h>
 
-using Debug::DebugSettings;
-
-struct DebugSettings::Impl
+struct Settings::Impl
 {
     bool isPaused {};
     bool isMuted {};
@@ -18,20 +16,20 @@ struct DebugSettings::Impl
     }
 };
 
-DebugSettings::DebugSettings() noexcept : mImpl(std::make_unique<Impl>()) {}
-DebugSettings::~DebugSettings() noexcept = default;
+Settings::Settings() noexcept : mImpl(std::make_unique<Impl>()) {}
+Settings::~Settings() noexcept = default;
 
-void DebugSettings::draw() const
+void Settings::draw() const
 {
     mImpl->draw();
 }
 
-bool DebugSettings::isPaused() const
+bool Settings::isPaused() const
 {
     return mImpl->isPaused;
 }
 
-bool DebugSettings::isMuted() const
+bool Settings::isMuted() const
 {
     return mImpl->isMuted;
 }

@@ -3,17 +3,20 @@
 #include <functional>
 #include "ResourceIdentifiers.h"
 
+class Settings;
+
 namespace sf
 {
     class Time;
     class RenderWindow;
 }
 
+
 class World final
 {
 
 public:
-    explicit World(sf::RenderWindow& window, const FontHolder& font, const std::function<void()>& endGameCallback);
+    explicit World(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback);
     ~World();
 
     World(const World&) = delete;

@@ -1,63 +1,60 @@
 #include "StateHandler.h"
 #include "TransitionScreen.h"
 #include "World.h"
+#include "Settings.h"
 
 #include <imgui-SFML.h>
 
-#include "DebugSettings.h"
-
-using Debug::DebugSettings;
-
 struct StateHandler::Impl
 {
-    std::unique_ptr<World> mWorld;
-    std::unique_ptr<TransitionScreen> mTransitionScreen;
+    std::unique_ptr<World> world;
+    std::unique_ptr<TransitionScreen> transitionScreen;
 
-    sf::RenderWindow& mWindow;
-    const FontHolder& mFont;
+    sf::RenderWindow& window;
+    const FontHolder& font;
 
-    const DebugSettings debugSettings;
+    const Settings settings;
 
     Impl(sf::RenderWindow& window, const FontHolder& font) noexcept
-    : mWindow(window)
-    , mFont(font)
+    : window(window)
+    , font(font)
     {
-        transitionScreen("Shooty Mcshootface", "Play now!");
+        showTransitionScreen("Shooty Mcshootface", "Play now!");
     }
 
     void startGame()
     {
-        mTransitionScreen.reset();
-        mTransitionScreen = nullptr;
+        transitionScreen.reset();
+        transitionScreen = nullptr;
 
-        mWorld = std::make_unique<World>(mWindow, mFont, [this]()
+        world = std::make_unique<World>(window, font, settings, [this]()
         {
-            transitionScreen("YOU DIED", "Play again!");
+            showTransitionScreen("YOU DIED", "Play again!");
         });
     }
 
-    void transitionScreen(const char* title, const char* buttonText)
+    void showTransitionScreen(const char* title, const char* buttonText)
     {
-        mWorld.reset();
-        mWorld = nullptr;
-        mTransitionScreen = std::make_unique<TransitionScreen>(mWindow, mFont, title, buttonText);
+        world.reset();
+        world = nullptr;
+        transitionScreen = std::make_unique<TransitionScreen>(window, font, title, buttonText);
     }
 
     void update(const sf::Time elapsedTime) const
     {
-        ImGui::SFML::Update(mWindow, elapsedTime);
+        ImGui::SFML::Update(window, elapsedTime);
 
-        if (mWorld && !debugSettings.isPaused())
+        if (world && !settings.isPaused())
         {
-            mWorld->update(elapsedTime);
+            world->update(elapsedTime);
         }
     }
 
     void processWindowEvents(const sf::Event& event)
     {
-        if (mTransitionScreen)
+        if (transitionScreen)
         {
-            mTransitionScreen->handleEvent(event, [this]()
+            transitionScreen->handleEvent(event, [this]()
             {
                 startGame();
             });
@@ -66,16 +63,16 @@ struct StateHandler::Impl
 
     void draw() const
     {
-        debugSettings.draw();
+        settings.draw();
 
-        if (mWorld)
+        if (world)
         {
-            mWorld->draw();
+            world->draw();
         }
 
-        if (mTransitionScreen)
+        if (transitionScreen)
         {
-            mTransitionScreen->draw();
+            transitionScreen->draw();
         }
     }
 };

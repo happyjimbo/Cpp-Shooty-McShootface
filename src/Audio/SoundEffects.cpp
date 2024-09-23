@@ -1,10 +1,14 @@
 #include "SoundEffects.h"
 #include "MediaFiles.h"
 #include "ResourceHolder.h"
+#include "Settings.h"
+
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
 
-SoundEffects::SoundEffects()
+
+SoundEffects::SoundEffects(const Settings& settings)
+: mSettings(settings)
 {
 	mSounds.load(Sounds::PlayerGunfire, AudioFiles::PlayerGunfire);
 	mSounds.load(Sounds::EnemyGunfire, AudioFiles::EnemyGunfire);
@@ -14,12 +18,15 @@ SoundEffects::SoundEffects()
 
 void SoundEffects::play(const Sounds::ID effect)
 {
-	std::unique_ptr<sf::Sound> sound = mSoundPool.acquire();
-	if (sound)
+	if (!mSettings.isMuted())
 	{
-		sound->setBuffer(mSounds.get(effect));
-		sound->play();
-		mActiveSounds.push_back(std::move(sound));
+		std::unique_ptr<sf::Sound> sound = mSoundPool.acquire();
+		if (sound)
+		{
+			sound->setBuffer(mSounds.get(effect));
+			sound->play();
+			mActiveSounds.push_back(std::move(sound));
+		}
 	}
 }
 
