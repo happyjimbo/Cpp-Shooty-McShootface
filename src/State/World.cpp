@@ -157,10 +157,10 @@ struct World::Impl
         labelEntitySystem.update(delta);
         explosionEntitySystem.update(delta);
 
+        soundEffects.update();
+
         // this needs to run last as it will tear this world object down
         playerKilledSystem.execute();
-
-        soundEffects.update();
     }
 
     EntitySystem<ProjectileEntity> projectileEntitySystem;
