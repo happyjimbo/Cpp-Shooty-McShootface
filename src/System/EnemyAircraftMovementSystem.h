@@ -3,14 +3,13 @@
 #include "EntitySystem.h"
 
 namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
 
 namespace sf { class Time; }
 
 class EnemyAircraftMovementSystem final
 {
 public:
-    explicit EnemyAircraftMovementSystem(EntitySystem<AircraftEntity>& entitySystem, const AircraftEntity& player, float scrollSpeed) noexcept;
+    explicit EnemyAircraftMovementSystem(EntitySystem<Aircraft::AircraftEntity>& entitySystem, const Aircraft::AircraftEntity& player, float scrollSpeed) noexcept;
     ~EnemyAircraftMovementSystem() noexcept = default;
 
     EnemyAircraftMovementSystem(const EnemyAircraftMovementSystem&) = delete;
@@ -22,8 +21,8 @@ public:
     void execute(const sf::Time& delta);
 
 private:
-    EntitySystem<AircraftEntity>& mEntitySystem;
-    const AircraftEntity& mPlayer;
+    EntitySystem<Aircraft::AircraftEntity>& mEntitySystem;
+    const Aircraft::AircraftEntity& mPlayer;
 
     float mTimeSinceLastSpawn {};
     float mScrollSpeed {};

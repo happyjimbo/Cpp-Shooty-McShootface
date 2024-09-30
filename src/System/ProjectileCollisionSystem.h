@@ -4,7 +4,6 @@
 #include "AircraftEntity.h"
 
 class ExplosionController;
-using Aircraft::AircraftEntity;
 
 class GuiController;
 class ProjectileEntity;
@@ -14,8 +13,8 @@ class ProjectileCollisionSystem final
 public:
     explicit ProjectileCollisionSystem(
         EntitySystem<ProjectileEntity>& projectileEntites,
-        EntitySystem<AircraftEntity>& enemyAircraftEntities,
-        AircraftEntity& player,
+        EntitySystem<Aircraft::AircraftEntity>& enemyAircraftEntities,
+        Aircraft::AircraftEntity& player,
         ExplosionController& explosionController,
         GuiController& scoreController
     );
@@ -33,15 +32,15 @@ public:
 
 private:
 
-    void enemyHit(ProjectileEntity* projectile, AircraftEntity* aircraft) const;
+    void enemyHit(ProjectileEntity* projectile, Aircraft::AircraftEntity* aircraft) const;
     void playerHit(ProjectileEntity* projectile) const;
 
     template<std::invocable CollisionHandler>
-    static void checkCollision(const ProjectileEntity* projectile, const AircraftEntity* target, float collisionSqr, CollisionHandler onCollision);
+    static void checkCollision(const ProjectileEntity* projectile, const Aircraft::AircraftEntity* target, float collisionSqr, CollisionHandler onCollision);
 
     EntitySystem<ProjectileEntity>& mProjectileEntites;
-    EntitySystem<AircraftEntity>& mEnemyAircraftEntities;
-    AircraftEntity& mPlayer;
+    EntitySystem<Aircraft::AircraftEntity>& mEnemyAircraftEntities;
+    Aircraft::AircraftEntity& mPlayer;
     ExplosionController& mExplosionController;
     GuiController& mScoreController;
 };

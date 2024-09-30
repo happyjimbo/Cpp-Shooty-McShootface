@@ -1,7 +1,7 @@
 #include "PlayerKilledSystem.h"
 #include "AircraftEntity.h"
 
-PlayerKilledSystem::PlayerKilledSystem(AircraftEntity& PlayerAircraft, const std::function<void()>& callback) noexcept
+PlayerKilledSystem::PlayerKilledSystem(Aircraft::AircraftEntity& PlayerAircraft, const std::function<void()>& callback) noexcept
 : mPlayerAircraft(PlayerAircraft)
 , mCallback(callback)
 {

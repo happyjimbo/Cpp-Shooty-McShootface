@@ -2,6 +2,8 @@
 #include "AircraftEntity.h"
 #include "PlayerData.h"
 
+using Aircraft::AircraftEntity;
+
 PlayerAircraftController::PlayerAircraftController(
     EntitySystem<AircraftEntity>& entitySystem,
     const TextureHolder& textures,

@@ -4,7 +4,6 @@
 #include <Resource/ResourceIdentifiers.h>
 
 namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
 
 struct PlayerData;
 
@@ -12,7 +11,7 @@ class PlayerAircraftController final
 {
 public:
     explicit PlayerAircraftController(
-        EntitySystem<AircraftEntity>& entitySystem,
+        EntitySystem<Aircraft::AircraftEntity>& entitySystem,
         const TextureHolder& textures,
         const PlayerData& playerData,
         sf::Vector2f spawnPosition) noexcept;
@@ -25,9 +24,9 @@ public:
     explicit PlayerAircraftController(PlayerAircraftController&&) = delete;
     PlayerAircraftController& operator=(PlayerAircraftController&&) = delete;
 
-    AircraftEntity* getPlayerAircaft() const;
+    Aircraft::AircraftEntity* getPlayerAircaft() const;
 
 private:
     friend class GuiController;
-    AircraftEntity* mPlayerAircraft;
+    Aircraft::AircraftEntity* mPlayerAircraft;
 };

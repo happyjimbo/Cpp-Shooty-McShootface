@@ -164,12 +164,12 @@ struct World::Impl
     }
 
     EntitySystem<ProjectileEntity> projectileEntitySystem;
-    EntitySystem<AircraftEntity> playerAircraftEntitySystem;
-    EntitySystem<AircraftEntity> enemyAircraftEntitySystem;
+    EntitySystem<Aircraft::AircraftEntity> playerAircraftEntitySystem;
+    EntitySystem<Aircraft::AircraftEntity> enemyAircraftEntitySystem;
     EntitySystem<BackgroundEntity> backgroundEntitySystem;
     EntitySystem<CloudEntity> cloudEntitySystem;
     EntitySystem<ExplosionEntity> explosionEntitySystem;
-    EntitySystem<Label> labelEntitySystem;
+    EntitySystem<GUI::Label> labelEntitySystem;
 
     PlayerAircraftController playerAircraftController;
     GuiController guiController;

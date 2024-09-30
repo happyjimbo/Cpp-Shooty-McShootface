@@ -2,12 +2,11 @@
 #include "EntitySystem.h"
 
 namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
 
 class RemoveOffScreenEnemiesSystem {
 
 public:
-    explicit RemoveOffScreenEnemiesSystem(EntitySystem<AircraftEntity>& entities, float heightBoundary) noexcept;
+    explicit RemoveOffScreenEnemiesSystem(EntitySystem<Aircraft::AircraftEntity>& entities, float heightBoundary) noexcept;
 
     explicit RemoveOffScreenEnemiesSystem() = delete;
     ~RemoveOffScreenEnemiesSystem() = default;
@@ -21,6 +20,6 @@ public:
     void execute() const;
 
 private:
-    EntitySystem<AircraftEntity>& mEntitySystem;
+    EntitySystem<Aircraft::AircraftEntity>& mEntitySystem;
     float mHeightBoundary;
 };

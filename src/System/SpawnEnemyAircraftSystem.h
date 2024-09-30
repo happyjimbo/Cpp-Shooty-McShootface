@@ -3,13 +3,12 @@
 #include "ResourceIdentifiers.h"
 
 namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
 
 class SpawnEnemyAircraftSystem final
 {
 public:
     explicit SpawnEnemyAircraftSystem(
-        EntitySystem<AircraftEntity>& entitySystem,
+        EntitySystem<Aircraft::AircraftEntity>& entitySystem,
         const TextureHolder& textures,
         float screenWidth
         ) noexcept;
@@ -29,7 +28,7 @@ private:
     float spawnInterval(float delta);
     void spawn(float spawnInterval);
 
-    EntitySystem<AircraftEntity>& mEntitySystem;
+    EntitySystem<Aircraft::AircraftEntity>& mEntitySystem;
 
     const TextureHolder& mTexture;
     const sf::Vector2f mPosition;

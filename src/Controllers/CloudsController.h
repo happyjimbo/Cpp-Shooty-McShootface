@@ -12,7 +12,7 @@ public:
         EntitySystem<CloudEntity>& entitySystem,
         TextureHolder& texture,
         float scrollSpeed
-    ) noexcept;
+    );
 
     CloudsController(CloudsController&) = delete;
     CloudsController& operator=(CloudsController&) = delete;

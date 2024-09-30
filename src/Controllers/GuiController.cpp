@@ -12,8 +12,8 @@ namespace
 
 GuiController::GuiController(
     const FontHolder& fonts,
-    EntitySystem<Label>& entitySystem,
-    const AircraftEntity& playerAircraft,
+    EntitySystem<GUI::Label>& entitySystem,
+    const Aircraft::AircraftEntity& playerAircraft,
     const PlayerData& playerData,
     const float screenWidth
 ) noexcept

@@ -6,15 +6,12 @@
 struct PlayerData;
 namespace Aircraft { class AircraftEntity; }
 
-using Aircraft::AircraftEntity;
-using GUI::Label;
-
 class GuiController final {
 public:
     explicit GuiController(
         const FontHolder& fonts,
-        EntitySystem<Label>& entitySystem,
-        const AircraftEntity& playerAircraft,
+        EntitySystem<GUI::Label>& entitySystem,
+        const Aircraft::AircraftEntity& playerAircraft,
         const PlayerData& playerData,
         float screenWidth
     ) noexcept;
@@ -31,10 +28,10 @@ public:
     void playerHit() const;
 
 private:
-    const AircraftEntity& mPlayerAircraft;
+    const Aircraft::AircraftEntity& mPlayerAircraft;
 
     int mScore {};
 
-    Label* mScoreAmountLabel;
-    Label* mPlayerHealth;
+    GUI::Label* mScoreAmountLabel;
+    GUI::Label* mPlayerHealth;
 };

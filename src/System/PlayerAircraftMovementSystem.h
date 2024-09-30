@@ -2,15 +2,13 @@
 #include "SFML/Graphics/Rect.hpp"
 
 namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
-
 
 class PlayerAircraftMovementSystem final
 {
 public:
 
     explicit PlayerAircraftMovementSystem(
-        AircraftEntity& playerAircraft,
+        Aircraft::AircraftEntity& playerAircraft,
         sf::Vector2f worldCenter,
         sf::Vector2f worldSize,
         float scrollSpeed) noexcept;
@@ -27,7 +25,7 @@ public:
 private:
 
     void enforceBoundaries() const;
-    AircraftEntity& mPlayerAircraft;
+    Aircraft::AircraftEntity& mPlayerAircraft;
 
     float mScrollSpeed;
     sf::FloatRect mViewBounds;

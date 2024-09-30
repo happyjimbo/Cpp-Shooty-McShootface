@@ -4,12 +4,11 @@
 #include <SFML/Window/Keyboard.hpp>
 
 namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
 
 class PlayerControls final
 {
 public:
-    explicit PlayerControls(AircraftEntity& player);
+    explicit PlayerControls(Aircraft::AircraftEntity& player);
     ~PlayerControls() noexcept = default;
 
     void handleRealtimeInput() const;

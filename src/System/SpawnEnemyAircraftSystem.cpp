@@ -3,6 +3,8 @@
 #include "AircraftEntity.h"
 #include "EntitySystem.h"
 
+using Aircraft::AircraftEntity;
+
 namespace
 {
     constexpr float MaxSpawnInterval = 0.6f;

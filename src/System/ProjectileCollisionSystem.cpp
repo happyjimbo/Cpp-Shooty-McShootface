@@ -3,6 +3,8 @@
 #include "GuiController.h"
 #include "SquareMagnitude.h"
 
+using Aircraft::AircraftEntity;
+
 namespace
 {
     constexpr float CollisionThreshold = 30.f;

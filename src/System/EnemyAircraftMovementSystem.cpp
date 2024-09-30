@@ -9,7 +9,7 @@ namespace
     constexpr float SpeedX = 0.05f;
 }
 
-EnemyAircraftMovementSystem::EnemyAircraftMovementSystem(EntitySystem<AircraftEntity>& entitySystem, const AircraftEntity& player, const float scrollSpeed) noexcept
+EnemyAircraftMovementSystem::EnemyAircraftMovementSystem(EntitySystem<Aircraft::AircraftEntity>& entitySystem, const Aircraft::AircraftEntity& player, const float scrollSpeed) noexcept
 : mEntitySystem(entitySystem)
 , mPlayer(player)
 , mScrollSpeed(scrollSpeed)

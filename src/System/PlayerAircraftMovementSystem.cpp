@@ -7,7 +7,7 @@ namespace
 }
 
 PlayerAircraftMovementSystem::PlayerAircraftMovementSystem(
-    AircraftEntity& playerAircraft,
+    Aircraft::AircraftEntity& playerAircraft,
     const sf::Vector2f worldCenter,
     const sf::Vector2f worldSize,
     const float scrollSpeed) noexcept

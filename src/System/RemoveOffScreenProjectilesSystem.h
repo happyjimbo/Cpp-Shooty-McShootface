@@ -4,9 +4,6 @@
 
 class ProjectileEntity;
 
-namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
-
 class RemoveOffScreenProjectilesSystem {
 
 public:

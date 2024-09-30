@@ -2,13 +2,12 @@
 #include <functional>
 
 namespace Aircraft { class AircraftEntity; }
-using Aircraft::AircraftEntity;
 
 class PlayerKilledSystem final
 {
 public:
 
-    explicit PlayerKilledSystem(AircraftEntity& PlayerAircraft, const std::function<void()>& callback) noexcept;
+    explicit PlayerKilledSystem(Aircraft::AircraftEntity& PlayerAircraft, const std::function<void()>& callback) noexcept;
 
     explicit PlayerKilledSystem() noexcept = delete;
     ~PlayerKilledSystem() noexcept = default;
@@ -22,6 +21,6 @@ public:
     void execute() const;
 
 private:
-    const AircraftEntity& mPlayerAircraft;
+    const Aircraft::AircraftEntity& mPlayerAircraft;
     std::function<void()> mCallback;
 };

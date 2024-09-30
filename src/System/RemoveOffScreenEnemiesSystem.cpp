@@ -1,7 +1,7 @@
 #include "RemoveOffScreenEnemiesSystem.h"
 #include "AircraftEntity.h"
 
-RemoveOffScreenEnemiesSystem::RemoveOffScreenEnemiesSystem(EntitySystem<AircraftEntity>& entities, const float heightBoundary) noexcept
+RemoveOffScreenEnemiesSystem::RemoveOffScreenEnemiesSystem(EntitySystem<Aircraft::AircraftEntity>& entities, const float heightBoundary) noexcept
     : mEntitySystem(entities)
     , mHeightBoundary(heightBoundary)
 {

@@ -12,10 +12,6 @@ namespace sf
     class Event;
 }
 
-using GUI::Button;
-using GUI::Label;
-
-
 class TransitionScreen final
 {
 public:
@@ -33,6 +29,6 @@ private:
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
 
-    Button mButton;
-    Label titleLabel {};
+    GUI::Button mButton;
+    GUI::Label titleLabel {};
 };
