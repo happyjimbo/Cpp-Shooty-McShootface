@@ -158,8 +158,14 @@ struct World::Impl
         explosionEntitySystem.update(delta);
 
         soundEffects.update();
+    }
 
-        // this needs to run last as it will tear this world object down
+    // This needs to run after everything else, otherwise it can result to
+    // world being destoryed whilst the update is still processing
+    // and thus EXC_BAD_ACCESS
+    void lateUpdate() const
+    {
+        // call playerKilledSystem.execute at the very end
         playerKilledSystem.execute();
     }
 
@@ -210,6 +216,7 @@ void World::draw() const
 void World::update(const sf::Time delta) const
 {
     mImpl->update(delta);
+    mImpl->lateUpdate();
 }
 
 World::~World() = default;
