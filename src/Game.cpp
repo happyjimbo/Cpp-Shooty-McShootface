@@ -1,20 +1,40 @@
 #include "Game.h"
 
 #include <imgui-SFML.h>
+#include "rapidcsv.h"
 
 #include "MediaFiles.h"
 #include "StateHandler.h"
 #include "TransitionScreen.h"
 #include "SFML/Graphics.hpp"
+#include "GameSettings.h"
 
 namespace
 {
-    constexpr const auto* sTitle = "Shooty McShootface";
-    constexpr int sScreenWidth {640};
-    constexpr int sScreenHeight {480};
-    constexpr float sSeconds {1.f / 60.f};
+    GameSettings loadSettings()
+    {
+        constexpr const char* Settings = "./Media/Data/settings.csv";
+        GameSettings settings;
 
-    const sf::Time TimePerFrame = sf::seconds(sSeconds);
+        if (std::ifstream file(Settings); file.is_open())
+        {
+            rapidcsv::Document doc(Settings);
+            settings.title = doc.GetCell<std::string>("title", 0);
+            settings.width = doc.GetCell<int>("width", 0);
+            settings.height = doc.GetCell<int>("height", 0);
+            settings.fps = doc.GetCell<float>("fps", 0);
+        }
+        else
+        {
+            std::cerr << "Error: CSV file not found or cannot be opened!" << std::endl;
+        }
+        return settings;
+    }
+
+    GameSettings settings = loadSettings();
+
+    const sf::Time TimePerFrame = sf::seconds(1 / settings.fps);
+
 }
 
 struct Game::Impl
@@ -23,8 +43,8 @@ struct Game::Impl
     FontHolder mFont;
     std::unique_ptr<StateHandler> mStateHandler;
 
-    Impl() :
-    mWindow(sf::VideoMode(sScreenWidth, sScreenHeight), sTitle, sf::Style::Close)
+    explicit Impl(const GameSettings& settings)
+    : mWindow(sf::VideoMode(settings.width, settings.height), settings.title, sf::Style::Close)
     {
         mFont.load(Fonts::Main, MediaFiles::Font);
         mStateHandler = std::make_unique<StateHandler>(mWindow, mFont);
@@ -65,7 +85,7 @@ struct Game::Impl
     }
 };
 
-Game::Game() noexcept : mImpl(std::make_unique<Impl>()) {}
+Game::Game() noexcept : mImpl(std::make_unique<Impl>(settings)) {}
 Game::~Game() noexcept = default;
 
 void Game::run() const

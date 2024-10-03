@@ -55,6 +55,13 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     FetchContent_MakeAvailable(imgui)
 
+    FetchContent_Declare(
+            rapidcsv
+            GIT_REPOSITORY "https://github.com/d99kris/rapidcsv.git"
+            GIT_TAG        "v8.50"
+    )
+    FetchContent_MakeAvailable(rapidcsv)
+
     # Manually add ImGui source files (since ImGui doesn't define its own CMake target)
     set(IMGUI_SOURCES
             ${imgui_SOURCE_DIR}/imgui.cpp
@@ -116,7 +123,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML)
+    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML rapidcsv)
 
     # Enable multi-viewports in ImGui by defining the appropriate macro
     target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
@@ -136,8 +143,9 @@ endif()
 file(GLOB_RECURSE TEXTURE_FILES "${MEDIA_DIR}/Textures/*")
 file(GLOB_RECURSE FONT_FILES "${MEDIA_DIR}/Font/*")
 file(GLOB_RECURSE SOUND_FILES "${MEDIA_DIR}/Sounds/*")
+file(GLOB_RECURSE DATA_FILES "${MEDIA_DIR}/Data/*")
 
-foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${SOUND_FILES} ${OTHER_FILES})
+foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${SOUND_FILES} ${DATA_FILES} ${OTHER_FILES})
     get_filename_component(FILE_NAME ${FILE} NAME)
     get_filename_component(DIR_NAME ${FILE} DIRECTORY)
     string(REPLACE ${MEDIA_DIR} "" REL_DIR ${DIR_NAME})
