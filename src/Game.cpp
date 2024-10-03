@@ -1,50 +1,28 @@
 #include "Game.h"
 
 #include <imgui-SFML.h>
-#include "rapidcsv.h"
 
 #include "MediaFiles.h"
 #include "StateHandler.h"
 #include "TransitionScreen.h"
 #include "SFML/Graphics.hpp"
+#include "GameSettingsData.h"
 #include "GameSettings.h"
-
-namespace
-{
-    GameSettings loadSettings()
-    {
-        constexpr const char* Settings = "./Media/Data/settings.csv";
-        GameSettings settings;
-
-        if (std::ifstream file(Settings); file.is_open())
-        {
-            rapidcsv::Document doc(Settings);
-            settings.title = doc.GetCell<std::string>("title", 0);
-            settings.width = doc.GetCell<int>("width", 0);
-            settings.height = doc.GetCell<int>("height", 0);
-            settings.fps = doc.GetCell<float>("fps", 0);
-        }
-        else
-        {
-            std::cerr << "Error: CSV file not found or cannot be opened!" << std::endl;
-        }
-        return settings;
-    }
-
-    GameSettings settings = loadSettings();
-
-    const sf::Time TimePerFrame = sf::seconds(1 / settings.fps);
-
-}
 
 struct Game::Impl
 {
+    GameSettingsData settings;
+
     sf::RenderWindow mWindow;
     FontHolder mFont;
     std::unique_ptr<StateHandler> mStateHandler;
 
-    explicit Impl(const GameSettings& settings)
-    : mWindow(sf::VideoMode(settings.width, settings.height), settings.title, sf::Style::Close)
+    const sf::Time TimePerFrame;
+
+    explicit Impl()
+    : settings(GameSettings::getSettings())
+    , mWindow(sf::VideoMode(settings.width, settings.height), settings.title, sf::Style::Close)
+    , TimePerFrame(sf::seconds(1 / static_cast<float>(settings.fps)))
     {
         mFont.load(Fonts::Main, MediaFiles::Font);
         mStateHandler = std::make_unique<StateHandler>(mWindow, mFont);
@@ -85,7 +63,7 @@ struct Game::Impl
     }
 };
 
-Game::Game() noexcept : mImpl(std::make_unique<Impl>(settings)) {}
+Game::Game() noexcept : mImpl(std::make_unique<Impl>()) {}
 Game::~Game() noexcept = default;
 
 void Game::run() const
@@ -101,12 +79,12 @@ void Game::run() const
         const sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
 
-        while (timeSinceLastUpdate > TimePerFrame)
+        while (timeSinceLastUpdate > mImpl->TimePerFrame)
         {
-            timeSinceLastUpdate -= TimePerFrame;
+            timeSinceLastUpdate -= mImpl->TimePerFrame;
 
             mImpl->processWindowEvents();
-            mImpl->update(TimePerFrame);
+            mImpl->update(mImpl->TimePerFrame);
             mImpl->render();
         }
     }

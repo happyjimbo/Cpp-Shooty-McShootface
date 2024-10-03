@@ -118,6 +118,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Data
         ${CMAKE_SOURCE_DIR}/src/Math
         ${CMAKE_SOURCE_DIR}/src/Audio
+        ${CMAKE_SOURCE_DIR}/src/Settings
 )
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -158,6 +159,14 @@ foreach(FILE ${TEXTURE_FILES} ${FONT_FILES} ${SOUND_FILES} ${DATA_FILES} ${OTHER
     )
 endforeach()
 
+# Post-execution: Copy modified settings.csv back to the source location
+add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/Media/Data/settings.csv
+        ${MEDIA_DIR}/Data/settings.csv
+)
+
 # Install media files but exclude CMakeLists.txt
 install(DIRECTORY ${MEDIA_DIR}
         DESTINATION ${PROJECT_NAME}/Media
@@ -187,6 +196,7 @@ target_include_directories(UnitTests_tests PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Data
         ${CMAKE_SOURCE_DIR}/src/Math
         ${CMAKE_SOURCE_DIR}/src/Audio
+        ${CMAKE_SOURCE_DIR}/src/Settings
 )
 
 # Link GoogleTest and SFML to the test executable
