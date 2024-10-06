@@ -1,12 +1,14 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
+#include <SFML/Graphics/Shader.hpp>
 
 template <typename Resource, typename Identifier>
 class ResourceHolder final
 {
 public:
-    void load (Identifier id, const std::string& filename);
+    void load(Identifier id, const std::string& filename);
+    void loadShader(Identifier id, const std::string& filename, sf::Shader::Type type);
 
     Resource& get(Identifier id);
     const Resource& get(Identifier id) const;

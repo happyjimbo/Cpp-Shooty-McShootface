@@ -1,4 +1,5 @@
 #include "EntitySystem.h"
+#include <SFML/Graphics.hpp>
 
 template<typename T>
 void EntitySystem<T>::prePool(size_t count)

@@ -10,6 +10,7 @@ struct MediaFiles
     static constexpr const char* Clouds = "Media/Textures/Clouds.png";
     static constexpr const char* Explosion = "Media/Textures/Explosion.png";
     static constexpr const char* PlayerExplosion = "Media/Textures/PlayerExplosion.png";
+    static constexpr const char* NoiseTexture = "Media/Textures/noiseTexture.png";
 
     static constexpr const char* Font = "Media/Font/Sansation.ttf";
 };
@@ -20,4 +21,9 @@ struct AudioFiles
     static constexpr const char* EnemyGunfire = "Media/Sounds/EnemyGunfire.wav";
     static constexpr const char* Explosion1 = "Media/Sounds/Explosion1.wav";
     static constexpr const char* Explosion2 = "Media/Sounds/Explosion2.wav";
+};
+
+struct ShaderFiles
+{
+    static constexpr const char* Heat = "Media/Shaders/heat_distortion.frag";
 };

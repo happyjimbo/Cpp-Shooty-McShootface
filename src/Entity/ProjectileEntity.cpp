@@ -1,4 +1,3 @@
-#include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "ProjectileEntity.h"
 #include "ResourceHolder.h"

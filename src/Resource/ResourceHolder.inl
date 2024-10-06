@@ -4,9 +4,21 @@
 template<typename Resource, typename Identifier>
 void ResourceHolder<Resource, Identifier>::load(Identifier id, const std::string& filename)
 {
-    std::unique_ptr<Resource> resource(std::make_unique<Resource>());
+    std::unique_ptr<Resource> resource = std::make_unique<Resource>();
+
     if (!resource->loadFromFile(filename))
-        throw std::runtime_error("ResourceHolder::load - Failed to load " + filename);
+        throw std::runtime_error(std::string("ResourceHolder::load - Failed to load ") + filename);
+
+    insertResource(id, std::move(resource));
+}
+
+template<typename Resource, typename Identifier>
+void ResourceHolder<Resource, Identifier>::loadShader(Identifier id, const std::string& filename, sf::Shader::Type type)
+{
+    std::unique_ptr<Resource> resource = std::make_unique<Resource>();
+
+    if (!resource->loadFromFile(filename, type))
+        throw std::runtime_error(std::string("ResourceHolder::loadShader - Failed to load shader ") + filename);
 
     insertResource(id, std::move(resource));
 }

@@ -1,5 +1,6 @@
 #include "World.h"
 
+#include <iostream>
 #include <PlayerData.h>
 
 #include "Label.h"
@@ -45,6 +46,12 @@ struct World::Impl
     sf::Vector2f spawnPosition;
     TextureHolder textures;
     SoundEffects soundEffects;
+    ShaderHolder shaders;
+
+    sf::Shader& heatShader;
+    sf::Texture& noiseTexture;
+
+    sf::Clock clock;
 
     Impl(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
     : window(window)
@@ -55,6 +62,9 @@ struct World::Impl
     , spawnPosition(worldView.getSize().x / 2.f, worldBounds.height - worldView.getSize().y / 2.f)
     , textures(loadTextures())
     , soundEffects(settings)
+    , shaders(loadShaders())
+    , heatShader(shaders.get(Shaders::Heat))
+    , noiseTexture(textures.get(Textures::NoiseTexture))
     // Initalise the controllers and systems
     , playerAircraftController (playerAircraftEntitySystem, textures, playerData, spawnPosition)
     , guiController (
@@ -96,6 +106,7 @@ struct World::Impl
     , simpleControls (*playerAircraftController.getPlayerAircaft())
     {
         worldView.setCenter(spawnPosition);
+        heatShader.setUniform("noiseTexture", noiseTexture);
     }
 
     void draw()
@@ -103,7 +114,7 @@ struct World::Impl
         window.setView(worldView);
 
         drawEntities(backgroundEntitySystem);
-        drawEntities(cloudEntitySystem);
+        drawEntities(cloudEntitySystem, &heatShader);
         drawEntities(explosionEntitySystem);
         drawEntities(projectileEntitySystem);
         drawEntities(enemyAircraftEntitySystem);
@@ -112,17 +123,27 @@ struct World::Impl
     }
 
     template <typename T>
-    void drawEntities(EntitySystem<T>& system)
+    void drawEntities(EntitySystem<T>& system, sf::Shader* shader = nullptr)
     {
         for (const auto* entity : system.getEntities())
         {
-            window.draw(*entity);
+            if (shader)
+            {
+                window.draw(*entity, shader);
+            }
+            else
+            {
+                window.draw(*entity);
+            }
         }
     }
 
     static TextureHolder loadTextures()
     {
         TextureHolder textures;
+
+        textures.load(Textures::NoiseTexture, MediaFiles::NoiseTexture);
+
         textures.load(Textures::Eagle, MediaFiles::Eagle);
         textures.load(Textures::Raptor, MediaFiles::Raptor);
         textures.load(Textures::Background, MediaFiles::Background);
@@ -132,6 +153,14 @@ struct World::Impl
         textures.load(Textures::Explosion, MediaFiles::Explosion);
         textures.load(Textures::PlayerExplosion, MediaFiles::PlayerExplosion);
         return textures;
+    }
+
+    static ShaderHolder loadShaders()
+    {
+        ShaderHolder shaders;
+
+        shaders.loadShader(Shaders::Heat, ShaderFiles::Heat, sf::Shader::Fragment);
+        return shaders;
     }
 
     void update(const sf::Time delta)
@@ -158,6 +187,9 @@ struct World::Impl
         explosionEntitySystem.update(delta);
 
         soundEffects.update();
+
+        const float time = clock.getElapsedTime().asSeconds();
+        heatShader.setUniform("time", time);
     }
 
     // This needs to run after everything else, otherwise it can result to

@@ -2,9 +2,10 @@
 
 #include <unordered_set>
 #include <vector>
-#include <SFML/Graphics.hpp>
 
 #include "ObjectPool.h"
+
+namespace sf { class Time; }
 
 struct Command;
 

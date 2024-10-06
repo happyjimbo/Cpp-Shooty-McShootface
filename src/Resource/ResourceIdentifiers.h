@@ -1,10 +1,12 @@
 #pragma once
+#include "SFML/Graphics/Shader.hpp"
 
 namespace sf
 {
     class Texture;
     class Font;
     class SoundBuffer;
+    class Shader;
 }
 
 namespace Textures
@@ -18,7 +20,8 @@ namespace Textures
         EnemyBullet,
         Clouds,
         Explosion,
-        PlayerExplosion
+        PlayerExplosion,
+        NoiseTexture
     };
 }
 
@@ -41,9 +44,18 @@ namespace Sounds
     };
 }
 
+namespace Shaders
+{
+    enum ID
+    {
+        Heat
+    };
+}
+
 template<typename Resource, typename Identifier>
 class ResourceHolder;
 
 using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
 using FontHolder = ResourceHolder<sf::Font, Fonts::ID>;
 using SoundHolder = ResourceHolder<sf::SoundBuffer, Sounds::ID>;
+using ShaderHolder = ResourceHolder<sf::Shader, Shaders::ID>;
