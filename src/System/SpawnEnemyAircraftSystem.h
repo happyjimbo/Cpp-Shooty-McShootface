@@ -10,6 +10,7 @@ public:
     explicit SpawnEnemyAircraftSystem(
         EntitySystem<Aircraft::AircraftEntity>& entitySystem,
         const TextureHolder& textures,
+        ShaderHolder& shaders,
         float screenWidth
         ) noexcept;
 
@@ -30,7 +31,8 @@ private:
 
     EntitySystem<Aircraft::AircraftEntity>& mEntitySystem;
 
-    const TextureHolder& mTexture;
+    const TextureHolder& mTextures;
+    ShaderHolder& mShaders;
     const sf::Vector2f mPosition;
 
     float mTimeSinceLastSpawn {};

@@ -21,10 +21,12 @@ namespace
 SpawnEnemyAircraftSystem::SpawnEnemyAircraftSystem(
     EntitySystem<AircraftEntity>& entitySystem,
     const TextureHolder& textures,
+    ShaderHolder& shaders,
     const float screenWidth
     ) noexcept
     : mEntitySystem(entitySystem)
-    , mTexture(textures)
+    , mTextures(textures)
+    , mShaders(shaders)
     , mPosition(screenWidth, StartYPos)
 {
 
@@ -60,7 +62,7 @@ void SpawnEnemyAircraftSystem::spawn(const float spawnInterval)
         const int x = AircraftLeftPadding + rand() % static_cast<int>(mPosition.x - AircraftRightPadding);
         const auto startPosition = sf::Vector2f(x, mPosition.y);
 
-        auto* aircraft = mEntitySystem.createObject(AircraftEntity::Type::Raptor, mTexture, EnemyHealth);
+        auto* aircraft = mEntitySystem.createObject(AircraftEntity::Type::Raptor, mTextures, mShaders, EnemyHealth);
         aircraft->setPosition(startPosition);
     }
 }

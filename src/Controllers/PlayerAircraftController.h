@@ -13,6 +13,7 @@ public:
     explicit PlayerAircraftController(
         EntitySystem<Aircraft::AircraftEntity>& entitySystem,
         const TextureHolder& textures,
+        ShaderHolder& shaders,
         const PlayerData& playerData,
         sf::Vector2f spawnPosition) noexcept;
 

@@ -48,9 +48,6 @@ struct World::Impl
     SoundEffects soundEffects;
     ShaderHolder shaders;
 
-    sf::Shader& heatShader;
-    sf::Texture& noiseTexture;
-
     sf::Clock clock;
 
     Impl(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
@@ -63,10 +60,8 @@ struct World::Impl
     , textures(loadTextures())
     , soundEffects(settings)
     , shaders(loadShaders())
-    , heatShader(shaders.get(Shaders::Heat))
-    , noiseTexture(textures.get(Textures::NoiseTexture))
     // Initalise the controllers and systems
-    , playerAircraftController (playerAircraftEntitySystem, textures, playerData, spawnPosition)
+    , playerAircraftController (playerAircraftEntitySystem, textures, shaders, playerData, spawnPosition)
     , guiController (
         fonts,
         labelEntitySystem,
@@ -75,7 +70,7 @@ struct World::Impl
         worldBounds.width
     )
     , backgroundController (backgroundEntitySystem, textures, window.getSize(), ScrollSpeed)
-    , cloudsController (cloudEntitySystem, textures, ScrollSpeed)
+    , cloudsController (cloudEntitySystem, textures, shaders, ScrollSpeed)
     , enemyAircraftController (enemyAircraftEntitySystem)
     , explosionController (explosionEntitySystem, textures, soundEffects)
     , projectileController (projectileEntitySystem, textures, worldBounds, soundEffects)
@@ -94,7 +89,7 @@ struct World::Impl
         explosionController,
         guiController
     )
-    , spawnEnemyAircraftSystem (enemyAircraftEntitySystem, textures, worldBounds.width)
+    , spawnEnemyAircraftSystem (enemyAircraftEntitySystem, textures, shaders, worldBounds.width)
     , enemyProjectileSpawnSystem (enemyAircraftEntitySystem, projectileController)
     , playerProjectileSpawnSystem (playerAircraftEntitySystem,projectileController)
     , removeOffScreenEnemiesSystem (enemyAircraftEntitySystem, worldBounds.height)
@@ -106,7 +101,6 @@ struct World::Impl
     , simpleControls (*playerAircraftController.getPlayerAircaft())
     {
         worldView.setCenter(spawnPosition);
-        heatShader.setUniform("noiseTexture", noiseTexture);
     }
 
     void draw()
@@ -114,7 +108,7 @@ struct World::Impl
         window.setView(worldView);
 
         drawEntities(backgroundEntitySystem);
-        drawEntities(cloudEntitySystem, &heatShader);
+        drawEntities(cloudEntitySystem);
         drawEntities(explosionEntitySystem);
         drawEntities(projectileEntitySystem);
         drawEntities(enemyAircraftEntitySystem);
@@ -159,7 +153,8 @@ struct World::Impl
     {
         ShaderHolder shaders;
 
-        shaders.loadShader(Shaders::Heat, ShaderFiles::Heat, sf::Shader::Fragment);
+        shaders.loadShader(Shaders::Clouds, ShaderFiles::Clouds, sf::Shader::Fragment);
+        shaders.loadShader(Shaders::Flash, ShaderFiles::Flash, sf::Shader::Fragment);
         return shaders;
     }
 
@@ -185,11 +180,9 @@ struct World::Impl
         enemyAircraftEntitySystem.update(delta);
         labelEntitySystem.update(delta);
         explosionEntitySystem.update(delta);
+        cloudEntitySystem.update(delta);
 
         soundEffects.update();
-
-        const float time = clock.getElapsedTime().asSeconds();
-        heatShader.setUniform("time", time);
     }
 
     // This needs to run after everything else, otherwise it can result to

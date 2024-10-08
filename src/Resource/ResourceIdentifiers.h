@@ -48,7 +48,8 @@ namespace Shaders
 {
     enum ID
     {
-        Heat
+        Clouds,
+        Flash
     };
 }
 

@@ -25,5 +25,6 @@ struct AudioFiles
 
 struct ShaderFiles
 {
-    static constexpr const char* Heat = "Media/Shaders/heat_distortion.frag";
+    static constexpr const char* Clouds = "Media/Shaders/clouds_distortion.frag";
+    static constexpr const char* Flash = "Media/Shaders/white_flash.frag";
 };

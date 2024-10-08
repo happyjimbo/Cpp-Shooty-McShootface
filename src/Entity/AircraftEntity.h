@@ -24,10 +24,15 @@ namespace Aircraft
         AircraftEntity(const AircraftEntity&&) = delete;
         AircraftEntity& operator=(const AircraftEntity&&) = delete;
 
-        void create(Type type, const TextureHolder& textures, int health);
+        void create(
+            Type type,
+            const TextureHolder& textures,
+            ShaderHolder& shaders,
+            int health);
 
         unsigned int getCategory() const noexcept override;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+        void update(sf::Time delta) override;
 
         void triggerProjectile(const ProjectileEntity::Type& type, float spawnSpeed);
 
@@ -43,6 +48,7 @@ namespace Aircraft
 
         Type mType {};
         sf::Sprite mSprite {};
+        sf::Shader* flashShader = nullptr;
         ProjectileFiringData mProjectileFiringData;
         AircraftData mAircraftData;
     };

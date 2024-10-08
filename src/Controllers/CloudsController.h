@@ -10,7 +10,8 @@ class CloudsController final
 public:
     explicit CloudsController(
         EntitySystem<CloudEntity>& entitySystem,
-        TextureHolder& texture,
+        TextureHolder& textures,
+        ShaderHolder& shaders,
         float scrollSpeed
     );
 
