@@ -1,12 +1,13 @@
 #version 120
 
 uniform sampler2D texture;
+uniform vec4 flashColor;
 uniform float time;
 
 vec4 applyFlash(vec4 texColor, float time)
 {
     float intensity = abs(sin(time * 6.28318));
-    return mix(texColor, vec4(1.0, 1.0, 1.0, 1.0), intensity);
+    return mix(texColor, flashColor, intensity);
 }
 
 void main()

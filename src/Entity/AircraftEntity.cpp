@@ -20,6 +20,7 @@ void AircraftEntity::create(
     auto& texture = textures.get(toTextureID(type));
 
     flashShader = &shaders.get(Shaders::Flash);
+    flashShader->setUniform("flashColor", sf::Glsl::Vec4(1.0, 0, 0, 1.0));
 
     if (mSprite.getTexture() != &texture)
     {
