@@ -1,2 +1,2 @@
-title,width,height,fps
-"Shooty McShootface",800,600,60
+title,width,height,fps,mute
+"Shooty McShootface",800,600,60,true

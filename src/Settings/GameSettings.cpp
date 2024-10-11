@@ -39,11 +39,16 @@ GameSettingsData GameSettings::loadSettings()
         settings.width = doc.GetCell<int>("width", 0);
         settings.height = doc.GetCell<int>("height", 0);
         settings.fps = doc.GetCell<float>("fps", 0);
+        const auto muteStr = doc.GetCell<std::string>("mute", 0);
+        settings.mute = muteStr == "true" || muteStr == "1";
     }
     catch (const std::exception& e)
     {
         std::cerr << "Error while loading settings: " << e.what() << std::endl;
     }
+
+    std::cout << "settings.mute " << settings.mute << std::endl;
+
     return settings;
 }
 
@@ -57,6 +62,7 @@ void GameSettings::updateSettings(const GameSettingsData& newSettings)
             doc.SetCell<int>( doc.GetColumnIdx("width"), 0, newSettings.width);
             doc.SetCell<int>(doc.GetColumnIdx("height"), 0, newSettings.height);
             doc.SetCell<int>(doc.GetColumnIdx("fps"), 0, newSettings.fps);
+            doc.SetCell<std::string>(doc.GetColumnIdx("mute"), 0, newSettings.mute ? "true" : "false");
             doc.Save();
             std::cout << "Settings saved successfully!" << std::endl;
         }

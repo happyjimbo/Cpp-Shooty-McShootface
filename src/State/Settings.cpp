@@ -31,19 +31,19 @@ namespace
 struct Settings::Impl
 {
     bool isPaused {};
-    bool isMuted {};
 
     GameSettingsData settings = GameSettings::getSettings();
 
     int width = settings.width;
     int height = settings.height;
     int fps = settings.fps;
+    bool mute = settings.mute;
 
     void draw()
     {
         ImGui::Begin("Debug");
         ImGui::Checkbox("Pause", &isPaused);
-        ImGui::Checkbox("Mute", &isMuted);
+        ImGui::Checkbox("Mute", &mute);
 
         Input(width, "width");
         Input(height, "height");
@@ -51,7 +51,7 @@ struct Settings::Impl
 
         if (ImGui::Button("Save"))
         {
-            const GameSettingsData data {settings.title, width, height, fps};
+            const GameSettingsData data {settings.title, width, height, fps, mute};
             GameSettings::updateSettings(data);
         }
 
@@ -74,5 +74,5 @@ bool Settings::isPaused() const
 
 bool Settings::isMuted() const
 {
-    return mImpl->isMuted;
+    return mImpl->mute;
 }

@@ -8,4 +8,5 @@ struct GameSettingsData
     int width = 640;
     int height = 480;
     int fps = 30.f;
+    bool mute = false;
 };

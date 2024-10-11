@@ -5,6 +5,9 @@
 RUNTIME_CONFIG_PATH="./cmake-build-debug/bin/Media/Data/settings.csv"
 SOURCE_CONFIG_PATH="./Media/Data/settings.csv"
 
+# ensure that the latest csv is copied over before running
+cp "$SOURCE_CONFIG_PATH" "RUNTIME_CONFIG_PATH"
+
 # Run the built executable with the runtime settings.csv path
 ./cmake-build-debug/bin/main "$RUNTIME_CONFIG_PATH"
 
