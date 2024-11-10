@@ -6,18 +6,6 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
 
 ---
 
-## C++ Version Compatibility
-
-The game targets C++20 but can be adjusted for older C++ standards:
-
-- **C++14**: Substitute `std::make_unique` with `new`, and adjust or remove `constexpr` functions.
-- **C++20**:
-    - `std::invocable`: Used in `ProjectileCollisionSystem` to enable template implementation within the `.cpp` file. To downgrade, move implementations to a header or `.inl` file.
-    - `std::erase_if`: Utilized in `SoundEffects` for simplified vector management.
-    - `boost::pfr::for_each_field` Used in `CvsSerializer.inl` for a reflection based lookup of the struct fields. Remove this and replace with a hardcoded implementation.
-
----
-
 ## Key Features
 
 ### Memory and Performance
@@ -51,3 +39,18 @@ The game targets C++20 but can be adjusted for older C++ standards:
 
 ### Settings
 - **ImGui Debug Menu**: Provides an interactive menu for adjusting game settings during runtime, with changes saved back to the CSV file.
+
+---
+
+## C++ Version Compatibility
+
+The game targets C++20 but can be adjusted for older C++ standards:
+
+- **C++14 functionality**:
+  - Substitute `std::make_unique` with `new`.
+  - Adjust or remove `constexpr` from functions.
+  -
+- **C++20 functionality**:
+  - `std::invocable`: Used in `ProjectileCollisionSystem` to enable template implementation within the `.cpp` file. To downgrade, move implementations to a header or `.inl` file.
+  - `std::erase_if`: Utilized in `SoundEffects` for simplified vector management.
+  - `boost::pfr::for_each_field` Used in `CvsSerializer.inl` for a reflection based lookup of the struct fields. Remove this and replace with a hardcoded implementation.
