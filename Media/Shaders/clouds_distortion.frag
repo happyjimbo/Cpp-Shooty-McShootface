@@ -6,9 +6,9 @@ uniform float time;
 
 vec2 applyDistortion(vec2 uv, float time, sampler2D noiseTexture)
 {
-    float looptime = sin(time * 0.628);
+    float looptime = sin(time * 0.314);
 
-    vec2 noiseUV = uv * 3.0 + looptime * 0.5;
+    vec2 noiseUV = uv * 3.0 + looptime * 0.3;
     vec3 noise = texture2D(noiseTexture, noiseUV).rgb;
     vec2 displacedUV = uv + (noise.rg - 0.1) * 0.01;
     return displacedUV;
