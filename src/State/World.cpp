@@ -68,7 +68,7 @@ struct World::Impl
         playerData,
         worldBounds.width
     )
-    , backgroundController (backgroundEntitySystem, textures, window.getSize(), ScrollSpeed)
+    , backgroundInitializer (backgroundEntitySystem, textures, window.getSize(), ScrollSpeed)
     , cloudsController (cloudEntitySystem, textures, shaders, ScrollSpeed)
     , enemyAircraftController (enemyAircraftEntitySystem)
     , explosionController (explosionEntitySystem, textures, soundEffects)
@@ -203,7 +203,7 @@ struct World::Impl
 
     PlayerAircraftInitializer playerAircraftController;
     GuiInitializer guiController;
-    BackgroundController backgroundController;
+    BackgroundInitializer backgroundInitializer;
     CloudsInitializer cloudsController;
     EnemyAircraftInitializer enemyAircraftController;
     ExplosionInitializer explosionController;
