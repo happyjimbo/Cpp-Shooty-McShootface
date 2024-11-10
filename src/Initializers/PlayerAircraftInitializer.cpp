@@ -1,10 +1,10 @@
-#include "PlayerAircraftController.h"
+#include "PlayerAircraftInitializer.h"
 #include "AircraftEntity.h"
 #include "PlayerData.h"
 
 using Aircraft::AircraftEntity;
 
-PlayerAircraftController::PlayerAircraftController(
+PlayerAircraftInitializer::PlayerAircraftInitializer(
     EntitySystem<AircraftEntity>& entitySystem,
     const TextureHolder& textures,
     ShaderHolder& shaders,
@@ -16,7 +16,7 @@ PlayerAircraftController::PlayerAircraftController(
     mPlayerAircraft->setPosition(spawnPosition);
 }
 
-AircraftEntity* PlayerAircraftController::getPlayerAircaft() const
+AircraftEntity* PlayerAircraftInitializer::getPlayerAircaft() const
 {
     return mPlayerAircraft;
 }

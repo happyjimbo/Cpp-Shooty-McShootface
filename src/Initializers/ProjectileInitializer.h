@@ -5,10 +5,10 @@
 
 class SoundEffects;
 
-class ProjectileController final
+class ProjectileInitializer final
 {
 public:
-    explicit ProjectileController(EntitySystem<ProjectileEntity>& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds, SoundEffects& soundEffects);
+    explicit ProjectileInitializer(EntitySystem<ProjectileEntity>& entitySystem, const TextureHolder& texture, sf::FloatRect worldBounds, SoundEffects& soundEffects);
     void spawn(ProjectileEntity::Type type, sf::Vector2f spawnPosition) const;
 
 private:

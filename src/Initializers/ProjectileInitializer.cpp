@@ -1,4 +1,4 @@
-#include "ProjectileController.h"
+#include "ProjectileInitializer.h"
 #include "SoundEffects.h"
 
 namespace
@@ -7,7 +7,7 @@ namespace
     constexpr int PrePoolAmount = 20;
 }
 
-ProjectileController::ProjectileController(
+ProjectileInitializer::ProjectileInitializer(
     EntitySystem<ProjectileEntity>& entitySystem,
     const TextureHolder& texture,
     const sf::FloatRect worldBounds,
@@ -21,7 +21,7 @@ ProjectileController::ProjectileController(
     mEntitySystem.prePool(PrePoolAmount);
 }
 
-void ProjectileController::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition) const
+void ProjectileInitializer::spawn(ProjectileEntity::Type type, const sf::Vector2f spawnPosition) const
 {
     auto* projectile = mEntitySystem.createObject(type, mTexture);
     projectile->setPosition(spawnPosition);

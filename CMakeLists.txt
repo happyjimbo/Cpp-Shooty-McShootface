@@ -126,7 +126,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Entity
         ${CMAKE_SOURCE_DIR}/src/Resource
         ${CMAKE_SOURCE_DIR}/src/Command
-        ${CMAKE_SOURCE_DIR}/src/Controllers
+        ${CMAKE_SOURCE_DIR}/src/Initializers
         ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data
@@ -207,7 +207,7 @@ target_include_directories(UnitTests_tests PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Entity
         ${CMAKE_SOURCE_DIR}/src/Resource
         ${CMAKE_SOURCE_DIR}/src/Command
-        ${CMAKE_SOURCE_DIR}/src/Controllers
+        ${CMAKE_SOURCE_DIR}/src/Initializers
         ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data

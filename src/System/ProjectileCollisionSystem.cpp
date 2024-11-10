@@ -1,6 +1,6 @@
 #include "ProjectileCollisionSystem.h"
-#include "ExplosionController.h"
-#include "GuiController.h"
+#include "ExplosionInitializer.h"
+#include "GuiInitializer.h"
 #include "SquareMagnitude.h"
 
 using Aircraft::AircraftEntity;
@@ -14,8 +14,8 @@ ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,
     EntitySystem<AircraftEntity>& enemyAircraftEntities,
     AircraftEntity& player,
-    ExplosionController& explosionController,
-    GuiController& scoreController)
+    ExplosionInitializer& explosionController,
+    GuiInitializer& scoreController)
 : mProjectileEntites(projectileEntites)
 , mEnemyAircraftEntities(enemyAircraftEntities)
 , mPlayer(player)

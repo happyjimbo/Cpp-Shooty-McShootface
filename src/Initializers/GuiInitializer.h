@@ -6,9 +6,9 @@
 struct PlayerData;
 namespace Aircraft { class AircraftEntity; }
 
-class GuiController final {
+class GuiInitializer final {
 public:
-    explicit GuiController(
+    explicit GuiInitializer(
         const FontHolder& fonts,
         EntitySystem<GUI::Label>& entitySystem,
         const Aircraft::AircraftEntity& playerAircraft,
@@ -16,13 +16,13 @@ public:
         float screenWidth
     ) noexcept;
 
-    ~GuiController() = default;
+    ~GuiInitializer() = default;
 
-    explicit GuiController(GuiController&) = delete;
-    GuiController& operator=(GuiController&) = delete;
+    explicit GuiInitializer(GuiInitializer&) = delete;
+    GuiInitializer& operator=(GuiInitializer&) = delete;
 
-    explicit GuiController(GuiController&&) = delete;
-    GuiController& operator=(GuiController&&) = delete;
+    explicit GuiInitializer(GuiInitializer&&) = delete;
+    GuiInitializer& operator=(GuiInitializer&&) = delete;
 
     void increaseScore();
     void playerHit() const;

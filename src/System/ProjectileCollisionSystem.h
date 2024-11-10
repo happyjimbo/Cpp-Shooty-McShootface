@@ -3,9 +3,9 @@
 #include "EntitySystem.h"
 #include "AircraftEntity.h"
 
-class ExplosionController;
+class ExplosionInitializer;
 
-class GuiController;
+class GuiInitializer;
 class ProjectileEntity;
 
 class ProjectileCollisionSystem final
@@ -15,8 +15,8 @@ public:
         EntitySystem<ProjectileEntity>& projectileEntites,
         EntitySystem<Aircraft::AircraftEntity>& enemyAircraftEntities,
         Aircraft::AircraftEntity& player,
-        ExplosionController& explosionController,
-        GuiController& scoreController
+        ExplosionInitializer& explosionController,
+        GuiInitializer& scoreController
     );
 
     explicit ProjectileCollisionSystem() = delete;
@@ -41,6 +41,6 @@ private:
     EntitySystem<ProjectileEntity>& mProjectileEntites;
     EntitySystem<Aircraft::AircraftEntity>& mEnemyAircraftEntities;
     Aircraft::AircraftEntity& mPlayer;
-    ExplosionController& mExplosionController;
-    GuiController& mScoreController;
+    ExplosionInitializer& mExplosionController;
+    GuiInitializer& mScoreController;
 };

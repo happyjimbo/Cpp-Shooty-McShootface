@@ -25,7 +25,7 @@ C++ 20 Features:
 - **Entity System**: A basic system to manage game entities.
 - **ECS-Inspired Architecture**: `Systems inspired by Entity-Component-System (ECS) architecture, although not fully component-based.
 - **StateHandler**: Manages the creation and destruction of World instances to ensure memory usage is correctly managed and cleaned up. 
-- **Controllers**: Used for spawning and ticking entities, with logic gradually being migrated into systems.
+- **Initializers**: Used for initialising and spawning entities.
 
 
 

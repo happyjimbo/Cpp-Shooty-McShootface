@@ -3,11 +3,11 @@
 #include "AircraftEntity.h"
 #include "EntitySystem.h"
 
-class ProjectileController;
+class ProjectileInitializer;
 
 class ProjectileSpawnSystem {
 public:
-    explicit ProjectileSpawnSystem(EntitySystem<Aircraft::AircraftEntity>& entiySystem, ProjectileController& projectileController) noexcept;
+    explicit ProjectileSpawnSystem(EntitySystem<Aircraft::AircraftEntity>& entiySystem, ProjectileInitializer& projectileController) noexcept;
 
     explicit ProjectileSpawnSystem() = delete;
     ~ProjectileSpawnSystem() = default;
@@ -22,5 +22,5 @@ public:
 
 private:
     EntitySystem<Aircraft::AircraftEntity>& mEntiySystem;
-    ProjectileController& mProjectileController;
+    ProjectileInitializer& mProjectileController;
 };

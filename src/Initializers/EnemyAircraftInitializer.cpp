@@ -1,6 +1,6 @@
-#include "EnemyAircraftController.h"
+#include "EnemyAircraftInitializer.h"
 
-EnemyAircraftController::EnemyAircraftController (
+EnemyAircraftInitializer::EnemyAircraftInitializer (
     EntitySystem<Aircraft::AircraftEntity>& entitySystem
     ) noexcept
 {

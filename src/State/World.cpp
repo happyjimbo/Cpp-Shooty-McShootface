@@ -3,13 +3,13 @@
 #include <PlayerData.h>
 
 #include "Label.h"
-#include "EnemyAircraftController.h"
-#include "ProjectileController.h"
-#include "PlayerAircraftController.h"
-#include "BackgroundController.h"
-#include "GuiController.h"
-#include "CloudsController.h"
-#include "ExplosionController.h"
+#include "EnemyAircraftInitializer.h"
+#include "ProjectileInitializer.h"
+#include "PlayerAircraftInitializer.h"
+#include "BackgroundInitializer.h"
+#include "GuiInitializer.h"
+#include "CloudsInitializer.h"
+#include "ExplosionInitializer.h"
 #include "MediaFiles.h"
 #include "SpawnEnemyAircraftSystem.h"
 #include "ProjectileSpawnSystem.h"
@@ -201,13 +201,13 @@ struct World::Impl
     EntitySystem<ExplosionEntity> explosionEntitySystem;
     EntitySystem<GUI::Label> labelEntitySystem;
 
-    PlayerAircraftController playerAircraftController;
-    GuiController guiController;
+    PlayerAircraftInitializer playerAircraftController;
+    GuiInitializer guiController;
     BackgroundController backgroundController;
-    CloudsController cloudsController;
-    EnemyAircraftController enemyAircraftController;
-    ExplosionController explosionController;
-    ProjectileController projectileController;
+    CloudsInitializer cloudsController;
+    EnemyAircraftInitializer enemyAircraftController;
+    ExplosionInitializer explosionController;
+    ProjectileInitializer projectileController;
 
     PlayerAircraftMovementSystem playerAircraftMovementSystem;
     EnemyAircraftMovementSystem enemyAircraftMovementSystem;

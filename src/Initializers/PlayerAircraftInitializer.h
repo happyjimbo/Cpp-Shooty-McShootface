@@ -7,27 +7,27 @@ namespace Aircraft { class AircraftEntity; }
 
 struct PlayerData;
 
-class PlayerAircraftController final
+class PlayerAircraftInitializer final
 {
 public:
-    explicit PlayerAircraftController(
+    explicit PlayerAircraftInitializer(
         EntitySystem<Aircraft::AircraftEntity>& entitySystem,
         const TextureHolder& textures,
         ShaderHolder& shaders,
         const PlayerData& playerData,
         sf::Vector2f spawnPosition) noexcept;
 
-    ~PlayerAircraftController() noexcept = default;
+    ~PlayerAircraftInitializer() noexcept = default;
 
-    explicit PlayerAircraftController(PlayerAircraftController&) = delete;
-    PlayerAircraftController& operator=(PlayerAircraftController&) = delete;
+    explicit PlayerAircraftInitializer(PlayerAircraftInitializer&) = delete;
+    PlayerAircraftInitializer& operator=(PlayerAircraftInitializer&) = delete;
 
-    explicit PlayerAircraftController(PlayerAircraftController&&) = delete;
-    PlayerAircraftController& operator=(PlayerAircraftController&&) = delete;
+    explicit PlayerAircraftInitializer(PlayerAircraftInitializer&&) = delete;
+    PlayerAircraftInitializer& operator=(PlayerAircraftInitializer&&) = delete;
 
     Aircraft::AircraftEntity* getPlayerAircaft() const;
 
 private:
-    friend class GuiController;
+    friend class GuiInitializer;
     Aircraft::AircraftEntity* mPlayerAircraft;
 };

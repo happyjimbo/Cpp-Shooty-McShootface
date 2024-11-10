@@ -1,4 +1,4 @@
-#include <BackgroundController.h>
+#include <BackgroundInitializer.h>
 #include <ResourceHolder.h>
 
 namespace
@@ -6,7 +6,7 @@ namespace
     constexpr float backgroundCount {2};
 }
 
-BackgroundController::BackgroundController (
+BackgroundInitializer::BackgroundInitializer (
     EntitySystem<BackgroundEntity>& entitySystem,
     TextureHolder& texture,
     const sf::Vector2u bounds,

@@ -1,9 +1,9 @@
 #include "ProjectileSpawnSystem.h"
-#include "ProjectileController.h"
+#include "ProjectileInitializer.h"
 
 using Aircraft::AircraftEntity;
 
-ProjectileSpawnSystem::ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileController& projectileController) noexcept
+ProjectileSpawnSystem::ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileInitializer& projectileController) noexcept
         : mEntiySystem(entiySystem), mProjectileController(projectileController)
 {
 }

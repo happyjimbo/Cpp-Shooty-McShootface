@@ -6,11 +6,11 @@
 
 class SoundEffects;
 
-class ExplosionController final
+class ExplosionInitializer final
 {
 public:
-    explicit ExplosionController(EntitySystem<ExplosionEntity>& entitySystem, TextureHolder& texture, SoundEffects& soundEffects) noexcept;
-    ~ExplosionController() noexcept = default;
+    explicit ExplosionInitializer(EntitySystem<ExplosionEntity>& entitySystem, TextureHolder& texture, SoundEffects& soundEffects) noexcept;
+    ~ExplosionInitializer() noexcept = default;
 
     void spawn(const sf::Vector2f& spawnPosition, Textures::ID textureId, Sounds::ID soundId);
 

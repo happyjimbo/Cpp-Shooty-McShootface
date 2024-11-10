@@ -1,7 +1,7 @@
-#include "GuiController.h"
+#include "GuiInitializer.h"
 #include "PlayerData.h"
 #include "AircraftEntity.h"
-#include "PlayerAircraftController.h"
+#include "PlayerAircraftInitializer.h"
 
 namespace
 {
@@ -10,7 +10,7 @@ namespace
     const sf::Vector2f PlayerHealthLabelPos(50, 10);
 }
 
-GuiController::GuiController(
+GuiInitializer::GuiInitializer(
     const FontHolder& fonts,
     EntitySystem<GUI::Label>& entitySystem,
     const Aircraft::AircraftEntity& playerAircraft,
@@ -30,12 +30,12 @@ GuiController::GuiController(
     mPlayerHealth->setPosition(screenWidth - PlayerHealthLabelPos.x, PlayerHealthLabelPos.y);
 }
 
-void GuiController::playerHit() const
+void GuiInitializer::playerHit() const
 {
     mPlayerHealth->setText(std::to_string(mPlayerAircraft.getAircraftData().getHealth()));
 }
 
-void GuiController::increaseScore() {
+void GuiInitializer::increaseScore() {
     ++mScore;
     mScoreAmountLabel->setText(std::to_string(mScore));
 }
