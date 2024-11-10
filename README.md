@@ -2,6 +2,9 @@
 
 A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along with the STL, Boost PFR, and rapidcsv for efficient data management and performance.
 
+![plot](./public/shooty.gif)
+
+---
 
 ## C++ Version Compatibility
 
@@ -48,9 +51,3 @@ The game targets C++20 but can be adjusted for older C++ standards:
 
 ### Settings
 - **ImGui Debug Menu**: Provides an interactive menu for adjusting game settings during runtime, with changes saved back to the CSV file.
-
----
-
-
-
-![plot](./public/shooty.gif)
