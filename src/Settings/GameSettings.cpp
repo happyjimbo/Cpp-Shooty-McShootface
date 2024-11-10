@@ -2,7 +2,6 @@
 #include "GameSettingsData.h"
 #include "rapidcsv.h"
 #include <string>
-
 #include "CvsSerializer.h"
 
 namespace

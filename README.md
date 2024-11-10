@@ -15,7 +15,6 @@ C++ 20 Features:
 - `std::erase_if` Used in SoundEffects to erase from a vector safely
 
 
-
 ## Code Highlights:
 
 - **Memory Management**: Memory Management: A deliberate mixture of smart and raw pointers is used, with RAII (Resource Acquisition Is Initialization) principles in mind. Raw pointers are chosen in performance-critical areas like the object pool for manual memory control to improve compilation times by leveraging forward declarations. Smart pointers are used in areas like Game and StateHandler for automatic memory management and ownership clarity.
