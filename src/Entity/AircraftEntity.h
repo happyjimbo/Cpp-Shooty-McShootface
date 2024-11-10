@@ -48,6 +48,7 @@ namespace Aircraft
 
         Type mType {};
         sf::Sprite mSprite {};
+        // flashShader is a borrowed pointer managed by ShaderHolder; do not delete it.
         sf::Shader* flashShader = nullptr;
         ProjectileFiringData mProjectileFiringData;
         AircraftData mAircraftData;

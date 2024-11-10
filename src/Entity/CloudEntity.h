@@ -43,6 +43,7 @@ private:
     constexpr static float sScaleY {1.f};
 
     sf::Sprite mSprite;
+    // shader is a borrowed pointer managed by ShaderHolder; do not delete it.
     sf::Shader* shader = nullptr;
     CloudData mCloudData;
     float mAccumulatedTime {};
