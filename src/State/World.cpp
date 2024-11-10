@@ -1,6 +1,5 @@
 #include "World.h"
 
-#include <iostream>
 #include <PlayerData.h>
 
 #include "Label.h"

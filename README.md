@@ -18,8 +18,9 @@ C++ 20 Features:
 
 ## Code Highlights:
 
-- **Memory Management**: Memory Management: A deliberate mixture of smart and raw pointers is used, with RAII (Resource Acquisition Is Initialization) principles in mind. Raw pointers are chosen in performance-critical areas like the object pool for manual memory control, and in key systems like World to improve compilation times by leveraging forward declarations. Smart pointers are used in areas like Game and StateHandler for automatic memory management and ownership clarity.
-- **Template-Based Object Pool**: Efficient management of game objects. 
+- **Memory Management**: Memory Management: A deliberate mixture of smart and raw pointers is used, with RAII (Resource Acquisition Is Initialization) principles in mind. Raw pointers are chosen in performance-critical areas like the object pool for manual memory control to improve compilation times by leveraging forward declarations. Smart pointers are used in areas like Game and StateHandler for automatic memory management and ownership clarity.
+- **Template-Based Object Pool**: Efficient management of game objects.
+- **PImpl Idiom**: Employed in StateHandler and World for encapsulation benefits, while omitted in core game systems to prioritize performance.
 - **Visual Effects**: Parallax scrolling for ground and clouds.
 - **Animation**: Sprite sheet for frame-based animations.
 - **Entity System**: A basic system to manage game entities.
