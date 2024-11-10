@@ -30,7 +30,6 @@ namespace Aircraft
             ShaderHolder& shaders,
             int health);
 
-        unsigned int getCategory() const noexcept override;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void update(sf::Time delta) override;
 

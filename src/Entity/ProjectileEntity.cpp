@@ -1,7 +1,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "ProjectileEntity.h"
 #include "ResourceHolder.h"
-#include "Category.h"
 
 void ProjectileEntity::create(const Type type, const TextureHolder &textures)
 {
@@ -26,18 +25,6 @@ void ProjectileEntity::draw(sf::RenderTarget &target, sf::RenderStates states) c
 ProjectileEntity::Type ProjectileEntity::getType() const noexcept
 {
     return mType;
-}
-
-unsigned int ProjectileEntity::getCategory() const noexcept
-{
-    switch (mType)
-    {
-        case Player:
-            return Category::PlayerProjectile;
-
-        default:
-            return Category::EnemyAircraft;
-    }
 }
 
 constexpr Textures::ID ProjectileEntity::toTextureID(const Type type) noexcept

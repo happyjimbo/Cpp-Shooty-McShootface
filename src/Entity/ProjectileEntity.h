@@ -23,7 +23,6 @@ public:
 
     void create(Type type, const TextureHolder& textures);
     Type getType() const noexcept;
-    unsigned int getCategory() const noexcept override;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

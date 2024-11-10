@@ -1,5 +1,4 @@
 #include "EntityObject.h"
-#include "Category.h"
 #include <SFML/System/Time.hpp>
 
 void EntityObject::setVelocity(const sf::Vector2f velocity) noexcept
@@ -67,11 +66,6 @@ void EntityObject::reset()
 {
     mTransformable.setPosition(100.f, 100.f);
     setVelocity(sf::Vector2f(0, 0));
-}
-
-unsigned int EntityObject::getCategory() const noexcept
-{
-    return Category::Scene;
 }
 
 const sf::Transform& EntityObject::getTransform() const

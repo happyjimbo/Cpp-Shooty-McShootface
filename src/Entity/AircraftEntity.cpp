@@ -1,6 +1,5 @@
 #include "AircraftEntity.h"
 #include "ResourceHolder.h"
-#include "Category.h"
 #include "EntitySystem.h"
 #include <SFML/Graphics/Shader.hpp>
 
@@ -34,18 +33,6 @@ void AircraftEntity::create(
 
     const sf::FloatRect bounds = mSprite.getLocalBounds();
     mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-}
-
-unsigned int AircraftEntity::getCategory() const noexcept
-{
-    switch (mType)
-    {
-        case Eagle:
-            return Category::PlayerAircraft;
-
-        default:
-            return Category::EnemyAircraft;
-    }
 }
 
 void AircraftEntity::triggerProjectile(const ProjectileEntity::Type& type, const float spawnSpeed)

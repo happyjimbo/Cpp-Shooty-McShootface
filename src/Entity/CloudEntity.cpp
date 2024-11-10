@@ -31,7 +31,6 @@ void CloudEntity::create(
 void CloudEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     shader->setUniform("time", mAccumulatedTime);
-    std::cout << mAccumulatedTime << std::endl;
 
     states.transform *= getTransform();
     states.shader = shader;

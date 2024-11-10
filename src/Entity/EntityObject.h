@@ -38,7 +38,6 @@ public:
     void move(float offsetX, float offsetY);
     void move(const sf::Vector2f& offset);
 
-    virtual unsigned int getCategory() const noexcept;
     virtual void update(sf::Time delta);
     void draw(sf::RenderTarget&, sf::RenderStates) const override;
 
