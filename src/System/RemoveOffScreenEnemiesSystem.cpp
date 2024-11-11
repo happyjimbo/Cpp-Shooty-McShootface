@@ -13,7 +13,6 @@ void RemoveOffScreenEnemiesSystem::execute() const
     {
         if (entity->getPosition().y > mHeightBoundary)
         {
-            //std::cout << "release entity to the pool" << std::endl;
             mEntitySystem.removeObject(entity);
         }
     }

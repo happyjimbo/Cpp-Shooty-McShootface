@@ -12,13 +12,14 @@ void CloudMovementSystem::execute(const sf::Time& delta) const
 {
     for (CloudEntity* cloud : mEntitySystem.getEntities())
     {
-        const CloudData& cloudData = cloud->getCloudData();
+        const auto& cloudData = cloud->getCloudData();
+        const auto& [cloudRect, scrollSpeed, scrollSpeedOffset] = cloudData;
 
-        cloud->move(0.f, -(cloudData.scrollSpeed * cloudData.scrollSpeedOffset) * delta.asSeconds());
+        cloud->move(0.f, -(scrollSpeed * scrollSpeedOffset) * delta.asSeconds());
 
-        if (cloud->getPosition().y > cloudData.cloudRect.getSize().y)
+        if (cloud->getPosition().y > cloudRect.getSize().y)
         {
-            cloud->setPosition(cloudData.generateRandomXpos(), -cloudData.cloudRect.getSize().y+1);
+            cloud->setPosition(cloudData.generateRandomXpos(), -cloudRect.getSize().y+1);
         }
     }
 }

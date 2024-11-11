@@ -7,7 +7,7 @@ void ResourceHolder<Resource, Identifier>::load(Identifier id, const std::string
     std::unique_ptr<Resource> resource = std::make_unique<Resource>();
 
     if (!resource->loadFromFile(filename))
-        throw std::runtime_error(std::string("ResourceHolder::load - Failed to load ") + filename);
+        throw std::runtime_error("ResourceHolder::load - Failed to load " + filename);
 
     insertResource(id, std::move(resource));
 }
@@ -18,7 +18,7 @@ void ResourceHolder<Resource, Identifier>::loadShader(Identifier id, const std::
     std::unique_ptr<Resource> resource = std::make_unique<Resource>();
 
     if (!resource->loadFromFile(filename, type))
-        throw std::runtime_error(std::string("ResourceHolder::loadShader - Failed to load shader ") + filename);
+        throw std::runtime_error("ResourceHolder::loadShader - Failed to load shader " + filename);
 
     insertResource(id, std::move(resource));
 }

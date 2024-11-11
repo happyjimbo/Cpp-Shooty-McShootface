@@ -14,7 +14,6 @@ void RemoveOffScreenProjectilesSystem::execute() const
         if (entity->getPosition().y > mHeightBoundary ||
             entity->getPosition().y < 0)
         {
-            //std::cout << "release projectile to the pool" << std::endl;
             mEntitySystem.removeObject(entity);
         }
     }

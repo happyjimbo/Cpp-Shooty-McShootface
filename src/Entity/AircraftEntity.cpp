@@ -8,6 +8,7 @@ using Aircraft::AircraftEntity;
 namespace
 {
     constexpr float MaxTime = 0.5f;
+    const auto Red = sf::Glsl::Vec4(1.0, 0, 0, 1.0);
 }
 
 void AircraftEntity::create(
@@ -19,7 +20,7 @@ void AircraftEntity::create(
     auto& texture = textures.get(toTextureID(type));
 
     flashShader = &shaders.get(Shaders::Flash);
-    flashShader->setUniform("flashColor", sf::Glsl::Vec4(1.0, 0, 0, 1.0));
+    flashShader->setUniform("flashColor", Red);
 
     if (mSprite.getTexture() != &texture)
     {

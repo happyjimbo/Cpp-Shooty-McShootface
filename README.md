@@ -49,7 +49,10 @@ The game targets C++20 but can be adjusted for older C++ standards:
 - **C++14 functionality**:
   - Substitute `std::make_unique` with `new`.
   - Adjust or remove `constexpr` from functions.
-  -
+  
+- **C++17 functionality**:
+  - `Structured binding`: For improved readability.
+
 - **C++20 functionality**:
   - `std::invocable`: Used in `ProjectileCollisionSystem` to enable template implementation within the `.cpp` file. To downgrade, move implementations to a header or `.inl` file.
   - `std::erase_if`: Utilized in `SoundEffects` for simplified vector management.
