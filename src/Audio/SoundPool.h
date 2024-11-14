@@ -6,7 +6,7 @@
 class SoundPool
 {
 public:
-    explicit SoundPool(std::size_t poolSize);
+    explicit SoundPool() = default;
     ~SoundPool() = default;
 
     explicit SoundPool(SoundPool&) = delete;
@@ -15,9 +15,12 @@ public:
     explicit SoundPool(SoundPool&&) = delete;
     SoundPool& operator=(SoundPool&&) = delete;
 
-    std::unique_ptr<sf::Sound> acquire();
-    void release(std::unique_ptr<sf::Sound> sound);
+    sf::Sound& acquire();
+    static void release(sf::Sound& sound);
+
+    static constexpr size_t POOL_SIZE = 10;
 
 private:
-    std::queue<std::unique_ptr<sf::Sound>> mPool;
+    size_t poolPosition {0};
+    std::array<sf::Sound, POOL_SIZE> mPool;
 };

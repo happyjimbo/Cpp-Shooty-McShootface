@@ -229,6 +229,8 @@ struct World::Impl
 World::World(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
 : mImpl(std::make_unique<Impl>(window, font, settings, endGameCallback))
 {
+    // Last time I ran this it was 1824 bytes
+    //std::cout << "Size of World::Impl: " << sizeof(Impl) << " bytes\n";
 }
 
 void World::draw() const

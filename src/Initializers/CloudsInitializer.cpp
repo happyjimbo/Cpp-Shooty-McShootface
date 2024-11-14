@@ -1,13 +1,11 @@
 #include "CloudsInitializer.h"
 #include "ResourceHolder.h"
 
-namespace
-{
-    const std::vector<float> scrollSpeedOffsets = {0.3f, 0.6f, 0.9f, 1.2f};
-}
 
 CloudsInitializer::CloudsInitializer (EntitySystem<CloudEntity>& entitySystem, TextureHolder& textures, ShaderHolder& shaders, const float scrollSpeed)
 {
+    constexpr std::array scrollSpeedOffsets = {0.3f, 0.6f, 0.9f, 1.2f};
+
     const auto& cloudTexture = textures.get(Textures::Clouds);
     const auto rect = sf::IntRect(0, 0, cloudTexture.getSize().x, cloudTexture.getSize().y);
 

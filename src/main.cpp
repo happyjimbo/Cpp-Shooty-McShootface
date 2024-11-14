@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "GameSettings.h"
 
-int main(int argc, char* argv[])
+int main(const int argc, char* argv[])
 {
     if (argc < 2)
     {
@@ -20,7 +20,6 @@ int main(int argc, char* argv[])
         const Game game;
         game.run();
     }
-    // catch by reference, so we're not making a copy and keep values from inheritance chain
     catch (std::exception& exception)
     {
         std::cout << "Exception\n" << exception.what() << std::endl;

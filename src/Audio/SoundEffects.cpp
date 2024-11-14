@@ -20,28 +20,25 @@ void SoundEffects::play(const Sounds::ID effect)
 {
 	if (!mSettings.isMuted())
 	{
-		std::unique_ptr<sf::Sound> sound = mSoundPool.acquire();
-		if (sound)
+		sf::Sound& sound = mSoundPool.acquire();
+		sound.setBuffer(mSounds.get(effect));
+		sound.play();
+		if (activeSoundPosition >= mActiveSounds.size())
 		{
-			sound->setBuffer(mSounds.get(effect));
-			sound->play();
-			mActiveSounds.push_back(std::move(sound));
+			activeSoundPosition = 0;
 		}
+		mActiveSounds[activeSoundPosition++] = &sound;
 	}
 }
 
 void SoundEffects::update()
 {
-	for (auto it = mActiveSounds.begin(); it != mActiveSounds.end();)
+	for (auto& sound : mActiveSounds)
 	{
-		if ((*it) && (*it)->getStatus() == sf::SoundSource::Stopped)
+		if (sound && sound->getStatus() == sf::SoundSource::Stopped)
 		{
-			mSoundPool.release(std::move(*it));
-			it = mActiveSounds.erase(it);
-		}
-		else
-		{
-			++it;
+			mSoundPool.release(*sound);
+			sound = nullptr;
 		}
 	}
 }

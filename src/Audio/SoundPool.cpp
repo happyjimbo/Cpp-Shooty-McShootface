@@ -1,26 +1,15 @@
 #include "SoundPool.h"
 
-SoundPool::SoundPool(const std::size_t poolSize)
+sf::Sound& SoundPool::acquire()
 {
-    for (std::size_t i = 0; i < poolSize; ++i)
+    if (poolPosition >= mPool.size())
     {
-        mPool.emplace(std::make_unique<sf::Sound>());
+        poolPosition = 0;
     }
+    return mPool[poolPosition++];
 }
 
-std::unique_ptr<sf::Sound> SoundPool::acquire()
+void SoundPool::release(sf::Sound& sound)
 {
-    if (!mPool.empty())
-    {
-        std::unique_ptr<sf::Sound> sound = std::move(mPool.front());
-        mPool.pop();
-        return sound;
-    }
-    return nullptr;
-}
-
-void SoundPool::release(std::unique_ptr<sf::Sound> sound)
-{
-    sound->stop();
-    mPool.push(std::move(sound));
+    sound.stop();
 }

@@ -18,7 +18,9 @@ public:
 
 private:
 	SoundHolder mSounds {};
-	SoundPool mSoundPool {10};
+	SoundPool mSoundPool;
 	const Settings& mSettings;
-	std::vector<std::unique_ptr<sf::Sound>> mActiveSounds;
+	size_t activeSoundPosition {0};
+
+	std::array<sf::Sound*, SoundPool::POOL_SIZE> mActiveSounds = {nullptr};
 };
