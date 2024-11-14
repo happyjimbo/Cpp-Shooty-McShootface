@@ -25,7 +25,7 @@ public:
     explicit PlayerAircraftInitializer(PlayerAircraftInitializer&&) = delete;
     PlayerAircraftInitializer& operator=(PlayerAircraftInitializer&&) = delete;
 
-    Aircraft::AircraftEntity* getPlayerAircaft() const;
+    Aircraft::AircraftEntity& getPlayerAircaft() const;
 
 private:
     friend class GuiInitializer;

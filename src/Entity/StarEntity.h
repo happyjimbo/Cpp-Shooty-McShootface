@@ -18,7 +18,6 @@ public:
     void create(const sf::Texture& texture);
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-    void update(sf::Time delta) override;
 
 private:
     sf::Sprite mSprite{};

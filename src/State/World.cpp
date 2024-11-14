@@ -27,7 +27,7 @@
 #include "ProjectileMovementSystem.h"
 #include "SoundEffects.h"
 #include "StarEntity.h"
-#include "StarInitializer.h"
+#include "StarMovementSystem.h"
 
 namespace
 {
@@ -67,7 +67,7 @@ struct World::Impl
     , guiInitializer (
         fonts,
         labelEntitySystem,
-        *playerAircraftInitializer.getPlayerAircaft(),
+        playerAircraftInitializer.getPlayerAircaft(),
         playerData,
         worldBounds.width
     )
@@ -78,17 +78,17 @@ struct World::Impl
     , projectileInitializer (projectileEntitySystem, textures, worldBounds, soundEffects)
     , starInitializer(starEntitySystem, textures)
     , playerAircraftMovementSystem(
-        *playerAircraftInitializer.getPlayerAircaft(),
+        playerAircraftInitializer.getPlayerAircaft(),
            worldView.getCenter(),
            worldView.getSize(),
            ScrollSpeed
         )
-    , enemyAircraftMovementSystem (enemyAircraftEntitySystem, *playerAircraftInitializer.getPlayerAircaft(), ScrollSpeed)
+    , enemyAircraftMovementSystem (enemyAircraftEntitySystem, playerAircraftInitializer.getPlayerAircaft(), ScrollSpeed)
     , projectileMovementSystem (projectileEntitySystem)
     , projectileCollisionSystem (
         projectileEntitySystem,
         enemyAircraftEntitySystem,
-        *playerAircraftInitializer.getPlayerAircaft(),
+        playerAircraftInitializer.getPlayerAircaft(),
         explosionInitializer,
         guiInitializer
     )
@@ -100,8 +100,9 @@ struct World::Impl
     , explosionAnimationSystem (explosionEntitySystem)
     , cloudMovementSystem (cloudEntitySystem)
     , backgroundMovementSystem (backgroundEntitySystem)
-    , playerKilledSystem (*playerAircraftInitializer.getPlayerAircaft(), endGameCallback)
-    , simpleControls (*playerAircraftInitializer.getPlayerAircaft())
+    , playerKilledSystem (playerAircraftInitializer.getPlayerAircaft(), endGameCallback)
+    , starMovementSystem(starInitializer.getStarEntity(), playerAircraftInitializer.getPlayerAircaft())
+    , simpleControls (playerAircraftInitializer.getPlayerAircaft())
     {
         worldView.setCenter(spawnPosition);
     }
@@ -178,6 +179,7 @@ struct World::Impl
         backgroundMovementSystem.execute(delta);
         playerAircraftMovementSystem.execute();
         enemyAircraftMovementSystem.execute(delta);
+        starMovementSystem.execute();
 
         simpleControls.handleRealtimeInput();
 
@@ -233,6 +235,7 @@ struct World::Impl
     CloudMovementSystem cloudMovementSystem;
     BackgroundMovementSystem backgroundMovementSystem;
     PlayerKilledSystem playerKilledSystem;
+    StarMovementSystem starMovementSystem;
 
     PlayerControls simpleControls;
 };

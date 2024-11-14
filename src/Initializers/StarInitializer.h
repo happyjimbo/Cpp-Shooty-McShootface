@@ -19,4 +19,9 @@ public:
 
     explicit StarInitializer(StarInitializer&&) = delete;
     StarInitializer& operator=(StarInitializer&&) = delete;
+
+    StarEntity& getStarEntity() const;
+private:
+    StarEntity* mStarEntity;
+
 };

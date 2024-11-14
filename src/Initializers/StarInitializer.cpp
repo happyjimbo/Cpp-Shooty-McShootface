@@ -8,5 +8,10 @@ StarInitializer::StarInitializer(
     )
 {
     const auto& starTexture = textures.get(Textures::Star);
-    entitySystem.createObject(starTexture);
+    mStarEntity = entitySystem.createObject(starTexture);
+}
+
+StarEntity& StarInitializer::getStarEntity() const
+{
+    return *mStarEntity;
 }

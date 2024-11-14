@@ -16,7 +16,7 @@ PlayerAircraftInitializer::PlayerAircraftInitializer(
     mPlayerAircraft->setPosition(spawnPosition);
 }
 
-AircraftEntity* PlayerAircraftInitializer::getPlayerAircaft() const
+AircraftEntity& PlayerAircraftInitializer::getPlayerAircaft() const
 {
-    return mPlayerAircraft;
+    return *mPlayerAircraft;
 }
