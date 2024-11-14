@@ -15,8 +15,8 @@ public:
         EntitySystem<ProjectileEntity>& projectileEntites,
         EntitySystem<Aircraft::AircraftEntity>& enemyAircraftEntities,
         Aircraft::AircraftEntity& player,
-        ExplosionInitializer& explosionController,
-        GuiInitializer& scoreController
+        ExplosionInitializer& explosionInitalizer,
+        GuiInitializer& scoreInitalizer
     );
 
     explicit ProjectileCollisionSystem() = delete;
@@ -41,6 +41,6 @@ private:
     EntitySystem<ProjectileEntity>& mProjectileEntites;
     EntitySystem<Aircraft::AircraftEntity>& mEnemyAircraftEntities;
     Aircraft::AircraftEntity& mPlayer;
-    ExplosionInitializer& mExplosionController;
-    GuiInitializer& mScoreController;
+    ExplosionInitializer& mExplosionInitalizer;
+    GuiInitializer& mScoreInitalizer;
 };

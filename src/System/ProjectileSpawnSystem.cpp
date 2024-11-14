@@ -3,8 +3,8 @@
 
 using Aircraft::AircraftEntity;
 
-ProjectileSpawnSystem::ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileInitializer& projectileController) noexcept
-        : mEntiySystem(entiySystem), mProjectileController(projectileController)
+ProjectileSpawnSystem::ProjectileSpawnSystem(EntitySystem<AircraftEntity>& entiySystem, ProjectileInitializer& projectileInitalizer) noexcept
+        : mEntiySystem(entiySystem), mProjectileInitalizer(projectileInitalizer)
 {
 }
 
@@ -18,7 +18,7 @@ void ProjectileSpawnSystem::execute(const sf::Time& delta) const
         if (firingData.canFire())
         {
             const auto& pos = aircraft->getPosition();
-            mProjectileController.spawn(firingData.projectileType, firingData.getSpawnPos(pos));
+            mProjectileInitalizer.spawn(firingData.projectileType, firingData.getSpawnPos(pos));
             firingData.reset();
         }
     }

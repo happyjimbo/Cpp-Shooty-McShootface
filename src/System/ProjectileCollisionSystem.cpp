@@ -14,13 +14,13 @@ ProjectileCollisionSystem::ProjectileCollisionSystem(
     EntitySystem<ProjectileEntity>& projectileEntites,
     EntitySystem<AircraftEntity>& enemyAircraftEntities,
     AircraftEntity& player,
-    ExplosionInitializer& explosionController,
-    GuiInitializer& scoreController)
+    ExplosionInitializer& explosionInitalizer,
+    GuiInitializer& scoreInitalizer)
 : mProjectileEntites(projectileEntites)
 , mEnemyAircraftEntities(enemyAircraftEntities)
 , mPlayer(player)
-, mExplosionController(explosionController)
-, mScoreController(scoreController)
+, mExplosionInitalizer(explosionInitalizer)
+, mScoreInitalizer(scoreInitalizer)
 {
 
 }
@@ -68,22 +68,22 @@ void ProjectileCollisionSystem::checkCollision(const ProjectileEntity* projectil
 void ProjectileCollisionSystem::playerHit(ProjectileEntity* projectile) const
 {
     mPlayer.getAircraftData().hit();
-    mScoreController.playerHit();
+    mScoreInitalizer.playerHit();
 
     mProjectileEntites.removeObject(projectile);
-    mExplosionController.spawn(mPlayer.getPosition(), Textures::PlayerExplosion, Sounds::Explosion1);
+    mExplosionInitalizer.spawn(mPlayer.getPosition(), Textures::PlayerExplosion, Sounds::Explosion1);
 }
 
 void ProjectileCollisionSystem::enemyHit(ProjectileEntity* projectile, AircraftEntity* aircraft) const
 {
     aircraft->getAircraftData().hit();
-    mExplosionController.spawn(aircraft->getPosition(), Textures::Explosion, Sounds::Explosion2);
+    mExplosionInitalizer.spawn(aircraft->getPosition(), Textures::Explosion, Sounds::Explosion2);
 
     if (aircraft->getAircraftData().destroyed())
     {
         mProjectileEntites.removeObject(projectile);
         mEnemyAircraftEntities.removeObject(aircraft);
 
-        mScoreController.increaseScore();
+        mScoreInitalizer.increaseScore();
     }
 }

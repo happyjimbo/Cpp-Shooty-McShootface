@@ -21,7 +21,8 @@ namespace Textures
         Clouds,
         Explosion,
         PlayerExplosion,
-        NoiseTexture
+        NoiseTexture,
+        Star
     };
 }
 

@@ -1,11 +1,6 @@
 #include <BackgroundInitializer.h>
 #include <ResourceHolder.h>
 
-namespace
-{
-    constexpr float backgroundCount {2};
-}
-
 BackgroundInitializer::BackgroundInitializer (
     EntitySystem<BackgroundEntity>& entitySystem,
     TextureHolder& texture,
@@ -13,6 +8,8 @@ BackgroundInitializer::BackgroundInitializer (
     const float scrollSpeed
 )
 {
+    constexpr float backgroundCount {2};
+
     auto& backgroundTexture = texture.get(Textures::Background);
     backgroundTexture.setRepeated(true);
 

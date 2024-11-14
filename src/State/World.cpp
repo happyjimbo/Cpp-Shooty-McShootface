@@ -5,6 +5,7 @@
 #include "Label.h"
 #include "EnemyAircraftInitializer.h"
 #include "ProjectileInitializer.h"
+#include "StarInitializer.h"
 #include "PlayerAircraftInitializer.h"
 #include "BackgroundInitializer.h"
 #include "GuiInitializer.h"
@@ -25,6 +26,8 @@
 #include "PlayerControls.h"
 #include "ProjectileMovementSystem.h"
 #include "SoundEffects.h"
+#include "StarEntity.h"
+#include "StarInitializer.h"
 
 namespace
 {
@@ -59,45 +62,46 @@ struct World::Impl
     , textures(loadTextures())
     , soundEffects(settings)
     , shaders(loadShaders())
-    // Initalise the controllers and systems
-    , playerAircraftController (playerAircraftEntitySystem, textures, shaders, playerData, spawnPosition)
-    , guiController (
+    // Create the Initializers and systems
+    , playerAircraftInitializer (playerAircraftEntitySystem, textures, shaders, playerData, spawnPosition)
+    , guiInitializer (
         fonts,
         labelEntitySystem,
-        *playerAircraftController.getPlayerAircaft(),
+        *playerAircraftInitializer.getPlayerAircaft(),
         playerData,
         worldBounds.width
     )
     , backgroundInitializer (backgroundEntitySystem, textures, window.getSize(), ScrollSpeed)
-    , cloudsController (cloudEntitySystem, textures, shaders, ScrollSpeed)
-    , enemyAircraftController (enemyAircraftEntitySystem)
-    , explosionController (explosionEntitySystem, textures, soundEffects)
-    , projectileController (projectileEntitySystem, textures, worldBounds, soundEffects)
+    , cloudsInitializer (cloudEntitySystem, textures, shaders, ScrollSpeed)
+    , enemyAircraftInitializer (enemyAircraftEntitySystem)
+    , explosionInitializer (explosionEntitySystem, textures, soundEffects)
+    , projectileInitializer (projectileEntitySystem, textures, worldBounds, soundEffects)
+    , starInitializer(starEntitySystem, textures)
     , playerAircraftMovementSystem(
-        *playerAircraftController.getPlayerAircaft(),
+        *playerAircraftInitializer.getPlayerAircaft(),
            worldView.getCenter(),
            worldView.getSize(),
            ScrollSpeed
         )
-    , enemyAircraftMovementSystem (enemyAircraftEntitySystem, *playerAircraftController.getPlayerAircaft(), ScrollSpeed)
+    , enemyAircraftMovementSystem (enemyAircraftEntitySystem, *playerAircraftInitializer.getPlayerAircaft(), ScrollSpeed)
     , projectileMovementSystem (projectileEntitySystem)
     , projectileCollisionSystem (
         projectileEntitySystem,
         enemyAircraftEntitySystem,
-        *playerAircraftController.getPlayerAircaft(),
-        explosionController,
-        guiController
+        *playerAircraftInitializer.getPlayerAircaft(),
+        explosionInitializer,
+        guiInitializer
     )
     , spawnEnemyAircraftSystem (enemyAircraftEntitySystem, textures, shaders, worldBounds.width)
-    , enemyProjectileSpawnSystem (enemyAircraftEntitySystem, projectileController)
-    , playerProjectileSpawnSystem (playerAircraftEntitySystem,projectileController)
+    , enemyProjectileSpawnSystem (enemyAircraftEntitySystem, projectileInitializer)
+    , playerProjectileSpawnSystem (playerAircraftEntitySystem,projectileInitializer)
     , removeOffScreenEnemiesSystem (enemyAircraftEntitySystem, worldBounds.height)
     , removeOffScreenProjectilesSystem (projectileEntitySystem, worldBounds.height)
     , explosionAnimationSystem (explosionEntitySystem)
     , cloudMovementSystem (cloudEntitySystem)
     , backgroundMovementSystem (backgroundEntitySystem)
-    , playerKilledSystem (*playerAircraftController.getPlayerAircaft(), endGameCallback)
-    , simpleControls (*playerAircraftController.getPlayerAircaft())
+    , playerKilledSystem (*playerAircraftInitializer.getPlayerAircaft(), endGameCallback)
+    , simpleControls (*playerAircraftInitializer.getPlayerAircaft())
     {
         worldView.setCenter(spawnPosition);
     }
@@ -113,6 +117,7 @@ struct World::Impl
         drawEntities(enemyAircraftEntitySystem);
         drawEntities(playerAircraftEntitySystem);
         drawEntities(labelEntitySystem);
+        drawEntities(starEntitySystem);
     }
 
     template <typename T>
@@ -145,6 +150,8 @@ struct World::Impl
         textures.load(Textures::Clouds, MediaFiles::Clouds);
         textures.load(Textures::Explosion, MediaFiles::Explosion);
         textures.load(Textures::PlayerExplosion, MediaFiles::PlayerExplosion);
+        textures.load(Textures::Star, MediaFiles::Star);
+
         return textures;
     }
 
@@ -180,6 +187,7 @@ struct World::Impl
         labelEntitySystem.update(delta);
         explosionEntitySystem.update(delta);
         cloudEntitySystem.update(delta);
+        starEntitySystem.update(delta);
 
         soundEffects.update();
     }
@@ -200,14 +208,17 @@ struct World::Impl
     EntitySystem<CloudEntity> cloudEntitySystem;
     EntitySystem<ExplosionEntity> explosionEntitySystem;
     EntitySystem<GUI::Label> labelEntitySystem;
+    EntitySystem<StarEntity> starEntitySystem;
 
-    PlayerAircraftInitializer playerAircraftController;
-    GuiInitializer guiController;
+    PlayerAircraftInitializer playerAircraftInitializer;
+    GuiInitializer guiInitializer;
     BackgroundInitializer backgroundInitializer;
-    CloudsInitializer cloudsController;
-    EnemyAircraftInitializer enemyAircraftController;
-    ExplosionInitializer explosionController;
-    ProjectileInitializer projectileController;
+    CloudsInitializer cloudsInitializer;
+    EnemyAircraftInitializer enemyAircraftInitializer;
+    ExplosionInitializer explosionInitializer;
+    ProjectileInitializer projectileInitializer;
+    StarInitializer starInitializer;
+
 
     PlayerAircraftMovementSystem playerAircraftMovementSystem;
     EnemyAircraftMovementSystem enemyAircraftMovementSystem;

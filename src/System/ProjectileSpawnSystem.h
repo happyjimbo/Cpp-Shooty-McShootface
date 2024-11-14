@@ -7,7 +7,7 @@ class ProjectileInitializer;
 
 class ProjectileSpawnSystem {
 public:
-    explicit ProjectileSpawnSystem(EntitySystem<Aircraft::AircraftEntity>& entiySystem, ProjectileInitializer& projectileController) noexcept;
+    explicit ProjectileSpawnSystem(EntitySystem<Aircraft::AircraftEntity>& entiySystem, ProjectileInitializer& projectileInitalizer) noexcept;
 
     explicit ProjectileSpawnSystem() = delete;
     ~ProjectileSpawnSystem() = default;
@@ -22,5 +22,5 @@ public:
 
 private:
     EntitySystem<Aircraft::AircraftEntity>& mEntiySystem;
-    ProjectileInitializer& mProjectileController;
+    ProjectileInitializer& mProjectileInitalizer;
 };
