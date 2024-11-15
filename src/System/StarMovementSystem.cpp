@@ -15,17 +15,17 @@ StarMovementSystem::StarMovementSystem(
 ) noexcept
 : mStarEntity(starEntity)
 , mPlayerAircraft(playerAircraft)
+, mAngle(0)
+, mRadius(50.f)
 {
     mStarEntity.setPosition(mPlayerAircraft.getPosition());
 }
 
 void StarMovementSystem::execute()
 {
-    const float x = (cos(speed) * mXPos) + (-sin(speed) * mYPos);
-    const float y = (sin(speed) * mXPos) + (cos(speed) * mYPos);
-
-    mXPos = x;
-    mYPos = y;
+    mAngle += speed;
+    const float x = cos(mAngle) * mRadius;
+    const float y = sin(mAngle) * mRadius;
 
     mStarEntity.setPosition(mPlayerAircraft.getPosition().x + x, mPlayerAircraft.getPosition().y + y);
 

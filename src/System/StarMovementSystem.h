@@ -21,9 +21,9 @@ public:
 
     void execute();
 private:
-    float mXPos {50};
-    float mYPos {50};
-
     StarEntity& mStarEntity;
     Aircraft::AircraftEntity& mPlayerAircraft;
+
+    float mAngle;
+    float mRadius;
 };
