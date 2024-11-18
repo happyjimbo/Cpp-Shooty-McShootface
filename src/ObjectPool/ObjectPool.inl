@@ -1,3 +1,5 @@
+#include <assert.h>
+
 #include "ObjectPool.h"
 
 template<typename T>
@@ -9,7 +11,7 @@ void ObjectPool<T>::prePool(const size_t count)
     {
         T* obj = new T();
         mPool.push_back(obj);
-        mAvailable.push(obj);
+        mAvailable.push_back(obj);
     }
 }
 
@@ -19,7 +21,6 @@ T* ObjectPool<T>::acquireObject(Args&&... args)
 {
     if (mAvailable.empty())
     {
-        //std::cout << "Make new" << std::endl;
         T* obj = new T();
         obj->create(std::forward<Args>(args)...);
         mPool.push_back(obj);
@@ -27,9 +28,9 @@ T* ObjectPool<T>::acquireObject(Args&&... args)
     }
     else
     {
-        //std::cout << "Take from pool" << std::endl;
-        T* obj = mAvailable.top();
-        mAvailable.pop();
+        T* obj = mAvailable.back();
+        mAvailable.pop_back();
+
         obj->reset();
         obj->create(std::forward<Args>(args)...);
         return obj;
@@ -39,8 +40,8 @@ T* ObjectPool<T>::acquireObject(Args&&... args)
 template<typename T>
 void ObjectPool<T>::releaseObject(T* obj)
 {
-    //std::cout << "release to the pool" << std::endl;
-    mAvailable.push(obj);
+    assert(std::find(mPool.begin(), mPool.end(), obj) != mPool.end() && "Object not found in the pool");
+    mAvailable.push_back(obj);
 }
 
 template<typename T>
@@ -51,4 +52,5 @@ ObjectPool<T>::~ObjectPool() noexcept
         delete obj;
     }
     mPool.clear();
+    mAvailable.clear();
 }

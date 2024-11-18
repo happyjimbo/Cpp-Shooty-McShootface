@@ -18,7 +18,7 @@ public:
     void releaseObject(T* obj);
 
 private:
-    std::stack<T*> mAvailable;
+    std::vector<T*> mAvailable;
     std::vector<T*> mPool;
 };
 
