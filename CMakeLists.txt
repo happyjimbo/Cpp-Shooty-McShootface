@@ -62,21 +62,18 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     )
     FetchContent_MakeAvailable(rapidcsv)
 
-    # Fetch Boost headers
-    FetchContent_Declare(
-            boost_headers
-            GIT_REPOSITORY https://github.com/boostorg/headers.git
-            GIT_TAG boost-1.86.0
-    )
-    FetchContent_MakeAvailable(boost_headers)
+    # If Boost is not found automatically, manually set paths
+    if(NOT Boost_FOUND)
+        set(Boost_INCLUDE_DIR /opt/homebrew/include)
+        set(Boost_LIBRARY_DIR /opt/homebrew/lib)
+        set(Boost_SYSTEM_LIBRARY /opt/homebrew/lib/libboost_system.a)
+        find_package(Boost 1.86 REQUIRED COMPONENTS system)
+    endif()
 
-    # Fetch Boost pfr component
-    FetchContent_Declare(
-            boost_pfr
-            GIT_REPOSITORY https://github.com/boostorg/pfr.git
-            GIT_TAG boost-1.86.0
-    )
-    FetchContent_MakeAvailable(boost_pfr)
+    set(Boost_USE_STATIC_LIBS OFF)
+    set(Boost_USE_MULTITHREADED ON)
+    set(Boost_USE_STATIC_RUNTIME OFF)
+    find_package(Boost 1.86.0 REQUIRED COMPONENTS)
 
     # Manually add ImGui source files (since ImGui doesn't define its own CMake target)
     set(IMGUI_SOURCES
@@ -133,14 +130,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Math
         ${CMAKE_SOURCE_DIR}/src/Audio
         ${CMAKE_SOURCE_DIR}/src/Settings
-        ${boost_headers_SOURCE_DIR}
-        ${boost_pfr_SOURCE_DIR}
+        ${Boost_INCLUDE_DIRS}
 )
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML rapidcsv boost_headers boost_pfr)
+    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML rapidcsv  Boost::headers Boost::system)
 
     # Enable multi-viewports in ImGui by defining the appropriate macro
     target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)

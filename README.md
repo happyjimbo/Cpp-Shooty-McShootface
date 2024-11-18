@@ -1,6 +1,6 @@
 # Shooty McShootface
 
-A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along with the STL, Boost PFR, and rapidcsv for efficient data management and performance.
+A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along with the STL, Boost, and rapidcsv for efficient data management and performance.
 
 ![plot](./public/shooty.gif)
 
@@ -12,7 +12,7 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
 - **Memory Management**: A balance of smart and raw pointers is used.
     - **Smart Pointers**: Used in non-critical areas like `Game` and `StateHandler` for clarity.
     - **Raw Pointers**: Leveraged in performance-sensitive parts like the object pool, following RAII principles for manual memory control.
-- **Template-Based Object Pool**: Efficiently manages game objects, enhancing performance.
+- **Template-Based Object Pool**: Designed a template-based object pool to minimize heap allocations and improve runtime performance.
 
 ### Data Management
 - **Serialization & Deserialization**:
@@ -31,8 +31,8 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
 
 ### Visuals and Animation
 - **Fragment Shaders**:
-    - Flash shader for the player aircraft on hit.
-    - Cloud distortion shader for dynamic visuals.
+    - A shader to flash the player aircraft on hit.
+    - A shader to distort the clouds for a more natural effect.
 - **Visual Effects**:
     - **Parallax Scrolling**: Adds depth to the ground and cloud layers.
 - **Sprite Animation**: Frame-based animations using sprite sheets for smooth visuals.
@@ -40,6 +40,24 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
 ### Settings
 - **ImGui Debug Menu**: Provides an interactive menu for adjusting game settings during runtime, with changes saved back to the CSV file.
 
+---
+
+# Installation
+
+This game uses CMake for build configuration, and most dependencies are managed automatically using `FetchContent_Declare`, with the exception of Boost:
+
+#### macOS
+1. Install Boost using [Homebrew](https://brew.sh) - `brew install boost`
+2. No further configuration is required as the default paths work seamlessly.
+
+#### Windows or Linux
+1. Install Boost using your package manager or download it from [Boost's official website](https://www.boost.org/).
+2. Update the `CMakeLists.txt` file to reflect your Boost installation paths:
+   ```cmake
+   set(Boost_INCLUDE_DIR /path/to/boost/include)
+   set(Boost_LIBRARY_DIR /path/to/boost/lib)
+   set(Boost_SYSTEM_LIBRARY /path/to/boost/lib/libboost_system.a)
+   ```
 ---
 
 ## C++ Version Compatibility
