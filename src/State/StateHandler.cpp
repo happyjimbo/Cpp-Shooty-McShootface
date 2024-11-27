@@ -5,6 +5,8 @@
 
 #include <imgui-SFML.h>
 
+#include "Performance.h"
+
 struct StateHandler::Impl
 {
     std::unique_ptr<World> world;
@@ -14,6 +16,7 @@ struct StateHandler::Impl
     const FontHolder& font;
 
     const Settings settings;
+    const Performance performance;
 
     Impl(sf::RenderWindow& window, const FontHolder& font) noexcept
     : window(window)
@@ -43,6 +46,7 @@ struct StateHandler::Impl
     void update(const sf::Time elapsedTime) const
     {
         ImGui::SFML::Update(window, elapsedTime);
+        performance.update(elapsedTime.asSeconds());
 
         if (world && !settings.isPaused())
         {

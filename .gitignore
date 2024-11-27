@@ -10,3 +10,5 @@ out
 *.app
 cmake-build-debug
 cmake-build-ios
+
+RUNTIME_CONFIG_PATH

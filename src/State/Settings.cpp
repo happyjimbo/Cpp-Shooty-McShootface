@@ -11,8 +11,8 @@ namespace
 {
     void Input(int& property, const char* label)
     {
-        char propertyText[8];  // Use a fixed-size char array
-        snprintf(propertyText, sizeof(propertyText), "%d", property); // Format the int to char array
+        char propertyText[8];
+        snprintf(propertyText, sizeof(propertyText), "%d", property);
 
         if (ImGui::InputText(label, propertyText, sizeof(propertyText)))
         {
@@ -41,7 +41,8 @@ struct Settings::Impl
 
     void draw()
     {
-        ImGui::Begin("Debug");
+        ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+        ImGui::PushItemWidth(70.0f);
         ImGui::Checkbox("Pause", &isPaused);
         ImGui::Checkbox("Mute", &mute);
 
@@ -54,6 +55,7 @@ struct Settings::Impl
             const GameSettingsData data {settings.title, width, height, fps, mute};
             GameSettings::updateSettings(data);
         }
+        ImGui::PopItemWidth();
 
         ImGui::End();
     }

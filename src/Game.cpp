@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <imgui-SFML.h>
+#include <iostream>
 
 #include "MediaFiles.h"
 #include "StateHandler.h"
@@ -82,7 +83,6 @@ void Game::run() const
         while (timeSinceLastUpdate > mImpl->TimePerFrame)
         {
             timeSinceLastUpdate -= mImpl->TimePerFrame;
-
             mImpl->processWindowEvents();
             mImpl->update(mImpl->TimePerFrame);
             mImpl->render();
