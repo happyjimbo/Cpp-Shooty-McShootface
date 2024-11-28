@@ -1,6 +1,5 @@
 #include "Performance.h"
 
-#include <imgui-SFML.h>
 #include <imgui.h>
 
 #include "CircularBuffer.h"
@@ -15,6 +14,7 @@ namespace
         ImGuiWindowFlags_NoTitleBar
     ;
     constexpr size_t MaxSampleSize {10000}; // 40kb
+    constexpr float GraphHeight = 40.0f;
 
     CircularBuffer<float, MaxSampleSize> frames;
     CircularBuffer<float, MaxSampleSize> memory;
@@ -33,7 +33,7 @@ namespace
         0,
         nullptr,
         0,
-        *std::ranges::max_element(buffer),
+        buffer.maxValue(),
         ImVec2(0, height)
         );
     }
@@ -43,7 +43,7 @@ namespace
         const float fps = 1.f / delta;
         ImGui::Text("fps %.2f", fps);
 
-        lineGraph(frames, fps, 40);
+        lineGraph(frames, fps, GraphHeight);
     }
 
     void processMemory()
@@ -51,7 +51,7 @@ namespace
         const float memoryMb = Memory::getProcessMemoryUsageMB();
 
         ImGui::Text("Process memory %.2f MB", memoryMb);
-        lineGraph(memory, memoryMb, 40);
+        lineGraph(memory, memoryMb, GraphHeight);
     }
 
 }

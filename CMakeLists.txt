@@ -195,6 +195,7 @@ install(DIRECTORY ${MEDIA_DIR}
 # Add the test executable
 add_executable(UnitTests_tests
         test_src/test_ProjectileFiringData.cpp
+        test_src/test_CircularBuffer.cpp
 )
 
 # Include directories for the test target as well
