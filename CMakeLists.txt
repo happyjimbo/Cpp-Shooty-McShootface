@@ -127,7 +127,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data
-        ${CMAKE_SOURCE_DIR}/src/Math
+        ${CMAKE_SOURCE_DIR}/src/Util/Math
+        ${CMAKE_SOURCE_DIR}/src/Util/OS
+        ${CMAKE_SOURCE_DIR}/src/Util/DataStruct
         ${CMAKE_SOURCE_DIR}/src/Audio
         ${CMAKE_SOURCE_DIR}/src/Settings
         ${Boost_INCLUDE_DIRS}
@@ -207,7 +209,9 @@ target_include_directories(UnitTests_tests PRIVATE
         ${CMAKE_SOURCE_DIR}/src/System
         ${CMAKE_SOURCE_DIR}/src/ObjectPool
         ${CMAKE_SOURCE_DIR}/src/Data
-        ${CMAKE_SOURCE_DIR}/src/Math
+        ${CMAKE_SOURCE_DIR}/src/Util/Math
+        ${CMAKE_SOURCE_DIR}/src/Util/OS
+        ${CMAKE_SOURCE_DIR}/src/Util/DataStruct
         ${CMAKE_SOURCE_DIR}/src/Audio
         ${CMAKE_SOURCE_DIR}/src/Settings
 )

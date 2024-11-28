@@ -13,6 +13,5 @@ public:
     Performance(Performance&&) = delete;
     Performance& operator=(Performance&&) = delete;
 
-    void update(float delta);
-    void update(float delta) const;
+    static void update(float delta);
 };
