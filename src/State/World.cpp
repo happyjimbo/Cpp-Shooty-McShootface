@@ -221,7 +221,6 @@ struct World::Impl
     ProjectileInitializer projectileInitializer;
     StarInitializer starInitializer;
 
-
     PlayerAircraftMovementSystem playerAircraftMovementSystem;
     EnemyAircraftMovementSystem enemyAircraftMovementSystem;
     ProjectileMovementSystem projectileMovementSystem;

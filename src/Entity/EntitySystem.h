@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_set>
 #include <vector>
 
 #include "ObjectPool.h"
@@ -26,9 +27,8 @@ public:
     const std::vector<T*>& getEntities() const noexcept;
 
 private:
-    // mEntites should probably be a list due to removing
-    // entities from any part of it
     std::vector<T*> mEntities;
+    std::unordered_map<T*, size_t> mEntityAddressMap;
     ObjectPool<T> mObjectPool;
 };
 

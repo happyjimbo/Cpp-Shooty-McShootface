@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 
 template <typename T, size_t Size>
 class CircularBuffer {
@@ -9,6 +10,7 @@ public:
         if (mSize < Size) {
             ++mSize;
         }
+
         mMaxValue = (mSize == 1) ? value : std::max(mMaxValue, value);
     }
 
