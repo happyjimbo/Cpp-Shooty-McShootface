@@ -26,6 +26,8 @@ struct Game::Impl
     const sf::Time TimePerFrame;
     bool isFullscreen = false;
 
+    const char* GamePanelName = "Game Panel";
+
     explicit Impl()
     : settings(GameSettings::getSettings())
     , window(sf::VideoMode::getDesktopMode(), settings.title, sf::Style::Close)
@@ -65,7 +67,7 @@ struct Game::Impl
 
         stateHandler->draw();
 
-        ImGui::Begin("Game Panel");
+        ImGui::Begin(GamePanelName);
         gameRenderTextureState.position = ImGui::GetCursorScreenPos();
         gameRenderTextureState.size = ImGui::GetContentRegionAvail();
         ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
