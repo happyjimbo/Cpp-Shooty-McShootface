@@ -16,6 +16,12 @@ public:
     explicit EntitySystem() = default;
     ~EntitySystem();
 
+    EntitySystem(EntitySystem&) = delete;
+    EntitySystem& operator=(EntitySystem&) = delete;
+
+    EntitySystem(EntitySystem&&) = delete;
+    EntitySystem& operator=(EntitySystem&&) = delete;
+
     void prePool(size_t count);
 
     template <typename... Args>

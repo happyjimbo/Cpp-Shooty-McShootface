@@ -1,6 +1,5 @@
 #include "TransitionScreen.h"
 #include "Button.h"
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
 namespace
@@ -12,21 +11,24 @@ namespace
     constexpr float ButtonYOffset = 50.0f;
 }
 
-TransitionScreen::TransitionScreen(sf::RenderWindow& window, const FontHolder& font, const char* title, const char* buttonText) noexcept
-: mWindow(window)
-, mWorldView(window.getDefaultView())
+TransitionScreen::TransitionScreen(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const char* title, const char* buttonText) noexcept
+: mGameRenderTexture(gameRenderTexture)
+, mWorldView(gameRenderTexture.getDefaultView())
 , mButton(ButtonWidth, ButtonHeight, buttonText)
+, mBackground(sf::Vector2f(mGameRenderTexture.getSize().x, mGameRenderTexture.getSize().y))
 {
+    mBackground.setFillColor(sf::Color::Black);
+
     titleLabel.create(title, font, FontSize);
     centerTitle();
     centerButton();
 }
 
-void TransitionScreen::handleEvent(const sf::Event& event, const std::function<void()>& callback) const
+void TransitionScreen::handleEvent(const sf::Event& event, const GameRenderTextureState& gameRenderTextureState, const std::function<void()>& callback) const
 {
     if (event.type == sf::Event::MouseButtonPressed)
     {
-        if (mButton.isMouseOver(mWindow))
+        if (mButton.isMouseOver(mGameRenderTexture, gameRenderTextureState))
         {
             callback();
         }
@@ -35,22 +37,24 @@ void TransitionScreen::handleEvent(const sf::Event& event, const std::function<v
 
 void TransitionScreen::draw() const
 {
-    mWindow.setView(mWorldView);
-    mWindow.draw(titleLabel);
-    mButton.draw(mWindow);
+    mGameRenderTexture.draw(mBackground);
+
+    mGameRenderTexture.setView(mWorldView);
+    mGameRenderTexture.draw(titleLabel);
+    mButton.draw(mGameRenderTexture);
 }
 
 void TransitionScreen::centerTitle()
 {
     const auto textBounds = titleLabel.getGlobalBounds();
-    const float xPosition = (mWindow.getSize().x - textBounds.width) / 2.0f;
-    const float yPosition = (mWindow.getSize().y - textBounds.height) / 2.0f;
+    const float xPosition = (mGameRenderTexture.getSize().x - textBounds.width) / 2.0f;
+    const float yPosition = (mGameRenderTexture.getSize().y - textBounds.height) / 2.0f;
     titleLabel.setPosition(xPosition, yPosition - TitleYOffset);
 }
 
 void TransitionScreen::centerButton()
 {
-    const float xPosition = (mWindow.getSize().x - mButton.getSize().x) / 2.0f;
-    const float yPosition = (mWindow.getSize().y - mButton.getSize().y) / 2.0f;
+    const float xPosition = (mGameRenderTexture.getSize().x - mButton.getSize().x) / 2.0f;
+    const float yPosition = (mGameRenderTexture.getSize().y - mButton.getSize().y) / 2.0f;
     mButton.setPosition(xPosition, yPosition + ButtonYOffset);
 }

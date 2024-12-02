@@ -1,5 +1,8 @@
 #include "Button.h"
 #include "MediaFiles.h"
+#include <imgui.h>
+
+#include "GameRenderTextureState.h"
 
 namespace GUI
 {
@@ -12,16 +15,29 @@ namespace GUI
         mLabel.create(textString, mFonts, 24);
     }
 
-    void Button::draw(sf::RenderWindow& window) const
+    void Button::draw(sf::RenderTexture& gameRenderTexture) const
     {
-        window.draw(buttonRect);
-        window.draw(mLabel);
+        gameRenderTexture.draw(buttonRect);
+        gameRenderTexture.draw(mLabel);
     }
 
-    bool Button::isMouseOver(const sf::RenderWindow& window) const
+    bool Button::isMouseOver(const sf::RenderTexture& renderTexture, const GameRenderTextureState& gameRenderTextureState) const
     {
-        const sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        return buttonRect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        const ImVec2 mousePos = ImGui::GetMousePos();
+
+        if (mousePos.x < gameRenderTextureState.position.x ||
+            mousePos.x > gameRenderTextureState.position.x + gameRenderTextureState.size.x ||
+            mousePos.y < gameRenderTextureState.position.y ||
+            mousePos.y > gameRenderTextureState.position.y + gameRenderTextureState.size.y) {
+            return false;
+        }
+
+        const float relativeX = (mousePos.x - gameRenderTextureState.position.x) / gameRenderTextureState.size.x * renderTexture.getSize().x;
+        const float relativeY = (mousePos.y - gameRenderTextureState.position.y) / gameRenderTextureState.size.y * renderTexture.getSize().y;
+
+        const sf::Vector2f renderTexturePos(relativeX, relativeY);
+
+        return buttonRect.getGlobalBounds().contains(renderTexturePos);
     }
 
     sf::Vector2f Button::getSize() const

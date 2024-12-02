@@ -36,7 +36,8 @@ namespace
 
 struct World::Impl
 {
-    sf::RenderWindow& window;
+    //sf::RenderWindow& window;
+    sf::RenderTexture& gameRenderTexture;
     sf::View worldView;
 
     const std::function<void()>& endGameCallback;
@@ -52,9 +53,10 @@ struct World::Impl
 
     sf::Clock clock;
 
-    Impl(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
-    : window(window)
-    , worldView(window.getDefaultView())
+    Impl(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
+    // : window(window)
+    : gameRenderTexture(gameRenderTexture)
+    , worldView(gameRenderTexture.getDefaultView())
     , endGameCallback(endGameCallback)
     , fonts(font)
     , worldBounds(0.f, 0.f, worldView.getSize().x, worldView.getSize().y)
@@ -71,7 +73,7 @@ struct World::Impl
         playerData,
         worldBounds.width
     )
-    , backgroundInitializer (backgroundEntitySystem, textures, window.getSize(), ScrollSpeed)
+    , backgroundInitializer (backgroundEntitySystem, textures, gameRenderTexture.getSize(), ScrollSpeed)
     , cloudsInitializer (cloudEntitySystem, textures, shaders, ScrollSpeed)
     , enemyAircraftInitializer (enemyAircraftEntitySystem)
     , explosionInitializer (explosionEntitySystem, textures, soundEffects)
@@ -109,7 +111,7 @@ struct World::Impl
 
     void draw()
     {
-        window.setView(worldView);
+        gameRenderTexture.setView(worldView);
 
         drawEntities(backgroundEntitySystem);
         drawEntities(cloudEntitySystem);
@@ -128,11 +130,11 @@ struct World::Impl
         {
             if (shader)
             {
-                window.draw(*entity, shader);
+                gameRenderTexture.draw(*entity, shader);
             }
             else
             {
-                window.draw(*entity);
+                gameRenderTexture.draw(*entity);
             }
         }
     }
@@ -239,8 +241,8 @@ struct World::Impl
     PlayerControls simpleControls;
 };
 
-World::World(sf::RenderWindow& window, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
-: mImpl(std::make_unique<Impl>(window, font, settings, endGameCallback))
+World::World(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
+: mImpl(std::make_unique<Impl>(gameRenderTexture, font, settings, endGameCallback))
 {
     // Last time I ran this it was 1824 bytes
     //std::cout << "Size of World::Impl: " << sizeof(Impl) << " bytes\n";

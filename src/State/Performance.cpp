@@ -7,12 +7,7 @@
 
 namespace
 {
-    constexpr auto flags =
-        ImGuiWindowFlags_AlwaysAutoResize |
-        ImGuiWindowFlags_NoBackground |
-        ImGuiWindowFlags_NoCollapse |
-        ImGuiWindowFlags_NoTitleBar
-    ;
+    constexpr auto flags = ImGuiWindowFlags_AlwaysAutoResize;
     constexpr size_t MaxSampleSize {10000}; // 40kb
     constexpr float GraphHeight = 40.0f;
 

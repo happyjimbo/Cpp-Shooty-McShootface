@@ -4,6 +4,16 @@
 template <typename T, size_t Size>
 class CircularBuffer {
 public:
+
+    explicit CircularBuffer() = default;
+    ~CircularBuffer() = default;
+
+    CircularBuffer(CircularBuffer&) = delete;
+    CircularBuffer& operator=(CircularBuffer&) = delete;
+
+    CircularBuffer(CircularBuffer&&) = delete;
+    CircularBuffer& operator=(CircularBuffer&&) = delete;
+
     void push_back(T value) {
         mData[mIndex] = value;
         mIndex = (mIndex + 1) % Size;

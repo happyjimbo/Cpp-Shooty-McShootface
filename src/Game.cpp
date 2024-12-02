@@ -1,8 +1,10 @@
 #include "Game.h"
 
 #include <imgui-SFML.h>
+#include <imgui.h>
 #include <iostream>
 
+#include "GameRenderTextureState.h"
 #include "MediaFiles.h"
 #include "StateHandler.h"
 #include "TransitionScreen.h"
@@ -15,18 +17,24 @@ struct Game::Impl
     GameSettingsData settings;
 
     sf::RenderWindow window;
+    sf::RenderTexture renderTexture;
     FontHolder font;
     std::unique_ptr<StateHandler> stateHandler;
 
+    GameRenderTextureState gameRenderTextureState;
+
     const sf::Time TimePerFrame;
+    bool isFullscreen = false;
 
     explicit Impl()
     : settings(GameSettings::getSettings())
-    , window(sf::VideoMode(settings.width, settings.height), settings.title, sf::Style::Close)
+    , window(sf::VideoMode::getDesktopMode(), settings.title, sf::Style::Close)
     , TimePerFrame(sf::seconds(1 / static_cast<float>(settings.fps)))
     {
+        renderTexture.create(settings.width, settings.height);
+
         font.load(Fonts::Main, MediaFiles::Font);
-        stateHandler = std::make_unique<StateHandler>(window, font);
+        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, gameRenderTextureState);
         window.setKeyRepeatEnabled(false);
     }
 
@@ -56,6 +64,12 @@ struct Game::Impl
         window.clear();
 
         stateHandler->draw();
+
+        ImGui::Begin("Game Panel");
+        gameRenderTextureState.position = ImGui::GetCursorScreenPos();
+        gameRenderTextureState.size = ImGui::GetContentRegionAvail();
+        ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
+        ImGui::End();
 
         ImGui::SFML::Render(window);
 

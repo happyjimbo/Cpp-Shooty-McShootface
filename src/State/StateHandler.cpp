@@ -13,13 +13,17 @@ struct StateHandler::Impl
     std::unique_ptr<TransitionScreen> transitionScreen;
 
     sf::RenderWindow& window;
+    sf::RenderTexture& gameRenderTexture;
     const FontHolder& font;
+    const GameRenderTextureState& gameRenderTextureState;
 
     const Settings settings;
 
-    Impl(sf::RenderWindow& window, const FontHolder& font) noexcept
+    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const GameRenderTextureState& gameRenderTextureState) noexcept
     : window(window)
+    , gameRenderTexture(gameRenderTexture)
     , font(font)
+    , gameRenderTextureState(gameRenderTextureState)
     {
         showTransitionScreen("Shooty Mcshootface", "Play now!");
     }
@@ -29,7 +33,7 @@ struct StateHandler::Impl
         transitionScreen.reset();
         transitionScreen = nullptr;
 
-        world = std::make_unique<World>(window, font, settings, [this]()
+        world = std::make_unique<World>(gameRenderTexture, font, settings, [this]()
         {
             showTransitionScreen("YOU DIED", "Play again!");
         });
@@ -39,7 +43,7 @@ struct StateHandler::Impl
     {
         world.reset();
         world = nullptr;
-        transitionScreen = std::make_unique<TransitionScreen>(window, font, title, buttonText);
+        transitionScreen = std::make_unique<TransitionScreen>(gameRenderTexture, font, title, buttonText);
     }
 
     void update(const sf::Time elapsedTime) const
@@ -57,7 +61,7 @@ struct StateHandler::Impl
     {
         if (transitionScreen)
         {
-            transitionScreen->handleEvent(event, [this]()
+            transitionScreen->handleEvent(event, gameRenderTextureState, [this]()
             {
                 startGame();
             });
@@ -80,8 +84,8 @@ struct StateHandler::Impl
     }
 };
 
-StateHandler::StateHandler(sf::RenderWindow& window, const FontHolder& font) noexcept
-: mImpl(std::make_unique<Impl>(window, font))
+StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const GameRenderTextureState& gameRenderTextureState) noexcept
+: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font, gameRenderTextureState))
 {
 }
 
