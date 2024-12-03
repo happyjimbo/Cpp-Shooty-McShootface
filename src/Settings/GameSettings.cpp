@@ -7,8 +7,10 @@
 namespace
 {
     GameSettingsData cachedSettings;
-    bool isSettingsChanged = false;
+    bool isSettingsStale = true;
     std::string configPath {};
+    std::function<void()> callback;
+
 }
 
 void GameSettings::setConfigPath(const std::string& path)
@@ -18,13 +20,13 @@ void GameSettings::setConfigPath(const std::string& path)
 
 GameSettingsData GameSettings::getSettings()
 {
-    if (isSettingsChanged)
+    if (!isSettingsStale)
     {
         return cachedSettings;
     }
 
     cachedSettings = loadSettings();
-    isSettingsChanged = true;
+    isSettingsStale = false;
 
     return cachedSettings;
 }
@@ -37,4 +39,11 @@ GameSettingsData GameSettings::loadSettings()
 void GameSettings::updateSettings(const GameSettingsData& newSettings)
 {
     CvsSerializer::update(newSettings, configPath);
+    isSettingsStale = true;
+    callback();
+}
+
+void GameSettings::settingsUpdated(const std::function<void()>& call)
+{
+    callback = call;
 }

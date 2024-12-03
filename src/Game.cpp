@@ -38,6 +38,11 @@ struct Game::Impl
         font.load(Fonts::Main, MediaFiles::Font);
         stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, gameRenderTextureState);
         window.setKeyRepeatEnabled(false);
+
+        GameSettings::settingsUpdated([this]()
+        {
+            settingsUpdated();
+        });
     }
 
     void update(const sf::Time elapsedTime) const
@@ -61,17 +66,28 @@ struct Game::Impl
         }
     }
 
+    void settingsUpdated()
+    {
+        settings = GameSettings::getSettings();
+        renderTexture.create(settings.width, settings.height);
+    }
+
+    void gamePanel()
+    {
+        ImGui::Begin(GamePanelName, nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+        gameRenderTextureState.position = ImGui::GetCursorScreenPos();
+        gameRenderTextureState.size = ImGui::GetContentRegionAvail();
+        ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
+        ImGui::End();
+    }
+
     void render()
     {
         window.clear();
 
         stateHandler->draw();
 
-        ImGui::Begin(GamePanelName);
-        gameRenderTextureState.position = ImGui::GetCursorScreenPos();
-        gameRenderTextureState.size = ImGui::GetContentRegionAvail();
-        ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
-        ImGui::End();
+        gamePanel();
 
         ImGui::SFML::Render(window);
 
