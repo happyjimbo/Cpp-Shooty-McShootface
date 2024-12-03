@@ -70,6 +70,8 @@ struct Game::Impl
     {
         settings = GameSettings::getSettings();
         renderTexture.create(settings.width, settings.height);
+        gameRenderTextureState.position = ImGui::GetCursorScreenPos();
+        gameRenderTextureState.size = ImGui::GetContentRegionAvail();
     }
 
     void gamePanel()
