@@ -6,7 +6,7 @@
 #include "Button.h"
 #include "Label.h"
 
-struct GameRenderTextureState;
+struct CursorState;
 
 namespace sf
 {
@@ -21,7 +21,7 @@ public:
     ~TransitionScreen() noexcept = default;
 
     void draw() const;
-    void handleEvent(const sf::Event& event, const GameRenderTextureState& gameRenderTextureState, const std::function<void()>& callback) const;
+    void handleEvent(const sf::Event& event, const CursorState& gameRenderTextureState, const std::function<void()>& callback) const;
 
 private:
 

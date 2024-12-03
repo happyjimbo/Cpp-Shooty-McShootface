@@ -3,7 +3,7 @@
 #include <imgui-SFML.h>
 #include <imgui.h>
 
-#include "GameRenderTextureState.h"
+#include "CursorState.h"
 #include "MediaFiles.h"
 #include "StateHandler.h"
 #include "TransitionScreen.h"
@@ -20,7 +20,7 @@ struct Game::Impl
     FontHolder font;
     std::unique_ptr<StateHandler> stateHandler;
 
-    GameRenderTextureState gameRenderTextureState;
+    CursorState cursorState;
 
     const sf::Time TimePerFrame;
     bool isFullscreen = false;
@@ -40,7 +40,7 @@ struct Game::Impl
         renderTexture.create(settings.width, settings.height);
 
         font.load(Fonts::Main, MediaFiles::Font);
-        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, gameRenderTextureState);
+        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, cursorState);
         window.setKeyRepeatEnabled(false);
 
         GameSettings::settingsUpdated([this]()
@@ -74,16 +74,16 @@ struct Game::Impl
     {
         settings = GameSettings::getSettings();
         renderTexture.create(settings.width, settings.height);
-        gameRenderTextureState.position = ImGui::GetCursorScreenPos();
-        gameRenderTextureState.size = ImGui::GetContentRegionAvail();
+        cursorState.position = ImGui::GetCursorScreenPos();
+        cursorState.size = ImGui::GetContentRegionAvail();
     }
 
     void renderGame()
     {
 #ifdef EDITOR_MODE
         ImGui::Begin(GamePanelName, nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-        gameRenderTextureState.position = ImGui::GetCursorScreenPos();
-        gameRenderTextureState.size = ImGui::GetContentRegionAvail();
+        cursorState.position = ImGui::GetCursorScreenPos();
+        cursorState.size = ImGui::GetContentRegionAvail();
 
         ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
         ImGui::End();

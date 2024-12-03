@@ -24,7 +24,7 @@ TransitionScreen::TransitionScreen(sf::RenderTexture& gameRenderTexture, const F
     centerButton();
 }
 
-void TransitionScreen::handleEvent(const sf::Event& event, const GameRenderTextureState& gameRenderTextureState, const std::function<void()>& callback) const
+void TransitionScreen::handleEvent(const sf::Event& event, const CursorState& gameRenderTextureState, const std::function<void()>& callback) const
 {
     if (event.type == sf::Event::MouseButtonPressed)
     {

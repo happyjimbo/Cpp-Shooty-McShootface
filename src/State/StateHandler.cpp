@@ -15,11 +15,11 @@ struct StateHandler::Impl
     sf::RenderWindow& window;
     sf::RenderTexture& gameRenderTexture;
     const FontHolder& font;
-    const GameRenderTextureState& gameRenderTextureState;
+    const CursorState& gameRenderTextureState;
 
     const Settings settings;
 
-    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const GameRenderTextureState& gameRenderTextureState) noexcept
+    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const CursorState& gameRenderTextureState) noexcept
     : window(window)
     , gameRenderTexture(gameRenderTexture)
     , font(font)
@@ -84,7 +84,7 @@ struct StateHandler::Impl
     }
 };
 
-StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const GameRenderTextureState& gameRenderTextureState) noexcept
+StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const CursorState& gameRenderTextureState) noexcept
 : mImpl(std::make_unique<Impl>(window, gameRenderTexture, font, gameRenderTextureState))
 {
 }

@@ -1,4 +1,8 @@
 #include "PlayerControls.h"
+#include "CursorState.h"
+
+#include <imgui.h>
+
 #include "AircraftEntity.h"
 
 PlayerControls::PlayerControls(Aircraft::AircraftEntity& player)

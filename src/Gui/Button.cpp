@@ -2,7 +2,7 @@
 #include "MediaFiles.h"
 #include <imgui.h>
 
-#include "GameRenderTextureState.h"
+#include "CursorState.h"
 
 namespace GUI
 {
@@ -21,31 +21,10 @@ namespace GUI
         gameRenderTexture.draw(mLabel);
     }
 
-#ifdef EDITOR_MODE
-    bool Button::isMouseOver(const sf::RenderTexture& renderTexture, const GameRenderTextureState& gameRenderTextureState) const
+    bool Button::isMouseOver(const sf::RenderTexture& renderTexture, const CursorState& cursorState) const
     {
-        const ImVec2 mousePos = ImGui::GetMousePos();
-
-        if (mousePos.x < gameRenderTextureState.position.x ||
-            mousePos.x > gameRenderTextureState.position.x + gameRenderTextureState.size.x ||
-            mousePos.y < gameRenderTextureState.position.y ||
-            mousePos.y > gameRenderTextureState.position.y + gameRenderTextureState.size.y) {
-            return false;
-        }
-
-        const float relativeX = (mousePos.x - gameRenderTextureState.position.x) / gameRenderTextureState.size.x * renderTexture.getSize().x;
-        const float relativeY = (mousePos.y - gameRenderTextureState.position.y) / gameRenderTextureState.size.y * renderTexture.getSize().y;
-        const sf::Vector2f renderTexturePos(relativeX, relativeY);
-
-        return buttonRect.getGlobalBounds().contains(renderTexturePos);
+        return cursorState.isMouseOverObject(buttonRect, renderTexture);
     }
-#else
-    bool Button::isMouseOver(const sf::RenderTexture&, const GameRenderTextureState&) const
-    {
-        const ImVec2 mousePos = ImGui::GetMousePos();
-        return buttonRect.getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y));
-    }
-#endif
 
     sf::Vector2f Button::getSize() const
     {

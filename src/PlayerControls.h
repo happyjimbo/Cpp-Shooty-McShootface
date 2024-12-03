@@ -3,6 +3,13 @@
 #include <map>
 #include <SFML/Window/Keyboard.hpp>
 
+struct CursorState;
+
+namespace GUI
+{
+    class Button;
+}
+
 namespace Aircraft { class AircraftEntity; }
 
 class PlayerControls final
@@ -12,6 +19,8 @@ public:
     ~PlayerControls() noexcept = default;
 
     void handleRealtimeInput() const;
+
+    static bool isMouseOverButton(const GUI::Button& button, const CursorState& renderTextureState);
 
 private:
 

@@ -4,7 +4,7 @@
 #include "Label.h"
 #include "ResourceHolder.h"
 
-struct GameRenderTextureState;
+struct CursorState;
 struct ImVec2;
 
 namespace GUI
@@ -17,7 +17,7 @@ namespace GUI
 
         void draw(sf::RenderTexture& gameRenderTexture) const;
 
-        bool isMouseOver(const sf::RenderTexture& renderTexture, const GameRenderTextureState& gameRenderTextureState) const;
+        bool isMouseOver(const sf::RenderTexture& renderTexture, const CursorState& cursorState) const;
         sf::Vector2f getSize() const;
         sf::Vector2f getPosition() const;
         void setPosition(float x, float y);
