@@ -21,6 +21,7 @@ namespace GUI
         gameRenderTexture.draw(mLabel);
     }
 
+#ifdef EDITOR_MODE
     bool Button::isMouseOver(const sf::RenderTexture& renderTexture, const GameRenderTextureState& gameRenderTextureState) const
     {
         const ImVec2 mousePos = ImGui::GetMousePos();
@@ -34,11 +35,17 @@ namespace GUI
 
         const float relativeX = (mousePos.x - gameRenderTextureState.position.x) / gameRenderTextureState.size.x * renderTexture.getSize().x;
         const float relativeY = (mousePos.y - gameRenderTextureState.position.y) / gameRenderTextureState.size.y * renderTexture.getSize().y;
-
         const sf::Vector2f renderTexturePos(relativeX, relativeY);
 
         return buttonRect.getGlobalBounds().contains(renderTexturePos);
     }
+#else
+    bool Button::isMouseOver(const sf::RenderTexture&, const GameRenderTextureState&) const
+    {
+        const ImVec2 mousePos = ImGui::GetMousePos();
+        return buttonRect.getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y));
+    }
+#endif
 
     sf::Vector2f Button::getSize() const
     {

@@ -36,7 +36,6 @@ namespace
 
 struct World::Impl
 {
-    //sf::RenderWindow& window;
     sf::RenderTexture& gameRenderTexture;
     sf::View worldView;
 
@@ -54,7 +53,6 @@ struct World::Impl
     sf::Clock clock;
 
     Impl(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
-    // : window(window)
     : gameRenderTexture(gameRenderTexture)
     , worldView(gameRenderTexture.getDefaultView())
     , endGameCallback(endGameCallback)

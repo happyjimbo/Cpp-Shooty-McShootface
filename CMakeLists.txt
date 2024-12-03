@@ -10,6 +10,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Option to build shared libraries
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
+# Option to enable editor mode
+option(ENABLE_EDITOR_MODE "Build with editor mode enabled" ON)
+
+# Pass the define to the compiler
+if(ENABLE_EDITOR_MODE)
+    message(STATUS "Building with EDITOR_MODE enabled")
+    add_compile_definitions(EDITOR_MODE)
+else()
+    message(STATUS "Building without EDITOR_MODE")
+endif()
+
 # Define the directory containing media files
 set(MEDIA_DIR "${CMAKE_SOURCE_DIR}/Media")
 

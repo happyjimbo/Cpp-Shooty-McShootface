@@ -2,7 +2,6 @@
 
 #include <imgui-SFML.h>
 #include <imgui.h>
-#include <iostream>
 
 #include "GameRenderTextureState.h"
 #include "MediaFiles.h"
@@ -30,7 +29,12 @@ struct Game::Impl
 
     explicit Impl()
     : settings(GameSettings::getSettings())
+#ifdef EDITOR_MODE
     , window(sf::VideoMode::getDesktopMode(), settings.title, sf::Style::Close)
+#else
+    , window(sf::VideoMode(settings.width, settings.height), settings.title, sf::Style::Close)
+#endif
+
     , TimePerFrame(sf::seconds(1 / static_cast<float>(settings.fps)))
     {
         renderTexture.create(settings.width, settings.height);
@@ -74,13 +78,21 @@ struct Game::Impl
         gameRenderTextureState.size = ImGui::GetContentRegionAvail();
     }
 
-    void gamePanel()
+    void renderGame()
     {
+#ifdef EDITOR_MODE
         ImGui::Begin(GamePanelName, nullptr, ImGuiWindowFlags_AlwaysAutoResize);
         gameRenderTextureState.position = ImGui::GetCursorScreenPos();
         gameRenderTextureState.size = ImGui::GetContentRegionAvail();
+
         ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
         ImGui::End();
+#else
+
+        renderTexture.display();
+        const sf::Sprite sprite(renderTexture.getTexture());
+        window.draw(sprite);
+#endif
     }
 
     void render()
@@ -89,7 +101,7 @@ struct Game::Impl
 
         stateHandler->draw();
 
-        gamePanel();
+        renderGame();
 
         ImGui::SFML::Render(window);
 
