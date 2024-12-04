@@ -1,9 +1,8 @@
 #include "Performance.h"
-
-#include <imgui.h>
-
 #include "CircularBuffer.h"
 #include "Memory.h"
+
+#include <imgui.h>
 
 namespace
 {

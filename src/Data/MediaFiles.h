@@ -1,6 +1,6 @@
 #pragma once
 
-struct MediaFiles
+namespace MediaFiles
 {
     static constexpr const char* Eagle = "Media/Textures/Eagle.png";
     static constexpr const char* Raptor = "Media/Textures/Raptor.png";
@@ -16,7 +16,7 @@ struct MediaFiles
     static constexpr const char* Font = "Media/Font/Sansation.ttf";
 };
 
-struct AudioFiles
+namespace AudioFiles
 {
     static constexpr const char* PlayerGunfire = "Media/Sounds/PlayerGunfire.wav";
     static constexpr const char* EnemyGunfire = "Media/Sounds/EnemyGunfire.wav";
@@ -24,7 +24,7 @@ struct AudioFiles
     static constexpr const char* Explosion2 = "Media/Sounds/Explosion2.wav";
 };
 
-struct ShaderFiles
+namespace ShaderFiles
 {
     static constexpr const char* Clouds = "Media/Shaders/clouds_distortion.frag";
     static constexpr const char* Flash = "Media/Shaders/flash.frag";
