@@ -72,6 +72,5 @@ The game targets C++20 but can be adjusted for older C++ standards:
   - `Structured binding`: For improved readability.
 
 - **C++20 functionality**:
-  - `std::invocable`: Used in `ProjectileCollisionSystem` to enable template implementation within the `.cpp` file. To downgrade, move implementations to a header or `.inl` file.
-  - `std::erase_if`: Utilized in `SoundEffects` for simplified vector management.
+  - `std::invocable`: Used in `ProjectileCollisionSystem` to enable template implementation within the `.cpp` file. To downgrade, move implementations to a header or `.inl` file. 
   - `boost::pfr::for_each_field` Used in `CvsSerializer.inl` for a reflection based lookup of the struct fields. Remove this and replace with a hardcoded implementation.
