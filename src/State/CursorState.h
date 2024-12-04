@@ -1,6 +1,8 @@
-#include <imgui.h>
+#pragma once
 
-#include "Button.h"
+#include <imgui.h>
+#include <SFML/Graphics/Shape.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
 
 struct CursorState
 {
@@ -17,7 +19,7 @@ struct CursorState
             mousePos.y < position.y ||
             mousePos.y > position.y + size.y) {
             return false;
-            }
+        }
 
         const float relativeX = (mousePos.x - position.x) / size.x * renderTexture.getSize().x;
         const float relativeY = (mousePos.y - position.y) / size.y * renderTexture.getSize().y;
