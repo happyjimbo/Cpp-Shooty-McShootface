@@ -1,37 +1,13 @@
 #pragma once
-
-#include <imgui.h>
 #include <SFML/Graphics/Shape.hpp>
-#include <SFML/Graphics/RenderTexture.hpp>
 
-struct CursorState
+namespace CursorState
 {
-    ImVec2 position;
-    ImVec2 size;
-
-#ifdef EDITOR_MODE
-    bool isMouseOverObject(const sf::Shape& shape, const sf::RenderTexture& renderTexture) const
+    static bool isMouseOverObject(const sf::Shape& shape, const sf::RenderWindow& window, const sf::RenderTexture& renderTexture)
     {
-        const ImVec2 mousePos = ImGui::GetMousePos();
+        const sf::Vector2i mousePosScreen = sf::Mouse::getPosition(window);
+        const sf::Vector2f mousePosWorld = renderTexture.mapPixelToCoords(mousePosScreen);
 
-        if (mousePos.x < position.x ||
-            mousePos.x > position.x + size.x ||
-            mousePos.y < position.y ||
-            mousePos.y > position.y + size.y) {
-            return false;
-        }
-
-        const float relativeX = (mousePos.x - position.x) / size.x * renderTexture.getSize().x;
-        const float relativeY = (mousePos.y - position.y) / size.y * renderTexture.getSize().y;
-        const sf::Vector2f renderTexturePos(relativeX, relativeY);
-
-        return shape.getGlobalBounds().contains(renderTexturePos);
+        return shape.getGlobalBounds().contains(mousePosWorld);
     }
-#else
-    bool isMouseOverObject(const sf::Shape& shape, const sf::RenderTexture&) const 
-    {
-        const ImVec2 mousePos = ImGui::GetMousePos();
-        return shape.getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y));
-    }
-#endif
 };

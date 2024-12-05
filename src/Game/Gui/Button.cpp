@@ -21,9 +21,9 @@ namespace GUI
         gameRenderTexture.draw(mLabel);
     }
 
-    bool Button::isMouseOver(const sf::RenderTexture& renderTexture, const CursorState& cursorState) const
+    bool Button::isMouseOver(const sf::RenderWindow& window, const sf::RenderTexture& renderTexture) const
     {
-        return cursorState.isMouseOverObject(buttonRect, renderTexture);
+        return CursorState::isMouseOverObject(buttonRect, window, renderTexture);
     }
 
     sf::Vector2f Button::getSize() const
