@@ -10,7 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Option to build shared libraries
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
-# Option to enable editor mode
+# Option to enable Editor mode
 option(ENABLE_EDITOR_MODE "Build with editor mode enabled" ON)
 
 # Pass the define to the compiler
@@ -117,34 +117,55 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 # Collect all source files (you can modify the paths as needed)
-file(GLOB_RECURSE SOURCE_FILES
-        "${CMAKE_SOURCE_DIR}/src/*.cpp"
-        "${CMAKE_SOURCE_DIR}/src/*.h"
-        "${CMAKE_SOURCE_DIR}/src/*.inl"
+file(GLOB_RECURSE GAME_FILES
+        "${CMAKE_SOURCE_DIR}/src/main.cpp"
+        "${CMAKE_SOURCE_DIR}/src/game/*.cpp"
+        "${CMAKE_SOURCE_DIR}/src/game/*.h"
+        "${CMAKE_SOURCE_DIR}/src/game/*.inl"
 )
+
+# Conditionally collect editor files
+if(ENABLE_EDITOR_MODE)
+    add_definitions(-DENABLE_EDITOR_MODE)
+    file(GLOB_RECURSE EDITOR_FILES
+            "${CMAKE_SOURCE_DIR}/src/editor/*.cpp"
+            "${CMAKE_SOURCE_DIR}/src/editor/*.h"
+            "${CMAKE_SOURCE_DIR}/src/editor/*.inl"
+    )
+    set(SOURCE_FILES ${GAME_FILES} ${EDITOR_FILES})
+else()
+    set(SOURCE_FILES ${GAME_FILES})
+endif()
 
 # Define the main executable with the collected source files
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Include directories for the project
 target_include_directories(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/state
-        ${CMAKE_SOURCE_DIR}/src/Gui
-        ${CMAKE_SOURCE_DIR}/src/Entity
-        ${CMAKE_SOURCE_DIR}/src/Resource
-        ${CMAKE_SOURCE_DIR}/src/Command
-        ${CMAKE_SOURCE_DIR}/src/Initializers
-        ${CMAKE_SOURCE_DIR}/src/System
-        ${CMAKE_SOURCE_DIR}/src/ObjectPool
-        ${CMAKE_SOURCE_DIR}/src/Data
-        ${CMAKE_SOURCE_DIR}/src/Util/Math
-        ${CMAKE_SOURCE_DIR}/src/Util/OS
-        ${CMAKE_SOURCE_DIR}/src/Util/DataStruct
-        ${CMAKE_SOURCE_DIR}/src/Audio
-        ${CMAKE_SOURCE_DIR}/src/Settings
+        ${CMAKE_SOURCE_DIR}/src/game
+        ${CMAKE_SOURCE_DIR}/src/game/state
+        ${CMAKE_SOURCE_DIR}/src/game/Gui
+        ${CMAKE_SOURCE_DIR}/src/game/Entity
+        ${CMAKE_SOURCE_DIR}/src/game/Resource
+        ${CMAKE_SOURCE_DIR}/src/game/Command
+        ${CMAKE_SOURCE_DIR}/src/game/Initializers
+        ${CMAKE_SOURCE_DIR}/src/game/System
+        ${CMAKE_SOURCE_DIR}/src/game/ObjectPool
+        ${CMAKE_SOURCE_DIR}/src/game/Data
+        ${CMAKE_SOURCE_DIR}/src/game/Util/Math
+        ${CMAKE_SOURCE_DIR}/src/game/Util/OS
+        ${CMAKE_SOURCE_DIR}/src/game/Util/DataStruct
+        ${CMAKE_SOURCE_DIR}/src/game/Audio
+        ${CMAKE_SOURCE_DIR}/src/game/Settings
         ${Boost_INCLUDE_DIRS}
 )
+
+# Add editor-specific include directories if ENABLE_EDITOR_MODE is defined
+if(ENABLE_EDITOR_MODE)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${CMAKE_SOURCE_DIR}/src/editor
+    )
+endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio)
@@ -211,21 +232,21 @@ add_executable(UnitTests_tests
 
 # Include directories for the test target as well
 target_include_directories(UnitTests_tests PRIVATE
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/state
-        ${CMAKE_SOURCE_DIR}/src/Gui
-        ${CMAKE_SOURCE_DIR}/src/Entity
-        ${CMAKE_SOURCE_DIR}/src/Resource
-        ${CMAKE_SOURCE_DIR}/src/Command
-        ${CMAKE_SOURCE_DIR}/src/Initializers
-        ${CMAKE_SOURCE_DIR}/src/System
-        ${CMAKE_SOURCE_DIR}/src/ObjectPool
-        ${CMAKE_SOURCE_DIR}/src/Data
-        ${CMAKE_SOURCE_DIR}/src/Util/Math
-        ${CMAKE_SOURCE_DIR}/src/Util/OS
-        ${CMAKE_SOURCE_DIR}/src/Util/DataStruct
-        ${CMAKE_SOURCE_DIR}/src/Audio
-        ${CMAKE_SOURCE_DIR}/src/Settings
+        ${CMAKE_SOURCE_DIR}/src/game
+        ${CMAKE_SOURCE_DIR}/src/game/state
+        ${CMAKE_SOURCE_DIR}/src/game/Gui
+        ${CMAKE_SOURCE_DIR}/src/game/Entity
+        ${CMAKE_SOURCE_DIR}/src/game/Resource
+        ${CMAKE_SOURCE_DIR}/src/game/Command
+        ${CMAKE_SOURCE_DIR}/src/game/Initializers
+        ${CMAKE_SOURCE_DIR}/src/game/System
+        ${CMAKE_SOURCE_DIR}/src/game/ObjectPool
+        ${CMAKE_SOURCE_DIR}/src/game/Data
+        ${CMAKE_SOURCE_DIR}/src/game/Util/Math
+        ${CMAKE_SOURCE_DIR}/src/game/Util/OS
+        ${CMAKE_SOURCE_DIR}/src/game/Util/DataStruct
+        ${CMAKE_SOURCE_DIR}/src/game/Audio
+        ${CMAKE_SOURCE_DIR}/src/game/Settings
 )
 
 # Link GoogleTest and SFML to the test executable

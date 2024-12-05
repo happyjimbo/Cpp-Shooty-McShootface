@@ -13,7 +13,7 @@ class EntitySystem final {
 public:
 
     explicit EntitySystem() = default;
-    ~EntitySystem();
+    ~EntitySystem() = default;
 
     EntitySystem(EntitySystem&) = delete;
     EntitySystem& operator=(EntitySystem&) = delete;

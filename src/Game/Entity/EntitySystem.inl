@@ -5,6 +5,9 @@ template <typename T>
 void EntitySystem<T>::prePool(size_t count)
 {
     mObjectPool.prePool(count);
+
+    mEntities.reserve(count);
+    mEntityAddressMap.reserve(count);
 }
 
 template <typename T>
@@ -51,9 +54,4 @@ template <typename T>
 const std::vector<T*>& EntitySystem<T>::getEntities() const noexcept
 {
     return mEntities;
-}
-
-template <typename T>
-EntitySystem<T>::~EntitySystem() {
-    mEntities.clear();
 }

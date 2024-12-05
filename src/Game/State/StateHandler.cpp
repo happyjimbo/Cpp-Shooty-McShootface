@@ -2,10 +2,11 @@
 #include "TransitionScreen.h"
 #include "World.h"
 #include "Settings.h"
+#ifdef EDITOR_MODE
+#include "Performance.h"
+#endif
 
 #include <imgui-SFML.h>
-
-#include "Performance.h"
 
 struct StateHandler::Impl
 {
@@ -49,7 +50,9 @@ struct StateHandler::Impl
     void update(const sf::Time elapsedTime) const
     {
         ImGui::SFML::Update(window, elapsedTime);
+#ifdef EDITOR_MODE
         Performance::update(elapsedTime.asSeconds());
+#endif
 
         if (world && !settings.isPaused())
         {

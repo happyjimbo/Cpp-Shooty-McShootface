@@ -6,6 +6,7 @@ template<typename T>
 void ObjectPool<T>::prePool(const size_t count)
 {
     mPool.reserve(count);
+    mAvailable.reserve(count);
 
     for (size_t i = 0; i < count; i++)
     {

@@ -88,7 +88,6 @@ struct Game::Impl
         ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
         ImGui::End();
 #else
-
         renderTexture.display();
         const sf::Sprite sprite(renderTexture.getTexture());
         window.draw(sprite);
