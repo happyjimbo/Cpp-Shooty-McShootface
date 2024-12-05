@@ -1,7 +1,5 @@
 #include "World.h"
-
-#include <PlayerData.h>
-
+#include "PlayerData.h"
 #include "Label.h"
 #include "EnemyAircraftInitializer.h"
 #include "ProjectileInitializer.h"
@@ -29,6 +27,8 @@
 #include "StarEntity.h"
 #include "StarMovementSystem.h"
 
+#include <tracy/Tracy.hpp>
+
 namespace
 {
     constexpr float ScrollSpeed {-50.f};
@@ -49,8 +49,6 @@ struct World::Impl
     TextureHolder textures;
     SoundEffects soundEffects;
     ShaderHolder shaders;
-
-    sf::Clock clock;
 
     Impl(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
     : gameRenderTexture(gameRenderTexture)
@@ -167,6 +165,9 @@ struct World::Impl
 
     void update(const sf::Time delta)
     {
+        // FrameMark;
+        ZoneScoped;
+
         projectileCollisionSystem.execute();
         spawnEnemyAircraftSystem.execute(delta);
         enemyProjectileSpawnSystem.execute(delta);

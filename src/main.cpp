@@ -1,6 +1,22 @@
 #include <iostream>
+#include <tracy/Tracy.hpp>
+
 #include "Game.h"
 #include "GameSettings.h"
+
+
+void* operator new (std::size_t size)
+{
+    void* ptr = malloc(size);
+    TracyAlloc(ptr, size);
+    return ptr;
+}
+
+void operator delete(void* ptr) noexcept
+{
+    TracyFree(ptr);
+    free(ptr);
+}
 
 int main(const int argc, char* argv[])
 {

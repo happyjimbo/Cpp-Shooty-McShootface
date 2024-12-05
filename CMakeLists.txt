@@ -114,6 +114,9 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set_target_properties(imgui ImGui-SFML PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
 
 
+    add_subdirectory(tracy)
+
+
 endif()
 
 # Collect all source files (you can modify the paths as needed)
@@ -170,10 +173,17 @@ endif()
 if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML rapidcsv  Boost::headers Boost::system)
+    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-audio)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ImGui-SFML::ImGui-SFML)
+    target_link_libraries(${PROJECT_NAME} PRIVATE rapidcsv)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::headers)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::system)
+    target_link_libraries(${PROJECT_NAME} PUBLIC Tracy::TracyClient)
 
     # Enable multi-viewports in ImGui by defining the appropriate macro
     target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE TRACY_ENABLE TRACY_CALLSTACK=5)
 endif ()
 
 # Enable C++20 features
