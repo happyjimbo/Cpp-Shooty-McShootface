@@ -21,8 +21,8 @@ public:
     CloudEntity(const CloudEntity&) = delete;
     CloudEntity& operator=(const CloudEntity&) = delete;
 
-    CloudEntity(const CloudEntity&&) = delete;
-    CloudEntity& operator=(const CloudEntity&&) = delete;
+    CloudEntity(CloudEntity&&) = default;
+    CloudEntity& operator=(CloudEntity&&) = default;
 
     void create(
         const sf::Texture&,

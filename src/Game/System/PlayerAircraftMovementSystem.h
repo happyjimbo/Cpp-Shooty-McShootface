@@ -17,8 +17,8 @@ public:
     PlayerAircraftMovementSystem(const PlayerAircraftMovementSystem&) = delete;
     PlayerAircraftMovementSystem& operator=(const PlayerAircraftMovementSystem&) = delete;
 
-    PlayerAircraftMovementSystem(const PlayerAircraftMovementSystem&&) = delete;
-    PlayerAircraftMovementSystem& operator=(const PlayerAircraftMovementSystem&&) = delete;
+    PlayerAircraftMovementSystem(PlayerAircraftMovementSystem&&) = delete;
+    PlayerAircraftMovementSystem& operator=(PlayerAircraftMovementSystem&&) = delete;
 
     void execute() const;
 

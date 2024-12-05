@@ -13,8 +13,8 @@ public:
     CloudMovementSystem(const CloudMovementSystem&) = delete;
     CloudMovementSystem& operator=(const CloudMovementSystem&) = delete;
 
-    CloudMovementSystem(const CloudMovementSystem&&) = delete;
-    CloudMovementSystem& operator=(const CloudMovementSystem&&) = delete;
+    CloudMovementSystem(CloudMovementSystem&&) = delete;
+    CloudMovementSystem& operator=(CloudMovementSystem&&) = delete;
 
     void execute(const sf::Time& delta) const;
 

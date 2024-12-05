@@ -15,8 +15,8 @@ public:
     explicit EntitySystem() = default;
     ~EntitySystem() = default;
 
-    EntitySystem(EntitySystem&) = delete;
-    EntitySystem& operator=(EntitySystem&) = delete;
+    EntitySystem(const EntitySystem&) = delete;
+    EntitySystem& operator=(const EntitySystem&) = delete;
 
     EntitySystem(EntitySystem&&) = delete;
     EntitySystem& operator=(EntitySystem&&) = delete;

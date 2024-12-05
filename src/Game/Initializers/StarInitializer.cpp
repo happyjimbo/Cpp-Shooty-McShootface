@@ -7,6 +7,7 @@ StarInitializer::StarInitializer(
     const TextureHolder& textures
     )
 {
+    entitySystem.prePool(1);
     const auto& starTexture = textures.get(Textures::Star);
     mStarEntity = entitySystem.createObject(starTexture);
 }

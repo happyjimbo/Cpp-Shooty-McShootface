@@ -8,8 +8,8 @@ public:
     explicit CircularBuffer() = default;
     ~CircularBuffer() = default;
 
-    CircularBuffer(CircularBuffer&) = delete;
-    CircularBuffer& operator=(CircularBuffer&) = delete;
+    CircularBuffer(const CircularBuffer&) = delete;
+    CircularBuffer& operator=(const CircularBuffer&) = delete;
 
     CircularBuffer(CircularBuffer&&) = delete;
     CircularBuffer& operator=(CircularBuffer&&) = delete;

@@ -13,8 +13,8 @@ public:
     ProjectileMovementSystem(const ProjectileMovementSystem&) = delete;
     ProjectileMovementSystem& operator=(const ProjectileMovementSystem&) = delete;
 
-    ProjectileMovementSystem(const ProjectileMovementSystem&&) = delete;
-    ProjectileMovementSystem& operator=(const ProjectileMovementSystem&&) = delete;
+    ProjectileMovementSystem(ProjectileMovementSystem&&) = delete;
+    ProjectileMovementSystem& operator=(ProjectileMovementSystem&&) = delete;
 
     void execute(const sf::Time& delta) const;
 

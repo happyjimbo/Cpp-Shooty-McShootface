@@ -9,8 +9,8 @@ public:
     explicit SoundPool() = default;
     ~SoundPool() = default;
 
-    explicit SoundPool(SoundPool&) = delete;
-    SoundPool& operator=(SoundPool&) = delete;
+    explicit SoundPool(const SoundPool&) = delete;
+    SoundPool& operator=(const SoundPool&) = delete;
 
     explicit SoundPool(SoundPool&&) = delete;
     SoundPool& operator=(SoundPool&&) = delete;

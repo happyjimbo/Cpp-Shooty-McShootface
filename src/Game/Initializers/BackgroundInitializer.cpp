@@ -9,6 +9,7 @@ BackgroundInitializer::BackgroundInitializer (
 )
 {
     constexpr float backgroundCount {2};
+    entitySystem.prePool(backgroundCount);
 
     auto& backgroundTexture = texture.get(Textures::Background);
     backgroundTexture.setRepeated(true);

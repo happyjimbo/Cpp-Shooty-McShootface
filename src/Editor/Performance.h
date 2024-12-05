@@ -6,8 +6,8 @@ public:
     explicit Performance() = default;
     ~Performance() = default;
 
-    Performance(Performance&) = delete;
-    Performance& operator=(Performance&) = delete;
+    Performance(const Performance&) = delete;
+    Performance& operator=(const Performance&) = delete;
 
     Performance(Performance&&) = delete;
     Performance& operator=(Performance&&) = delete;

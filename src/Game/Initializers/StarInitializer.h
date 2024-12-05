@@ -14,8 +14,8 @@ public:
 
     ~StarInitializer() = default;
 
-    explicit StarInitializer(StarInitializer&) = delete;
-    StarInitializer& operator=(StarInitializer&) = delete;
+    explicit StarInitializer(const StarInitializer&) = delete;
+    StarInitializer& operator=(const StarInitializer&) = delete;
 
     explicit StarInitializer(StarInitializer&&) = delete;
     StarInitializer& operator=(StarInitializer&&) = delete;

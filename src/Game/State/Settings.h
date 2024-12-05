@@ -7,8 +7,8 @@ public:
     explicit Settings() noexcept;
     ~Settings() noexcept;
 
-    explicit Settings(Settings&) = delete;
-    Settings& operator=(Settings&) = delete;
+    explicit Settings(const Settings&) = delete;
+    Settings& operator=(const Settings&) = delete;
 
     explicit Settings(Settings&&) = delete;
     Settings& operator=(Settings&&) = delete;

@@ -15,11 +15,11 @@ template <typename... Args>
 T* EntitySystem<T>::createObject(Args&&... args)
 {
     //T* entity = new T(std::forward<Args>(args)...);
-    T* entity = mObjectPool.acquireObject(std::forward<Args>(args)...);
+    T& entity = mObjectPool.acquireObject(std::forward<Args>(args)...);
 
-    mEntities.push_back(entity);
-    mEntityAddressMap[entity] = mEntities.size() - 1;
-    return entity;
+    mEntities.emplace_back(&entity);
+    mEntityAddressMap[&entity] = mEntities.size() - 1;
+    return &entity;
 }
 
 template <typename T>
@@ -29,7 +29,7 @@ void EntitySystem<T>::removeObject(T* entity)
     auto mapEntry = mEntityAddressMap.find(entity);
     if (mapEntry != mEntityAddressMap.end())
     {
-        mObjectPool.releaseObject(entity);
+        mObjectPool.releaseObject(*entity);
 
         size_t index = mapEntry->second;
         T* lastEntity = mEntities.back();

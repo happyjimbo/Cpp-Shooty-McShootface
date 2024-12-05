@@ -7,19 +7,19 @@ template<typename T>
 class ObjectPool final
 {
 public:
-    ObjectPool() = default;
-    ~ObjectPool() noexcept;
+    explicit ObjectPool(size_t initialSize = 0);
+    ~ObjectPool() noexcept = default;
 
     void prePool(size_t count);
 
     template <typename... Args>
-    T* acquireObject(Args&&... args);
+    T& acquireObject(Args&&... args);
 
-    void releaseObject(T* obj);
+    void releaseObject(T& obj);
 
 private:
-    std::vector<T*> mAvailable;
-    std::vector<T*> mPool;
+    std::vector<size_t> mAvailable;
+    std::vector<T> mPool;
 };
 
 #include "ObjectPool.inl"

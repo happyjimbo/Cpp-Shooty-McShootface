@@ -19,8 +19,8 @@ public:
 
     ~PlayerAircraftInitializer() noexcept = default;
 
-    explicit PlayerAircraftInitializer(PlayerAircraftInitializer&) = delete;
-    PlayerAircraftInitializer& operator=(PlayerAircraftInitializer&) = delete;
+    explicit PlayerAircraftInitializer(const PlayerAircraftInitializer&) = delete;
+    PlayerAircraftInitializer& operator=(const PlayerAircraftInitializer&) = delete;
 
     explicit PlayerAircraftInitializer(PlayerAircraftInitializer&&) = delete;
     PlayerAircraftInitializer& operator=(PlayerAircraftInitializer&&) = delete;

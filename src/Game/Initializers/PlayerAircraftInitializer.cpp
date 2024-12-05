@@ -12,6 +12,8 @@ PlayerAircraftInitializer::PlayerAircraftInitializer(
     const sf::Vector2f spawnPosition
 ) noexcept
 {
+    entitySystem.prePool(1);
+
     mPlayerAircraft = entitySystem.createObject(AircraftEntity::Eagle, textures, shaders, playerData.Health);
     mPlayerAircraft->setPosition(spawnPosition);
 }

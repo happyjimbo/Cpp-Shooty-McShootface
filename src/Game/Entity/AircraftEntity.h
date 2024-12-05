@@ -21,8 +21,8 @@ namespace Aircraft
         AircraftEntity(const AircraftEntity&) = delete;
         AircraftEntity& operator=(const AircraftEntity&) = delete;
 
-        AircraftEntity(const AircraftEntity&&) = delete;
-        AircraftEntity& operator=(const AircraftEntity&&) = delete;
+        AircraftEntity(AircraftEntity&&) = default;
+        AircraftEntity& operator=(AircraftEntity&&) = default;
 
         void create(
             Type type,

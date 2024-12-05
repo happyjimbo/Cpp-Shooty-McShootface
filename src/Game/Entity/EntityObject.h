@@ -21,8 +21,8 @@ public:
     EntityObject(const EntityObject&) = delete;
     EntityObject& operator=(const EntityObject&) = delete;
 
-    EntityObject(EntityObject&&) = delete;
-    EntityObject& operator=(EntityObject&&) = delete;
+    EntityObject(EntityObject&&) = default;
+    EntityObject& operator=(EntityObject&&) = default;
 
     void setVelocity(sf::Vector2f) noexcept;
     void setVelocity(float vx, float vy) noexcept;

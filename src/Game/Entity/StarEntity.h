@@ -10,10 +10,10 @@ public:
     ~StarEntity() override = default;
 
     StarEntity(const StarEntity&) = delete;
-    StarEntity& operator=(StarEntity&) = delete;
+    StarEntity& operator=(const StarEntity&) = delete;
 
-    StarEntity(const StarEntity&&) = delete;
-    StarEntity& operator=(StarEntity&&) = delete;
+    StarEntity(StarEntity&&) = default;
+    StarEntity& operator=(StarEntity&&) = default;
 
     void create(const sf::Texture& texture);
 

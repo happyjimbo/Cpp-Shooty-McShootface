@@ -18,11 +18,10 @@ public:
     ~ExplosionEntity() override = default;
 
     ExplosionEntity(const ExplosionEntity&) = delete;
-    ExplosionEntity& operator=(ExplosionEntity&) = delete;
+    ExplosionEntity& operator=(const ExplosionEntity&) = delete;
 
-    ExplosionEntity(const ExplosionEntity&&) = delete;
-    ExplosionEntity& operator=(ExplosionEntity&&) = delete;
-
+    ExplosionEntity(ExplosionEntity&&) = default;
+    ExplosionEntity& operator=(ExplosionEntity&&) = default;
 
     void create(const sf::Texture& texture, const sf::IntRect& rect);
     void setTextureRect(sf::IntRect rect);

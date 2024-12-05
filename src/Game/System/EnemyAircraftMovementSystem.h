@@ -15,8 +15,8 @@ public:
     EnemyAircraftMovementSystem(const EnemyAircraftMovementSystem&) = delete;
     EnemyAircraftMovementSystem& operator=(const EnemyAircraftMovementSystem&) = delete;
 
-    EnemyAircraftMovementSystem(const EnemyAircraftMovementSystem&&) = delete;
-    EnemyAircraftMovementSystem& operator=(const EnemyAircraftMovementSystem&&) = delete;
+    EnemyAircraftMovementSystem(EnemyAircraftMovementSystem&&) = delete;
+    EnemyAircraftMovementSystem& operator=(EnemyAircraftMovementSystem&&) = delete;
 
     void execute(const sf::Time& delta);
 

@@ -13,8 +13,8 @@ public:
     BackgroundMovementSystem(const BackgroundMovementSystem&) = delete;
     BackgroundMovementSystem& operator=(const BackgroundMovementSystem&) = delete;
 
-    BackgroundMovementSystem(const BackgroundMovementSystem&&) = delete;
-    BackgroundMovementSystem& operator=(const BackgroundMovementSystem&&) = delete;
+    BackgroundMovementSystem(BackgroundMovementSystem&&) = delete;
+    BackgroundMovementSystem& operator=(BackgroundMovementSystem&&) = delete;
 
     void execute(const sf::Time& delta) const;
 

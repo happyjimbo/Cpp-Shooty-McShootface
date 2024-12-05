@@ -14,8 +14,8 @@ public:
         float scrollSpeed
     );
 
-    BackgroundInitializer(BackgroundInitializer&) = delete;
-    BackgroundInitializer& operator=(BackgroundInitializer&) = delete;
+    BackgroundInitializer(const BackgroundInitializer&) = delete;
+    BackgroundInitializer& operator=(const BackgroundInitializer&) = delete;
 
     BackgroundInitializer(BackgroundInitializer&&) = delete;
     BackgroundInitializer& operator=(BackgroundInitializer&&) = delete;

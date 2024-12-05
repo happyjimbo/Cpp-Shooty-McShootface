@@ -18,8 +18,8 @@ public:
 
     ~GuiInitializer() = default;
 
-    explicit GuiInitializer(GuiInitializer&) = delete;
-    GuiInitializer& operator=(GuiInitializer&) = delete;
+    explicit GuiInitializer(const GuiInitializer&) = delete;
+    GuiInitializer& operator=(const GuiInitializer&) = delete;
 
     explicit GuiInitializer(GuiInitializer&&) = delete;
     GuiInitializer& operator=(GuiInitializer&&) = delete;

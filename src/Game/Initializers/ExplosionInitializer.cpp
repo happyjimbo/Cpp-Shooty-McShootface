@@ -11,7 +11,7 @@ ExplosionInitializer::ExplosionInitializer(
 , mTexture(texture)
 , mSoundEffects(soundEffects)
 {
-
+    entitySystem.prePool(20);
 }
 
 void ExplosionInitializer::spawn(const sf::Vector2f& spawnPosition, const Textures::ID textureId, const Sounds::ID soundId)

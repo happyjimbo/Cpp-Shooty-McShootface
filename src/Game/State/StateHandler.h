@@ -20,11 +20,11 @@ public:
     explicit StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const CursorState& gameRenderTextureState) noexcept;
     ~StateHandler() noexcept;
 
-    explicit StateHandler(StateHandler&) = delete;
+    explicit StateHandler(const StateHandler&) = delete;
     StateHandler& operator=(const StateHandler&) = delete;
 
     explicit StateHandler(StateHandler&&) = delete;
-    StateHandler& operator=(const StateHandler&&) = delete;
+    StateHandler& operator=(StateHandler&&) = delete;
 
     void update(sf::Time elapsedTime) const;
     void processWindowEvents(const sf::Event& event) const;

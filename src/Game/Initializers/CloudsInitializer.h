@@ -15,8 +15,8 @@ public:
         float scrollSpeed
     );
 
-    CloudsInitializer(CloudsInitializer&) = delete;
-    CloudsInitializer& operator=(CloudsInitializer&) = delete;
+    CloudsInitializer(const CloudsInitializer&) = delete;
+    CloudsInitializer& operator=(const CloudsInitializer&) = delete;
 
     CloudsInitializer(CloudsInitializer&&) = delete;
     CloudsInitializer& operator=(CloudsInitializer&&) = delete;

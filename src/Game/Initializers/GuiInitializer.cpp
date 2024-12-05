@@ -19,6 +19,8 @@ GuiInitializer::GuiInitializer(
 ) noexcept
 : mPlayerAircraft(playerAircraft)
 {
+    entitySystem.prePool(3);
+
     const auto mScoreTextLabel = entitySystem.createObject("Score:", fonts);
     mScoreTextLabel->setPosition(ScoreTextLabelPos);
 

@@ -18,8 +18,8 @@ public:
     ProjectileEntity(const ProjectileEntity&) = delete;
     ProjectileEntity& operator=(const ProjectileEntity&) = delete;
 
-    ProjectileEntity(const ProjectileEntity&&) = delete;
-    ProjectileEntity& operator=(const ProjectileEntity&&) = delete;
+    ProjectileEntity(ProjectileEntity&&) = default;
+    ProjectileEntity& operator=(ProjectileEntity&&) = default;
 
     void create(Type type, const TextureHolder& textures);
     Type getType() const noexcept;

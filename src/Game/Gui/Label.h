@@ -15,8 +15,8 @@ namespace GUI
         Label(const Label&) = delete;
         Label& operator=(const Label&) = delete;
 
-        Label(const Label&&) = delete;
-        Label& operator=(const Label&&) = delete;
+        Label(Label&&) = default;
+        Label& operator=(Label&&) = default;
 
         void create(const std::string& text, const FontHolder& fonts, int size = 16);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

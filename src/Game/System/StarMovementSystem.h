@@ -16,8 +16,8 @@ public:
     StarMovementSystem(const StarMovementSystem&) = delete;
     StarMovementSystem& operator=(const StarMovementSystem&) = delete;
 
-    StarMovementSystem(const StarMovementSystem&&) = delete;
-    StarMovementSystem& operator=(const StarMovementSystem&&) = delete;
+    StarMovementSystem(StarMovementSystem&&) = delete;
+    StarMovementSystem& operator=(StarMovementSystem&&) = delete;
 
     void execute();
 private:
