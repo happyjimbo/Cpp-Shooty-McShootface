@@ -13,6 +13,7 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
     - **Smart Pointers**: Used in non-critical areas like `Game` and `StateHandler` for clarity.
     - **Raw Pointers**: Leveraged in performance-sensitive parts like the object pool, following RAII principles for manual memory control.
 - **Template-Based Object Pool**: Designed a template-based object pool to minimize heap allocations and improve runtime performance.
+- **Memory and FPS Graphs**: Utilising a `circular buffer`, these graphs give a high level look at the stats in Editor Mode. 
 
 ### Data Management
 - **Serialization & Deserialization**:
@@ -35,7 +36,7 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
     - A shader to distort the clouds for a more natural effect.
 - **Visual Effects**:
     - **Parallax Scrolling**: Adds depth to the ground and cloud layers.
-- **Sprite Animation**: Frame-based animations using sprite sheets for smooth visuals.
+- **Sprite Animation**: Frame-based animations using sprite sheets for smooth visuals
 
 ### Settings
 - **ImGui Debug Menu**: Provides an interactive menu for adjusting game settings during runtime, with changes saved back to the CSV file.
