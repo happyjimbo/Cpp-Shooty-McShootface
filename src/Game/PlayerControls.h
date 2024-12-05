@@ -19,9 +19,6 @@ public:
     ~PlayerControls() noexcept = default;
 
     void handleRealtimeInput() const;
-
-    static bool isMouseOverButton(const GUI::Button& button, const CursorState& renderTextureState);
-
 private:
 
 

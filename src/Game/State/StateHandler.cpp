@@ -16,15 +16,13 @@ struct StateHandler::Impl
     sf::RenderWindow& window;
     sf::RenderTexture& gameRenderTexture;
     const FontHolder& font;
-    const CursorState& gameRenderTextureState;
 
     const Settings settings;
 
-    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const CursorState& gameRenderTextureState) noexcept
+    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
     : window(window)
     , gameRenderTexture(gameRenderTexture)
     , font(font)
-    , gameRenderTextureState(gameRenderTextureState)
     {
         showTransitionScreen("Shooty Mcshootface", "Play now!");
     }
@@ -44,7 +42,7 @@ struct StateHandler::Impl
     {
         world.reset();
         world = nullptr;
-        transitionScreen = std::make_unique<TransitionScreen>(gameRenderTexture, font, title, buttonText);
+        transitionScreen = std::make_unique<TransitionScreen>(window, gameRenderTexture, font, title, buttonText);
     }
 
     void update(const sf::Time elapsedTime) const
@@ -64,7 +62,7 @@ struct StateHandler::Impl
     {
         if (transitionScreen)
         {
-            transitionScreen->handleEvent(event, gameRenderTextureState, [this]()
+            transitionScreen->handleEvent(event, [this]()
             {
                 startGame();
             });
@@ -87,8 +85,8 @@ struct StateHandler::Impl
     }
 };
 
-StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const CursorState& gameRenderTextureState) noexcept
-: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font, gameRenderTextureState))
+StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
+: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font))
 {
 }
 

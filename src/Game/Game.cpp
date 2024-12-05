@@ -1,9 +1,7 @@
 #include "Game.h"
 
 #include <imgui-SFML.h>
-#include <imgui.h>
 
-#include "CursorState.h"
 #include "MediaFiles.h"
 #include "StateHandler.h"
 #include "TransitionScreen.h"
@@ -17,30 +15,32 @@ struct Game::Impl
 
     sf::RenderWindow window;
     sf::RenderTexture renderTexture;
+    sf::Sprite renderSprite;
     FontHolder font;
     std::unique_ptr<StateHandler> stateHandler;
 
-    CursorState cursorState;
-
     const sf::Time TimePerFrame;
-    bool isFullscreen = false;
 
     const char* GamePanelName = "Game Panel";
 
+    sf::VideoMode determineVideoMode() const {
+        #ifdef EDITOR_MODE
+            return sf::VideoMode::getDesktopMode();
+        #else
+            return sf::VideoMode(settings.width, settings.height);
+        #endif
+    }
+
     explicit Impl()
     : settings(GameSettings::getSettings())
-#ifdef EDITOR_MODE
-    , window(sf::VideoMode::getDesktopMode(), settings.title, sf::Style::Close)
-#else
-    , window(sf::VideoMode(settings.width, settings.height), settings.title, sf::Style::Close)
-#endif
-
+    , window(determineVideoMode(), settings.title, sf::Style::Close)
     , TimePerFrame(sf::seconds(1 / static_cast<float>(settings.fps)))
     {
         renderTexture.create(settings.width, settings.height);
+        renderSprite.setTexture(renderTexture.getTexture());
 
         font.load(Fonts::Main, MediaFiles::Font);
-        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, cursorState);
+        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font);
         window.setKeyRepeatEnabled(false);
 
         GameSettings::settingsUpdated([this]()
@@ -74,29 +74,18 @@ struct Game::Impl
     {
         settings = GameSettings::getSettings();
         renderTexture.create(settings.width, settings.height);
-        cursorState.position = ImGui::GetCursorScreenPos();
-        cursorState.size = ImGui::GetContentRegionAvail();
+        renderSprite.setTexture(renderTexture.getTexture(), true);
     }
 
     void renderGame()
     {
-#ifdef EDITOR_MODE
-        ImGui::Begin(GamePanelName, nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-        cursorState.position = ImGui::GetCursorScreenPos();
-        cursorState.size = ImGui::GetContentRegionAvail();
-
-        ImGui::Image(renderTexture, sf::Vector2f(settings.width, settings.height));
-        ImGui::End();
-#else
         renderTexture.display();
-        const sf::Sprite sprite(renderTexture.getTexture());
-        window.draw(sprite);
-#endif
+        window.draw(renderSprite);
     }
 
     void render()
     {
-        window.clear();
+        window.clear(sf::Color::Black);
 
         stateHandler->draw();
 

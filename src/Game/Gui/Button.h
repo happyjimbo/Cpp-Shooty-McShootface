@@ -4,9 +4,6 @@
 #include "Label.h"
 #include "ResourceHolder.h"
 
-struct CursorState;
-struct ImVec2;
-
 namespace GUI
 {
     class Button {
@@ -17,7 +14,7 @@ namespace GUI
 
         void draw(sf::RenderTexture& gameRenderTexture) const;
 
-        bool isMouseOver(const sf::RenderTexture& renderTexture, const CursorState& cursorState) const;
+        bool isMouseOver(const sf::RenderWindow& window, const sf::RenderTexture& renderTexture) const;
         sf::Vector2f getSize() const;
         sf::Vector2f getPosition() const;
         void setPosition(float x, float y);
