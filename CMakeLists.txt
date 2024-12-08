@@ -11,7 +11,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 # Option to enable Editor mode
-option(ENABLE_EDITOR_MODE "Build with editor mode enabled" ON)
+option(ENABLE_EDITOR_MODE "Build with editor mode enabled" OFF)
 
 # Pass the define to the compiler
 if(ENABLE_EDITOR_MODE)
@@ -182,8 +182,9 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(${PROJECT_NAME} PUBLIC Tracy::TracyClient)
 
     # Enable multi-viewports in ImGui by defining the appropriate macro
-    target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE TRACY_ENABLE TRACY_CALLSTACK=5)
+#    target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE TRACY_ENABLE TRACY_CALLSTACK=20)
+
 endif ()
 
 # Enable C++20 features

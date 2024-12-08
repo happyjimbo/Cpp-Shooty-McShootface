@@ -33,7 +33,7 @@ int main(const int argc, char* argv[])
 
         GameSettings::setConfigPath(configPath);
 
-        const Game game;
+        Game game;
         game.run();
     }
     catch (std::exception& exception)

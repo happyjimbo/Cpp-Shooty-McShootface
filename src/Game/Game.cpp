@@ -1,6 +1,10 @@
 #include "Game.h"
 
+#ifdef EDITOR_MODE
 #include <imgui-SFML.h>
+#endif
+
+#include <tracy/Tracy.hpp>
 
 #include "MediaFiles.h"
 #include "StateHandler.h"
@@ -18,6 +22,8 @@ struct Game::Impl
     sf::Sprite renderSprite;
     FontHolder font;
     std::unique_ptr<StateHandler> stateHandler;
+
+    sf::Event event;
 
     const sf::Time TimePerFrame;
 
@@ -56,22 +62,23 @@ struct Game::Impl
 
     void processWindowEvents()
     {
-        sf::Event event;
         while(window.pollEvent(event))
         {
+#ifdef EDITOR_MODE
             ImGui::SFML::ProcessEvent(event);
+#endif
 
             if (event.type == sf::Event::Closed)
             {
                 window.close();
             }
-
             stateHandler->processWindowEvents(event);
         }
     }
 
     void settingsUpdated()
     {
+        ZoneScopedN("Game Settings updated");
         settings = GameSettings::getSettings();
         renderTexture.create(settings.width, settings.height);
         renderSprite.setTexture(renderTexture.getTexture(), true);
@@ -79,20 +86,22 @@ struct Game::Impl
 
     void renderGame()
     {
+        ZoneScopedN("Game renderGame");
         renderTexture.display();
         window.draw(renderSprite);
     }
 
     void render()
     {
-        window.clear(sf::Color::Black);
+        ZoneScopedN("Game render");
+
+        window.clear();
 
         stateHandler->draw();
-
         renderGame();
-
+#ifdef EDITOR_MODE
         ImGui::SFML::Render(window);
-
+#endif
         window.setView(window.getDefaultView());
         window.display();
     }
@@ -101,18 +110,21 @@ struct Game::Impl
 Game::Game() noexcept : mImpl(std::make_unique<Impl>()) {}
 Game::~Game() noexcept = default;
 
-void Game::run() const
+void Game::run()
 {
-    sf::Clock clock;
+    ZoneScopedN("Game Run");
+
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     mImpl->window.setFramerateLimit(144);
 
+#ifdef EDITOR_MODE
     const auto success = ImGui::SFML::Init(mImpl->window);
-
     while (success && mImpl->window.isOpen())
+#else
+    while(mImpl->window.isOpen())
+#endif
     {
-        const sf::Time elapsedTime = clock.restart();
-        timeSinceLastUpdate += elapsedTime;
+        timeSinceLastUpdate += mClock.restart();
 
         while (timeSinceLastUpdate > mImpl->TimePerFrame)
         {
@@ -122,6 +134,8 @@ void Game::run() const
             mImpl->render();
         }
     }
-
+#ifdef EDITOR_MODE
     ImGui::SFML::Shutdown();
+#endif
+
 }

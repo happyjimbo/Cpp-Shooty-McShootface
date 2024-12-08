@@ -1,6 +1,10 @@
 #!/bin/bash
 # run.sh
 
+rm -rf build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+
 # Paths for the runtime (build) and source versions of settings.csv
 RUNTIME_CONFIG_PATH="./cmake-build-debug/bin/Media/Data/settings.csv"
 SOURCE_CONFIG_PATH="./Media/Data/settings.csv"

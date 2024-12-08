@@ -1,12 +1,15 @@
 #include "StateHandler.h"
+
+#include <tracy/Tracy.hpp>
+
 #include "TransitionScreen.h"
 #include "World.h"
 #include "Settings.h"
 #ifdef EDITOR_MODE
 #include "Performance.h"
+#include <imgui-SFML.h>
 #endif
 
-#include <imgui-SFML.h>
 
 struct StateHandler::Impl
 {
@@ -47,8 +50,10 @@ struct StateHandler::Impl
 
     void update(const sf::Time elapsedTime) const
     {
-        ImGui::SFML::Update(window, elapsedTime);
+        ZoneScopedN("StateHandler update");
+
 #ifdef EDITOR_MODE
+        ImGui::SFML::Update(window, elapsedTime);
         Performance::update(elapsedTime.asSeconds());
 #endif
 
@@ -60,6 +65,8 @@ struct StateHandler::Impl
 
     void processWindowEvents(const sf::Event& event)
     {
+        ZoneScopedN("StateHandler processWindowEvents");
+
         if (transitionScreen)
         {
             transitionScreen->handleEvent(event, [this]()
@@ -71,6 +78,8 @@ struct StateHandler::Impl
 
     void draw() const
     {
+        ZoneScopedN("StateHandler draw");
+
         settings.draw();
 
         if (world)
