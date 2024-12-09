@@ -18,14 +18,17 @@ void AircraftEntity::create(
     const int health)
 {
     auto& texture = textures.get(toTextureID(type));
-
-    flashShader = &shaders.get(Shaders::Flash);
-    flashShader->setUniform("flashColor", Red);
-
     if (mSprite.getTexture() != &texture)
     {
         mSprite.setTexture(texture);
     }
+
+    if (const auto shader = &shaders.get(Shaders::Flash); shader != mFlashShader)
+    {
+        mFlashShader = shader;
+        mFlashShader->setUniform("flashColor", Red);
+    }
+
 
     mType = type;
     mAircraftData.mHealth = health;
@@ -46,11 +49,11 @@ void AircraftEntity::triggerProjectile(const ProjectileEntity::Type& type, const
 
 void AircraftEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    flashShader->setUniform("time",
+    mFlashShader->setUniform("time",
         mAircraftData.isFlashing ? mAircraftData.flashingAccumulatedTime : 0.0f);
 
     states.transform *= getTransform();
-    states.shader = flashShader;
+    states.shader = mFlashShader;
     target.draw(mSprite, states);
 }
 

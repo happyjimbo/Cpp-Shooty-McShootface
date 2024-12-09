@@ -44,7 +44,7 @@ private:
 
     sf::Sprite mSprite;
     // shader is a borrowed pointer managed by ShaderHolder; do not delete it.
-    sf::Shader* shader = nullptr;
+    sf::Shader* mShader = nullptr;
     CloudData mCloudData;
     float mAccumulatedTime {};
 };

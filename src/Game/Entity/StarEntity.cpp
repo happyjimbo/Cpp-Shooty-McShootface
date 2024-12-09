@@ -4,7 +4,10 @@
 
 void StarEntity::create(const sf::Texture& texture)
 {
-    mSprite.setTexture(texture);
+    if (mSprite.getTexture() != &texture)
+    {
+        mSprite.setTexture(texture);
+    }
 
     mSprite.setScale(0.2f, 0.2f);
 

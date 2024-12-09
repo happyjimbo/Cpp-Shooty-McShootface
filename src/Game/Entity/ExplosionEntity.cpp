@@ -5,7 +5,10 @@
 
 void ExplosionEntity::create(const sf::Texture& texture, const sf::IntRect& rect)
 {
-    mSprite.setTexture(texture);
+    if (mSprite.getTexture() != &texture)
+    {
+        mSprite.setTexture(texture);
+    }
     mSprite.setTextureRect(rect);
 
     mExplosionData.reset();

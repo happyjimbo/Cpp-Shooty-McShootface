@@ -14,15 +14,21 @@ void CloudEntity::create(
     const float scrollSpeed
 )
 {
-    mSprite.setTexture(texture);
+    if (mSprite.getTexture() != &texture)
+    {
+        mSprite.setTexture(texture);
+    }
     mSprite.setTextureRect(rect);
     mSprite.setScale(sScaleX, sScaleY);
 
-    shader = &shaders.get(Shaders::Clouds);
+    if (const auto shader = &shaders.get(Shaders::Clouds); shader != mShader)
+    {
+        mShader = shader;
+    }
 
     auto& noise = textures.get(Textures::NoiseTexture);
-    shader->setUniform("noiseTexture", noise);
-    shader->setUniform("texture", sf::Shader::CurrentTexture);
+    mShader->setUniform("noiseTexture", noise);
+    mShader->setUniform("texture", sf::Shader::CurrentTexture);
 
     mCloudData.cloudRect = rect;
     mCloudData.scrollSpeed = scrollSpeed * 2.f;
@@ -30,10 +36,10 @@ void CloudEntity::create(
 
 void CloudEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    shader->setUniform("time", mAccumulatedTime);
+    mShader->setUniform("time", mAccumulatedTime);
 
     states.transform *= getTransform();
-    states.shader = shader;
+    states.shader = mShader;
     target.draw(mSprite, states);
 }
 
