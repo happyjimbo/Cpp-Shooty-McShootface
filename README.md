@@ -2,7 +2,12 @@
 
 A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along with the STL, Boost, and rapidcsv for efficient data management and performance. The game includes an Editor Mode, enabling real-time performance monitoring and memory usage tracking, alongside tools for adjusting settings dynamically.
 
+### Game Mode
+
 ![plot](./public/shooty.gif)
+
+### Editor Mode
+
 <img src="./public/Editor_Mode.png" width="600">
 
 ---
