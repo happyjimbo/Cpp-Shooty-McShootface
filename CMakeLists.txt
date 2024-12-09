@@ -11,7 +11,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 # Option to enable Editor mode
-option(ENABLE_EDITOR_MODE "Build with editor mode enabled" OFF)
+option(ENABLE_EDITOR_MODE "Build with editor mode enabled" ON)
 
 # Pass the define to the compiler
 if(ENABLE_EDITOR_MODE)
