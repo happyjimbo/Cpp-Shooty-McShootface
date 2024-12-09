@@ -33,12 +33,12 @@ GameSettingsData GameSettings::getSettings()
 
 GameSettingsData GameSettings::loadSettings()
 {
-    return CvsSerializer::load<GameSettingsData>(configPath);
+    return CvsSerializer::loadAsync<GameSettingsData>(configPath);
 }
 
 void GameSettings::updateSettings(const GameSettingsData& newSettings)
 {
-    CvsSerializer::update(newSettings, configPath);
+    CvsSerializer::updateAsync(newSettings, configPath);
     isSettingsStale = true;
     callback();
 }

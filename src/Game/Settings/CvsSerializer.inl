@@ -1,14 +1,28 @@
 #include "CvsSerializer.h"
 
 #include <iostream>
+#include <future>
 #include "rapidcsv.h"
 
 #include <boost/pfr/core.hpp>
 #include <boost/pfr/core_name.hpp>
+#include <tracy/Tracy.hpp>
+
+template<typename SerializeType>
+SerializeType CvsSerializer::loadAsync(const std::string& configPath)
+{
+    ZoneScopedN("CvsSerializer::loadAsync");
+
+    std::future<SerializeType> futureLoad = std::async(std::launch::async, &load<SerializeType>, configPath);
+    SerializeType result = futureLoad.get();
+    return result;
+}
 
 template<typename SerializeType>
 SerializeType CvsSerializer::load(const std::string& configPath)
 {
+    ZoneScopedN("CvsSerializer::load");
+
     SerializeType serialize;
     try
     {
@@ -50,8 +64,17 @@ SerializeType CvsSerializer::load(const std::string& configPath)
 }
 
 template<typename SerializeType>
+void CvsSerializer::updateAsync(const SerializeType& serialize, const std::string& configPath)
+{
+    ZoneScopedN("CvsSerializer::updateAsync");
+    const std::future<void> future = std::async(std::launch::async, &update<SerializeType>, serialize, configPath);
+    future.wait();
+}
+
+template<typename SerializeType>
 void CvsSerializer::update(const SerializeType& serialize, const std::string& configPath)
 {
+    ZoneScopedN("CvsSerializer::update");
     try
     {
         std::cout << "CvsSerializer::update" << std::endl;
