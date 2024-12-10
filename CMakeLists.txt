@@ -116,11 +116,10 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     set_target_properties(imgui ImGui-SFML PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
 
-
-    add_subdirectory(tracy)
-
-
 endif()
+
+
+add_subdirectory(tracy)
 
 # Collect all source files (you can modify the paths as needed)
 file(GLOB_RECURSE GAME_FILES
@@ -242,7 +241,7 @@ install(DIRECTORY ${MEDIA_DIR}
 add_executable(UnitTests_tests
         test_src/test_ProjectileFiringData.cpp
         test_src/test_CircularBuffer.cpp
-        test_src/test_CvsSerializer.cpp
+        test_src/test_CsvSerializer.cpp
 )
 
 # Include directories for the test target as well

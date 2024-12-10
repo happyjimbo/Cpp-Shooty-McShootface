@@ -2,7 +2,7 @@
 #include "GameSettingsData.h"
 #include "rapidcsv.h"
 #include <string>
-#include "CvsSerializer.h"
+#include "CsvSerializer.h"
 
 namespace
 {
@@ -33,12 +33,12 @@ GameSettingsData GameSettings::getSettings()
 
 GameSettingsData GameSettings::loadSettings()
 {
-    return CvsSerializer::loadAsync<GameSettingsData>(configPath);
+    return CsvSerializer::loadAsync<GameSettingsData>(configPath);
 }
 
 void GameSettings::updateSettings(const GameSettingsData& newSettings)
 {
-    CvsSerializer::updateAsync(newSettings, configPath);
+    CsvSerializer::updateAsync(newSettings, configPath);
     isSettingsStale = true;
     callback();
 }

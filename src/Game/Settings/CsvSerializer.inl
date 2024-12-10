@@ -1,4 +1,4 @@
-#include "CvsSerializer.h"
+#include "CsvSerializer.h"
 
 #include <iostream>
 #include <future>
@@ -9,7 +9,7 @@
 #include <tracy/Tracy.hpp>
 
 template<typename SerializeType>
-SerializeType CvsSerializer::loadAsync(const std::string& configPath)
+SerializeType CsvSerializer::loadAsync(const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::loadAsync");
 
@@ -19,7 +19,7 @@ SerializeType CvsSerializer::loadAsync(const std::string& configPath)
 }
 
 template<typename SerializeType>
-SerializeType CvsSerializer::load(const std::string& configPath)
+SerializeType CsvSerializer::load(const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::load");
 
@@ -64,7 +64,7 @@ SerializeType CvsSerializer::load(const std::string& configPath)
 }
 
 template<typename SerializeType>
-void CvsSerializer::updateAsync(const SerializeType& serialize, const std::string& configPath)
+void CsvSerializer::updateAsync(const SerializeType& serialize, const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::updateAsync");
     const std::future<void> future = std::async(std::launch::async, &update<SerializeType>, serialize, configPath);
@@ -72,7 +72,7 @@ void CvsSerializer::updateAsync(const SerializeType& serialize, const std::strin
 }
 
 template<typename SerializeType>
-void CvsSerializer::update(const SerializeType& serialize, const std::string& configPath)
+void CsvSerializer::update(const SerializeType& serialize, const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::update");
     try

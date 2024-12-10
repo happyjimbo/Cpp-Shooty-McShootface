@@ -1,6 +1,6 @@
 #pragma once
 
-class CvsSerializer final {
+class CsvSerializer final {
 public:
     template<typename SerializeType>
     static SerializeType load(const std::string& configPath);
@@ -15,4 +15,4 @@ public:
     static void updateAsync(const SerializeType& serialize, const std::string& configPath);
 };
 
-#include "CvsSerializer.inl"
+#include "CsvSerializer.inl"
