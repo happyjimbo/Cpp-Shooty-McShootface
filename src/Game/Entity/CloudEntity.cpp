@@ -6,6 +6,11 @@
 #include "ResourceIdentifiers.h"
 #include "ResourceHolder.h"
 
+namespace
+{
+    constexpr float AccumulatedTimeCap = 10.f;
+}
+
 void CloudEntity::create(
     const sf::Texture& texture,
     const TextureHolder& textures,
@@ -48,8 +53,8 @@ void CloudEntity::update(const sf::Time delta)
     EntityObject::update(delta);
     mAccumulatedTime += delta.asSeconds();
 
-    if (mAccumulatedTime > 10.f)
+    if (mAccumulatedTime > AccumulatedTimeCap)
     {
-        mAccumulatedTime = fmod(mAccumulatedTime, 10.f);
+        mAccumulatedTime = fmod(mAccumulatedTime, AccumulatedTimeCap);
     }
 }

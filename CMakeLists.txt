@@ -183,9 +183,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(${PROJECT_NAME} PRIVATE Boost::system)
     target_link_libraries(${PROJECT_NAME} PUBLIC Tracy::TracyClient)
 
-    # Enable multi-viewports in ImGui by defining the appropriate macro
-#    target_compile_definitions(${PROJECT_NAME} PRIVATE IMGUI_ENABLE_VIEWPORTS)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE TRACY_ENABLE TRACY_CALLSTACK=20)
+    #target_compile_definitions(${PROJECT_NAME} PRIVATE TRACY_ENABLE TRACY_CALLSTACK=20)
 
 endif ()
 

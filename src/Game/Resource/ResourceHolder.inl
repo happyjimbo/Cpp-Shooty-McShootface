@@ -1,4 +1,6 @@
 #include <cassert>
+#include <iostream>
+
 #include "ResourceHolder.h"
 
 template<typename Resource, typename Identifier>
@@ -41,6 +43,9 @@ const Resource& ResourceHolder<Resource, Identifier>::get(Identifier id) const
 template<typename Resource, typename Identifier>
 void ResourceHolder<Resource, Identifier>::insertResource(Identifier id, std::unique_ptr<Resource> resource)
 {
-    auto inseted = mResourceMap.insert(std::make_pair(id, std::move(resource)));
-    assert(inseted.second);
+    auto inserted = mResourceMap.insert(std::make_pair(id, std::move(resource)));
+    if (!inserted.second)
+    {
+        std::cerr << "Warning: Duplicate identifier detected in ResourceHolder" << std::endl;
+    }
 }
