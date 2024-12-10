@@ -23,6 +23,7 @@ endif()
 
 # Define the directory containing media files
 set(MEDIA_DIR "${CMAKE_SOURCE_DIR}/Media")
+set(TEST_DIR "${CMAKE_SOURCE_DIR}/test_src")
 
 # Debug and Release flags
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
@@ -45,6 +46,19 @@ FetchContent_Declare(
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+
+# If Boost is not found automatically, manually set paths
+if(NOT Boost_FOUND)
+    set(Boost_INCLUDE_DIR /opt/homebrew/include)
+    set(Boost_LIBRARY_DIR /opt/homebrew/lib)
+    set(Boost_SYSTEM_LIBRARY /opt/homebrew/lib/libboost_system.a)
+    find_package(Boost 1.86 REQUIRED COMPONENTS system)
+endif()
+
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost 1.86.0 REQUIRED COMPONENTS)
 
 # Detect platform
 if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -73,18 +87,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     )
     FetchContent_MakeAvailable(rapidcsv)
 
-    # If Boost is not found automatically, manually set paths
-    if(NOT Boost_FOUND)
-        set(Boost_INCLUDE_DIR /opt/homebrew/include)
-        set(Boost_LIBRARY_DIR /opt/homebrew/lib)
-        set(Boost_SYSTEM_LIBRARY /opt/homebrew/lib/libboost_system.a)
-        find_package(Boost 1.86 REQUIRED COMPONENTS system)
-    endif()
 
-    set(Boost_USE_STATIC_LIBS OFF)
-    set(Boost_USE_MULTITHREADED ON)
-    set(Boost_USE_STATIC_RUNTIME OFF)
-    find_package(Boost 1.86.0 REQUIRED COMPONENTS)
 
     # Manually add ImGui source files (since ImGui doesn't define its own CMake target)
     set(IMGUI_SOURCES
@@ -239,6 +242,7 @@ install(DIRECTORY ${MEDIA_DIR}
 add_executable(UnitTests_tests
         test_src/test_ProjectileFiringData.cpp
         test_src/test_CircularBuffer.cpp
+        test_src/test_CvsSerializer.cpp
 )
 
 # Include directories for the test target as well
@@ -258,10 +262,24 @@ target_include_directories(UnitTests_tests PRIVATE
         ${CMAKE_SOURCE_DIR}/src/game/Util/DataStruct
         ${CMAKE_SOURCE_DIR}/src/game/Audio
         ${CMAKE_SOURCE_DIR}/src/game/Settings
+        ${Boost_INCLUDE_DIRS}
 )
 
 # Link GoogleTest and SFML to the test executable
 target_link_libraries(UnitTests_tests PRIVATE GTest::gtest_main GTest::gmock_main sfml-graphics)
+target_link_libraries(UnitTests_tests PRIVATE rapidcsv)
+target_link_libraries(UnitTests_tests PRIVATE Boost::headers)
+target_link_libraries(UnitTests_tests PRIVATE Boost::system)
+target_link_libraries(UnitTests_tests PUBLIC Tracy::TracyClient)
+
+# copy test csv over to test
+add_custom_command(
+        TARGET UnitTests_tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${TEST_DIR}/test.csv
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/test_src/test.csv
+)
+
 
 # Enable C++20 features for the tests as well
 target_compile_features(UnitTests_tests PRIVATE cxx_std_20)
