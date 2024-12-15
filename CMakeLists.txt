@@ -124,18 +124,19 @@ add_subdirectory(tracy)
 # Collect all source files (you can modify the paths as needed)
 file(GLOB_RECURSE GAME_FILES
         "${CMAKE_SOURCE_DIR}/src/main.cpp"
-        "${CMAKE_SOURCE_DIR}/src/game/*.cpp"
-        "${CMAKE_SOURCE_DIR}/src/game/*.h"
-        "${CMAKE_SOURCE_DIR}/src/game/*.inl"
+        "${CMAKE_SOURCE_DIR}/src/Profiler/*.h"
+        "${CMAKE_SOURCE_DIR}/src/Game/*.cpp"
+        "${CMAKE_SOURCE_DIR}/src/Game/*.h"
+        "${CMAKE_SOURCE_DIR}/src/Game/*.inl"
 )
 
 # Conditionally collect editor files
 if(ENABLE_EDITOR_MODE)
     add_definitions(-DENABLE_EDITOR_MODE)
     file(GLOB_RECURSE EDITOR_FILES
-            "${CMAKE_SOURCE_DIR}/src/editor/*.cpp"
-            "${CMAKE_SOURCE_DIR}/src/editor/*.h"
-            "${CMAKE_SOURCE_DIR}/src/editor/*.inl"
+            "${CMAKE_SOURCE_DIR}/src/Editor/*.cpp"
+            "${CMAKE_SOURCE_DIR}/src/Editor/*.h"
+            "${CMAKE_SOURCE_DIR}/src/Editor/*.inl"
     )
     set(SOURCE_FILES ${GAME_FILES} ${EDITOR_FILES})
 else()
@@ -147,28 +148,29 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Include directories for the project
 target_include_directories(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/game
-        ${CMAKE_SOURCE_DIR}/src/game/state
-        ${CMAKE_SOURCE_DIR}/src/game/Gui
-        ${CMAKE_SOURCE_DIR}/src/game/Entity
-        ${CMAKE_SOURCE_DIR}/src/game/Resource
-        ${CMAKE_SOURCE_DIR}/src/game/Command
-        ${CMAKE_SOURCE_DIR}/src/game/Initializers
-        ${CMAKE_SOURCE_DIR}/src/game/System
-        ${CMAKE_SOURCE_DIR}/src/game/ObjectPool
-        ${CMAKE_SOURCE_DIR}/src/game/Data
-        ${CMAKE_SOURCE_DIR}/src/game/Util/Math
-        ${CMAKE_SOURCE_DIR}/src/game/Util/OS
-        ${CMAKE_SOURCE_DIR}/src/game/Util/DataStruct
-        ${CMAKE_SOURCE_DIR}/src/game/Audio
-        ${CMAKE_SOURCE_DIR}/src/game/Settings
+        ${CMAKE_SOURCE_DIR}/src/Game
+        ${CMAKE_SOURCE_DIR}/src/Game/state
+        ${CMAKE_SOURCE_DIR}/src/Game/Gui
+        ${CMAKE_SOURCE_DIR}/src/Game/Entity
+        ${CMAKE_SOURCE_DIR}/src/Game/Resource
+        ${CMAKE_SOURCE_DIR}/src/Game/Command
+        ${CMAKE_SOURCE_DIR}/src/Game/Initializers
+        ${CMAKE_SOURCE_DIR}/src/Game/System
+        ${CMAKE_SOURCE_DIR}/src/Game/ObjectPool
+        ${CMAKE_SOURCE_DIR}/src/Game/Data
+        ${CMAKE_SOURCE_DIR}/src/Game/Util/Math
+        ${CMAKE_SOURCE_DIR}/src/Game/Util/OS
+        ${CMAKE_SOURCE_DIR}/src/Game/Util/DataStruct
+        ${CMAKE_SOURCE_DIR}/src/Game/Audio
+        ${CMAKE_SOURCE_DIR}/src/Game/Settings
+        ${CMAKE_SOURCE_DIR}/src/Profiler
         ${Boost_INCLUDE_DIRS}
 )
 
 # Add editor-specific include directories if ENABLE_EDITOR_MODE is defined
 if(ENABLE_EDITOR_MODE)
     target_include_directories(${PROJECT_NAME} PRIVATE
-            ${CMAKE_SOURCE_DIR}/src/editor
+            ${CMAKE_SOURCE_DIR}/src/Editor
     )
 endif()
 
@@ -244,21 +246,22 @@ add_executable(UnitTests_tests
 
 # Include directories for the test target as well
 target_include_directories(UnitTests_tests PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/game
-        ${CMAKE_SOURCE_DIR}/src/game/state
-        ${CMAKE_SOURCE_DIR}/src/game/Gui
-        ${CMAKE_SOURCE_DIR}/src/game/Entity
-        ${CMAKE_SOURCE_DIR}/src/game/Resource
-        ${CMAKE_SOURCE_DIR}/src/game/Command
-        ${CMAKE_SOURCE_DIR}/src/game/Initializers
-        ${CMAKE_SOURCE_DIR}/src/game/System
-        ${CMAKE_SOURCE_DIR}/src/game/ObjectPool
-        ${CMAKE_SOURCE_DIR}/src/game/Data
-        ${CMAKE_SOURCE_DIR}/src/game/Util/Math
-        ${CMAKE_SOURCE_DIR}/src/game/Util/OS
-        ${CMAKE_SOURCE_DIR}/src/game/Util/DataStruct
-        ${CMAKE_SOURCE_DIR}/src/game/Audio
-        ${CMAKE_SOURCE_DIR}/src/game/Settings
+        ${CMAKE_SOURCE_DIR}/src/Game
+        ${CMAKE_SOURCE_DIR}/src/Game/state
+        ${CMAKE_SOURCE_DIR}/src/Game/Gui
+        ${CMAKE_SOURCE_DIR}/src/Game/Entity
+        ${CMAKE_SOURCE_DIR}/src/Game/Resource
+        ${CMAKE_SOURCE_DIR}/src/Game/Command
+        ${CMAKE_SOURCE_DIR}/src/Game/Initializers
+        ${CMAKE_SOURCE_DIR}/src/Game/System
+        ${CMAKE_SOURCE_DIR}/src/Game/ObjectPool
+        ${CMAKE_SOURCE_DIR}/src/Game/Data
+        ${CMAKE_SOURCE_DIR}/src/Game/Util/Math
+        ${CMAKE_SOURCE_DIR}/src/Game/Util/OS
+        ${CMAKE_SOURCE_DIR}/src/Game/Util/DataStruct
+        ${CMAKE_SOURCE_DIR}/src/Game/Audio
+        ${CMAKE_SOURCE_DIR}/src/Game/Settings
+        ${CMAKE_SOURCE_DIR}/src/Profiler
         ${Boost_INCLUDE_DIRS}
 )
 

@@ -1,26 +1,8 @@
 #include <iostream>
-#ifdef TRACY_ENABLE
-#include <tracy/Tracy.hpp>
-#endif
-
+#include "TracyOperators.h"
 #include "Game.h"
 #include "GameSettings.h"
 
-
-#ifdef TRACY_ENABLE
-void* operator new (std::size_t size)
-{
-    void* ptr = malloc(size);
-    TracyAlloc(ptr, size);
-    return ptr;
-}
-
-void operator delete(void* ptr) noexcept
-{
-    TracyFree(ptr);
-    free(ptr);
-}
-#endif
 
 int main(const int argc, char* argv[])
 {
