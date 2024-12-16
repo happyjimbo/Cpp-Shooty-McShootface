@@ -5,11 +5,12 @@
 class CsvSerializerTest : public ::testing::Test
 {
 protected:
-    std::unique_ptr<CsvSerializer<GameSettingsData>> csvSerializer = std::make_unique<CsvSerializer<GameSettingsData>>();
+    std::unique_ptr<CsvSerializer<GameSettingsData>> csvSerializer;
     GameSettingsData data;
 
     void SetUp() override
     {
+        csvSerializer = std::make_unique<CsvSerializer<GameSettingsData>>();
         data = csvSerializer->load("./test_src/test.csv");
     }
 };
