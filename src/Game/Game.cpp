@@ -40,7 +40,7 @@ struct Game::Impl
 
     explicit Impl(const std::string& configPath)
     : gameSettings(std::make_shared<GameSettings>(
-        std::make_unique<CsvSerializerImpl<GameSettingsData>>(),
+        std::make_unique<CsvSerializer<GameSettingsData>>(),
         configPath,
         [this]() { settingsUpdated(); }
     ))

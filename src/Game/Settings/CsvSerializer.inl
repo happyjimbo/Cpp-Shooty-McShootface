@@ -1,5 +1,3 @@
-#include "CsvSerializer.h"
-
 #include <iostream>
 #include <future>
 #include "rapidcsv.h"
@@ -9,17 +7,18 @@
 #include <tracy/Tracy.hpp>
 
 template<typename SerializeType>
-SerializeType CsvSerializer::loadAsync(const std::string& configPath)
+SerializeType CsvSerializer<SerializeType>::loadAsync(const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::loadAsync");
 
-    std::future<SerializeType> futureLoad = std::async(std::launch::async, &load<SerializeType>, configPath);
-    SerializeType result = futureLoad.get();
-    return result;
+    std::future<SerializeType> futureLoad = std::async(std::launch::async, [this, configPath]() {
+       return this->load(configPath);
+    });
+    return futureLoad.get();
 }
 
 template<typename SerializeType>
-SerializeType CsvSerializer::load(const std::string& configPath)
+SerializeType CsvSerializer<SerializeType>::load(const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::load");
 
@@ -64,15 +63,17 @@ SerializeType CsvSerializer::load(const std::string& configPath)
 }
 
 template<typename SerializeType>
-void CsvSerializer::updateAsync(const SerializeType& serialize, const std::string& configPath)
+void CsvSerializer<SerializeType>::updateAsync(const SerializeType& serialize, const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::updateAsync");
-    const std::future<void> future = std::async(std::launch::async, &update<SerializeType>, serialize, configPath);
+    const std::future<void> future = std::async(std::launch::async, [this, serialize, configPath]() {
+        this->update(serialize, configPath);
+    });
     future.wait();
 }
 
 template<typename SerializeType>
-void CsvSerializer::update(const SerializeType& serialize, const std::string& configPath)
+void CsvSerializer<SerializeType>::update(const SerializeType& serialize, const std::string& configPath)
 {
     ZoneScopedN("CvsSerializer::update");
     try

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "CsvSerializerImpl.h"
+#include "CsvSerializer.h"
 #include "GameSettingsData.h"
 
-class MockCsvSerializer final : public CsvSerializerImpl<GameSettingsData>
+class MockCsvSerializer final : public CsvSerializer<GameSettingsData>
 {
 public:
     MOCK_METHOD(GameSettingsData, load, (const std::string& configPath), (override));

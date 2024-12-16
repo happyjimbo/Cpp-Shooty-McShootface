@@ -1,8 +1,7 @@
 #pragma once
 
 template<typename SerializeType>
-class
-ICsvSerializer {
+class ICsvSerializer {
 public:
     virtual ~ICsvSerializer() = default;
     virtual SerializeType load(const std::string& configPath) = 0;

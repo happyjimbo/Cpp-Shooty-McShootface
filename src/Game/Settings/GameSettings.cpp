@@ -4,7 +4,7 @@
 #include <string>
 
 GameSettings::GameSettings(
-    std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl,
+    std::unique_ptr<CsvSerializer<GameSettingsData>> csvSerializerImpl,
     const std::string& path,
     const std::function<void()>& callback
 ) noexcept

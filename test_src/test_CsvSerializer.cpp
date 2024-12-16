@@ -2,10 +2,20 @@
 #include "CsvSerializer.h"
 #include "GameSettingsData.h"
 
-TEST(CsvSerializerTest, EnsureCsvIsLoadedAndNotDefault)
+class CsvSerializerTest : public ::testing::Test
 {
-    auto data = CsvSerializer::load<GameSettingsData>("./test_src/test.csv");
+protected:
+    std::unique_ptr<CsvSerializer<GameSettingsData>> csvSerializer = std::make_unique<CsvSerializer<GameSettingsData>>();
+    GameSettingsData data;
 
+    void SetUp() override
+    {
+        data = csvSerializer->load("./test_src/test.csv");
+    }
+};
+
+TEST_F(CsvSerializerTest, EnsureCsvIsLoadedAndNotDefault)
+{
     EXPECT_NE(data.title, "title");
     EXPECT_NE(data.width, 640);
     EXPECT_NE(data.height, 480);
@@ -13,10 +23,8 @@ TEST(CsvSerializerTest, EnsureCsvIsLoadedAndNotDefault)
     EXPECT_NE(data.mute, false);
 }
 
-TEST(CsvSerializerTest, EnsureCsvIsLoadedAndUsingTestValues)
+TEST_F(CsvSerializerTest, EnsureCsvIsLoadedAndUsingTestValues)
 {
-    auto data = CsvSerializer::load<GameSettingsData>("./test_src/test.csv");
-
     EXPECT_EQ(data.title, "test");
     EXPECT_EQ(data.width, 1024);
     EXPECT_EQ(data.height, 768);
@@ -24,10 +32,8 @@ TEST(CsvSerializerTest, EnsureCsvIsLoadedAndUsingTestValues)
     EXPECT_EQ(data.mute, true);
 }
 
-TEST(CsvSerializerTest, EnsureCsvIsLoadedAsyncAndNotDefault)
+TEST_F(CsvSerializerTest, EnsureCsvIsLoadedAsyncAndNotDefault)
 {
-    auto data = CsvSerializer::loadAsync<GameSettingsData>("./test_src/test.csv");
-
     EXPECT_NE(data.title, "title");
     EXPECT_NE(data.width, 640);
     EXPECT_NE(data.height, 480);
@@ -35,10 +41,8 @@ TEST(CsvSerializerTest, EnsureCsvIsLoadedAsyncAndNotDefault)
     EXPECT_NE(data.mute, false);
 }
 
-TEST(CsvSerializerTest, EnsureCsvIsLoadedAsyncAndUsingTestValues)
+TEST_F(CsvSerializerTest, EnsureCsvIsLoadedAsyncAndUsingTestValues)
 {
-    auto data = CsvSerializer::loadAsync<GameSettingsData>("./test_src/test.csv");
-
     EXPECT_EQ(data.title, "test");
     EXPECT_EQ(data.width, 1024);
     EXPECT_EQ(data.height, 768);

@@ -1,14 +1,14 @@
 #pragma once
 #include <functional>
 
-#include "CsvSerializerImpl.h"
+#include "CsvSerializer.h"
 #include "GameSettingsData.h"
 
 class GameSettings final
 {
 public:
     explicit GameSettings(
-        std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl,
+        std::unique_ptr<CsvSerializer<GameSettingsData>> csvSerializerImpl,
         const std::string& path,
         const std::function<void()>& callback
     ) noexcept;
@@ -20,7 +20,7 @@ public:
 private:
     GameSettingsData loadSettings() const;
 
-    std::unique_ptr<CsvSerializerImpl<GameSettingsData>> mCsvSerializerImpl;
+    std::unique_ptr<CsvSerializer<GameSettingsData>> mCsvSerializerImpl;
     std::string mConfigPath {};
 
     GameSettingsData mCachedSettings;
