@@ -11,21 +11,16 @@ class GameSettingsTest : public ::testing:: Test
 protected:
     std::unique_ptr<MockCsvSerializer> mock;
     std::string configPath = "path/to/config.csv";
+    GameSettingsData testSettings {"hello world", 100, 200, 10, true};
 
     void SetUp() override
     {
         mock = std::make_unique<MockCsvSerializer>();
     }
-
-    void TearDown() override
-    {
-        mock.reset();
-    }
 };
 
 TEST_F(GameSettingsTest, GetGameSettingsUsesLoadAsync)
 {
-    GameSettingsData testSettings {"hello world", 100, 200, 10, true};
     EXPECT_CALL(*mock, loadAsync(configPath)).WillOnce(Return(testSettings));
 
     GameSettings gameSettings { std::move(mock), configPath, nullptr };
@@ -36,8 +31,6 @@ TEST_F(GameSettingsTest, GetGameSettingsUsesLoadAsync)
 
 TEST_F(GameSettingsTest, UpdateSettingsUsesUpdateAsync)
 {
-    GameSettingsData testSettings {"hello world", 100, 200, 10, true};
-
     EXPECT_CALL(*mock, loadAsync(configPath)).WillOnce(Return(testSettings));
     EXPECT_CALL(*mock, updateAsync(testSettings, configPath)).Times(1);
 
@@ -70,11 +63,7 @@ TEST_F(GameSettingsTest, UpdateSettingsChangesSettings)
 
 TEST_F(GameSettingsTest, UpdateSettingsCallback)
 {
-    GameSettingsData testSettings {"Initial Title", 800, 600, 60, false};
-
-    EXPECT_CALL(*mock, loadAsync(configPath))
-        .WillRepeatedly(Return(testSettings));
-
+    EXPECT_CALL(*mock, loadAsync(configPath)).WillRepeatedly(Return(testSettings));
     EXPECT_CALL(*mock, updateAsync(testSettings, configPath)).Times(1);
 
     bool callback = false;

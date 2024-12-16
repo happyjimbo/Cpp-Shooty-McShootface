@@ -3,7 +3,7 @@
 #include "CsvSerializerImpl.h"
 #include "GameSettingsData.h"
 
-class MockCsvSerializer : public CsvSerializerImpl<GameSettingsData>
+class MockCsvSerializer final : public CsvSerializerImpl<GameSettingsData>
 {
 public:
     MOCK_METHOD(GameSettingsData, load, (const std::string& configPath), (override));
