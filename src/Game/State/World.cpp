@@ -50,7 +50,7 @@ struct World::Impl
     SoundEffects soundEffects;
     ShaderHolder shaders;
 
-    Impl(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
+    Impl(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const SoundSettings& soundSettings, const std::function<void()>& endGameCallback)
     : gameRenderTexture(gameRenderTexture)
     , worldView(gameRenderTexture.getDefaultView())
     , endGameCallback(endGameCallback)
@@ -58,7 +58,7 @@ struct World::Impl
     , worldBounds(0.f, 0.f, worldView.getSize().x, worldView.getSize().y)
     , spawnPosition(worldView.getSize().x / 2.f, worldBounds.height - worldView.getSize().y / 2.f)
     , textures(loadTextures())
-    , soundEffects(settings)
+    , soundEffects(soundSettings)
     , shaders(loadShaders())
     // Create the Initializers and systems
     , playerAircraftInitializer (playerAircraftEntitySystem, textures, shaders, playerData, spawnPosition)
@@ -240,8 +240,8 @@ struct World::Impl
     PlayerControls simpleControls;
 };
 
-World::World(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback)
-: mImpl(std::make_unique<Impl>(gameRenderTexture, font, settings, endGameCallback))
+World::World(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const SoundSettings& soundSettings, const std::function<void()>& endGameCallback)
+: mImpl(std::make_unique<Impl>(gameRenderTexture, font, soundSettings, endGameCallback))
 {
     // Last time I ran this it was 1824 bytes
     //std::cout << "Size of World::Impl: " << sizeof(Impl) << " bytes\n";

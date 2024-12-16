@@ -1,15 +1,12 @@
 #include "Settings.h"
 
-#ifdef EDITOR_MODE
 #include <string>
 #include <imgui.h>
 #include <iostream>
-#endif
 
 #include "GameSettings.h"
 #include "GameSettingsData.h"
 
-#ifdef EDITOR_MODE
 namespace
 {
     void Input(int& property, const char* label)
@@ -31,7 +28,6 @@ namespace
     }
 
 }
-#endif
 
 struct Settings::Impl
 {
@@ -48,7 +44,6 @@ struct Settings::Impl
 
     void draw()
     {
-#ifdef EDITOR_MODE
         ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
         ImGui::PushItemWidth(70.0f);
         ImGui::Checkbox("Pause", &isPaused);
@@ -65,8 +60,6 @@ struct Settings::Impl
         ImGui::PopItemWidth();
 
         ImGui::End();
-#endif
-
     }
 };
 

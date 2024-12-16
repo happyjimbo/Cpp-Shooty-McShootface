@@ -28,7 +28,6 @@ struct Game::Impl
 
     const char* GamePanelName = "Game Panel";
 
-
     explicit Impl(const std::string& configPath, std::unique_ptr<IGameMode> gMode)
     : gameSettings(std::make_shared<GameSettings>(
         std::make_unique<CsvSerializer<GameSettingsData>>(),
@@ -44,14 +43,18 @@ struct Game::Impl
         renderSprite.setTexture(renderTexture.getTexture());
 
         font.load(Fonts::Main, MediaFiles::Font);
-        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, gameSettings);
+        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font);
         window.setKeyRepeatEnabled(false);
+
+        gameMode->setSettings(gameSettings);
     }
 
     void update(const sf::Time elapsedTime)
     {
-        gameMode->update(window, elapsedTime);
-        stateHandler->update(elapsedTime);
+        if (gameMode->update(window, elapsedTime))
+        {
+            stateHandler->update(elapsedTime);
+        }
     }
 
     void processWindowEvents()
@@ -71,6 +74,7 @@ struct Game::Impl
     {
         ZoneScopedN("Game Settings updated");
         settings = gameSettings->getGameSettingsData();
+        stateHandler->settingsUpdated(settings);
         renderTexture.create(settings.width, settings.height);
         renderSprite.setTexture(renderTexture.getTexture(), true);
     }

@@ -3,7 +3,7 @@
 #include <functional>
 #include "ResourceIdentifiers.h"
 
-class Settings;
+struct SoundSettings;
 
 namespace sf
 {
@@ -15,7 +15,7 @@ class World final
 {
 
 public:
-    explicit World(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const Settings& settings, const std::function<void()>& endGameCallback);
+    explicit World(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const SoundSettings& soundSettings, const std::function<void()>& endGameCallback);
     ~World();
 
     World(const World&) = delete;

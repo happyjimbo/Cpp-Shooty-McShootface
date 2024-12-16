@@ -2,9 +2,10 @@
 
 #include <tracy/Tracy.hpp>
 
+#include "GameSettingsData.h"
 #include "TransitionScreen.h"
 #include "World.h"
-#include "Settings.h"
+#include "SoundSettings.h"
 
 struct StateHandler::Impl
 {
@@ -15,13 +16,12 @@ struct StateHandler::Impl
     sf::RenderTexture& gameRenderTexture;
     const FontHolder& font;
 
-    const Settings settings;
+    SoundSettings soundSettings;
 
-    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, std::shared_ptr<GameSettings> gameSettings) noexcept
+    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
     : window(window)
     , gameRenderTexture(gameRenderTexture)
     , font(font)
-    , settings(std::move(gameSettings))
     {
         showTransitionScreen("Shooty Mcshootface", "Play now!");
     }
@@ -31,7 +31,7 @@ struct StateHandler::Impl
         transitionScreen.reset();
         transitionScreen = nullptr;
 
-        world = std::make_unique<World>(gameRenderTexture, font, settings, [this]()
+        world = std::make_unique<World>(gameRenderTexture, font, soundSettings, [this]()
         {
             showTransitionScreen("YOU DIED", "Play again!");
         });
@@ -48,7 +48,7 @@ struct StateHandler::Impl
     {
         ZoneScopedN("StateHandler update");
 
-        if (world && !settings.isPaused())
+        if (world)
         {
             world->update(elapsedTime);
         }
@@ -71,8 +71,6 @@ struct StateHandler::Impl
     {
         ZoneScopedN("StateHandler draw");
 
-        settings.draw();
-
         if (world)
         {
             world->draw();
@@ -83,10 +81,15 @@ struct StateHandler::Impl
             transitionScreen->draw();
         }
     }
+
+    void settingsUpdated(const GameSettingsData& settings)
+    {
+        soundSettings.isMuted = settings.mute;
+    }
 };
 
-StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, std::shared_ptr<GameSettings> gameSettings) noexcept
-: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font, std::move(gameSettings)))
+StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
+: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font))
 {
 }
 
@@ -105,4 +108,9 @@ void StateHandler::processWindowEvents(const sf::Event& event) const
 void StateHandler::draw() const
 {
     mImpl->draw();
+}
+
+void StateHandler::settingsUpdated(const GameSettingsData& settings) const
+{
+    mImpl->settingsUpdated(settings);
 }

@@ -5,12 +5,12 @@
 #include "SoundPool.h"
 #include <SFML/Audio/SoundBuffer.hpp>
 
-class Settings;
+struct SoundSettings;
 
 class SoundEffects final
 {
 public:
-	explicit SoundEffects(const Settings& settings);
+	explicit SoundEffects(const SoundSettings& settings);
 	~SoundEffects() = default;
 
 	void play(Sounds::ID effect);
@@ -19,7 +19,7 @@ public:
 private:
 	SoundHolder mSounds {};
 	SoundPool mSoundPool;
-	const Settings& mSettings;
+	const SoundSettings& mSettings;
 	size_t activeSoundPosition {0};
 
 	std::array<sf::Sound*, SoundPool::POOL_SIZE> mActiveSounds = {nullptr};
