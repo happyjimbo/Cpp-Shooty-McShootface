@@ -49,7 +49,6 @@ TEST_F(GameSettingsTest, UpdateSettingsUsesUpdateAsync)
 
 TEST_F(GameSettingsTest, UpdateSettingsChangesSettings)
 {
-
     GameSettingsData initialSettings {"Initial Title", 800, 600, 60, false};
     GameSettingsData updatedSettings {"Updated Title", 1920, 1080, 144, true};
 
@@ -67,4 +66,25 @@ TEST_F(GameSettingsTest, UpdateSettingsChangesSettings)
 
     EXPECT_EQ(settings1, initialSettings);
     EXPECT_EQ(settings2, updatedSettings);;
+}
+
+TEST_F(GameSettingsTest, UpdateSettingsCallback)
+{
+    GameSettingsData testSettings {"Initial Title", 800, 600, 60, false};
+
+    EXPECT_CALL(*mock, loadAsync(configPath))
+        .WillRepeatedly(Return(testSettings));
+
+    EXPECT_CALL(*mock, updateAsync(testSettings, configPath)).Times(1);
+
+    bool callback = false;
+
+    GameSettings gameSettings {std::move(mock), configPath, [&]
+    {
+        callback = true;
+    }};
+
+    EXPECT_FALSE(callback);
+    gameSettings.updateSettings(testSettings);
+    EXPECT_TRUE(callback);
 }
