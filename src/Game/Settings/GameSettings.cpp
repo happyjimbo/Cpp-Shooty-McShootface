@@ -3,9 +3,14 @@
 #include "rapidcsv.h"
 #include <string>
 
-GameSettings::GameSettings(std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl, const std::string& path) noexcept
+GameSettings::GameSettings(
+    std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl,
+    const std::string& path,
+    const std::function<void()>& callback
+) noexcept
 : mCsvSerializerImpl(std::move(csvSerializerImpl))
 , mConfigPath(path)
+, mCallback(callback)
 {
 
 }
@@ -32,10 +37,8 @@ void GameSettings::updateSettings(const GameSettingsData& newSettings)
 {
     mCsvSerializerImpl->updateAsync(newSettings, mConfigPath);
     mIsSettingsStale = true;
-    mCallback();
-}
-
-void GameSettings::settingsUpdated(const std::function<void()>& callback)
-{
-    mCallback = callback;
+    if (mCallback)
+    {
+        mCallback();
+    }
 }

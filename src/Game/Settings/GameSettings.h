@@ -7,12 +7,16 @@
 class GameSettings final
 {
 public:
-    explicit GameSettings(std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl, const std::string& path) noexcept;
+    explicit GameSettings(
+        std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl,
+        const std::string& path,
+        const std::function<void()>& callback
+    ) noexcept;
+
     ~GameSettings() noexcept = default;
 
     GameSettingsData getGameSettingsData();
     void updateSettings(const GameSettingsData& newSettings);
-    void settingsUpdated(const std::function<void()>& callback);
 private:
     GameSettingsData loadSettings() const;
 

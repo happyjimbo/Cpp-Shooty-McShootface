@@ -3,7 +3,7 @@
 #include "ICsvSerializer.h"
 
 template <typename SerializeType>
-class CsvSerializerImpl final : public ICsvSerializer<SerializeType> {
+class CsvSerializerImpl : public ICsvSerializer<SerializeType> {
 public:
     SerializeType load(const std::string& configPath) override
     {

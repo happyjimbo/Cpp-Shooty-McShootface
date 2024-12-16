@@ -39,7 +39,11 @@ struct Game::Impl
     }
 
     explicit Impl(const std::string& configPath)
-    : gameSettings(std::make_shared<GameSettings>(std::make_unique<CsvSerializerImpl<GameSettingsData>>(), configPath))
+    : gameSettings(std::make_shared<GameSettings>(
+        std::make_unique<CsvSerializerImpl<GameSettingsData>>(),
+        configPath,
+        [this]() { settingsUpdated(); }
+    ))
     , settings(gameSettings->getGameSettingsData())
     , window(determineVideoMode(), settings.title, sf::Style::Close)
     , TimePerFrame(sf::seconds(1 / static_cast<float>(settings.fps)))
@@ -50,11 +54,6 @@ struct Game::Impl
         font.load(Fonts::Main, MediaFiles::Font);
         stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, gameSettings);
         window.setKeyRepeatEnabled(false);
-
-        gameSettings->settingsUpdated([this]()
-        {
-            settingsUpdated();
-        });
     }
 
     void update(const sf::Time elapsedTime) const

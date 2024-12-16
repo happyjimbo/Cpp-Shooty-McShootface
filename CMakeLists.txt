@@ -242,6 +242,12 @@ add_executable(UnitTests_tests
         test_src/test_ProjectileFiringData.cpp
         test_src/test_CircularBuffer.cpp
         test_src/test_CsvSerializer.cpp
+        test_src/MockCsvSerializer.h
+        test_src/test_GameSettings.cpp
+)
+
+target_sources(UnitTests_tests PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/Game/Settings/GameSettings.cpp
 )
 
 # Include directories for the test target as well
@@ -264,6 +270,8 @@ target_include_directories(UnitTests_tests PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Profiler
         ${Boost_INCLUDE_DIRS}
 )
+
+target_include_directories(UnitTests_tests PRIVATE ${CMAKE_SOURCE_DIR}/src/Editor)
 
 # Link GoogleTest and SFML to the test executable
 target_link_libraries(UnitTests_tests PRIVATE GTest::gtest_main GTest::gmock_main sfml-graphics)

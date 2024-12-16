@@ -9,4 +9,13 @@ struct GameSettingsData
     int height = 480;
     int fps = 30.f;
     bool mute = false;
+
+    bool operator==(const GameSettingsData &other) const
+    {
+        return title == other.title &&
+                width == other.width &&
+                height == other.height &&
+                fps == other.fps &&
+                mute == other.mute;
+    }
 };
