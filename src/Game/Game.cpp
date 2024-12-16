@@ -46,7 +46,7 @@ struct Game::Impl
         stateHandler = std::make_unique<StateHandler>(window, renderTexture, font);
         window.setKeyRepeatEnabled(false);
 
-        gameMode->setSettings(gameSettings);
+        gameMode->init(window, gameSettings);
     }
 
     void update(const sf::Time elapsedTime)

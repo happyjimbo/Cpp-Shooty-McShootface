@@ -12,7 +12,7 @@ class IGameMode {
 public:
     virtual ~IGameMode() = default;
 
-    virtual void setSettings(std::shared_ptr<GameSettings>& gameSettings) = 0;
+    virtual void init(sf::RenderWindow& window, [[maybe_unused]]std::shared_ptr<GameSettings>& gameSettings) = 0;
     virtual sf::VideoMode determineVideoMode([[maybe_unused]] const GameSettingsData& settings) const = 0;
     virtual bool isWindowOpen(sf::RenderWindow& window) = 0;
     virtual void processEvent(sf::Event& event) = 0;
@@ -25,14 +25,14 @@ class StanardGameMode : public IGameMode
 {
 public:
 
-    void setSettings([[maybe_unused]]std::shared_ptr<GameSettings>& gameSettings) override
-    {
-
-    }
-
     sf::VideoMode determineVideoMode(const GameSettingsData& settings) const override
     {
         return sf::VideoMode(settings.width, settings.height);
+    }
+
+    void init(sf::RenderWindow&, [[maybe_unused]]std::shared_ptr<GameSettings>&) override
+    {
+
     }
 
     bool isWindowOpen(sf::RenderWindow& window) override
@@ -69,21 +69,22 @@ public:
 class EditorGameMode : public IGameMode {
 public:
 
+    bool success {false};
     std::unique_ptr<Settings> settingsPanel;
-
-    void setSettings(std::shared_ptr<GameSettings>& gameSettings) override
-    {
-        settingsPanel = std::make_unique<Settings>(gameSettings);
-    }
 
     sf::VideoMode determineVideoMode([[maybe_unused]] const GameSettingsData& settings) const override
     {
         return sf::VideoMode::getDesktopMode();
     }
 
+    void init(sf::RenderWindow& window, [[maybe_unused]]std::shared_ptr<GameSettings>& gameSettings) override
+    {
+        success = ImGui::SFML::Init(window);
+        settingsPanel = std::make_unique<Settings>(gameSettings);
+    }
+
     bool isWindowOpen(sf::RenderWindow& window) override
     {
-        const auto success = ImGui::SFML::Init(window);
         return success && window.isOpen();
     }
 
