@@ -22,10 +22,11 @@ struct StateHandler::Impl
 
     const Settings settings;
 
-    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
+    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, std::shared_ptr<GameSettings> gameSettings) noexcept
     : window(window)
     , gameRenderTexture(gameRenderTexture)
     , font(font)
+    , settings(std::move(gameSettings))
     {
         showTransitionScreen("Shooty Mcshootface", "Play now!");
     }
@@ -94,8 +95,8 @@ struct StateHandler::Impl
     }
 };
 
-StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
-: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font))
+StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, std::shared_ptr<GameSettings> gameSettings) noexcept
+: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font, std::move(gameSettings)))
 {
 }
 

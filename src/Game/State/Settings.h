@@ -1,10 +1,12 @@
 #pragma once
 #include <memory>
 
+class GameSettings;
+
 class Settings final
 {
 public:
-    explicit Settings() noexcept;
+    explicit Settings(std::shared_ptr<GameSettings> gameSettings) noexcept;
     ~Settings() noexcept;
 
     explicit Settings(const Settings&) = delete;

@@ -17,9 +17,7 @@ int main(const int argc, char* argv[])
         const std::string configPath = argv[1];
         std::cout << "Using config file: " << configPath << std::endl;
 
-        GameSettings::setConfigPath(configPath);
-
-        Game game;
+        Game game {configPath};
         game.run();
     }
     catch (std::exception& exception)

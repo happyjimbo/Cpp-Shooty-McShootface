@@ -2,10 +2,12 @@
 #include <memory>
 #include "SFML/Graphics.hpp"
 
+class GameSettings;
+
 class Game final
 {
 public:
-    explicit Game() noexcept;
+    explicit Game(const std::string& configPath) noexcept;
     ~Game() noexcept;
 
     Game(const Game&) = delete;

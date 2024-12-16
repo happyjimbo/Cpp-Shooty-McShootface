@@ -2,48 +2,40 @@
 #include "GameSettingsData.h"
 #include "rapidcsv.h"
 #include <string>
-#include "CsvSerializer.h"
 
-namespace
+GameSettings::GameSettings(std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl, const std::string& path) noexcept
+: mCsvSerializerImpl(std::move(csvSerializerImpl))
+, mConfigPath(path)
 {
-    GameSettingsData cachedSettings;
-    bool isSettingsStale = true;
-    std::string configPath {};
-    std::function<void()> callback;
 
 }
 
-void GameSettings::setConfigPath(const std::string& path)
+GameSettingsData GameSettings::getGameSettingsData()
 {
-    configPath = path;
-}
-
-GameSettingsData GameSettings::getSettings()
-{
-    if (!isSettingsStale)
+    if (!mIsSettingsStale)
     {
-        return cachedSettings;
+        return mCachedSettings;
     }
 
-    cachedSettings = loadSettings();
-    isSettingsStale = false;
+    mCachedSettings = loadSettings();
+    mIsSettingsStale = false;
 
-    return cachedSettings;
+    return mCachedSettings;
 }
 
-GameSettingsData GameSettings::loadSettings()
+GameSettingsData GameSettings::loadSettings() const
 {
-    return CsvSerializer::loadAsync<GameSettingsData>(configPath);
+    return mCsvSerializerImpl->loadAsync(mConfigPath);
 }
 
 void GameSettings::updateSettings(const GameSettingsData& newSettings)
 {
-    CsvSerializer::updateAsync(newSettings, configPath);
-    isSettingsStale = true;
-    callback();
+    mCsvSerializerImpl->updateAsync(newSettings, mConfigPath);
+    mIsSettingsStale = true;
+    mCallback();
 }
 
-void GameSettings::settingsUpdated(const std::function<void()>& call)
+void GameSettings::settingsUpdated(const std::function<void()>& callback)
 {
-    callback = call;
+    mCallback = callback;
 }

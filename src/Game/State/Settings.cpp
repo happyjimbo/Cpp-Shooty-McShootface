@@ -35,14 +35,16 @@ namespace
 
 struct Settings::Impl
 {
+    std::shared_ptr<GameSettings> gameSettings;
+    GameSettingsData settings;
     bool isPaused {};
 
-    GameSettingsData settings = GameSettings::getSettings();
-
-    int width = settings.width;
-    int height = settings.height;
-    int fps = settings.fps;
-    bool mute = settings.mute;
+    explicit Impl(std::shared_ptr<GameSettings> gSettings) noexcept
+    : gameSettings(std::move(gSettings))
+    , settings(gameSettings ? gameSettings->getGameSettingsData() : GameSettingsData{})
+    {
+        assert(gameSettings && "GameSettings must not be null");
+    }
 
     void draw()
     {
@@ -50,16 +52,15 @@ struct Settings::Impl
         ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
         ImGui::PushItemWidth(70.0f);
         ImGui::Checkbox("Pause", &isPaused);
-        ImGui::Checkbox("Mute", &mute);
+        ImGui::Checkbox("Mute", &settings.mute);
 
-        Input(width, "width");
-        Input(height, "height");
-        Input(fps, "fps");
+        Input(settings.width, "width");
+        Input(settings.height, "height");
+        Input(settings.fps, "fps");
 
         if (ImGui::Button("Save"))
         {
-            const GameSettingsData data {settings.title, width, height, fps, mute};
-            GameSettings::updateSettings(data);
+            gameSettings->updateSettings(settings);
         }
         ImGui::PopItemWidth();
 
@@ -69,7 +70,12 @@ struct Settings::Impl
     }
 };
 
-Settings::Settings() noexcept : mImpl(std::make_unique<Impl>()) {}
+Settings::Settings(std::shared_ptr<GameSettings> gameSettings) noexcept
+: mImpl(std::make_unique<Impl>(std::move(gameSettings)))
+{
+
+}
+
 Settings::~Settings() noexcept = default;
 
 void Settings::draw() const
@@ -84,5 +90,5 @@ bool Settings::isPaused() const
 
 bool Settings::isMuted() const
 {
-    return mImpl->mute;
+    return mImpl->settings.mute;
 }

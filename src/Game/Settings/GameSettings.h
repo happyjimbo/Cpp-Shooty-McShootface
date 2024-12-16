@@ -1,15 +1,25 @@
 #pragma once
 #include <functional>
 
-struct GameSettingsData;
+#include "CsvSerializerImpl.h"
+#include "GameSettingsData.h"
 
 class GameSettings final
 {
 public:
-    static void setConfigPath(const std::string&);
-    static GameSettingsData getSettings();
-    static void updateSettings(const GameSettingsData& newSettings);
-    static void settingsUpdated(const std::function<void()>& callback);
+    explicit GameSettings(std::unique_ptr<CsvSerializerImpl<GameSettingsData>> csvSerializerImpl, const std::string& path) noexcept;
+    ~GameSettings() noexcept = default;
+
+    GameSettingsData getGameSettingsData();
+    void updateSettings(const GameSettingsData& newSettings);
+    void settingsUpdated(const std::function<void()>& callback);
 private:
-    static GameSettingsData loadSettings();
+    GameSettingsData loadSettings() const;
+
+    std::unique_ptr<CsvSerializerImpl<GameSettingsData>> mCsvSerializerImpl;
+    std::string mConfigPath {};
+
+    GameSettingsData mCachedSettings;
+    bool mIsSettingsStale = true;
+    std::function<void()> mCallback;
 };

@@ -15,6 +15,7 @@
 
 struct Game::Impl
 {
+    std::shared_ptr<GameSettings> gameSettings;
     GameSettingsData settings;
 
     sf::RenderWindow window;
@@ -37,8 +38,9 @@ struct Game::Impl
         #endif
     }
 
-    explicit Impl()
-    : settings(GameSettings::getSettings())
+    explicit Impl(const std::string& configPath)
+    : gameSettings(std::make_shared<GameSettings>(std::make_unique<CsvSerializerImpl<GameSettingsData>>(), configPath))
+    , settings(gameSettings->getGameSettingsData())
     , window(determineVideoMode(), settings.title, sf::Style::Close)
     , TimePerFrame(sf::seconds(1 / static_cast<float>(settings.fps)))
     {
@@ -46,10 +48,10 @@ struct Game::Impl
         renderSprite.setTexture(renderTexture.getTexture());
 
         font.load(Fonts::Main, MediaFiles::Font);
-        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font);
+        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, gameSettings);
         window.setKeyRepeatEnabled(false);
 
-        GameSettings::settingsUpdated([this]()
+        gameSettings->settingsUpdated([this]()
         {
             settingsUpdated();
         });
@@ -79,7 +81,7 @@ struct Game::Impl
     void settingsUpdated()
     {
         ZoneScopedN("Game Settings updated");
-        settings = GameSettings::getSettings();
+        settings = gameSettings->getGameSettingsData();
         renderTexture.create(settings.width, settings.height);
         renderSprite.setTexture(renderTexture.getTexture(), true);
     }
@@ -107,7 +109,7 @@ struct Game::Impl
     }
 };
 
-Game::Game() noexcept : mImpl(std::make_unique<Impl>()) {}
+Game::Game(const std::string& configPath) noexcept : mImpl(std::make_unique<Impl>(configPath)) {}
 Game::~Game() noexcept = default;
 
 void Game::run()

@@ -4,6 +4,8 @@
 
 #include "ResourceIdentifiers.h"
 
+class GameSettings;
+
 namespace sf
 {
     class RenderTexture;
@@ -15,7 +17,7 @@ namespace sf
 class StateHandler final
 {
 public:
-    explicit StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept;
+    explicit StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, std::shared_ptr<GameSettings> gameSettings) noexcept;
     ~StateHandler() noexcept;
 
     explicit StateHandler(const StateHandler&) = delete;
