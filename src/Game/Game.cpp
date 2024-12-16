@@ -1,9 +1,5 @@
 #include "Game.h"
 
-#ifdef EDITOR_MODE
-#include <imgui-SFML.h>
-#endif
-
 #include <tracy/Tracy.hpp>
 
 #include "MediaFiles.h"
@@ -12,11 +8,13 @@
 #include "SFML/Graphics.hpp"
 #include "GameSettingsData.h"
 #include "GameSettings.h"
+#include "IGameMode.h"
 
 struct Game::Impl
 {
     std::shared_ptr<GameSettings> gameSettings;
     GameSettingsData settings;
+    std::unique_ptr<IGameMode> gameMode;
 
     sf::RenderWindow window;
     sf::RenderTexture renderTexture;
@@ -30,22 +28,16 @@ struct Game::Impl
 
     const char* GamePanelName = "Game Panel";
 
-    sf::VideoMode determineVideoMode() const {
-        #ifdef EDITOR_MODE
-            return sf::VideoMode::getDesktopMode();
-        #else
-            return sf::VideoMode(settings.width, settings.height);
-        #endif
-    }
 
-    explicit Impl(const std::string& configPath)
+    explicit Impl(const std::string& configPath, std::unique_ptr<IGameMode> gMode)
     : gameSettings(std::make_shared<GameSettings>(
         std::make_unique<CsvSerializer<GameSettingsData>>(),
         configPath,
         [this]() { settingsUpdated(); }
     ))
     , settings(gameSettings->getGameSettingsData())
-    , window(determineVideoMode(), settings.title, sf::Style::Close)
+    , gameMode(std::move(gMode))
+    , window(gameMode->determineVideoMode(settings), settings.title, sf::Style::Close)
     , TimePerFrame(sf::seconds(1 / static_cast<float>(settings.fps)))
     {
         renderTexture.create(settings.width, settings.height);
@@ -56,8 +48,9 @@ struct Game::Impl
         window.setKeyRepeatEnabled(false);
     }
 
-    void update(const sf::Time elapsedTime) const
+    void update(const sf::Time elapsedTime)
     {
+        gameMode->update(window, elapsedTime);
         stateHandler->update(elapsedTime);
     }
 
@@ -65,10 +58,7 @@ struct Game::Impl
     {
         while(window.pollEvent(event))
         {
-#ifdef EDITOR_MODE
-            ImGui::SFML::ProcessEvent(event);
-#endif
-
+            gameMode->processEvent(event);
             if (event.type == sf::Event::Closed)
             {
                 window.close();
@@ -100,15 +90,28 @@ struct Game::Impl
 
         stateHandler->draw();
         renderGame();
-#ifdef EDITOR_MODE
-        ImGui::SFML::Render(window);
-#endif
+        gameMode->render(window);
         window.setView(window.getDefaultView());
         window.display();
     }
+
+    bool isWindowOpen()
+    {
+        return gameMode->isWindowOpen(window);
+    }
+
+    void shutDown() const
+    {
+        gameMode->shutdown();
+    }
+
 };
 
-Game::Game(const std::string& configPath) noexcept : mImpl(std::make_unique<Impl>(configPath)) {}
+Game::Game(const std::string& configPath, std::unique_ptr<IGameMode> gameMode) noexcept
+: mImpl(std::make_unique<Impl>(configPath, std::move(gameMode)))
+{
+}
+
 Game::~Game() noexcept = default;
 
 void Game::run()
@@ -118,12 +121,7 @@ void Game::run()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     mImpl->window.setFramerateLimit(144);
 
-#ifdef EDITOR_MODE
-    const auto success = ImGui::SFML::Init(mImpl->window);
-    while (success && mImpl->window.isOpen())
-#else
-    while(mImpl->window.isOpen())
-#endif
+    while(mImpl->isWindowOpen())
     {
         timeSinceLastUpdate += mClock.restart();
 
@@ -135,8 +133,5 @@ void Game::run()
             mImpl->render();
         }
     }
-#ifdef EDITOR_MODE
-    ImGui::SFML::Shutdown();
-#endif
-
+    mImpl->shutDown();
 }

@@ -2,7 +2,7 @@
 #include "TracyOperators.h"
 #include "Game.h"
 #include "GameSettings.h"
-
+#include "IGameMode.h"
 
 int main(const int argc, char* argv[])
 {
@@ -17,7 +17,9 @@ int main(const int argc, char* argv[])
         const std::string configPath = argv[1];
         std::cout << "Using config file: " << configPath << std::endl;
 
-        Game game {configPath};
+        std::unique_ptr<IGameMode> gameMode = CreateGameMode();
+
+        Game game {configPath, std::move(gameMode)};
         game.run();
     }
     catch (std::exception& exception)

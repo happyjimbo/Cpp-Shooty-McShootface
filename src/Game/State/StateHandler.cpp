@@ -5,11 +5,6 @@
 #include "TransitionScreen.h"
 #include "World.h"
 #include "Settings.h"
-#ifdef EDITOR_MODE
-#include "Performance.h"
-#include <imgui-SFML.h>
-#endif
-
 
 struct StateHandler::Impl
 {
@@ -52,11 +47,6 @@ struct StateHandler::Impl
     void update(const sf::Time elapsedTime) const
     {
         ZoneScopedN("StateHandler update");
-
-#ifdef EDITOR_MODE
-        ImGui::SFML::Update(window, elapsedTime);
-        Performance::update(elapsedTime.asSeconds());
-#endif
 
         if (world && !settings.isPaused())
         {
