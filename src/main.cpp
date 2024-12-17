@@ -2,7 +2,7 @@
 #include "TracyOperators.h"
 #include "Game.h"
 #include "GameSettings.h"
-#include "IGameMode.h"
+#include "GameModeFactory.h"
 
 int main(const int argc, char* argv[])
 {

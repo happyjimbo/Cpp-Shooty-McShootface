@@ -8,7 +8,7 @@
 #include "SFML/Graphics.hpp"
 #include "GameSettingsData.h"
 #include "GameSettings.h"
-#include "IGameMode.h"
+#include "../IGameMode.h"
 
 struct Game::Impl
 {

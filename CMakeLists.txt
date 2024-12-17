@@ -124,6 +124,8 @@ add_subdirectory(tracy)
 # Collect all source files (you can modify the paths as needed)
 file(GLOB_RECURSE GAME_FILES
         "${CMAKE_SOURCE_DIR}/src/main.cpp"
+        "${CMAKE_SOURCE_DIR}/src/GameModeFactory.cpp"
+        "${CMAKE_SOURCE_DIR}/src/IGameMode.cpp"
         "${CMAKE_SOURCE_DIR}/src/Profiler/*.h"
         "${CMAKE_SOURCE_DIR}/src/Game/*.cpp"
         "${CMAKE_SOURCE_DIR}/src/Game/*.h"
