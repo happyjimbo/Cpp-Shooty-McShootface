@@ -166,6 +166,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src/Game/Audio
         ${CMAKE_SOURCE_DIR}/src/Game/Settings
         ${CMAKE_SOURCE_DIR}/src/Profiler
+        ${CMAKE_SOURCE_DIR}/src
         ${Boost_INCLUDE_DIRS}
 )
 
