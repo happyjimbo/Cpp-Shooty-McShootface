@@ -7,7 +7,7 @@ inline std::unique_ptr<IGameMode> CreateGameMode()
     return std::make_unique<EditorGameMode>();
 }
 #else
-#include "Game/StandardGameMode.h"
+#include "StandardGameMode.h"
 inline std::unique_ptr<IGameMode> CreateGameMode()
 {
     return std::make_unique<StandardGameMode>();
