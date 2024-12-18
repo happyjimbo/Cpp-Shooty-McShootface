@@ -7,12 +7,12 @@
 
 #include <imgui-SFML.h>
 
-sf::VideoMode EditorGameMode::determineVideoMode([[maybe_unused]] const GameSettingsData& settings) const
+sf::VideoMode EditorGameMode::determineVideoMode(const GameSettingsData&) const
 {
     return sf::VideoMode::getDesktopMode();
 }
 
-void EditorGameMode::init(sf::RenderWindow& window, [[maybe_unused]]std::shared_ptr<GameSettings>& gameSettings)
+void EditorGameMode::init(sf::RenderWindow& window, std::shared_ptr<GameSettings>& gameSettings)
 {
     success = ImGui::SFML::Init(window);
     settingsPanel = std::make_unique<Settings>(gameSettings);

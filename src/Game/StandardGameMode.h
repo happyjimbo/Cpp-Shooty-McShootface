@@ -15,33 +15,20 @@ public:
         return sf::VideoMode(settings.width, settings.height);
     }
 
-    void init(sf::RenderWindow&, [[maybe_unused]]std::shared_ptr<GameSettings>&) override
-    {
-
-    }
+    void init(sf::RenderWindow&, std::shared_ptr<GameSettings>&) override { }
 
     bool isWindowOpen(sf::RenderWindow& window) override
     {
         return window.isOpen();
     }
 
-    void processEvent(sf::Event&) override
-    {
-
-    }
+    void processEvent(sf::Event&) override { }
 
     bool update(sf::RenderWindow&, const sf::Time&) override
     {
         return true;
     }
 
-    void render(sf::RenderWindow&) override
-    {
-
-    }
-
-    void shutdown() override
-    {
-
-    }
+    void render(sf::RenderWindow&) override { }
+    void shutdown() override { }
 };
