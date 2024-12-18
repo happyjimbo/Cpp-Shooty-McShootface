@@ -8,6 +8,7 @@ using Aircraft::AircraftEntity;
 namespace
 {
     constexpr float CollisionThreshold = 30.f;
+    constexpr float collisionSqr = CollisionThreshold * CollisionThreshold;
 }
 
 ProjectileCollisionSystem::ProjectileCollisionSystem(
@@ -29,8 +30,6 @@ void ProjectileCollisionSystem::execute() const
 {
     const auto& projectiles = mProjectileEntites.getEntities();
     const auto& enemyAircraft = mEnemyAircraftEntities.getEntities();
-
-    constexpr float collisionSqr = CollisionThreshold * CollisionThreshold;
 
     for(const auto& projectile : projectiles)
     {
