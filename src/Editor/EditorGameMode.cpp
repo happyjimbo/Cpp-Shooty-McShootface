@@ -7,6 +7,8 @@
 
 #include <imgui-SFML.h>
 
+using GameMode::EditorGameMode;
+
 sf::VideoMode EditorGameMode::determineVideoMode(const GameSettingsData&) const
 {
     return sf::VideoMode::getDesktopMode();

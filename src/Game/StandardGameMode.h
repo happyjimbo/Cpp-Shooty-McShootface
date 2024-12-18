@@ -6,29 +6,32 @@
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-class StandardGameMode final : public IGameMode
+namespace GameMode
 {
-public:
-
-    sf::VideoMode determineVideoMode(const GameSettingsData& settings) const override
+    class StandardGameMode final : public IGameMode
     {
-        return sf::VideoMode(settings.width, settings.height);
-    }
+    public:
 
-    void init(sf::RenderWindow&, std::shared_ptr<GameSettings>&) override { }
+        sf::VideoMode determineVideoMode(const GameSettingsData& settings) const override
+        {
+            return sf::VideoMode(settings.width, settings.height);
+        }
 
-    bool isWindowOpen(sf::RenderWindow& window) override
-    {
-        return window.isOpen();
-    }
+        void init(sf::RenderWindow&, std::shared_ptr<GameSettings>&) override { }
 
-    void processEvent(sf::Event&) override { }
+        bool isWindowOpen(sf::RenderWindow& window) override
+        {
+            return window.isOpen();
+        }
 
-    bool update(sf::RenderWindow&, const sf::Time&) override
-    {
-        return true;
-    }
+        void processEvent(sf::Event&) override { }
 
-    void render(sf::RenderWindow&) override { }
-    void shutdown() override { }
-};
+        bool update(sf::RenderWindow&, const sf::Time&) override
+        {
+            return true;
+        }
+
+        void render(sf::RenderWindow&) override { }
+        void shutdown() override { }
+    };
+}

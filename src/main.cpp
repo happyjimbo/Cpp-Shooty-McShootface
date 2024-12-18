@@ -17,7 +17,7 @@ int main(const int argc, char* argv[])
         const std::string configPath = argv[1];
         std::cout << "Using config file: " << configPath << std::endl;
 
-        std::unique_ptr<IGameMode> gameMode = CreateGameMode();
+        std::unique_ptr<IGameMode> gameMode = GameMode::CreateGameMode();
 
         Game game {configPath, std::move(gameMode)};
         game.run();

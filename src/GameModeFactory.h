@@ -1,15 +1,22 @@
 #pragma once
 
+
 #ifdef EDITOR_MODE
 #include "EditorGameMode.h"
-inline std::unique_ptr<IGameMode> CreateGameMode()
+namespace GameMode
 {
-    return std::make_unique<EditorGameMode>();
+    inline std::unique_ptr<IGameMode> CreateGameMode()
+    {
+        return std::make_unique<EditorGameMode>();
+    }
 }
 #else
 #include "StandardGameMode.h"
-inline std::unique_ptr<IGameMode> CreateGameMode()
+namespace GameMode
 {
-    return std::make_unique<StandardGameMode>();
+    inline std::unique_ptr<IGameMode> CreateGameMode()
+    {
+        return std::make_unique<StandardGameMode>();
+    }
 }
 #endif
