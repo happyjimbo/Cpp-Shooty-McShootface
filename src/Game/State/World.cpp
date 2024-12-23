@@ -29,6 +29,8 @@
 
 #include <tracy/Tracy.hpp>
 
+#include "EntitySystems.h"
+
 namespace
 {
     constexpr float ScrollSpeed {-50.f};
@@ -50,6 +52,8 @@ struct World::Impl
     SoundEffects soundEffects;
     ShaderHolder shaders;
 
+    EntitySystems entitySystems;
+
     Impl(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const SoundSettings& soundSettings, const std::function<void()>& endGameCallback)
     : gameRenderTexture(gameRenderTexture)
     , worldView(gameRenderTexture.getDefaultView())
@@ -61,43 +65,43 @@ struct World::Impl
     , soundEffects(soundSettings)
     , shaders(loadShaders())
     // Create the Initializers and systems
-    , playerAircraftInitializer (playerAircraftEntitySystem, textures, shaders, playerData, spawnPosition)
+    , playerAircraftInitializer (entitySystems.playerAircraftEntitySystem, textures, shaders, playerData, spawnPosition)
     , guiInitializer (
         fonts,
-        labelEntitySystem,
+        entitySystems.labelEntitySystem,
         playerAircraftInitializer.getPlayerAircaft(),
         playerData,
         worldBounds.width
     )
-    , backgroundInitializer (backgroundEntitySystem, textures, gameRenderTexture.getSize(), ScrollSpeed)
-    , cloudsInitializer (cloudEntitySystem, textures, shaders, ScrollSpeed)
-    , enemyAircraftInitializer (enemyAircraftEntitySystem)
-    , explosionInitializer (explosionEntitySystem, textures, soundEffects)
-    , projectileInitializer (projectileEntitySystem, textures, worldBounds, soundEffects)
-    , starInitializer(starEntitySystem, textures)
+    , backgroundInitializer (entitySystems.backgroundEntitySystem, textures, gameRenderTexture.getSize(), ScrollSpeed)
+    , cloudsInitializer (entitySystems.cloudEntitySystem, textures, shaders, ScrollSpeed)
+    , enemyAircraftInitializer (entitySystems.enemyAircraftEntitySystem)
+    , explosionInitializer (entitySystems.explosionEntitySystem, textures, soundEffects)
+    , projectileInitializer (entitySystems.projectileEntitySystem, textures, worldBounds, soundEffects)
+    , starInitializer(entitySystems.starEntitySystem, textures)
     , playerAircraftMovementSystem(
         playerAircraftInitializer.getPlayerAircaft(),
            worldView.getCenter(),
            worldView.getSize(),
            ScrollSpeed
         )
-    , enemyAircraftMovementSystem (enemyAircraftEntitySystem, playerAircraftInitializer.getPlayerAircaft(), ScrollSpeed)
-    , projectileMovementSystem (projectileEntitySystem)
+    , enemyAircraftMovementSystem (entitySystems.enemyAircraftEntitySystem, playerAircraftInitializer.getPlayerAircaft(), ScrollSpeed)
+    , projectileMovementSystem (entitySystems.projectileEntitySystem)
     , projectileCollisionSystem (
-        projectileEntitySystem,
-        enemyAircraftEntitySystem,
+        entitySystems.projectileEntitySystem,
+        entitySystems.enemyAircraftEntitySystem,
         playerAircraftInitializer.getPlayerAircaft(),
         explosionInitializer,
         guiInitializer
     )
-    , spawnEnemyAircraftSystem (enemyAircraftEntitySystem, textures, shaders, worldBounds.width)
-    , enemyProjectileSpawnSystem (enemyAircraftEntitySystem, projectileInitializer)
-    , playerProjectileSpawnSystem (playerAircraftEntitySystem,projectileInitializer)
-    , removeOffScreenEnemiesSystem (enemyAircraftEntitySystem, worldBounds.height)
-    , removeOffScreenProjectilesSystem (projectileEntitySystem, worldBounds.height)
-    , explosionAnimationSystem (explosionEntitySystem)
-    , cloudMovementSystem (cloudEntitySystem)
-    , backgroundMovementSystem (backgroundEntitySystem)
+    , spawnEnemyAircraftSystem (entitySystems.enemyAircraftEntitySystem, textures, shaders, worldBounds.width)
+    , enemyProjectileSpawnSystem (entitySystems.enemyAircraftEntitySystem, projectileInitializer)
+    , playerProjectileSpawnSystem (entitySystems.playerAircraftEntitySystem,projectileInitializer)
+    , removeOffScreenEnemiesSystem (entitySystems.enemyAircraftEntitySystem, worldBounds.height)
+    , removeOffScreenProjectilesSystem (entitySystems.projectileEntitySystem, worldBounds.height)
+    , explosionAnimationSystem (entitySystems.explosionEntitySystem)
+    , cloudMovementSystem (entitySystems.cloudEntitySystem)
+    , backgroundMovementSystem (entitySystems.backgroundEntitySystem)
     , playerKilledSystem (playerAircraftInitializer.getPlayerAircaft(), endGameCallback)
     , starMovementSystem(starInitializer.getStarEntity(), playerAircraftInitializer.getPlayerAircaft())
     , simpleControls (playerAircraftInitializer.getPlayerAircaft())
@@ -109,14 +113,14 @@ struct World::Impl
     {
         gameRenderTexture.setView(worldView);
 
-        drawEntities(backgroundEntitySystem);
-        drawEntities(cloudEntitySystem);
-        drawEntities(explosionEntitySystem);
-        drawEntities(projectileEntitySystem);
-        drawEntities(enemyAircraftEntitySystem);
-        drawEntities(playerAircraftEntitySystem);
-        drawEntities(labelEntitySystem);
-        drawEntities(starEntitySystem);
+        drawEntities(entitySystems.backgroundEntitySystem);
+        drawEntities(entitySystems.cloudEntitySystem);
+        drawEntities(entitySystems.explosionEntitySystem);
+        drawEntities(entitySystems.projectileEntitySystem);
+        drawEntities(entitySystems.enemyAircraftEntitySystem);
+        drawEntities(entitySystems.playerAircraftEntitySystem);
+        drawEntities(entitySystems.labelEntitySystem);
+        drawEntities(entitySystems.starEntitySystem);
     }
 
     template <typename T>
@@ -184,13 +188,13 @@ struct World::Impl
 
         simpleControls.handleRealtimeInput();
 
-        playerAircraftEntitySystem.update(delta);
-        projectileEntitySystem.update(delta);
-        enemyAircraftEntitySystem.update(delta);
-        labelEntitySystem.update(delta);
-        explosionEntitySystem.update(delta);
-        cloudEntitySystem.update(delta);
-        starEntitySystem.update(delta);
+        entitySystems.playerAircraftEntitySystem.update(delta);
+        entitySystems.projectileEntitySystem.update(delta);
+        entitySystems.enemyAircraftEntitySystem.update(delta);
+        entitySystems.labelEntitySystem.update(delta);
+        entitySystems.explosionEntitySystem.update(delta);
+        entitySystems.cloudEntitySystem.update(delta);
+        entitySystems.starEntitySystem.update(delta);
 
         soundEffects.update();
     }
@@ -204,14 +208,14 @@ struct World::Impl
         playerKilledSystem.execute();
     }
 
-    EntitySystem<ProjectileEntity> projectileEntitySystem;
-    EntitySystem<Aircraft::AircraftEntity> playerAircraftEntitySystem;
-    EntitySystem<Aircraft::AircraftEntity> enemyAircraftEntitySystem;
-    EntitySystem<BackgroundEntity> backgroundEntitySystem;
-    EntitySystem<CloudEntity> cloudEntitySystem;
-    EntitySystem<ExplosionEntity> explosionEntitySystem;
-    EntitySystem<GUI::Label> labelEntitySystem;
-    EntitySystem<StarEntity> starEntitySystem;
+    // EntitySystem<ProjectileEntity> projectileEntitySystem;
+    // EntitySystem<Aircraft::AircraftEntity> playerAircraftEntitySystem;
+    // EntitySystem<Aircraft::AircraftEntity> enemyAircraftEntitySystem;
+    // EntitySystem<BackgroundEntity> backgroundEntitySystem;
+    // EntitySystem<CloudEntity> cloudEntitySystem;
+    // EntitySystem<ExplosionEntity> explosionEntitySystem;
+    // EntitySystem<GUI::Label> labelEntitySystem;
+    // EntitySystem<StarEntity> starEntitySystem;
 
     PlayerAircraftInitializer playerAircraftInitializer;
     GuiInitializer guiInitializer;
@@ -247,16 +251,20 @@ World::World(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const
     //std::cout << "Size of World::Impl: " << sizeof(Impl) << " bytes\n";
 }
 
+void World::update(const sf::Time delta) const
+{
+    mImpl->update(delta);
+    mImpl->lateUpdate();
+}
+
 void World::draw() const
 {
     mImpl->draw();
 }
 
-
-void World::update(const sf::Time delta) const
+EntitySystems& World::getEntitySystems() const
 {
-    mImpl->update(delta);
-    mImpl->lateUpdate();
+    return mImpl->entitySystems;
 }
 
 World::~World() = default;

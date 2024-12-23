@@ -1,8 +1,13 @@
 #pragma once
 
 #include <functional>
+
+#include "EntitySystem.h"
 #include "ResourceIdentifiers.h"
 
+class EntityObject;
+
+struct EntitySystems;
 struct SoundSettings;
 
 namespace sf
@@ -26,6 +31,8 @@ public:
 
     void update(sf::Time) const;
     void draw() const;
+
+    EntitySystems& getEntitySystems() const;
     
 private:
     struct Impl;
