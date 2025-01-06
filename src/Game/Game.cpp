@@ -43,7 +43,10 @@ struct Game::Impl
         renderSprite.setTexture(renderTexture.getTexture());
 
         font.load(Fonts::Main, MediaFiles::Font);
-        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font);
+        stateHandler = std::make_unique<StateHandler>(window, renderTexture, font, [this](World* world)
+        {
+            gameMode->setWorld(world);
+        });
         window.setKeyRepeatEnabled(false);
 
         gameMode->init(window, gameSettings);

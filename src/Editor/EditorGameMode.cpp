@@ -7,6 +7,9 @@
 
 #include <imgui-SFML.h>
 
+#include "EntitySystems.h"
+#include "World.h"
+
 using GameMode::EditorGameMode;
 
 sf::VideoMode EditorGameMode::determineVideoMode(const GameSettingsData&) const
@@ -16,13 +19,13 @@ sf::VideoMode EditorGameMode::determineVideoMode(const GameSettingsData&) const
 
 void EditorGameMode::init(sf::RenderWindow& window, std::shared_ptr<GameSettings>& gameSettings)
 {
-    success = ImGui::SFML::Init(window);
-    settingsPanel = std::make_unique<Settings>(gameSettings);
+    mSuccess = ImGui::SFML::Init(window);
+    mSettingsPanel = std::make_unique<Settings>(gameSettings);
 }
 
 bool EditorGameMode::isWindowOpen(sf::RenderWindow& window)
 {
-    return success && window.isOpen();
+    return mSuccess && window.isOpen();
 }
 
 void EditorGameMode::processEvent(sf::Event& event)
@@ -35,16 +38,27 @@ bool EditorGameMode::update(sf::RenderWindow& window, const sf::Time& elapsedTim
     ImGui::SFML::Update(window, elapsedTime);
     Performance::update(elapsedTime.asSeconds());
 
-    return !settingsPanel->isPaused();
+    if (mWorld != nullptr)
+    {
+        auto& projectiles = mWorld->getEntitySystems().projectileEntitySystem.getEntities();
+        std::cout << projectiles.size() << std::endl;
+    }
+
+    return !mSettingsPanel->isPaused();
 }
 
 void EditorGameMode::render(sf::RenderWindow& window)
 {
-    settingsPanel->draw();
+    mSettingsPanel->draw();
     ImGui::SFML::Render(window);
 }
 
 void EditorGameMode::shutdown()
 {
     ImGui::SFML::Shutdown();
+}
+
+void EditorGameMode::setWorld(World* world)
+{
+    mWorld = world;
 }

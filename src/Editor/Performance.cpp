@@ -13,7 +13,6 @@ namespace
     CircularBuffer<float, MaxSampleSize> frames;
     CircularBuffer<float, MaxSampleSize> memory;
 
-
     void lineGraph(CircularBuffer<float, MaxSampleSize>& buffer, const float value, const float height)
     {
         buffer.push_back(value);

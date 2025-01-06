@@ -4,22 +4,22 @@
 #include "GameSettings.h"
 #include "Settings.h"
 
-struct GameSettingsData;
-
 namespace GameMode
 {
-    class EditorGameMode : public IGameMode
+    class EditorGameMode final : public IGameMode
     {
     public:
-        sf::VideoMode determineVideoMode([[maybe_unused]] const GameSettingsData& settings) const override;
-        void init(sf::RenderWindow& window, [[maybe_unused]]std::shared_ptr<GameSettings>& gameSettings) override;
+        sf::VideoMode determineVideoMode(const GameSettingsData& settings) const override;
+        void init(sf::RenderWindow& window, std::shared_ptr<GameSettings>& gameSettings) override;
         bool isWindowOpen(sf::RenderWindow& window) override;
         void processEvent(sf::Event& event) override;
         bool update(sf::RenderWindow& window, const sf::Time& elapsedTime) override;
         void render(sf::RenderWindow& window) override;
         void shutdown() override;
+        void setWorld(World* world) override;
     private:
-        bool success {false};
-        std::unique_ptr<Settings> settingsPanel {};
+        bool mSuccess {false};
+        std::unique_ptr<Settings> mSettingsPanel {};
+        World* mWorld;
     };
 }

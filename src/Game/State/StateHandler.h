@@ -4,6 +4,7 @@
 
 #include "ResourceIdentifiers.h"
 
+class World;
 struct GameSettingsData;
 class GameSettings;
 
@@ -18,7 +19,7 @@ namespace sf
 class StateHandler final
 {
 public:
-    explicit StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept;
+    explicit StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const std::function<void(World*)>& setWorld) noexcept;
     ~StateHandler() noexcept;
 
     explicit StateHandler(const StateHandler&) = delete;
@@ -31,6 +32,8 @@ public:
     void processWindowEvents(const sf::Event& event) const;
     void draw() const;
     void settingsUpdated(const GameSettingsData& settings) const;
+
+    World& getWorld() const;
 
 private:
     struct Impl;

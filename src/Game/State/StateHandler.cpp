@@ -18,10 +18,13 @@ struct StateHandler::Impl
 
     SoundSettings soundSettings;
 
-    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
+    std::function<void(World*)> setWorldFunc;
+
+    Impl(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const std::function<void(World*)>& setWorld) noexcept
     : window(window)
     , gameRenderTexture(gameRenderTexture)
     , font(font)
+    , setWorldFunc(setWorld)
     {
         showTransitionScreen("Shooty Mcshootface", "Play now!");
     }
@@ -35,12 +38,15 @@ struct StateHandler::Impl
         {
             showTransitionScreen("YOU DIED", "Play again!");
         });
+
+        setWorldFunc(world.get());
     }
 
     void showTransitionScreen(const char* title, const char* buttonText)
     {
         world.reset();
         world = nullptr;
+        setWorldFunc(nullptr);
         transitionScreen = std::make_unique<TransitionScreen>(window, gameRenderTexture, font, title, buttonText);
     }
 
@@ -88,8 +94,8 @@ struct StateHandler::Impl
     }
 };
 
-StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font) noexcept
-: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font))
+StateHandler::StateHandler(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const std::function<void(World*)>& setWorld) noexcept
+: mImpl(std::make_unique<Impl>(window, gameRenderTexture, font, setWorld))
 {
 }
 
@@ -113,4 +119,9 @@ void StateHandler::draw() const
 void StateHandler::settingsUpdated(const GameSettingsData& settings) const
 {
     mImpl->settingsUpdated(settings);
+}
+
+World& StateHandler::getWorld() const
+{
+    return *mImpl->world;
 }
