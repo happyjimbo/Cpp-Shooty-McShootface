@@ -24,7 +24,6 @@
 #include "PlayerControls.h"
 #include "ProjectileMovementSystem.h"
 #include "SoundEffects.h"
-#include "StarEntity.h"
 #include "StarMovementSystem.h"
 
 #include <tracy/Tracy.hpp>
@@ -207,15 +206,6 @@ struct World::Impl
         // call playerKilledSystem.execute at the very end
         playerKilledSystem.execute();
     }
-
-    // EntitySystem<ProjectileEntity> projectileEntitySystem;
-    // EntitySystem<Aircraft::AircraftEntity> playerAircraftEntitySystem;
-    // EntitySystem<Aircraft::AircraftEntity> enemyAircraftEntitySystem;
-    // EntitySystem<BackgroundEntity> backgroundEntitySystem;
-    // EntitySystem<CloudEntity> cloudEntitySystem;
-    // EntitySystem<ExplosionEntity> explosionEntitySystem;
-    // EntitySystem<GUI::Label> labelEntitySystem;
-    // EntitySystem<StarEntity> starEntitySystem;
 
     PlayerAircraftInitializer playerAircraftInitializer;
     GuiInitializer guiInitializer;
