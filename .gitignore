@@ -13,3 +13,29 @@ cmake-build-ios
 cmake-build-release
 
 RUNTIME_CONFIG_PATH
+
+
+# Bundler
+cucumber-cpp/Gemfile.lock
+
+# rvm
+cucumber-cpp/.ruby-version
+cucumber-cpp/.ruby-gemset
+
+# Build artifacts
+cucumber-cpp/build/
+cucumber-cpp/coverage/
+cucumber-cpp/.local/
+
+# vim swap files
+*.swp
+
+# CLion
+*/.idea
+*/cmake-build-*/
+
+# Qt Creator
+*/CMakeLists.txt.user
+
+# build folder
+cucumber-cpp/build
