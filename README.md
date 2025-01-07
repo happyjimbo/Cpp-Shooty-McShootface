@@ -14,7 +14,7 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
 
 ## Key Features
 
-### Memory and Performance1
+### Memory and Performance
 - **Memory Management**: A balance of smart and raw pointers is used.
     - **Smart Pointers**: Used in non-critical areas like `Game` and `StateHandler` for clarity.
     - **Raw Pointers**: Leveraged in performance-sensitive parts like the object pool, following RAII principles for manual memory control.
