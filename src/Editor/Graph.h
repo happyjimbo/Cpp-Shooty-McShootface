@@ -30,7 +30,7 @@ namespace Graph
         static_cast<int>(buffer.size()),
         0,
         nullptr,
-        0,/
+        0,
         buffer.maxValue(),
         ImVec2(0, height)
         );
