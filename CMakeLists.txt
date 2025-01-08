@@ -29,23 +29,36 @@ set(TEST_DIR "${CMAKE_SOURCE_DIR}/test_src")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
-# Include FetchContent module for fetching external projects
-include(FetchContent)
+list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/Cellar/sfml/2.6.1")
+set(SFML_DIR "/opt/homebrew/Cellar/sfml/2.6.1/lib/cmake/SFML")
 
-# Fetch SFML
-FetchContent_Declare(SFML
-        GIT_REPOSITORY https://github.com/SFML/SFML.git
-        GIT_TAG 2.6.x)
-FetchContent_MakeAvailable(SFML)
+list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/share/cmake/nlohmann_json")
+set(nlohmann_json_DIR "/opt/homebrew/share/cmake/nlohmann_json")
+find_package(nlohmann_json REQUIRED)
 
-# Fetch GoogleTest
-FetchContent_Declare(
-        googletest
-        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-)
+find_package(SFML 2.6 REQUIRED COMPONENTS graphics audio)
+
+set(GTEST_INCLUDE_DIR "/opt/homebrew/include")
+set(GTEST_LIBRARY "/opt/homebrew/lib/libgtest.a")
+set(GTEST_MAIN_LIBRARY "/opt/homebrew/lib/libgtest_main.a")
+set(GMOCK_LIBRARY "/opt/homebrew/lib/libgmock.a")
+set(GMOCK_MAIN_LIBRARY "/opt/homebrew/lib/libgmock_main.a")
+set(CUKE_ENABLE_GTEST ON CACHE BOOL "Enable GTest for cucumber-cpp")
+
+find_package(GTest REQUIRED)
+
+set(ASIO_INCLUDE_DIR /opt/homebrew/include)
+set(TCLAP_INCLUDE_DIR /opt/homebrew/include)
+
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
+#FetchContent_MakeAvailable(googletest)
+
+# Add CucumberCpp to CMAKE_PREFIX_PATH
+#list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/cucumber-cpp/lib/cmake")
+## Explicitly set the CucumberCpp_DIR
+#set(CucumberCpp_DIR "/opt/homebrew/opt/cucumber-cpp/lib/cmake")
+# Find CucumberCpp
+#find_package(CucumberCpp REQUIRED)
 
 # If Boost is not found automatically, manually set paths
 if(NOT Boost_FOUND)
@@ -59,6 +72,10 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.86.0 REQUIRED COMPONENTS)
+
+
+# Include FetchContent module for fetching external projects
+include(FetchContent)
 
 # Detect platform
 if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -274,6 +291,13 @@ target_include_directories(UnitTests_tests PRIVATE
         ${Boost_INCLUDE_DIRS}
 )
 
+target_link_libraries(UnitTests_tests PRIVATE
+        ${GTEST_LIBRARY}
+        ${GTEST_MAIN_LIBRARY}
+        ${GMOCK_LIBRARY}
+        ${GMOCK_MAIN_LIBRARY}
+)
+
 target_include_directories(UnitTests_tests PRIVATE ${CMAKE_SOURCE_DIR}/src/Editor)
 
 # Link GoogleTest and SFML to the test executable
@@ -306,3 +330,5 @@ endif()
 enable_testing()
 include(GoogleTest)
 gtest_discover_tests(UnitTests_tests)
+
+add_subdirectory(bdd)
