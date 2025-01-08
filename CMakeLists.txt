@@ -51,14 +51,6 @@ set(ASIO_INCLUDE_DIR /opt/homebrew/include)
 set(TCLAP_INCLUDE_DIR /opt/homebrew/include)
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-#FetchContent_MakeAvailable(googletest)
-
-# Add CucumberCpp to CMAKE_PREFIX_PATH
-#list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/cucumber-cpp/lib/cmake")
-## Explicitly set the CucumberCpp_DIR
-#set(CucumberCpp_DIR "/opt/homebrew/opt/cucumber-cpp/lib/cmake")
-# Find CucumberCpp
-#find_package(CucumberCpp REQUIRED)
 
 # If Boost is not found automatically, manually set paths
 if(NOT Boost_FOUND)
@@ -78,15 +70,7 @@ find_package(Boost 1.86.0 REQUIRED COMPONENTS)
 include(FetchContent)
 
 # Detect platform
-if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-    message(STATUS "Configuring for iOS")
-    set(CMAKE_OSX_SYSROOT iphoneos)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.0)
-    set(CMAKE_OSX_ARCHITECTURES arm64)
-
-    # Add any iOS-specific settings here
-
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     message(STATUS "Configuring for macOS")
 
     FetchContent_Declare(
@@ -122,7 +106,6 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     # Include ImGui directories
     target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
-
 
     FetchContent_Declare(
             imgui-sfml
@@ -194,9 +177,7 @@ if(ENABLE_EDITOR_MODE)
     )
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-    target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio)
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
     target_link_libraries(${PROJECT_NAME} PRIVATE sfml-audio)
     target_link_libraries(${PROJECT_NAME} PRIVATE ImGui-SFML::ImGui-SFML)
