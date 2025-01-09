@@ -34,6 +34,6 @@ namespace GameMode
         void render(sf::RenderWindow&) override { }
         void shutdown() override { }
 
-        void setWorld(World* world) override {}
+        void setWorld(World*) override {}
     };
 }
