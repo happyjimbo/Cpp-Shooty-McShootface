@@ -12,39 +12,51 @@ namespace
     struct GameContext
     {
         std::unique_ptr<Game> game;
+        std::thread orchestratorThread;
+
+        // incase the test exists unexpectedly
+        ~GameContext()
+        {
+            if (orchestratorThread.joinable())
+            {
+                orchestratorThread.join();
+            }
+        }
     };
 
-    GIVEN("^Start the game$")
+    GIVEN("^Run the game for (\\d+) seconds")
     {
+        REGEX_PARAM(int, duration);
+
         cucumber::ScenarioScope<GameContext> context;
         std::unique_ptr<IGameMode> gameMode = GameMode::CreateGameMode();
 
         const char* configPath = "./Media/Data/settings.csv";
 
         context->game = std::make_unique<Game>(configPath, std::move(gameMode));
+
+        context->orchestratorThread = std::thread([&context, duration]()
+        {
+            std::this_thread::sleep_for(std::chrono::seconds(duration));
+            std::cout << "Destroying the game after 2 seconds." << std::endl;
+            context->game->stop();
+        });
+
+        context->game->run();
         std::cout << "Game initialized successfully" << std::endl;
     }
 
-    WHEN("^Run the game$")
+    WHEN("^Waiting to exit")
     {
-        cucumber::ScenarioScope<GameContext> context;
-
-        // Run the game
-        if (context->game)
-        {
-            context->game->run();
-            std::cout << "Game is running" << std::endl;
-        }
-        else
-        {
-            std::cerr << "Game instance is null!" << std::endl;
-        }
+        std::cout << "Game is running for the specified duration..." << std::endl;
     }
 
-    THEN("^The game should end successfully$") {
+    THEN("^The game should exit successfully$") {
         cucumber::ScenarioScope<GameContext> context;
-
-        ASSERT_NE(context->game, nullptr) << "Game instance is null!";
+        if (context->orchestratorThread.joinable())
+        {
+            context->orchestratorThread.join();
+        }
 
         context->game.reset();
 

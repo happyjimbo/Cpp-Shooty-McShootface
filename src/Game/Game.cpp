@@ -24,9 +24,9 @@ struct Game::Impl
 
     sf::Event event;
 
-    const sf::Time TimePerFrame;
+    bool stopRequested {false};
 
-    const char* GamePanelName = "Game Panel";
+    const sf::Time TimePerFrame;
 
     explicit Impl(const std::string& configPath, std::unique_ptr<IGameMode> gMode)
     : gameSettings(std::make_shared<GameSettings>(
@@ -121,6 +121,11 @@ Game::Game(const std::string& configPath, std::unique_ptr<IGameMode> gameMode) n
 
 Game::~Game() noexcept = default;
 
+void Game::stop() const
+{
+    mImpl->stopRequested = true;
+}
+
 void Game::run()
 {
     ZoneScopedN("Game Run");
@@ -128,7 +133,7 @@ void Game::run()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     mImpl->window.setFramerateLimit(144);
 
-    while(mImpl->isWindowOpen())
+    while(mImpl->isWindowOpen() && !mImpl->stopRequested)
     {
         timeSinceLastUpdate += mClock.restart();
 

@@ -18,6 +18,7 @@ public:
     Game& operator=(Game&&) = delete;
 
     void run();
+    void stop() const;
 
 private:
     sf::Clock mClock;

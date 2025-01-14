@@ -4,6 +4,6 @@ Feature: Run Game
   So i can verify that it opens
 
   Scenario: Run the game
-    Given Start the game
-    When Run the game
-    Then The game should end successfully
+    Given Run the game for 2 seconds
+    When Waiting to exit
+    Then The game should exit successfully
