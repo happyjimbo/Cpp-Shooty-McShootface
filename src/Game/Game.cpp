@@ -121,9 +121,9 @@ Game::Game(const std::string& configPath, std::unique_ptr<IGameMode> gameMode) n
 
 Game::~Game() noexcept = default;
 
-void Game::stop() const
+StateHandler* Game::getStateHandler() const
 {
-    mImpl->stopRequested = true;
+    return mImpl->stateHandler.get();
 }
 
 void Game::run()
@@ -146,4 +146,9 @@ void Game::run()
         }
     }
     mImpl->shutDown();
+}
+
+void Game::stop() const
+{
+    mImpl->stopRequested = true;
 }

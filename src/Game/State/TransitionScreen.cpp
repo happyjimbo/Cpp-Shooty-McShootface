@@ -11,9 +11,8 @@ namespace
     constexpr float ButtonYOffset = 50.0f;
 }
 
-TransitionScreen::TransitionScreen(sf::RenderWindow& window, sf::RenderTexture& gameRenderTexture, const FontHolder& font, const char* title, const char* buttonText) noexcept
-: mWindow(window)
-, mGameRenderTexture(gameRenderTexture)
+TransitionScreen::TransitionScreen(sf::RenderTexture& gameRenderTexture, const FontHolder& font, const char* title, const char* buttonText) noexcept
+: mGameRenderTexture(gameRenderTexture)
 , mWorldView(gameRenderTexture.getDefaultView())
 , mButton(ButtonWidth, ButtonHeight, buttonText)
 , mBackground(sf::Vector2f(mGameRenderTexture.getSize().x, mGameRenderTexture.getSize().y))
@@ -29,7 +28,7 @@ void TransitionScreen::handleEvent(const sf::Event& event, const std::function<v
 {
     if (event.type == sf::Event::MouseButtonPressed)
     {
-        if (mButton.isMouseOver(mWindow, mGameRenderTexture))
+        if (mButton.isMouseOver(event, mGameRenderTexture))
         {
             callback();
         }

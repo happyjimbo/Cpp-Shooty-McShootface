@@ -47,7 +47,7 @@ struct StateHandler::Impl
         world.reset();
         world = nullptr;
         setWorldFunc(nullptr);
-        transitionScreen = std::make_unique<TransitionScreen>(window, gameRenderTexture, font, title, buttonText);
+        transitionScreen = std::make_unique<TransitionScreen>(gameRenderTexture, font, title, buttonText);
     }
 
     void update(const sf::Time elapsedTime) const

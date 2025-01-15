@@ -1,6 +1,13 @@
 #include "PlayerControls.h"
 #include "AircraftEntity.h"
 
+namespace
+{
+    constexpr float playerSpeed = 400.f;
+    constexpr float horizontalSpeed = playerSpeed * 1.4f;
+    constexpr float sPlayerProjectileSpawnSpeed = 0.1f;
+}
+
 PlayerControls::PlayerControls(Aircraft::AircraftEntity& player)
 {
     mKeyBinding[sf::Keyboard::Left] = [&player]() -> void {
@@ -30,7 +37,7 @@ PlayerControls::PlayerControls(Aircraft::AircraftEntity& player)
 
 void PlayerControls::handleRealtimeInput() const
 {
-    for (auto pair : mKeyBinding)
+    for (auto& pair : mKeyBinding)
     {
         if (sf::Keyboard::isKeyPressed(pair.first))
         {

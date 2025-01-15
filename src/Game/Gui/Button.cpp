@@ -1,8 +1,6 @@
 #include "Button.h"
 #include "MediaFiles.h"
 
-#include "CursorState.h"
-
 namespace GUI
 {
     Button::Button(const float width, const float height, const char* textString)
@@ -20,9 +18,11 @@ namespace GUI
         gameRenderTexture.draw(mLabel);
     }
 
-    bool Button::isMouseOver(const sf::RenderWindow& window, const sf::RenderTexture& renderTexture) const
+    bool Button::isMouseOver(const sf::Event& event, const sf::RenderTexture& renderTexture) const
     {
-        return CursorState::isMouseOverObject(buttonRect, window, renderTexture);
+        const sf::Vector2i mousePosScreen = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
+        const sf::Vector2f mousePosWorld = renderTexture.mapPixelToCoords(mousePosScreen);
+        return buttonRect.getGlobalBounds().contains(mousePosWorld);
     }
 
     sf::Vector2f Button::getSize() const

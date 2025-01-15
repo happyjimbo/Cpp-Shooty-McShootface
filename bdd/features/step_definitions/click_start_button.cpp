@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "GameSettings.h"
 #include "GameModeFactory.h"
+#include "StateHandler.h"
 
 
 namespace
@@ -24,9 +25,11 @@ namespace
         }
     };
 
-    GIVEN("^Run the game for (\\d+) seconds")
+    GIVEN("^Click x:(\\d+) and y:(\\d+) to start the game")
     {
-        REGEX_PARAM(int, duration);
+        REGEX_PARAM(int, xpos);
+        REGEX_PARAM(int, ypos);
+        constexpr int duration = 2;
 
         cucumber::ScenarioScope<GameContext> context;
         std::unique_ptr<IGameMode> gameMode = GameMode::CreateGameMode();
@@ -35,33 +38,27 @@ namespace
 
         context->game = std::make_unique<Game>(configPath, std::move(gameMode));
 
-        context->orchestratorThread = std::thread([&context, duration]()
+        context->orchestratorThread = std::thread([&context, duration, xpos, ypos]()
         {
+            std::this_thread::sleep_for(std::chrono::seconds(duration));
+            std::cout << "Clicking the button after 2 seconds." << std::endl;
+
+            sf::Event mockClick;
+            mockClick.type = sf::Event::MouseButtonPressed;
+            mockClick.mouseButton.x = xpos;
+            mockClick.mouseButton.y = ypos;
+
+
+            auto* stateHandler = context->game->getStateHandler();
+            stateHandler->processWindowEvents(mockClick);
+
             std::this_thread::sleep_for(std::chrono::seconds(duration));
             std::cout << "Destroying the game after 2 seconds." << std::endl;
             context->game->stop();
-        });
+;        });
 
         context->game->run();
         std::cout << "Game initialized successfully" << std::endl;
     }
 
-    WHEN("^Waiting to exit")
-    {
-        std::cout << "Game is running for the specified duration..." << std::endl;
-    }
-
-    THEN("^The game should exit successfully$")
-    {
-        cucumber::ScenarioScope<GameContext> context;
-        if (context->orchestratorThread.joinable())
-        {
-            context->orchestratorThread.join();
-        }
-
-        context->game.reset();
-
-        ASSERT_EQ(context->game, nullptr) << "Game instance was not properly destroyed!";
-        std::cout << "Game ended successfully and was properly cleaned up!" << std::endl;
-    }
 }

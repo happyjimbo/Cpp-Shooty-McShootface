@@ -4,6 +4,7 @@
 
 class IGameMode;
 class GameSettings;
+class StateHandler;
 
 class Game final
 {
@@ -17,8 +18,11 @@ public:
     Game(Game&&) = delete;
     Game& operator=(Game&&) = delete;
 
+    StateHandler* getStateHandler() const;
+
     void run();
     void stop() const;
+
 
 private:
     sf::Clock mClock;
