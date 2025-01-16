@@ -4,6 +4,6 @@ Feature: Click start button
   So i can verify that it the transitions from the title screen to the game
 
   Scenario: Click the start button
-    Given Click x:527 and y:435 to start the game
-    When Waiting to exit
+    When Game is initalized
+    When Click x:527 and y:435 to start the game
     Then The game should exit successfully

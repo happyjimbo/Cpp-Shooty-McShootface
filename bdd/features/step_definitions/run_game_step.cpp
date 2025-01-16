@@ -5,63 +5,42 @@
 #include "Game.h"
 #include "GameSettings.h"
 #include "GameModeFactory.h"
-
+#include "GameRuntimeSetup.h"
+#include "GameContext.h"
 
 namespace
 {
-    struct GameContext
+    GIVEN("^Game is initalized$")
     {
-        std::unique_ptr<Game> game;
-        std::thread orchestratorThread;
+        cucumber::ScenarioScope<GameContext> context;
 
-        // incase the test exists unexpectedly
-        ~GameContext()
-        {
-            if (orchestratorThread.joinable())
-            {
-                orchestratorThread.join();
-            }
-        }
-    };
+        std::unique_ptr<IGameMode> gameMode = GameMode::CreateGameMode();
+        const char* configPath = "./Media/Data/settings.csv";
+        context->runtime = std::make_unique<GameRuntimeSetup>(configPath, std::move(gameMode));
+    }
 
-    GIVEN("^Run the game for (\\d+) seconds")
+    WHEN("^Run for (\\d+) seconds$")
     {
         REGEX_PARAM(int, duration);
 
         cucumber::ScenarioScope<GameContext> context;
-        std::unique_ptr<IGameMode> gameMode = GameMode::CreateGameMode();
 
-        const char* configPath = "./Media/Data/settings.csv";
-
-        context->game = std::make_unique<Game>(configPath, std::move(gameMode));
-
-        context->orchestratorThread = std::thread([&context, duration]()
+        auto customLogic = [duration](Game&)
         {
+            std::cout << "Custom logic running..." << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(duration));
-            std::cout << "Destroying the game after 2 seconds." << std::endl;
-            context->game->stop();
-        });
+            std::cout << "Custom logic finished, stopping game." << std::endl;
+        };
 
-        context->game->run();
-        std::cout << "Game initialized successfully" << std::endl;
-    }
+        context->runtime->start(customLogic);
 
-    WHEN("^Waiting to exit")
-    {
         std::cout << "Game is running for the specified duration..." << std::endl;
     }
 
     THEN("^The game should exit successfully$")
     {
         cucumber::ScenarioScope<GameContext> context;
-        if (context->orchestratorThread.joinable())
-        {
-            context->orchestratorThread.join();
-        }
-
-        context->game.reset();
-
-        ASSERT_EQ(context->game, nullptr) << "Game instance was not properly destroyed!";
-        std::cout << "Game ended successfully and was properly cleaned up!" << std::endl;
+        ASSERT_TRUE(context->runtime->isGameStopped()) << "Game did not stop as expected!";
+        std::cout << "Game stopped successfully." << std::endl;
     }
 }

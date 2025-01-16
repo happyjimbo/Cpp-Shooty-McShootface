@@ -36,6 +36,10 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/cucumber-cpp ${CMAKE_BINARY_DIR}/cucumber-c
 
 # Collect step definition sources
 file(GLOB_RECURSE STEP_DEFINITION_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/*.cpp)
+#file(GLOB_RECURSE TEMP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+#list(APPEND STEP_DEFINITION_SOURCES ${TEMP_SOURCES})
+#file(GLOB_RECURSE TEMP_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+#list(APPEND STEP_DEFINITION_SOURCES ${TEMP_HEADERS})
 
 # Log the collected files
 message(STATUS "Collected Step Definition Sources:")
@@ -53,6 +57,8 @@ file(GLOB_RECURSE GAME_FILES
         "${CMAKE_SOURCE_DIR}/src/Game/*.h"
         "${CMAKE_SOURCE_DIR}/src/Game/*.inl"
         "${CMAKE_SOURCE_DIR}/src/Profiler/*.cpp"
+#        "${CMAKE_SOURCE_DIR}/bdd/*.cpp"
+#        "${CMAKE_SOURCE_DIR}/bdd/*.h"
 )
 # call this before EditorMode
 set(SOURCE_FILES ${GAME_FILES})
@@ -84,6 +90,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${Boost_INCLUDE_DIRS}
         ${nlohmann_json_SOURCE_DIR}/include
+#        ${CMAKE_SOURCE_DIR}/bdd
 )
 
 if(ENABLE_EDITOR_MODE)
