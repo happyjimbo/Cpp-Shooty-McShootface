@@ -51,6 +51,24 @@ A vertical shooter built in C++20, using [SFML](https://www.sfml-dev.org) along 
 
 # Installation
 
+
+brew install nlohmann-json asio boost googletest tclap cucumber-cpp
+
+brew install rbenv
+rbenv init
+rbenv install 3.2.2
+rbenv global 3.2.2
+
+In root of the cucumber-cpp directory to install all the ruby dependencies:
+bundle install
+
+
+Now the only things installed via FetchContent_Declare are:
+imgui
+imgui-sfml
+rapidcsv
+
+
 This game uses CMake for build configuration, and most dependencies are managed automatically using `FetchContent_Declare`, with the exception of Boost:
 
 #### macOS

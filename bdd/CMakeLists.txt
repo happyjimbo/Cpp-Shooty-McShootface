@@ -34,12 +34,12 @@ endif()
 add_subdirectory(${CMAKE_SOURCE_DIR}/cucumber-cpp ${CMAKE_BINARY_DIR}/cucumber-cpp-build)
 #link_directories(/opt/homebrew/opt/cucumber-cpp/lib)
 
-# Collect step definition sources
-file(GLOB_RECURSE STEP_DEFINITION_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/*.cpp)
-#file(GLOB_RECURSE TEMP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-#list(APPEND STEP_DEFINITION_SOURCES ${TEMP_SOURCES})
-#file(GLOB_RECURSE TEMP_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
-#list(APPEND STEP_DEFINITION_SOURCES ${TEMP_HEADERS})
+# Collect all step definition sources
+file(GLOB_RECURSE STEP_DEFINITION_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/util/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/util/*.h
+)
 
 # Log the collected files
 message(STATUS "Collected Step Definition Sources:")
@@ -49,7 +49,6 @@ endforeach()
 
 # Collect game source files from the root project
 file(GLOB_RECURSE GAME_FILES
-#        "${CMAKE_SOURCE_DIR}/src/main.cpp"
         "${CMAKE_SOURCE_DIR}/src/GameModeFactory.cpp"
         "${CMAKE_SOURCE_DIR}/src/IGameMode.cpp"
         "${CMAKE_SOURCE_DIR}/src/Profiler/*.h"
@@ -57,8 +56,6 @@ file(GLOB_RECURSE GAME_FILES
         "${CMAKE_SOURCE_DIR}/src/Game/*.h"
         "${CMAKE_SOURCE_DIR}/src/Game/*.inl"
         "${CMAKE_SOURCE_DIR}/src/Profiler/*.cpp"
-#        "${CMAKE_SOURCE_DIR}/bdd/*.cpp"
-#        "${CMAKE_SOURCE_DIR}/bdd/*.h"
 )
 # call this before EditorMode
 set(SOURCE_FILES ${GAME_FILES})
