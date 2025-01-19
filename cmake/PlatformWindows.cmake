@@ -5,8 +5,8 @@ set(ASIO_INCLUDE_DIR "C:/path/to/asio")
 set(TCLAP_INCLUDE_DIR "C:/path/to/tclap")
 
 # Paths for dependencies
-list(APPEND CMAKE_PREFIX_PATH "C:/path/to/sfml/2.6.1")
-set(SFML_DIR "C:/path/to/sfml/sfml/2.6.1/lib/cmake/SFML")
+list(APPEND CMAKE_PREFIX_PATH "C:/path/to/sfml@2/2.6.2")
+set(SFML_DIR "C:/path/to/sfml/sfml@2/2.6.2/lib/cmake/SFML")
 
 list(APPEND CMAKE_PREFIX_PATH "C:/path/to/nlohmann_json")
 set(nlohmann_json_DIR "C:/path/to/nlohmann_json")
