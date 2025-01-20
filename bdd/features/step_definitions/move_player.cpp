@@ -7,6 +7,22 @@
 
 namespace
 {
+    sf::Event keyboardPress(const sf::Keyboard::Key key, const sf::Event::EventType type)
+    {
+        sf::Event keyboardPressRight {};
+        keyboardPressRight.type = type;
+        keyboardPressRight.key.code = key;
+        return keyboardPressRight;
+    }
+
+    std::array keys = {
+        sf::Keyboard::Key::Space,
+        sf::Keyboard::Key::Down,
+        sf::Keyboard::Key::Right,
+        sf::Keyboard::Key::Left,
+        sf::Keyboard::Key::Up,
+    };
+
     WHEN("^Move player")
     {
         int xpos = 527; // this is bad yo
@@ -30,21 +46,25 @@ namespace
 
             std::this_thread::sleep_for(std::chrono::seconds(duration));
 
-            sf::Event keyboardPress {};
-            keyboardPress.type = sf::Event::KeyPressed;
-            keyboardPress.key.code = sf::Keyboard::Key::D;
-
-            sf::Clock clock;
-            while (clock.getElapsedTime().asSeconds() < duration)
+            for (auto key : keys)
             {
-                stateHandler->processWindowEvents(keyboardPress);
+                sf::Event keyPressed = keyboardPress(key, sf::Event::KeyPressed);
+                sf::Clock clock {};
 
-                // You can adjust the interval to simulate repeated key presses
-                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                while (clock.getElapsedTime().asSeconds() < 1.0f)
+                {
+                    stateHandler->processWindowEvents(keyPressed);
+                }
+
+                sf::Event keyReleased = keyboardPress(key, sf::Event::KeyReleased);
+                stateHandler->processWindowEvents(keyReleased);
+
+                std::this_thread::sleep_for(std::chrono::seconds(1));
             }
         };
 
         context->runtime->start(customLogic);
         std::cout << "Game initialized successfully" << std::endl;
     }
+
 }
