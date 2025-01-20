@@ -32,6 +32,8 @@ else()
     message(FATAL_ERROR "Unsupported platform")
 endif()
 
+
+set(SFML_STATIC_LIBRARIES OFF)
 find_package(SFML 2.6 REQUIRED COMPONENTS graphics audio)
 find_package(GTest REQUIRED)
 
