@@ -35,7 +35,10 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/cucumber-cpp ${CMAKE_BINARY_DIR}/cucumber-c
 #link_directories(/opt/homebrew/opt/cucumber-cpp/lib)
 
 # Collect step definition sources
-file(GLOB_RECURSE STEP_DEFINITION_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/*.cpp)
+file(GLOB_RECURSE STEP_DEFINITION_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/util/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/features/step_definitions/util/*.h)
 #file(GLOB_RECURSE TEMP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 #list(APPEND STEP_DEFINITION_SOURCES ${TEMP_SOURCES})
 #file(GLOB_RECURSE TEMP_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
@@ -61,7 +64,8 @@ file(GLOB_RECURSE GAME_FILES
 #        "${CMAKE_SOURCE_DIR}/bdd/*.h"
 )
 # call this before EditorMode
-set(SOURCE_FILES ${GAME_FILES})
+set(SOURCE_FILES ${GAME_FILES}
+        features/step_definitions/move_player.cpp)
 
 include(../cmake/EditorMode.cmake)
 

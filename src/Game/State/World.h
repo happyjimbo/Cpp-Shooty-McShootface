@@ -31,8 +31,9 @@ public:
 
     void update(sf::Time) const;
     void draw() const;
+    void processEvent(const sf::Event& event) const;
 
-    EntitySystems& getEntitySystems() const;
+    [[nodiscard]] EntitySystems& getEntitySystems() const;
     
 private:
     struct Impl;

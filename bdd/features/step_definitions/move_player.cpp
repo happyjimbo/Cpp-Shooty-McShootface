@@ -1,20 +1,16 @@
+#include <thread>
 #include <cucumber-cpp/generic.hpp>
 #include <gtest/gtest.h>
-#include <iostream>
 
-#include "Game.h"
-#include "GameSettings.h"
-#include "StateHandler.h"
-#include "util/GameRuntimeSetup.h"
 #include "util/GameContext.h"
-
+#include "StateHandler.h"
 
 namespace
 {
-    WHEN("^Click x:(\\d+) and y:(\\d+) to start the game")
+    WHEN("^Move player")
     {
-        REGEX_PARAM(int, xpos);
-        REGEX_PARAM(int, ypos);
+        int xpos = 527; // this is bad yo
+        int ypos = 435;
         constexpr int duration = 2;
 
         cucumber::ScenarioScope<GameContext> context;
@@ -24,7 +20,7 @@ namespace
             std::this_thread::sleep_for(std::chrono::seconds(duration));
             std::cout << "Clicking the button after 2 seconds." << std::endl;
 
-            sf::Event mockClick{};
+            sf::Event mockClick {};
             mockClick.type = sf::Event::MouseButtonPressed;
             mockClick.mouseButton.x = xpos;
             mockClick.mouseButton.y = ypos;
@@ -33,10 +29,22 @@ namespace
             stateHandler->processWindowEvents(mockClick);
 
             std::this_thread::sleep_for(std::chrono::seconds(duration));
+
+            sf::Event keyboardPress {};
+            keyboardPress.type = sf::Event::KeyPressed;
+            keyboardPress.key.code = sf::Keyboard::Key::D;
+
+            sf::Clock clock;
+            while (clock.getElapsedTime().asSeconds() < duration)
+            {
+                stateHandler->processWindowEvents(keyboardPress);
+
+                // You can adjust the interval to simulate repeated key presses
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
         };
 
         context->runtime->start(customLogic);
         std::cout << "Game initialized successfully" << std::endl;
     }
-
 }

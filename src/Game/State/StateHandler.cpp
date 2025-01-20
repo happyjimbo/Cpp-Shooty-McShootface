@@ -71,6 +71,11 @@ struct StateHandler::Impl
                 startGame();
             });
         }
+
+        if (world)
+        {
+            world->processEvent(event);
+        }
     }
 
     void draw() const

@@ -5,8 +5,8 @@
 #include "Game.h"
 #include "GameSettings.h"
 #include "GameModeFactory.h"
-#include "GameRuntimeSetup.h"
-#include "GameContext.h"
+#include "util/GameRuntimeSetup.h"
+#include "util/GameContext.h"
 
 namespace
 {

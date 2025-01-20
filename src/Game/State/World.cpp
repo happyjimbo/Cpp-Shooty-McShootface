@@ -185,7 +185,7 @@ struct World::Impl
         enemyAircraftMovementSystem.execute(delta);
         starMovementSystem.execute();
 
-        simpleControls.handleRealtimeInput();
+        simpleControls.update();
 
         entitySystems.playerAircraftEntitySystem.update(delta);
         entitySystems.projectileEntitySystem.update(delta);
@@ -205,6 +205,11 @@ struct World::Impl
     {
         // call playerKilledSystem.execute at the very end
         playerKilledSystem.execute();
+    }
+
+    void processEvent(const sf::Event& event)
+    {
+        simpleControls.handleEvent(event);
     }
 
     PlayerAircraftInitializer playerAircraftInitializer;
@@ -250,6 +255,11 @@ void World::update(const sf::Time delta) const
 void World::draw() const
 {
     mImpl->draw();
+}
+
+void World::processEvent(const sf::Event& event) const
+{
+    mImpl->processEvent(event);
 }
 
 EntitySystems& World::getEntitySystems() const
