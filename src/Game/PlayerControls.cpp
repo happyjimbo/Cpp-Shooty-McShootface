@@ -1,5 +1,16 @@
 #include "PlayerControls.h"
+
+#include <iostream>
+#include <SFML/Window/Event.hpp>
+
 #include "AircraftEntity.h"
+
+namespace
+{
+    constexpr float playerSpeed = 400.f;
+    constexpr float horizontalSpeed = playerSpeed * 1.4f;
+    constexpr float sPlayerProjectileSpawnSpeed = 0.1f;
+}
 
 PlayerControls::PlayerControls(Aircraft::AircraftEntity& player)
 {
@@ -28,13 +39,26 @@ PlayerControls::PlayerControls(Aircraft::AircraftEntity& player)
     };
 }
 
-void PlayerControls::handleRealtimeInput() const
+void PlayerControls::handleEvent(const sf::Event& event)
 {
-    for (auto pair : mKeyBinding)
+    if (event.type == sf::Event::KeyPressed)
     {
-        if (sf::Keyboard::isKeyPressed(pair.first))
+        mActiveKeys.insert(event.key.code);
+    }
+    else if (event.type == sf::Event::KeyReleased)
+    {
+        mActiveKeys.erase(event.key.code);
+    }
+}
+
+void PlayerControls::update() const
+{
+    for (const auto& key : mActiveKeys)
+    {
+        auto it = mKeyBinding.find(key);
+        if (it != mKeyBinding.end())
         {
-            pair.second();
+            it->second();
         }
     }
 }

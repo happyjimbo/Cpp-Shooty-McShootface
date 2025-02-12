@@ -1,15 +1,11 @@
 #pragma once
 
 #include <map>
+#include <unordered_set>
 #include <SFML/Window/Keyboard.hpp>
 
-struct CursorState;
-
-namespace GUI
-{
-    class Button;
-}
-
+namespace sf { class Event; }
+namespace GUI { class Button; }
 namespace Aircraft { class AircraftEntity; }
 
 class PlayerControls final
@@ -18,13 +14,9 @@ public:
     explicit PlayerControls(Aircraft::AircraftEntity& player);
     ~PlayerControls() noexcept = default;
 
-    void handleRealtimeInput() const;
+    void handleEvent(const sf::Event& event);
+    void update() const;
 private:
-
-
+    std::unordered_set<sf::Keyboard::Key> mActiveKeys;
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> mKeyBinding;
-
-    constexpr static float playerSpeed = 400.f;
-    constexpr static float horizontalSpeed = playerSpeed * 1.4f;
-    constexpr static float sPlayerProjectileSpawnSpeed = 0.1f;
 };

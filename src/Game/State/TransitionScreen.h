@@ -15,7 +15,6 @@ class TransitionScreen final
 {
 public:
     explicit TransitionScreen(
-        sf::RenderWindow& window,
         sf::RenderTexture& gameRenderTexture,
         const FontHolder& font,
         const char* title,
@@ -31,7 +30,6 @@ private:
     void centerTitle();
     void centerButton();
 
-    sf::RenderWindow& mWindow;
     sf::RenderTexture& mGameRenderTexture;
     sf::View mWorldView;
 
